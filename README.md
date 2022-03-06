@@ -1,6 +1,7 @@
 # genealogist
 
 ## Project setup
+To make `npm` work with python 3, follow [this article](https://www.freecodecamp.org/news/python-version-on-mac-update/) instructions.
 ```
 npm install
 ```
