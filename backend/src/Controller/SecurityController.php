@@ -51,4 +51,31 @@ class SecurityController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/login', name: 'app_login')]
+    public function login(#[CurrentUser] ?User $user): Response
+    {
+        if (null === $user) {
+            return $this->json([
+                'message' => 'Missing credentials',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return $this->json([
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    public function logout()
+    {
+    }
+
+    #[Route('/session', name: 'app_session', methods: ['GET'])]
+    public function session(#[CurrentUser] $user): JsonResponse
+    {
+        return $this->json([
+            'user' => $user,
+        ]);
+    }
 }
