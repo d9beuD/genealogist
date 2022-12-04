@@ -14,7 +14,8 @@
     "@fortawesome/vue-fontawesome": "^2.0.9",
     "@vue/compat": "^3.2.45",
     "bootstrap-vue": "^2.23.1",
-    "vue": "^3.2.41"
+    "vue": "^3.2.41",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",
