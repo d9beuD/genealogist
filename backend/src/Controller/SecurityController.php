@@ -72,7 +72,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/session', name: 'app_session', methods: ['GET'])]
-    public function session(#[CurrentUser] $user): JsonResponse
+    public function session(#[CurrentUser] ?User $user): JsonResponse
     {
         return $this->json([
             'user' => $user,
