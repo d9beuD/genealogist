@@ -7,4 +7,6 @@
 /public/bundles/
 /var/
 /vendor/
+/templates/
+/src/Form/
 ###< symfony/framework-bundle ###
