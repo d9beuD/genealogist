@@ -7,4 +7,6 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     SymfonyBundles\JsonRequestBundle\JsonRequestBundle::class => ['all' => true],
+    Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
 ];
