@@ -18,6 +18,7 @@
     "bootstrap-vue": "^2.23.1",
     "pinia": "^2.0.26",
     "vue": "^3.2.45",
+    "vue-i18n": "9",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
