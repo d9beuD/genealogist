@@ -15,11 +15,14 @@ import {
   faLanguage,
 } from "@fortawesome/pro-duotone-svg-icons";
 import { useI18n } from "vue-i18n";
+import { useLocalesStore } from "@/stores/locales";
 
 const i18n = useI18n();
+const localeStore = useLocalesStore();
 
 function changeLocale(locale: string) {
   i18n.locale.value = locale;
+  localeStore.setLocale(locale);
 }
 </script>
 
