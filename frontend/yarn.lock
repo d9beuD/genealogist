@@ -44,17 +44,17 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.1"
 
-"@fortawesome/pro-solid-svg-icons@^6.2.1":
+"@fortawesome/pro-duotone-svg-icons@^6.2.1":
   version "6.2.1"
-  resolved "https://npm.fontawesome.com/@fortawesome/pro-solid-svg-icons/-/6.2.1/pro-solid-svg-icons-6.2.1.tgz#6e2e85357412b8d9ec5620376155642b273bf13a"
-  integrity sha512-gIGrv/hcw5/UsW0swBfxL9jwb2F+Yut+9QY47ZPs8+Ac9/AmYxIzJ31ZnYawwLdrxU/09Unc+AHbTfn0QXLfvQ==
+  resolved "https://npm.fontawesome.com/@fortawesome/pro-duotone-svg-icons/-/6.2.1/pro-duotone-svg-icons-6.2.1.tgz#9628b42b43c1359adbd6d7c2723e4c4f3ec030d7"
+  integrity sha512-8kG2rcHxGdb8yGb2KLZN7Ht014Nf4lefvXP+pihJAE9Jy515g/xPwglkFMu3Ue6MBtcdrLPIYirV8664ubAVgA==
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.1"
 
-"@fortawesome/vue-fontawesome@^2.0.9":
-  version "2.0.9"
-  resolved "https://npm.fontawesome.com/@fortawesome/vue-fontawesome/-/2.0.9/vue-fontawesome-2.0.9.tgz#81a0e46b253c7be5796b4ee4fb3ecdd335fc0a44"
-  integrity sha512-13m3f0IJD8Ll052AmNjWBEn5TQ9okL2KaZ0rhSEdaOwe611QU+ZJ7u2suvohcNMTLCBbsexi+k9PfBmAQXPS6w==
+"@fortawesome/vue-fontawesome@^3.0.2":
+  version "3.0.2"
+  resolved "https://npm.fontawesome.com/@fortawesome/vue-fontawesome/-/3.0.2/vue-fontawesome-3.0.2.tgz#1b2ec546caab790c38d3dcb38407485a70703dd2"
+  integrity sha512-xHVtVY8ASUeEvgcA/7vULUesENhD+pi/EirRHdMBqooHlXBqK+yrV6d8tUye1m5UKQKVgYAHMhUBfOnoiwvc8Q==
 
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"
