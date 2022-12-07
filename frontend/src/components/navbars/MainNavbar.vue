@@ -13,12 +13,15 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faTreeDeciduous,
   faLanguage,
+  faUser,
 } from "@fortawesome/pro-duotone-svg-icons";
 import { useI18n } from "vue-i18n";
 import { useLocalesStore } from "@/stores/locales";
+import { useSessionStore } from "@/stores/session";
 
 const i18n = useI18n();
 const localeStore = useLocalesStore();
+const sessionStore = useSessionStore();
 
 function changeLocale(locale: string) {
   i18n.locale.value = locale;
@@ -52,6 +55,13 @@ function changeLocale(locale: string) {
           >
             {{ locale }}
           </BDropdownItem>
+        </BNavItemDropdown>
+
+        <BNavItemDropdown v-if="sessionStore.isLoggedIn" right>
+          <template #button-content>
+            <FontAwesomeIcon :icon="faUser" />
+            {{ sessionStore.user?.firstname }}
+          </template>
         </BNavItemDropdown>
       </BNavbarNav>
     </BCollapse>
