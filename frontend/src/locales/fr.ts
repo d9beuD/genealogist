@@ -16,6 +16,10 @@ export default {
     message: {
       noAccount: "Je n'ai pas encore de compte.",
     },
+    feedback: {
+      tooShortLength:
+        "Vous devez entrer au moins {n} caractère | Vous devez entrer au moins {n} caractères",
+    },
   },
   nav: {
     item: {
