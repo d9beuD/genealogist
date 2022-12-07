@@ -15,6 +15,7 @@
     "@fortawesome/pro-duotone-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@vue/compat": "^3.2.45",
+    "axios": "^1.2.1",
     "bootstrap-vue": "^2.23.1",
     "pinia": "^2.0.26",
     "vue": "^3.2.45",
