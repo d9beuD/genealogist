@@ -47,9 +47,7 @@ class SecurityController extends AbstractController
 
         $userRepository->save($user, true);
 
-        return $this->json([
-            'user' => $user,
-        ]);
+        return $this->json($user);
     }
 
     #[Route('/login', name: 'app_login', methods: ['POST'])]
@@ -61,7 +59,7 @@ class SecurityController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->json([$user]);
+        return $this->json($user);
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
@@ -72,8 +70,6 @@ class SecurityController extends AbstractController
     #[Route('/session', name: 'app_session', methods: ['GET'])]
     public function session(#[CurrentUser] ?User $user): JsonResponse
     {
-        return $this->json([
-            'user' => $user,
-        ]);
+        return $this->json($user);
     }
 }
