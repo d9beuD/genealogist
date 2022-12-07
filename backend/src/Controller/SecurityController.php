@@ -61,9 +61,7 @@ class SecurityController extends AbstractController
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->json([
-            'user' => $user,
-        ]);
+        return $this->json([$user]);
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
