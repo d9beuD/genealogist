@@ -48,7 +48,7 @@ class SecurityController extends AbstractController
         $userRepository->save($user, true);
 
         return $this->json([
-            'user' => $user,
+            $user,
         ]);
     }
 
