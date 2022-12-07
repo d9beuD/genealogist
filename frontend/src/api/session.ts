@@ -6,4 +6,8 @@ export default {
   login: (form: loginForm): Promise<AxiosResponse<User>> => {
     return instance.post("/login", form);
   },
+
+  register: (form: UserWithPassword): Promise<AxiosResponse<User>> => {
+    return instance.post("/registration", form);
+  },
 };

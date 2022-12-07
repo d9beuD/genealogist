@@ -10,10 +10,13 @@ export default {
       register: "Inscription",
     },
     label: {
+      firstname: "Prénom",
       identifier: "Identifiant",
+      lastname: "Nom",
       password: "Mot de passe",
     },
     message: {
+      hasAnAccount: "J'ai déjà un compte.",
       noAccount: "Je n'ai pas encore de compte.",
     },
     feedback: {
