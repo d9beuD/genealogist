@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/session";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
@@ -8,6 +9,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: { auth: true },
     },
     {
       path: "/about",
@@ -28,6 +30,25 @@ const router = createRouter({
       component: () => import("../views/RegisterView.vue"),
     },
   ],
+});
+
+router.beforeEach((to) => {
+  const session = useSessionStore();
+
+  // Checks if the route requires to be loggedIn or have an admin role
+  if (to.matched.some((route) => route.meta.auth || route.meta.admin)) {
+    // If so, does the user need to be admin?
+    if (to.matched.some((route) => route.meta.admin)) {
+      if (!session.isAdmin) {
+        return { name: "login" };
+      }
+    }
+
+    // If the user isn't logged in, redirect this mf to the login form
+    if (!session.isLoggedIn) {
+      return { name: "login" };
+    }
+  }
 });
 
 export default router;

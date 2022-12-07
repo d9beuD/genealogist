@@ -1,6 +1,6 @@
 import type { User } from "@/api/types";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 export const useSessionStore = defineStore("session", () => {
   const user = ref<User | null>(
@@ -8,14 +8,22 @@ export const useSessionStore = defineStore("session", () => {
   );
   const minPasswordLength = ref(8);
 
-  const isAdmin = computed(
-    () => user.value?.roles.some((role) => role === "ROLE_ADMIN") || false
-  );
+  const isLoggedIn = computed(() => {
+    return user.value !== null;
+  });
+  const isAdmin = computed(() => {
+    if (isLoggedIn.value) {
+      user.value!.roles.some((role) => role === "ROLE_ADMIN");
+    }
+    return false;
+  });
 
   function setUser(payload: User) {
-    user.value = payload;
+    console.log(JSON.stringify(payload));
+
+    user.value = reactive<User>(payload);
     sessionStorage.setItem("app.session.user", JSON.stringify(payload));
   }
 
-  return { user, minPasswordLength, isAdmin, setUser };
+  return { user, minPasswordLength, isAdmin, isLoggedIn, setUser };
 });
