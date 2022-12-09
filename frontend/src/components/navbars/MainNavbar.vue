@@ -61,10 +61,11 @@ function logout() {
             <FontAwesomeIcon :icon="faLanguage" />
             {{ $t("nav.item.language") }}
           </template>
+
           <BDropdownItem
-            v-for="locale in i18n.availableLocales"
-            :key="`locale-${locale}`"
-            @click="changeLocale(locale)"
+            v-for="(locale, code) in localeStore.availableLocales"
+            :key="code"
+            @click="changeLocale(code)"
           >
             {{ locale }}
           </BDropdownItem>
