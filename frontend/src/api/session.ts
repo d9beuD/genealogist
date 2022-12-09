@@ -10,4 +10,12 @@ export default {
   register: (form: UserWithPassword): Promise<AxiosResponse<User>> => {
     return instance.post("/registration", form);
   },
+
+  logout: (): Promise<AxiosResponse<User | null>> => {
+    return instance.get("/logout");
+  },
+
+  getContent: (): Promise<AxiosResponse<User>> => {
+    return instance.get("/session");
+  },
 };

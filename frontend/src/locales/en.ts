@@ -1,6 +1,7 @@
 export default {
   action: {
     login: "Login",
+    logout: "Logout",
     register: "Register",
     save: "Save",
   },
