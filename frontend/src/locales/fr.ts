@@ -1,6 +1,7 @@
 export default {
   action: {
     login: "Se connecter",
+    logout: "Se déconnecter",
     register: "S'inscrire",
     save: "Enregistrer",
   },

@@ -25,5 +25,10 @@ export const useSessionStore = defineStore("session", () => {
     sessionStorage.setItem("app.session.user", JSON.stringify(payload));
   }
 
-  return { user, minPasswordLength, isAdmin, isLoggedIn, setUser };
+  function logout() {
+    user.value = null;
+    sessionStorage.removeItem("app.session.user");
+  }
+
+  return { user, minPasswordLength, isAdmin, isLoggedIn, setUser, logout };
 });

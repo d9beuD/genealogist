@@ -26,6 +26,7 @@ security:
 
             logout:
                 path: "app_logout"
+                target: "app_session"
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
