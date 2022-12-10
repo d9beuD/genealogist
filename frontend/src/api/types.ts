@@ -22,3 +22,12 @@ export interface loginForm {
   username: string;
   password: string;
 }
+
+export interface treeForm {
+  name: string;
+  // owner: User;
+}
+
+export interface Tree extends entity, treeForm {
+  owner: User;
+}
