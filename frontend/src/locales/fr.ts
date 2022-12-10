@@ -25,6 +25,11 @@ export default {
         "Vous devez entrer au moins {n} caractère | Vous devez entrer au moins {n} caractères",
     },
   },
+  page: {
+    title: {
+      homeWelcome: "Bienvenue, {name} ! Voici votre page d'accueil.",
+    },
+  },
   nav: {
     item: {
       language: "Langues",
