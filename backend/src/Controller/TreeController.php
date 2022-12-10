@@ -45,9 +45,7 @@ class TreeController extends AbstractController
     #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree): Response
     {
-        return $this->render('tree/show.html.twig', [
-            'tree' => $tree,
-        ]);
+        return $this->json($tree);
     }
 
     #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
