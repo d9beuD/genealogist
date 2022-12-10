@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import api from "@/api";
-import type { treeForm, User } from "@/api/types";
-import { useSessionStore } from "@/stores/session";
+import type { treeForm } from "@/api/types";
 import { faPlus, faSync } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
