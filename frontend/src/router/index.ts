@@ -39,6 +39,12 @@ const router = createRouter({
           name: "newTree",
           component: () => import("../components/forms/NewTreeForm.vue"),
         },
+        {
+          path: ":id/edit",
+          name: "editTree",
+          component: () => import("../components/forms/EditTreeForm.vue"),
+          props: true,
+        },
       ],
     },
   ],

@@ -11,6 +11,14 @@ export default {
     return instance.get("/tree");
   },
 
+  get: (id: number | string): Promise<AxiosResponse<Tree>> => {
+    return instance.get(`/tree/${id}`);
+  },
+
+  edit: (tree: Tree): Promise<AxiosResponse<Tree>> => {
+    return instance.put(`/tree/${tree.id}`, tree);
+  },
+
   delete: (tree: Tree): Promise<AxiosResponse> => {
     return instance.delete(`/tree/${tree.id}`);
   },

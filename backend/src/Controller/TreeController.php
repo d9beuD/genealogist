@@ -48,22 +48,13 @@ class TreeController extends AbstractController
         return $this->json($tree);
     }
 
-    #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'app_tree_edit', methods: ['PUT'])]
     public function edit(Request $request, Tree $tree, TreeRepository $treeRepository): Response
     {
-        $form = $this->createForm(TreeType::class, $tree);
-        $form->handleRequest($request);
+        $tree->setName($request->get('name'));
+        $treeRepository->save($tree, true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $treeRepository->save($tree, true);
-
-            return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('tree/edit.html.twig', [
-            'tree' => $tree,
-            'form' => $form,
-        ]);
+        return $this->json($tree);
     }
 
     #[Route('/{id}', name: 'app_tree_delete', methods: ['DELETE'])]

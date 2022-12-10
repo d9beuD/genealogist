@@ -15,6 +15,7 @@ export default {
   form: {
     title: {
       createTree: "Create a new tree",
+      editTree: "Edit a tree",
       login: "Login",
       register: "Register",
     },
