@@ -24,9 +24,13 @@ export interface loginForm {
 
 export interface treeForm {
   name: string;
-  // owner: User;
 }
 
-export interface Tree extends entity, treeForm {
-  owner: User;
+export interface Tree extends entity, treeForm {}
+
+export interface APIList<T = any> {
+  data: T[];
+  count: number;
+  limit: number;
+  offset: number;
 }

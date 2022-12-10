@@ -6,6 +6,7 @@ use App\Repository\TreeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: TreeRepository::class)]
 class Tree
@@ -23,6 +24,7 @@ class Tree
     private ?User $owner = null;
 
     #[ORM\OneToMany(mappedBy: 'tree', targetEntity: Person::class, orphanRemoval: true)]
+    #[Ignore]
     private Collection $members;
 
     public function __construct()

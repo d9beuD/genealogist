@@ -7,9 +7,19 @@ interface Props {
   trees?: Tree[];
 }
 
+interface Emits {
+  (e: "needReload"): void;
+}
+
 withDefaults(defineProps<Props>(), {
   trees: () => [],
 });
+
+const emit = defineEmits<Emits>();
+
+function askReload() {
+  emit("needReload");
+}
 </script>
 
 <template>
@@ -19,7 +29,7 @@ withDefaults(defineProps<Props>(), {
       v-for="tree in trees"
       :key="tree.id"
     >
-      <TreeListItem :tree="tree" />
+      <TreeListItem :tree="tree" @removed="askReload" />
     </div>
     <div class="col-sm-6 col-md-4 col-lg-3">
       <RouterLink

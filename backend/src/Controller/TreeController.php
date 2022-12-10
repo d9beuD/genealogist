@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/tree')]
@@ -45,36 +46,26 @@ class TreeController extends AbstractController
     #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree): Response
     {
-        return $this->render('tree/show.html.twig', [
-            'tree' => $tree,
-        ]);
+        return $this->json($tree);
     }
 
-    #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'app_tree_edit', methods: ['PUT'])]
     public function edit(Request $request, Tree $tree, TreeRepository $treeRepository): Response
     {
-        $form = $this->createForm(TreeType::class, $tree);
-        $form->handleRequest($request);
+        $tree->setName($request->get('name'));
+        $treeRepository->save($tree, true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $treeRepository->save($tree, true);
-
-            return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('tree/edit.html.twig', [
-            'tree' => $tree,
-            'form' => $form,
-        ]);
+        return $this->json($tree);
     }
 
-    #[Route('/{id}', name: 'app_tree_delete', methods: ['POST'])]
-    public function delete(Request $request, Tree $tree, TreeRepository $treeRepository): Response
+    #[Route('/{id}', name: 'app_tree_delete', methods: ['DELETE'])]
+    public function delete(Tree $tree, TreeRepository $treeRepository, #[CurrentUser] User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
-            $treeRepository->remove($tree, true);
+        if ($tree->getOwner()->getUserIdentifier() !== $user->getUserIdentifier()) {
+            throw new AccessDeniedException();
         }
 
-        return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
+        $treeRepository->remove($tree, true);
+        return $this->json($tree);
     }
 }
