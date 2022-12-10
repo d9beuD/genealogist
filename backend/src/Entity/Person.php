@@ -45,6 +45,10 @@ class Person
     #[ORM\JoinTable(name: 'person_parents')]
     private Collection $parents;
 
+    #[ORM\ManyToOne(inversedBy: 'members')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tree $tree = null;
+
     public function __construct()
     {
         $this->couples = new ArrayCollection();
@@ -184,6 +188,18 @@ class Person
     public function removeParent(Couple $parent): self
     {
         $this->parents->removeElement($parent);
+
+        return $this;
+    }
+
+    public function getTree(): ?Tree
+    {
+        return $this->tree;
+    }
+
+    public function setTree(?Tree $tree): self
+    {
+        $this->tree = $tree;
 
         return $this;
     }

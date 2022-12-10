@@ -4,9 +4,11 @@ export default {
     logout: "Logout",
     register: "Register",
     save: "Save",
+    create: "Create",
   },
   form: {
     title: {
+      createTree: "Create a new tree",
       login: "Login",
       register: "Register",
     },
@@ -14,6 +16,7 @@ export default {
       firstname: "Firstname",
       identifier: "Identifier",
       lastname: "Lastname",
+      name: "Name",
       password: "Password",
     },
     message: {
@@ -23,6 +26,11 @@ export default {
     feedback: {
       tooShortLength:
         "You must enter at least {n} character | You must enter at least {n} characters",
+    },
+  },
+  page: {
+    title: {
+      homeWelcome: "Welcome, {name}! Here is your home page.",
     },
   },
   nav: {

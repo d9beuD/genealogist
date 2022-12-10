@@ -3,6 +3,8 @@ $body-bg: var(--light);
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
+@import 'trees.scss';
+
 .form-full-page {
     max-width: 25rem;
     margin-right: auto;

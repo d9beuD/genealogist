@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tree;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Tree>
@@ -39,28 +40,29 @@ class TreeRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Tree[] Returns an array of Tree objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllPaginated(Request $request)
+    {
+        $queryBuilder = $this->createQueryBuilder('t');
 
-//    public function findOneBySomeField($value): ?Tree
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $limit = $request->get('limit');
+        $offset = $request->get('offset') ?? 100;
+
+        if ($limit) {
+            $queryBuilder
+                ->setMaxResults($limit)
+                ->setFirstResult($offset);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllCount(): int
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
