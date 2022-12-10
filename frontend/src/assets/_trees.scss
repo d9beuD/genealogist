@@ -1,0 +1,22 @@
+.tree-list-item {
+  background-color: white;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius;
+  padding: $spacer;
+  cursor: pointer;
+  transition: box-shadow ease-out 400ms,
+    transform ease-out 400ms;
+
+  &.tree-list-item-placeholder {
+    font-size: $spacer * 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary;
+  }
+
+  &:hover {
+    @extend .shadow;
+    transform: scale(1.02);
+  }
+}
