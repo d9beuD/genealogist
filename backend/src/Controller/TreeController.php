@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tree;
 use App\Form\TreeType;
 use App\Repository\TreeRepository;
+use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class TreeController extends AbstractController
 {
     #[Route('/', name: 'app_tree_index', methods: ['GET'])]
-    public function index(TreeRepository $treeRepository): Response
+    public function index(TreeRepository $treeRepository, Request $request): Response
     {
-        return $this->render('tree/index.html.twig', [
-            'trees' => $treeRepository->findAll(),
+        $trees = $treeRepository->findAllPaginated($request);
+
+        return $this->json([
+            'data' => $trees,
+            'count' => $treeRepository->findAllCount(),
+            'limit' => PaginationService::getLimit($request),
+            'offset' => PaginationService::getOffset($request),
         ]);
     }
 
