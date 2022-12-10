@@ -38,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Tree::class, orphanRemoval: true)]
+    #[Ignore]
     private Collection $trees;
 
     public function __construct()
