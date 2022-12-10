@@ -10,7 +10,6 @@ export interface UserBase {
 
 export interface User extends entity, UserBase {
   roles: string[];
-  trees: unknown[];
   userIdentifier: string;
 }
 

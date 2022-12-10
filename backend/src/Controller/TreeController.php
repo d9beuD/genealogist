@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tree;
+use App\Entity\User;
 use App\Form\TreeType;
 use App\Repository\TreeRepository;
 use App\Service\PaginationService;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/tree')]
 class TreeController extends AbstractController
@@ -27,23 +29,17 @@ class TreeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TreeRepository $treeRepository): Response
+    #[Route('', name: 'app_tree_new', methods: ['POST'])]
+    public function new(Request $request, TreeRepository $treeRepository, #[CurrentUser] ?User $user): Response
     {
         $tree = new Tree();
-        $form = $this->createForm(TreeType::class, $tree);
-        $form->handleRequest($request);
+        $tree
+            ->setName($request->get('name'))
+            ->setOwner($user);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $treeRepository->save($tree, true);
+        $treeRepository->save($tree, true);
 
-            return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('tree/new.html.twig', [
-            'tree' => $tree,
-            'form' => $form,
-        ]);
+        return $this->json($tree);
     }
 
     #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]

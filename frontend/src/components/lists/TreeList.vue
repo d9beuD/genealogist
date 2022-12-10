@@ -22,9 +22,12 @@ withDefaults(defineProps<Props>(), {
       <TreeListItem :tree="tree" />
     </div>
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="tree-list-item tree-list-item-placeholder">
+      <RouterLink
+        class="tree-list-item tree-list-item-placeholder"
+        :to="{ name: 'newTree' }"
+      >
         <FontAwesomeIcon :icon="faPlusCircle" />
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>

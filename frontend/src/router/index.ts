@@ -29,6 +29,18 @@ const router = createRouter({
       name: "registration",
       component: () => import("../views/RegisterView.vue"),
     },
+    {
+      path: "/trees",
+      component: () => import("../views/DefaultView.vue"),
+      meta: { auth: true },
+      children: [
+        {
+          path: "new",
+          name: "newTree",
+          component: () => import("../components/forms/NewTreeForm.vue"),
+        },
+      ],
+    },
   ],
 });
 

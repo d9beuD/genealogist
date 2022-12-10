@@ -4,9 +4,11 @@ export default {
     logout: "Se déconnecter",
     register: "S'inscrire",
     save: "Enregistrer",
+    create: "Créer",
   },
   form: {
     title: {
+      createTree: "Créer un nouvel arbre",
       login: "Connexion",
       register: "Inscription",
     },
@@ -14,6 +16,7 @@ export default {
       firstname: "Prénom",
       identifier: "Identifiant",
       lastname: "Nom",
+      name: "Nom",
       password: "Mot de passe",
     },
     message: {
