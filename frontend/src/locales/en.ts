@@ -1,10 +1,16 @@
 export default {
   action: {
+    create: "Create",
+    delete: "Delete",
+    edit: "Edit",
     login: "Login",
     logout: "Logout",
     register: "Register",
     save: "Save",
-    create: "Create",
+  },
+  confirm: {
+    treeDeletion:
+      "Are you sure you want to remove this tree? This action is irreversible.",
   },
   form: {
     title: {

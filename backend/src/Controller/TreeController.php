@@ -66,13 +66,10 @@ class TreeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_tree_delete', methods: ['POST'])]
-    public function delete(Request $request, Tree $tree, TreeRepository $treeRepository): Response
+    #[Route('/{id}', name: 'app_tree_delete', methods: ['DELETE'])]
+    public function delete(Tree $tree, TreeRepository $treeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
-            $treeRepository->remove($tree, true);
-        }
-
-        return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
+        $treeRepository->remove($tree, true);
+        return $this->json($tree);
     }
 }

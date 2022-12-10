@@ -2,10 +2,10 @@
   background-color: white;
   border: $border-width solid $border-color;
   border-radius: $border-radius;
+  height: 100%;
   padding: $spacer;
   cursor: pointer;
-  transition: box-shadow ease-out 400ms,
-    transform ease-out 400ms;
+  transition: box-shadow ease-out 400ms;
 
   &.tree-list-item-placeholder {
     font-size: $spacer * 3;
@@ -17,6 +17,11 @@
 
   &:hover {
     @extend .shadow;
-    transform: scale(1.02);
+  }
+
+  .dropdown-toggle {
+    position: relative;
+    top: -$spacer / 2;
+    right: -$spacer / 2;
   }
 }
