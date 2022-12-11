@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container">
+  <main class="container mb-5">
     <h1>
       {{ $t("page.title.homeWelcome", { name: sessionStore.user?.firstname }) }}
     </h1>

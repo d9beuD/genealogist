@@ -38,7 +38,10 @@ function remove() {
 </script>
 
 <template>
-  <div class="tree-list-item">
+  <RouterLink
+    class="tree-list-item"
+    :to="{ name: 'treeMembers', params: { id: tree.id } }"
+  >
     <div class="form-row">
       <div class="col">
         <h4>{{ tree.name }}</h4>
@@ -50,15 +53,15 @@ function remove() {
           </template>
 
           <BDropdownItem @click="edit">
-            <FontAwesomeIcon :icon="faEdit" />
+            <FontAwesomeIcon :icon="faEdit" fixed-width />
             {{ $t("action.edit") }}
           </BDropdownItem>
           <BDropdownItem variant="danger" @click="remove">
-            <FontAwesomeIcon :icon="faTrashAlt" />
+            <FontAwesomeIcon :icon="faTrashAlt" fixed-width />
             {{ $t("action.delete") }}
           </BDropdownItem>
         </BDropdown>
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>

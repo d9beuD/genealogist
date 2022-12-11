@@ -34,3 +34,21 @@ export interface APIList<T = any> {
   limit: number;
   offset: number;
 }
+
+export interface JsonDate {
+  date: string;
+  timezone_type: string;
+  timezone: string;
+}
+
+export interface personForm {
+  firstname: string | null;
+  lastname: string | null;
+  birthName: string | null;
+  birthDate: Date | JsonDate | null;
+  deathDate: Date | JsonDate | null;
+  description: string | null;
+  picture: string | null;
+}
+
+export interface Person extends entity, personForm {}

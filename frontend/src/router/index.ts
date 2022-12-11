@@ -47,6 +47,12 @@ const router = createRouter({
           component: () => import("../components/forms/EditTreeForm.vue"),
           props: true,
         },
+        {
+          path: ":id/members",
+          name: "treeMembers",
+          component: () => import("../views/TreeMembersView.vue"),
+          props: true,
+        },
       ],
     },
   ],

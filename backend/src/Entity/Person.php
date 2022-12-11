@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -39,14 +40,17 @@ class Person
 
     #[ORM\ManyToMany(targetEntity: Couple::class, inversedBy: 'people')]
     #[ORM\JoinTable(name: 'person_couple')]
+    #[Ignore]
     private Collection $couples;
 
     #[ORM\ManyToMany(targetEntity: Couple::class, inversedBy: 'children')]
     #[ORM\JoinTable(name: 'person_parents')]
+    #[Ignore]
     private Collection $parents;
 
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Ignore]
     private ?Tree $tree = null;
 
     public function __construct()

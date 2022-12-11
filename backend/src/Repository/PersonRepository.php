@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Person;
+use App\Entity\Tree;
+use App\Service\PaginationService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Person>
@@ -39,28 +43,55 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Person[] Returns an array of Person objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return array<int, Person>
+     */
+    public function findTreeMembers(Tree $tree, Request $request): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->leftJoin('p.tree', 't')
+            ->where('t.id = :treeId')
+            ->setParameter('treeId', $tree->getId());
 
-//    public function findOneBySomeField($value): ?Person
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        PaginationService::paginate($queryBuilder, $request);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findTreeMembersCount(Tree $tree): int
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder
+            ->select('COUNT(p.id)')
+            ->leftJoin('p.tree', 't')
+            ->where('t.id = :treeId')
+            ->setParameter('treeId', $tree->getId());
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    //    /**
+    //     * @return Person[] Returns an array of Person objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Person
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
