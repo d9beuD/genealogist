@@ -20,6 +20,9 @@ export default {
       register: "Inscription",
     },
     label: {
+      birthdate: "Jour de naissance",
+      deathdate: "Jour de décé",
+      description: "Description",
       firstname: "Prénom",
       identifier: "Identifiant",
       lastname: "Nom",
@@ -37,7 +40,11 @@ export default {
   },
   page: {
     title: {
+      generalInformation: "Informations générales",
       homeWelcome: "Bienvenue, {name} ! Voici votre page d'accueil.",
+      importantDates: "Dates importantes",
+      newTreeMember: "Ajout d'un nouveau membre à cet arbre.",
+      others: "Autres",
     },
   },
   nav: {
