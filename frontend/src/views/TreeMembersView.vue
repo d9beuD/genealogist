@@ -5,16 +5,15 @@ import { faBarsFilter, faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton, BFormInput } from "bootstrap-vue";
 import { onMounted, reactive, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
-const router = useRouter();
 const members = reactive<Person[]>([]);
 const isLoading = ref(false);
 
 function loadMembers() {
   return api.people
-    .getTreeMembers(route.params.id as unknown as number)
+    .getTreeMembers(route.params.treeId as unknown as number)
     .then((response) => response.data)
     .then((data) => {
       members.splice(0, members.length);
@@ -43,7 +42,7 @@ onMounted(() => {
           </div>
           <div class="col-auto">
             <div class="">
-              <BButton variant="link">
+              <BButton variant="link" :to="{ name: 'newTreeMember' }">
                 <FontAwesomeIcon :icon="faPlus" size="lg" swap-opacity />
               </BButton>
             </div>
@@ -52,6 +51,8 @@ onMounted(() => {
       </div>
       <div class="flex-scroll"></div>
     </div>
-    <div class="col col-scroll"></div>
+    <div class="col col-scroll">
+      <RouterView />
+    </div>
   </div>
 </template>

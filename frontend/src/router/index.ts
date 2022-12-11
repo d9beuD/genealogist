@@ -42,16 +42,24 @@ const router = createRouter({
           component: () => import("../components/forms/NewTreeForm.vue"),
         },
         {
-          path: ":id/edit",
+          path: ":treeId/edit",
           name: "editTree",
           component: () => import("../components/forms/EditTreeForm.vue"),
           props: true,
         },
         {
-          path: ":id/members",
+          path: ":treeId/members",
           name: "treeMembers",
           component: () => import("../views/TreeMembersView.vue"),
           props: true,
+          children: [
+            {
+              path: "new",
+              name: "newTreeMember",
+              component: () => import("../components/forms/PersonForm.vue"),
+              props: true,
+            },
+          ],
         },
       ],
     },

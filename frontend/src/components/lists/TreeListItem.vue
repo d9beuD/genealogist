@@ -40,7 +40,7 @@ function remove() {
 <template>
   <RouterLink
     class="tree-list-item"
-    :to="{ name: 'treeMembers', params: { id: tree.id } }"
+    :to="{ name: 'treeMembers', params: { treeId: tree.id } }"
   >
     <div class="form-row">
       <div class="col">
