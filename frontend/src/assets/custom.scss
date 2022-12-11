@@ -3,6 +3,7 @@ $body-bg: var(--light);
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
+@import 'layout.scss';
 @import 'trees.scss';
 
 .form-full-page {

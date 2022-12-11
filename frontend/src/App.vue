@@ -6,5 +6,7 @@ import MainNavbar from "./components/navbars/MainNavbar.vue";
 <template>
   <MainNavbar />
 
-  <RouterView />
+  <div id="container">
+    <RouterView />
+  </div>
 </template>
