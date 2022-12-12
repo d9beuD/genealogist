@@ -1,4 +1,4 @@
-# Genealogist, a free genealogist app
+# Genealogist, a free family tree app
 
 I started this project as a personal challenge. I wanted to deepen my web programing skills. Because I created this repository a long time ago, the project structure changed several times as I was changing my mind on what this project may work or look like.
 
