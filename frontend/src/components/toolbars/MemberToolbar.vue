@@ -3,7 +3,13 @@ import { faChevronLeft } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton } from "bootstrap-vue";
 
-interface Props {}
+interface Props {
+  isNewMember?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isNewMember: false,
+});
 </script>
 
 <template>

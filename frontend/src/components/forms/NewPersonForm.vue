@@ -67,7 +67,7 @@ function onSubmit() {
 </script>
 
 <template>
-  <MemberToolbar />
+  <MemberToolbar is-new-member />
   <div class="pb-5 flex-scroll">
     <div class="container-fluid">
       <BForm @submit.prevent="onSubmit">
