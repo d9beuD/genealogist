@@ -1,6 +1,7 @@
 export default {
   action: {
     add: "Add",
+    back: "Back",
     create: "Create",
     delete: "Delete",
     edit: "Edit",
