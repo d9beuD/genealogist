@@ -24,7 +24,6 @@ import { useRouter } from "vue-router";
 
 interface Props {
   treeId: number;
-  personId?: number;
 }
 
 interface Emits {
@@ -52,8 +51,6 @@ const person = reactive<personForm>({
   importantDates: [],
 });
 
-const isNewMember = computed(() => typeof props.personId === "undefined");
-
 function onSubmit() {
   isLoading.value = true;
   api.people
@@ -66,30 +63,23 @@ function onSubmit() {
       isLoading.value = false;
     });
 }
-
-onMounted(() => {
-  if (!isNewMember.value) {
-    //
-  }
-});
 </script>
 
 <template>
-  <div class="container-fluid mt-2 mb-5">
-    <h1 class="h3 mb-3" v-if="isNewMember">
-      {{ $t("page.title.newTreeMember") }}
-    </h1>
+  <div class="container-fluid mb-5">
     <BForm @submit.prevent="onSubmit">
       <div class="row">
         <div class="col-md-auto">
-          <div
-            class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto mb-2"
-            :style="{ height: '10rem', width: '10rem' }"
-          >
-            illustration
+          <div class="pt-2 sticky-top">
+            <div
+              class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto mb-2"
+              :style="{ height: '10rem', width: '10rem' }"
+            >
+              illustration
+            </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col pt-3">
           <h4 class="section">{{ $t("page.title.generalInformation") }}</h4>
           <div class="form-row">
             <div class="col-lg-auto">
