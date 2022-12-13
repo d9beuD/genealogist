@@ -59,6 +59,12 @@ const router = createRouter({
               component: () => import("../components/forms/NewPersonForm.vue"),
               props: true,
             },
+            {
+              path: ":memberId",
+              name: "showMember",
+              component: () => import("../components/forms/EditPersonForm.vue"),
+              props: true,
+            },
           ],
         },
       ],

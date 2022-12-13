@@ -64,9 +64,11 @@ class PersonController extends AbstractController
     #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
     public function show(Person $person): Response
     {
-        return $this->render('person/show.html.twig', [
-            'person' => $person,
-        ]);
+        if ($person->getTree()->getOwner()->getUserIdentifier() !== $this->getUser()->getUserIdentifier()) {
+            throw new AccessDeniedException();
+        }
+
+        return $this->json($person);
     }
 
     #[Route('/person/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]

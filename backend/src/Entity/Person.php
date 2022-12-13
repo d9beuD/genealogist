@@ -30,11 +30,11 @@ class Person
     private ?string $birthName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTimeInterface::ISO8601])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTimeInterface::ISO8601])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $deathDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
