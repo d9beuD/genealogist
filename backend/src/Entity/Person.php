@@ -38,16 +38,6 @@ class Person
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
-    #[ORM\ManyToMany(targetEntity: Couple::class, inversedBy: 'people')]
-    #[ORM\JoinTable(name: 'person_couple')]
-    #[Ignore]
-    private Collection $couples;
-
-    #[ORM\ManyToMany(targetEntity: Couple::class, inversedBy: 'children')]
-    #[ORM\JoinTable(name: 'person_parents')]
-    #[Ignore]
-    private Collection $parents;
-
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
     #[Ignore]
@@ -144,54 +134,6 @@ class Person
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Couple>
-     */
-    public function getCouples(): Collection
-    {
-        return $this->couples;
-    }
-
-    public function addCouple(Couple $couple): self
-    {
-        if (!$this->couples->contains($couple)) {
-            $this->couples->add($couple);
-        }
-
-        return $this;
-    }
-
-    public function removeCouple(Couple $couple): self
-    {
-        $this->couples->removeElement($couple);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Couple>
-     */
-    public function getParents(): Collection
-    {
-        return $this->parents;
-    }
-
-    public function addParent(Couple $parent): self
-    {
-        if (!$this->parents->contains($parent)) {
-            $this->parents->add($parent);
-        }
-
-        return $this;
-    }
-
-    public function removeParent(Couple $parent): self
-    {
-        $this->parents->removeElement($parent);
 
         return $this;
     }
