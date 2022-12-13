@@ -4,10 +4,12 @@ I started this project as a personal challenge. I wanted to deepen my web progra
 
 ## Backend usage
 
-In a dev environment, you can start the server with [Symfony CLI](https://symfony.com/download) using the following command.
+~~In a dev environment, you can start the server with [Symfony CLI](https://symfony.com/download) using the following command.~~
+
+Don't use the dev server provided by Symfony as it runs on `127.0.0.1` and [modern browsers do not store and send back session cookies provided in a fetch API request](https://stackoverflow.com/a/60384407). Your server must run on **something else** than `127.0.0.1` like `localhost` or whatever.
 
 ```sh
-symfony server:start
+php -S localhost:8000 public/index.php
 ```
 
 ## Frontend usage
