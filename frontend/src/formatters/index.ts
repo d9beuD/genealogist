@@ -1,5 +1,7 @@
 export default {
-  stringToDate: (date: string) => {
-    return new Date(date);
+  dateNormalizer: (date: string) => {
+    return new Date(date).toISOString();
   },
+
+  calendar: (date: string) => new Date(date).toLocaleString(),
 };

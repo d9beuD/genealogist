@@ -1,5 +1,6 @@
 export default {
   action: {
+    add: "Add",
     create: "Create",
     delete: "Delete",
     edit: "Edit",
@@ -25,6 +26,8 @@ export default {
       description: "Description",
       firstname: "Firstname",
       identifier: "Identifier",
+      isDateCertain: "Date is certain",
+      isDateKnown: "Date is known",
       lastname: "Lastname",
       name: "Name",
       password: "Password",
