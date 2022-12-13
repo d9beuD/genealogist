@@ -10,6 +10,21 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const person: personForm = {
+  firstname: null,
+  lastname: null,
+  birthName: null,
+  birthDate: null,
+  deathDate: null,
+  description: null,
+  picture: null,
+  isBirthDateKnown: false,
+  isDeathDateKnown: false,
+  isBirthDateCertain: false,
+  isDeathDateCertain: false,
+  importantDates: [],
+};
+
 const isNewMember = computed(() => typeof props.personId === "undefined");
 
 onMounted(() => {

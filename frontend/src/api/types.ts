@@ -49,6 +49,14 @@ export interface personForm {
   deathDate: Date | JsonDate | null;
   description: string | null;
   picture: string | null;
+  isBirthDateKnown: boolean;
+  isDeathDateKnown: boolean;
+  isBirthDateCertain: boolean;
+  isDeathDateCertain: boolean;
+  importantDates: unknown[];
 }
 
-export interface Person extends entity, personForm {}
+export interface Person extends entity, personForm {
+  parents: Person[];
+  children: Person[];
+}
