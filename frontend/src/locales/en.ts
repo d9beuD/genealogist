@@ -41,6 +41,9 @@ export default {
         "You must enter at least {n} character | You must enter at least {n} characters",
     },
   },
+  list: {
+    memberCount: "{n} member | {n} members",
+  },
   page: {
     title: {
       generalInformation: "General information",

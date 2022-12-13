@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import api from "@/api";
 import type { Person } from "@/api/types";
+import MemberList from "@/components/lists/MemberList.vue";
 import { faBarsFilter, faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton, BFormInput } from "bootstrap-vue";
@@ -49,7 +50,10 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex-scroll">
-        <p v-for="count in 30" :key="count">test</p>
+        <MemberList :members="members" />
+        <div class="text-center text-secondary py-3">
+          {{ $tc("list.memberCount", members.length) }}
+        </div>
       </div>
     </div>
     <div class="col col-scroll">

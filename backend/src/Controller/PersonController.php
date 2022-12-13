@@ -41,7 +41,6 @@ class PersonController extends AbstractController
         }
 
         $person = new Person();
-
         $person
             ->setBirthDate($request->get('birthDate') ? new \DateTime($request->get('birthDate')) : null)
             ->setBirthName($request->get('birthName'))
