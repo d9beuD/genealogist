@@ -22,7 +22,7 @@ export default {
     },
     label: {
       birthdate: "Jour de naissance",
-      deathdate: "Jour de décé",
+      deathdate: "Jour de décès",
       description: "Description",
       firstname: "Prénom",
       identifier: "Identifiant",
