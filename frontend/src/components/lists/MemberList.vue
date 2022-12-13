@@ -42,7 +42,7 @@ const groups = computed(() => {
 </script>
 
 <template>
-  <div v-for="(group, letter) in groups" :key="letter">
+  <div class="mb-3" v-for="(group, letter) in groups" :key="letter">
     <div class="bg-white border-bottom font-weight-bold px-3 sticky-top">
       {{ letter }}
     </div>

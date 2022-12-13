@@ -10,6 +10,7 @@ import {
 } from "bootstrap-vue";
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import formatters from "@/formatters";
+import type { Person } from "@/api/types";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faBabyCarriage,

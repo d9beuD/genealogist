@@ -9,15 +9,25 @@
   padding: calc($spacer / 2) $spacer;
   color: $dark;
   text-decoration: none !important;
+  border-top: $border-width solid transparent;
 
   .chevron {
     display: none;
   }
 
-  &:hover {
+  &.active, &:hover {
     background-color: $gray-200;
-    .chevron {
-      display: block;
-    }
+  }
+
+  &:hover .chevron {
+    display: block;
+  }
+
+  &:hover + &.active {
+    border-top: $border-width solid $border-color !important;
+  }
+
+  &.active + &:hover {
+    border-top: $border-width solid $border-color !important;
   }
 }
