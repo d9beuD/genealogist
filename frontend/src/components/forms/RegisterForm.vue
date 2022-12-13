@@ -54,7 +54,7 @@ function onSubmit() {
 
   api.session
     .register(form)
-    .then((response) => response.data)
+    .then((response) => response)
     .then((user) => {
       if (user.id !== null) {
         router.push({ name: "login" });

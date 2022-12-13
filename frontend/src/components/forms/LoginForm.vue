@@ -59,7 +59,7 @@ function onSubmit() {
 
   api.session
     .login({ username: email.value, password: password.value })
-    .then((response) => response.data)
+    .then((response) => response)
     .then((data) => {
       sessionStore.setUser(data);
       router.push({ name: "home" });

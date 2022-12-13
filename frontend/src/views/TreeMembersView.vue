@@ -14,7 +14,6 @@ const isLoading = ref(false);
 function loadMembers() {
   return api.people
     .getTreeMembers(route.params.treeId as unknown as number)
-    .then((response) => response.data)
     .then((data) => {
       members.splice(0, members.length);
       members.push(...data.data);
@@ -49,7 +48,9 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="flex-scroll"></div>
+      <div class="flex-scroll">
+        <p v-for="count in 30" :key="count">test</p>
+      </div>
     </div>
     <div class="col col-scroll">
       <RouterView />

@@ -34,7 +34,7 @@ function changeLocale(locale: string) {
 
 function logout() {
   api.session.logout().then((response) => {
-    if (response.data === null) {
+    if (response === null) {
       sessionStore.logout();
       router.push({ name: "login" });
     }

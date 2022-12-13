@@ -1,21 +1,20 @@
-import type { AxiosResponse } from "axios";
 import type { loginForm, User, UserWithPassword } from "../types";
 import instance from "../instance";
 
 export default {
-  login: (form: loginForm): Promise<AxiosResponse<User>> => {
+  login: (form: loginForm): Promise<User> => {
     return instance.post("/login", form);
   },
 
-  register: (form: UserWithPassword): Promise<AxiosResponse<User>> => {
+  register: (form: UserWithPassword): Promise<User> => {
     return instance.post("/registration", form);
   },
 
-  logout: (): Promise<AxiosResponse<User | null>> => {
+  logout: (): Promise<User | null> => {
     return instance.get("/logout");
   },
 
-  getContent: (): Promise<AxiosResponse<User>> => {
+  getContent: (): Promise<User> => {
     return instance.get("/session");
   },
 };
