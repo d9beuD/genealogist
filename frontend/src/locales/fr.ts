@@ -25,6 +25,7 @@ export default {
       deathdate: "Jour de décès",
       description: "Description",
       firstname: "Prénom",
+      gender: "Genre",
       identifier: "Identifiant",
       isDateCertain: "Date certaine",
       isDateKnown: "Date connue",
@@ -39,6 +40,10 @@ export default {
     feedback: {
       tooShortLength:
         "Vous devez entrer au moins {n} caractère | Vous devez entrer au moins {n} caractères",
+    },
+    option: {
+      male: "Homme",
+      female: "Femme",
     },
   },
   list: {

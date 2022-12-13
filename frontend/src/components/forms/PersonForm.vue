@@ -5,6 +5,7 @@ import {
   BFormCheckbox,
   BFormGroup,
   BFormInput,
+  BFormRadio,
   BFormTextarea,
 } from "bootstrap-vue";
 import { computed, onMounted, reactive, ref } from "vue";
@@ -14,7 +15,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faBabyCarriage,
   faCoffinCross,
+  faMars,
   faPlus,
+  faVenus,
 } from "@fortawesome/pro-duotone-svg-icons";
 import api from "@/api";
 import { useRouter } from "vue-router";
@@ -40,6 +43,7 @@ const person = reactive<personForm>({
   birthDate: null,
   deathDate: null,
   description: null,
+  gender: null,
   picture: null,
   isBirthDateKnown: false,
   isDeathDateKnown: false,
@@ -97,6 +101,7 @@ onMounted(() => {
                 />
               </BFormGroup>
             </div>
+
             <div class="col-lg-auto">
               <BFormGroup :label="$t('form.label.lastname')">
                 <BFormInput
@@ -104,6 +109,24 @@ onMounted(() => {
                   :placeholder="$t('form.label.lastname')"
                   trim
                 />
+              </BFormGroup>
+            </div>
+
+            <div class="col-lg-auto">
+              <BFormGroup :label="$t('form.label.gender')">
+                <div class="form-check form-check-inline">
+                  <BFormRadio v-model="person.gender" :value="true">
+                    <FontAwesomeIcon class="text-primary" :icon="faMars" />
+                    {{ $t("form.option.male") }}
+                  </BFormRadio>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <BFormRadio v-model="person.gender" :value="false">
+                    <FontAwesomeIcon class="text-danger" :icon="faVenus" />
+                    {{ $t("form.option.female") }}
+                  </BFormRadio>
+                </div>
               </BFormGroup>
             </div>
           </div>

@@ -56,7 +56,7 @@ const router = createRouter({
             {
               path: "new",
               name: "newTreeMember",
-              component: () => import("../components/forms/PersonForm.vue"),
+              component: () => import("../components/forms/NewPersonForm.vue"),
               props: true,
             },
           ],

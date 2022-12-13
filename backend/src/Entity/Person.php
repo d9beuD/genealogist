@@ -71,6 +71,9 @@ class Person
     #[ORM\Column(type: Types::JSON)]
     private array $importantDates = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $gender = null;
+
     public function __construct()
     {
         $this->parents = new ArrayCollection();
@@ -285,6 +288,18 @@ class Person
     public function setImportantDates(array $importantDates): self
     {
         $this->importantDates = $importantDates;
+
+        return $this;
+    }
+
+    public function isGender(): ?bool
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?bool $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

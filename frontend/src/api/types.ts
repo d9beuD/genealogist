@@ -48,6 +48,7 @@ export interface personForm {
   birthDate: Date | JsonDate | null;
   deathDate: Date | JsonDate | null;
   description: string | null;
+  gender: boolean | null;
   picture: string | null;
   isBirthDateKnown: boolean;
   isDeathDateKnown: boolean;

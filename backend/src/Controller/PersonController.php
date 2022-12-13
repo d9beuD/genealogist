@@ -49,6 +49,7 @@ class PersonController extends AbstractController
             ->setFirstname($request->get('firstname'))
             ->setLastname($request->get('lastname'))
             ->setPicture($request->get('picture'))
+            ->setGender($request->get('gender'))
             ->setIsBirthDateCertain($request->get('isBirthDateCertain'))
             ->setIsBirthDateKnown($request->get('isBirthDateKnown'))
             ->setIsDeathDateCertain($request->get('isDeathDateCertain'))
