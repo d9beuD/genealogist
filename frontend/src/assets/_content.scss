@@ -3,3 +3,21 @@
   border-bottom: $border-width solid $border-color;
   margin-bottom: $spacer;
 }
+
+.member-list-item {
+  display: block;
+  padding: calc($spacer / 2) $spacer;
+  color: $dark;
+  text-decoration: none !important;
+
+  .chevron {
+    display: none;
+  }
+
+  &:hover {
+    background-color: $gray-200;
+    .chevron {
+      display: block;
+    }
+  }
+}
