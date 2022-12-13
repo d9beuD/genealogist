@@ -24,7 +24,12 @@ interface Props {
   personId?: number;
 }
 
+interface Emits {
+  (e: "newMember"): void;
+}
+
 const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 const router = useRouter();
 
 const isLoading = ref(false);
@@ -50,6 +55,7 @@ function onSubmit() {
   api.people
     .add(props.treeId, person)
     .then((response) => {
+      emit("newMember");
       router.push({ name: "treeMembers" });
     })
     .finally(() => {
