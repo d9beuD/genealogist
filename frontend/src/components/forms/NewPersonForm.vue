@@ -137,7 +137,7 @@ function onSubmit() {
                     {{ $t("form.label.birthdate") }}
                   </template>
                   <div class="mb-2">
-                    <div class="form-check">
+                    <div class="form-check pl-0">
                       <BFormCheckbox
                         v-model="person.isBirthDateKnown"
                         type="date"
@@ -145,7 +145,7 @@ function onSubmit() {
                         {{ $t("form.label.isDateKnown") }}
                       </BFormCheckbox>
                     </div>
-                    <div v-if="person.isBirthDateKnown" class="form-check">
+                    <div v-if="person.isBirthDateKnown" class="form-check pl-0">
                       <BFormCheckbox
                         v-model="person.isBirthDateCertain"
                         type="date"
@@ -171,7 +171,7 @@ function onSubmit() {
                     {{ $t("form.label.deathdate") }}
                   </template>
                   <div class="mb-2">
-                    <div class="form-check">
+                    <div class="form-check pl-0">
                       <BFormCheckbox
                         v-model="person.isDeathDateKnown"
                         type="date"
@@ -179,7 +179,7 @@ function onSubmit() {
                         {{ $t("form.label.isDateKnown") }}
                       </BFormCheckbox>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check pl-0">
                       <BFormCheckbox
                         v-if="person.isDeathDateKnown"
                         v-model="person.isDeathDateCertain"
