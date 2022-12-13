@@ -25,7 +25,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 function edit() {
-  router.push({ name: "editTree", params: { id: props.tree.id } });
+  router.push({ name: "editTree", params: { treeId: props.tree.id } });
 }
 
 function remove() {
