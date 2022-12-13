@@ -55,8 +55,6 @@ const person = reactive<Person>({
   children: [],
 });
 
-const isNewMember = computed(() => typeof props.memberId === "undefined");
-
 function onSubmit() {
   isLoading.value = true;
   api.people
@@ -87,9 +85,6 @@ watch(
 
 <template>
   <div class="container-fluid mb-5">
-    <h1 class="h3 mb-3" v-if="isNewMember">
-      {{ $t("page.title.newTreeMember") }}
-    </h1>
     <BForm @submit.prevent="onSubmit">
       <div class="row">
         <div class="col-md-auto">
