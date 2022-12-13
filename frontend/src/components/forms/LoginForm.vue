@@ -14,7 +14,6 @@ import { faRightToBracket, faSync } from "@fortawesome/pro-duotone-svg-icons";
 import { RouterLink, useRouter } from "vue-router";
 import api from "@/api";
 import { useSessionStore } from "@/stores/session";
-import type { AxiosError } from "axios";
 
 const router = useRouter();
 const sessionStore = useSessionStore();
@@ -64,8 +63,8 @@ function onSubmit() {
       sessionStore.setUser(data);
       router.push({ name: "home" });
     })
-    .catch((apiError: AxiosError) => {
-      error.value = apiError.message;
+    .catch((apiError) => {
+      error.value = apiError;
     })
     .finally(() => {
       isLoading.value = false;
