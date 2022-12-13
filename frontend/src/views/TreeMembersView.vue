@@ -5,12 +5,16 @@ import MemberList from "@/components/lists/MemberList.vue";
 import { faBarsFilter, faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton, BFormInput } from "bootstrap-vue";
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 const members = reactive<Person[]>([]);
 const isLoading = ref(false);
+
+const isListCentered = computed(() => {
+  return route.name === "treeMembers";
+});
 
 function loadMembers() {
   return api.people
@@ -29,7 +33,10 @@ onMounted(() => {
 
 <template>
   <div class="row no-gutters flex-scroll">
-    <div class="col-sm-6 col-md-4 col-lg-3 col-scroll col-sidebar">
+    <div
+      class="col-sm-6 col-md-4 col-lg-3 col-scroll col-sidebar"
+      :class="{ 'd-none d-sm-flex': !isListCentered }"
+    >
       <div class="bg-white border-bottom py-1">
         <div class="row no-gutters align-items-center">
           <div class="col-auto">
