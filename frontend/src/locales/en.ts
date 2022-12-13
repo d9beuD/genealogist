@@ -8,6 +8,7 @@ export default {
     logout: "Logout",
     register: "Register",
     save: "Save",
+    update: "Update",
   },
   confirm: {
     treeDeletion:

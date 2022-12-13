@@ -71,22 +71,29 @@ class PersonController extends AbstractController
         return $this->json($person);
     }
 
-    #[Route('/person/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
+    #[Route('/person/{id}', name: 'app_person_edit', methods: ['PUT'])]
     public function edit(Request $request, Person $person, PersonRepository $personRepository): Response
     {
-        $form = $this->createForm(PersonType::class, $person);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $personRepository->save($person, true);
-
-            return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
+        if ($person->getTree()->getOwner()->getUserIdentifier() !== $this->getUser()->getUserIdentifier()) {
+            throw new AccessDeniedException();
         }
 
-        return $this->renderForm('person/edit.html.twig', [
-            'person' => $person,
-            'form' => $form,
-        ]);
+        $person
+            ->setBirthDate($request->get('birthDate') ? new \DateTime($request->get('birthDate')) : null)
+            ->setBirthName($request->get('birthName'))
+            ->setDeathDate($request->get('deathDate') ? new \DateTime($request->get('deathDate')) : null)
+            ->setDescription($request->get('description'))
+            ->setFirstname($request->get('firstname'))
+            ->setLastname($request->get('lastname'))
+            ->setPicture($request->get('picture'))
+            ->setGender($request->get('gender'))
+            ->setIsBirthDateCertain($request->get('isBirthDateCertain'))
+            ->setIsBirthDateKnown($request->get('isBirthDateKnown'))
+            ->setIsDeathDateCertain($request->get('isDeathDateCertain'))
+            ->setIsDeathDateKnown($request->get('isDeathDateKnown'));
+        $personRepository->save($person, true);
+
+        return $this->json($person);
     }
 
     #[Route('/person/{id}', name: 'app_person_delete', methods: ['POST'])]

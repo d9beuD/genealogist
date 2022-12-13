@@ -8,6 +8,7 @@ export default {
     logout: "Se déconnecter",
     register: "S'inscrire",
     save: "Enregistrer",
+    update: "Modifier",
   },
   confirm: {
     treeDeletion:

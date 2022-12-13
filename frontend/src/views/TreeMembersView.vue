@@ -57,7 +57,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="col col-scroll">
-      <RouterView @newMember="loadMembers" />
+      <RouterView @newMember="loadMembers" @updatedMember="loadMembers" />
     </div>
   </div>
 </template>

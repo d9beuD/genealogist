@@ -13,4 +13,8 @@ export default {
   add: (treeId: number, form: personForm): Promise<APIList<Person>> => {
     return instance.post(`/tree/${treeId}/members`, form);
   },
+
+  update: (memberId: number, form: Person): Promise<Person> => {
+    return instance.put(`/person/${memberId}`, form);
+  },
 };

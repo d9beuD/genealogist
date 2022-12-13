@@ -10,13 +10,12 @@ import {
 } from "bootstrap-vue";
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import formatters from "@/formatters";
-import type { Person, personForm } from "@/api/types";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faBabyCarriage,
   faCoffinCross,
   faMars,
-  faPlus,
+  faSave,
   faVenus,
 } from "@fortawesome/pro-duotone-svg-icons";
 import api from "@/api";
@@ -28,7 +27,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: "newMember"): void;
+  (e: "updatedMember"): void;
 }
 
 const props = defineProps<Props>();
@@ -60,10 +59,9 @@ const isNewMember = computed(() => typeof props.memberId === "undefined");
 function onSubmit() {
   isLoading.value = true;
   api.people
-    .add(props.treeId, person)
-    .then((response) => {
-      emit("newMember");
-      router.push({ name: "treeMembers" });
+    .update(props.memberId, person)
+    .then(() => {
+      emit("updatedMember");
     })
     .finally(() => {
       isLoading.value = false;
@@ -228,8 +226,8 @@ watch(
 
           <div class="text-right">
             <BButton type="submit" variant="primary">
-              <FontAwesomeIcon :icon="faPlus" swap-opacity />
-              {{ $t("action.add") }}
+              <FontAwesomeIcon :icon="faSave" swap-opacity />
+              {{ $t("action.update") }}
             </BButton>
           </div>
         </div>
