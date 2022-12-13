@@ -4,13 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Entity\Tree;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
 use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class PersonController extends AbstractController
 {
@@ -25,23 +29,36 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/person/new', name: 'app_person_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PersonRepository $personRepository): Response
-    {
-        $person = new Person();
-        $form = $this->createForm(PersonType::class, $person);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $personRepository->save($person, true);
-
-            return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
+    #[Route('/tree/{id}/members', name: 'app_person_new', methods: ['POST'])]
+    public function new(
+        Request $request,
+        Tree $tree,
+        PersonRepository $personRepository,
+        #[CurrentUser] User $user
+    ): Response {
+        if ($tree->getOwner()->getUserIdentifier() !== $user->getUserIdentifier()) {
+            throw new AccessDeniedException();
         }
 
-        return $this->renderForm('person/new.html.twig', [
-            'person' => $person,
-            'form' => $form,
-        ]);
+        $person = new Person();
+
+        $person
+            ->setBirthDate($request->get('birthDate') ? new \DateTime($request->get('birthDate')) : null)
+            ->setBirthName($request->get('birthName'))
+            ->setDeathDate($request->get('deathDate') ? new \DateTime($request->get('deathDate')) : null)
+            ->setDescription($request->get('description'))
+            ->setFirstname($request->get('firstname'))
+            ->setLastname($request->get('lastname'))
+            ->setPicture($request->get('picture'))
+            ->setIsBirthDateCertain($request->get('isBirthDateCertain'))
+            ->setIsBirthDateKnown($request->get('isBirthDateKnown'))
+            ->setIsDeathDateCertain($request->get('isDeathDateCertain'))
+            ->setIsDeathDateKnown($request->get('isDeathDateKnown'));
+
+        $tree->addMember($person);
+
+        $personRepository->save($person, true);
+        return $this->json($person);
     }
 
     #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
