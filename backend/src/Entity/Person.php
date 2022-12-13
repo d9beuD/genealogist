@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -44,14 +45,30 @@ class Person
     private ?Tree $tree = null;
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'children')]
+    #[MaxDepth(1)]
     private Collection $parents;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'parents')]
+    #[MaxDepth(1)]
     private Collection $children;
+
+    #[ORM\Column]
+    private bool $isBirthDateKnown = true;
+
+    #[ORM\Column]
+    private bool $isDeathDateKnown = true;
+
+    #[ORM\Column]
+    private bool $isBirthDateCertain = true;
+
+    #[ORM\Column]
+    private bool $isDeathDateCertain = true;
+
+    #[ORM\Column(type: Types::JSON)]
+    private array $importantDates = [];
 
     public function __construct()
     {
-        $this->couples = new ArrayCollection();
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -204,6 +221,66 @@ class Person
         if ($this->children->removeElement($child)) {
             $child->removeParent($this);
         }
+
+        return $this;
+    }
+
+    public function isIsBirthDateKnown(): ?bool
+    {
+        return $this->isBirthDateKnown;
+    }
+
+    public function setIsBirthDateKnown(bool $isBirthDateKnown): self
+    {
+        $this->isBirthDateKnown = $isBirthDateKnown;
+
+        return $this;
+    }
+
+    public function isIsDeathDateKnown(): ?bool
+    {
+        return $this->isDeathDateKnown;
+    }
+
+    public function setIsDeathDateKnown(bool $isDeathDateKnown): self
+    {
+        $this->isDeathDateKnown = $isDeathDateKnown;
+
+        return $this;
+    }
+
+    public function isIsBirthDateCertain(): ?bool
+    {
+        return $this->isBirthDateCertain;
+    }
+
+    public function setIsBirthDateCertain(bool $isBirthDateCertain): self
+    {
+        $this->isBirthDateCertain = $isBirthDateCertain;
+
+        return $this;
+    }
+
+    public function isIsDeathDateCertain(): ?bool
+    {
+        return $this->isDeathDateCertain;
+    }
+
+    public function setIsDeathDateCertain(bool $isDeathDateCertain): self
+    {
+        $this->isDeathDateCertain = $isDeathDateCertain;
+
+        return $this;
+    }
+
+    public function getImportantDates(): array
+    {
+        return $this->importantDates;
+    }
+
+    public function setImportantDates(array $importantDates): self
+    {
+        $this->importantDates = $importantDates;
 
         return $this;
     }
