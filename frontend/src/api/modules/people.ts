@@ -10,7 +10,7 @@ export default {
     return instance.get(`/person/${memberId}`);
   },
 
-  add: (treeId: number, form: personForm): Promise<APIList<Person>> => {
+  add: (treeId: number, form: personForm): Promise<Person> => {
     return instance.post(`/tree/${treeId}/members`, form);
   },
 
