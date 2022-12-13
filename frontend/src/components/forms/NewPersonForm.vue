@@ -8,7 +8,7 @@ import {
   BFormRadio,
   BFormTextarea,
 } from "bootstrap-vue";
-import { computed, onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import formatters from "@/formatters";
 import type { personForm } from "@/api/types";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -58,7 +58,7 @@ function onSubmit() {
     .add(props.treeId, person)
     .then((response) => {
       emit("newMember");
-      router.push({ name: "treeMembers" });
+      router.push({ name: "showMember", params: { memberId: response.id } });
     })
     .finally(() => {
       isLoading.value = false;
