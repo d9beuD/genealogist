@@ -65,4 +65,14 @@ export default {
       language: "Langues",
     },
   },
+  toast: {
+    title: {
+      success: "Succès !",
+    },
+    body: {
+      memberAdded: "Le nouveau membre a été ajouté.",
+      memberUpdated: "Le membre a été mis à jour.",
+      submitError: "Une erreur est survenue.",
+    },
+  },
 };

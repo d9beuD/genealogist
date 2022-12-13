@@ -8,7 +8,7 @@ import {
   BFormRadio,
   BFormTextarea,
 } from "bootstrap-vue";
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import formatters from "@/formatters";
 import type { Person } from "@/api/types";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -20,7 +20,6 @@ import {
   faVenus,
 } from "@fortawesome/pro-duotone-svg-icons";
 import api from "@/api";
-import { useRouter } from "vue-router";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
 
 interface Props {
@@ -30,11 +29,11 @@ interface Props {
 
 interface Emits {
   (e: "updatedMember"): void;
+  (e: "submitError"): void;
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
-const router = useRouter();
 
 const isLoading = ref(false);
 const person = reactive<Person>({
@@ -62,6 +61,9 @@ function onSubmit() {
     .update(props.memberId, person)
     .then(() => {
       emit("updatedMember");
+    })
+    .catch(() => {
+      emit("submitError");
     })
     .finally(() => {
       isLoading.value = false;

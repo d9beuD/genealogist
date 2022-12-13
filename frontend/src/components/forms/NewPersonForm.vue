@@ -29,6 +29,7 @@ interface Props {
 
 interface Emits {
   (e: "newMember"): void;
+  (e: "submitError"): void;
 }
 
 const props = defineProps<Props>();
@@ -59,6 +60,9 @@ function onSubmit() {
     .then((response) => {
       emit("newMember");
       router.push({ name: "showMember", params: { memberId: response.id } });
+    })
+    .catch(() => {
+      emit("submitError");
     })
     .finally(() => {
       isLoading.value = false;
