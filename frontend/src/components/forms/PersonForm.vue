@@ -2,6 +2,7 @@
 import { BForm, BFormGroup, BFormInput, BFormTextarea } from "bootstrap-vue";
 import { computed, onMounted } from "vue";
 import formatters from "@/formatters";
+import type { personForm } from "@/api/types";
 
 interface Props {
   treeId: number;
@@ -54,12 +55,20 @@ onMounted(() => {
           <div class="form-row">
             <div class="col-lg-auto">
               <BFormGroup :label="$t('form.label.firstname')">
-                <BFormInput :placeholder="$t('form.label.firstname')" />
+                <BFormInput
+                  v-model="person.firstname"
+                  :placeholder="$t('form.label.firstname')"
+                  trim
+                />
               </BFormGroup>
             </div>
             <div class="col-lg-auto">
               <BFormGroup :label="$t('form.label.lastname')">
-                <BFormInput :placeholder="$t('form.label.lastname')" />
+                <BFormInput
+                  v-model="person.lastname"
+                  :placeholder="$t('form.label.lastname')"
+                  trim
+                />
               </BFormGroup>
             </div>
           </div>
@@ -69,6 +78,7 @@ onMounted(() => {
             <div class="col-lg-auto">
               <BFormGroup :label="$t('form.label.birthdate')">
                 <BFormInput
+                  v-model="person.birthDate"
                   type="date"
                   :formatter="formatters.stringToDate"
                   :placeholder="$t('form.label.birthdate')"
@@ -78,6 +88,7 @@ onMounted(() => {
             <div class="col-lg-auto">
               <BFormGroup :label="$t('form.label.deathdate')">
                 <BFormInput
+                  v-model="person.deathDate"
                   type="date"
                   :formatter="formatters.stringToDate"
                   :placeholder="$t('form.label.deathdate')"
@@ -88,7 +99,10 @@ onMounted(() => {
 
           <h4 class="section">{{ $t("page.title.others") }}</h4>
           <BFormGroup :label="$t('form.label.description')">
-            <BFormTextarea :placeholder="$t('form.label.description')" />
+            <BFormTextarea
+              v-model="person.description"
+              :placeholder="$t('form.label.description')"
+            />
           </BFormGroup>
         </div>
       </div>
