@@ -79,7 +79,7 @@ function onSubmit() {
           <div class="col-md-auto">
             <div class="pt-2 sticky-top">
               <div
-                class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto mb-2"
+                class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto"
                 :style="{ height: '10rem', width: '10rem' }"
               >
                 illustration
