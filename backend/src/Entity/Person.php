@@ -43,10 +43,17 @@ class Person
     #[Ignore]
     private ?Tree $tree = null;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'children')]
+    private Collection $parents;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'parents')]
+    private Collection $children;
+
     public function __construct()
     {
         $this->couples = new ArrayCollection();
         $this->parents = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +153,57 @@ class Person
     public function setTree(?Tree $tree): self
     {
         $this->tree = $tree;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParents(): Collection
+    {
+        return $this->parents;
+    }
+
+    public function addParent(self $parent): self
+    {
+        if (!$this->parents->contains($parent)) {
+            $this->parents->add($parent);
+        }
+
+        return $this;
+    }
+
+    public function removeParent(self $parent): self
+    {
+        $this->parents->removeElement($parent);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(self $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->addParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(self $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            $child->removeParent($this);
+        }
 
         return $this;
     }
