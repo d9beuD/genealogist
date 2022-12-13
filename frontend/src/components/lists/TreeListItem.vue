@@ -52,11 +52,11 @@ function remove() {
             <FontAwesomeIcon :icon="faCircleEllipsis" size="lg" />
           </template>
 
-          <BDropdownItem @click="edit">
+          <BDropdownItem @click.prevent="edit">
             <FontAwesomeIcon :icon="faEdit" fixed-width />
             {{ $t("action.edit") }}
           </BDropdownItem>
-          <BDropdownItem variant="danger" @click="remove">
+          <BDropdownItem variant="danger" @click.prevent="remove">
             <FontAwesomeIcon :icon="faTrashAlt" fixed-width />
             {{ $t("action.delete") }}
           </BDropdownItem>
