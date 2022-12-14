@@ -117,6 +117,13 @@ function uploadPicture() {
     loadData();
   });
 }
+
+function removePicture() {
+  api.people.removePicture(person.id).finally(() => {
+    loadData();
+  });
+}
+
 onMounted(() => {
   loadData();
 });
@@ -163,6 +170,10 @@ watch(
                 <BDropdownItem @click="selectPicture">
                   <FontAwesomeIcon :icon="faFileImage" fixed-width />
                   {{ $t("action.select") }}
+                </BDropdownItem>
+                <BDropdownItem @click="removePicture">
+                  <FontAwesomeIcon :icon="faFileXmark" fixed-width />
+                  {{ $t("action.remove") }}
                 </BDropdownItem>
               </BDropdown>
               <BFormFile

@@ -139,4 +139,23 @@ class PersonController extends AbstractController
 
         return $this->json($person);
     }
+
+    #[Route('/person/{id}/picture', name: 'app_person_picture_remove', methods: ['DELETE'])]
+    public function removePicture(
+        Person $person,
+        PersonRepository $personRepository,
+    ): Response {
+        if ($person->getTree()->getOwner()->getUserIdentifier() !== $this->getUser()->getUserIdentifier()) {
+            throw new AccessDeniedException();
+        }
+
+        if ($person->getPicture()) {
+            unlink($person->getPicture());
+        }
+
+        $person->setPicture(null);
+        $personRepository->save($person, true);
+
+        return $this->json($person);
+    }
 }

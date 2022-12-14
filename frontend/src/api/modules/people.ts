@@ -28,4 +28,8 @@ export default {
       data: picture,
     });
   },
+
+  removePicture: (memberId: number): Promise<Person> => {
+    return instance.delete(`person/${memberId}/picture`);
+  },
 };
