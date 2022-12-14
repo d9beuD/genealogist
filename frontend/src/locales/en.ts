@@ -1,12 +1,20 @@
 export default {
   action: {
+    add: "Add",
+    back: "Back",
     create: "Create",
     delete: "Delete",
     edit: "Edit",
     login: "Login",
     logout: "Logout",
     register: "Register",
+    remove: "Remove",
     save: "Save",
+    select: "Select",
+    update: "Update",
+  },
+  button: {
+    image: "Image",
   },
   confirm: {
     treeDeletion:
@@ -20,8 +28,14 @@ export default {
       register: "Register",
     },
     label: {
+      birthdate: "Day of birth",
+      deathdate: "Day of death",
+      description: "Description",
       firstname: "Firstname",
+      gender: "Gender",
       identifier: "Identifier",
+      isDateCertain: "Date is certain",
+      isDateKnown: "Date is known",
       lastname: "Lastname",
       name: "Name",
       password: "Password",
@@ -34,15 +48,38 @@ export default {
       tooShortLength:
         "You must enter at least {n} character | You must enter at least {n} characters",
     },
+    option: {
+      male: "Male",
+      female: "Female",
+    },
+  },
+  list: {
+    memberCount: "{n} member | {n} members",
   },
   page: {
     title: {
+      generalInformation: "General information",
       homeWelcome: "Welcome, {name}! Here is your home page.",
+      importantDates: "Important dates",
+      newTreeMember: "Add a new member to this tree.",
+      others: "Others",
     },
   },
   nav: {
     item: {
       language: "Language",
+    },
+  },
+  toast: {
+    title: {
+      success: "Success!",
+      error: "Error!",
+    },
+    body: {
+      memberAdded: "New member has been added.",
+      memberDeleted: "The member has been deleted.",
+      memberUpdated: "The member has been updated.",
+      submitError: "An error occured.",
     },
   },
 };

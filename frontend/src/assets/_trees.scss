@@ -2,10 +2,12 @@
   background-color: white;
   border: $border-width solid $border-color;
   border-radius: $border-radius;
+  display: block;
   height: 100%;
   padding: $spacer;
   cursor: pointer;
   transition: box-shadow ease-out 400ms;
+  text-decoration: none !important;
 
   &.tree-list-item-placeholder {
     font-size: $spacer * 3;
@@ -21,7 +23,7 @@
 
   .dropdown-toggle {
     position: relative;
-    top: -$spacer / 2;
-    right: -$spacer / 2;
+    top: - calc($spacer / 2);
+    right: - calc($spacer / 2);
   }
 }

@@ -62,8 +62,8 @@ function onSubmit() {
 }
 
 onMounted(() => {
-  api.trees.get(route.params.id as string).then((response) => {
-    Object.assign(tree, response.data);
+  api.trees.get(route.params.treeId as string).then((response) => {
+    Object.assign(tree, response);
   });
 });
 </script>

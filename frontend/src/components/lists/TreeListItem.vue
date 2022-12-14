@@ -25,7 +25,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 function edit() {
-  router.push({ name: "editTree", params: { id: props.tree.id } });
+  router.push({ name: "editTree", params: { treeId: props.tree.id } });
 }
 
 function remove() {
@@ -38,7 +38,10 @@ function remove() {
 </script>
 
 <template>
-  <div class="tree-list-item">
+  <RouterLink
+    class="tree-list-item"
+    :to="{ name: 'treeMembers', params: { treeId: tree.id } }"
+  >
     <div class="form-row">
       <div class="col">
         <h4>{{ tree.name }}</h4>
@@ -49,16 +52,16 @@ function remove() {
             <FontAwesomeIcon :icon="faCircleEllipsis" size="lg" />
           </template>
 
-          <BDropdownItem @click="edit">
-            <FontAwesomeIcon :icon="faEdit" />
+          <BDropdownItem @click.prevent="edit">
+            <FontAwesomeIcon :icon="faEdit" fixed-width />
             {{ $t("action.edit") }}
           </BDropdownItem>
-          <BDropdownItem variant="danger" @click="remove">
-            <FontAwesomeIcon :icon="faTrashAlt" />
+          <BDropdownItem variant="danger" @click.prevent="remove">
+            <FontAwesomeIcon :icon="faTrashAlt" fixed-width />
             {{ $t("action.delete") }}
           </BDropdownItem>
         </BDropdown>
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>

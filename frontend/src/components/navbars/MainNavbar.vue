@@ -34,7 +34,7 @@ function changeLocale(locale: string) {
 
 function logout() {
   api.session.logout().then((response) => {
-    if (response.data === null) {
+    if (response === null) {
       sessionStore.logout();
       router.push({ name: "login" });
     }
@@ -44,7 +44,7 @@ function logout() {
 
 <template>
   <BNavbar type="dark" variant="dark" toggleable="md">
-    <BNavbarBrand>
+    <BNavbarBrand :to="{ name: 'home' }">
       <FontAwesomeIcon :icon="faTreeDeciduous" />
       Genealogist
     </BNavbarBrand>
@@ -52,7 +52,7 @@ function logout() {
 
     <BCollapse id="main-navbar-collapse" is-nav>
       <BNavbarNav>
-        <BNavItem>Home</BNavItem>
+        <BNavItem :to="{ name: 'home' }">Home</BNavItem>
       </BNavbarNav>
 
       <BNavbarNav class="ml-auto">

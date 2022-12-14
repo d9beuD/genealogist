@@ -14,7 +14,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faUserPlus, faSync } from "@fortawesome/pro-duotone-svg-icons";
 import api from "@/api";
-import type { AxiosError } from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -54,14 +53,14 @@ function onSubmit() {
 
   api.session
     .register(form)
-    .then((response) => response.data)
+    .then((response) => response)
     .then((user) => {
       if (user.id !== null) {
         router.push({ name: "login" });
       }
     })
-    .catch((error: AxiosError) => {
-      currentError.value = error.message;
+    .catch((error) => {
+      currentError.value = error;
     })
     .finally(() => {
       isLoading.value = false;

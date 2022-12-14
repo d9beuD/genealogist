@@ -10,13 +10,10 @@ const trees = reactive<Tree[]>([]);
 const isLoading = ref(false);
 
 function loadData() {
-  return api.trees
-    .list()
-    .then((response) => response.data)
-    .then((data) => {
-      trees.splice(0, trees.length);
-      trees.push(...data.data);
-    });
+  return api.trees.list().then((data) => {
+    trees.splice(0, trees.length);
+    trees.push(...data.data);
+  });
 }
 
 onMounted(() => {
@@ -26,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container">
+  <main class="container mb-5">
     <h1>
       {{ $t("page.title.homeWelcome", { name: sessionStore.user?.firstname }) }}
     </h1>

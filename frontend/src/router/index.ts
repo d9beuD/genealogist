@@ -4,6 +4,8 @@ import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  linkActiveClass: "active",
+  linkExactActiveClass: "active",
   routes: [
     {
       path: "/",
@@ -40,10 +42,30 @@ const router = createRouter({
           component: () => import("../components/forms/NewTreeForm.vue"),
         },
         {
-          path: ":id/edit",
+          path: ":treeId/edit",
           name: "editTree",
           component: () => import("../components/forms/EditTreeForm.vue"),
           props: true,
+        },
+        {
+          path: ":treeId/members",
+          name: "treeMembers",
+          component: () => import("../views/TreeMembersView.vue"),
+          props: true,
+          children: [
+            {
+              path: "new",
+              name: "newTreeMember",
+              component: () => import("../components/forms/NewPersonForm.vue"),
+              props: true,
+            },
+            {
+              path: ":memberId",
+              name: "showMember",
+              component: () => import("../components/forms/EditPersonForm.vue"),
+              props: true,
+            },
+          ],
         },
       ],
     },
