@@ -40,7 +40,7 @@ const emit = defineEmits<Emits>();
               triggers="hover"
               placement="bottom"
             >
-              delete
+              {{ $t("action.delete") }}
             </BTooltip>
             <BButton
               id="member-delete-button"
