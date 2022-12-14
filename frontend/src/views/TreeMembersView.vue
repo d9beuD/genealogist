@@ -117,7 +117,7 @@ onMounted(() => {
     :title="$t('toast.title.success')"
     solid
   >
-    {{ $t("toast.body.memberUpdated") }}
+    {{ $t("toast.body.memberDeleted") }}
   </BToast>
   <BToast
     v-model="showError"

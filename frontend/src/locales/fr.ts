@@ -72,6 +72,7 @@ export default {
     },
     body: {
       memberAdded: "Le nouveau membre a été ajouté.",
+      memberDeleted: "Le membre a été supprimé.",
       memberUpdated: "Le membre a été mis à jour.",
       submitError: "Une erreur est survenue.",
     },
