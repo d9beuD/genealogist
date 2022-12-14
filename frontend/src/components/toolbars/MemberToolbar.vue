@@ -35,7 +35,8 @@ const emit = defineEmits<Emits>();
         <div class="row no-gutters">
           <div class="col-auto">
             <BTooltip
-              boundary="body"
+              boundary="viewport"
+              :boudary-padding="0"
               target="member-delete-button"
               triggers="hover"
               placement="bottom"

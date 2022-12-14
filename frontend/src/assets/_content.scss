@@ -24,10 +24,10 @@
   }
 
   &:hover + &.active {
-    border-top: $border-width solid $border-color !important;
+    border-top: $border-width solid $border-color;
   }
 
   &.active + &:hover {
-    border-top: $border-width solid $border-color !important;
+    border-top: $border-width solid $border-color;
   }
 }

@@ -21,4 +21,11 @@ export default {
   delete: (memberId: number): Promise<Person | null> => {
     return instance.delete(`/person/${memberId}`);
   },
+
+  setPicture: (memberId: number, picture: File): Promise<Person> => {
+    return instance.postMultipart(`/person/${memberId}/picture`, {
+      name: "picture",
+      data: picture,
+    });
+  },
 };

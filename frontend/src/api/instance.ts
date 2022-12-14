@@ -1,4 +1,4 @@
-const baseURL = import.meta.env.DEV ? "http://localhost:8000/" : "";
+export const baseURL = import.meta.env.DEV ? "http://localhost:8000/" : "";
 const defaultConfig: RequestInit = {
   headers: {
     "Content-Type": "application/json",
@@ -57,6 +57,29 @@ const instance = {
         config
       )
     );
+  },
+
+  postMultipart: <T = any>(
+    resource: string,
+    file: { name: string; data: File },
+    config: RequestInit = {}
+  ): Promise<T> => {
+    const url = new URL(resource, baseURL);
+    const form = new FormData();
+    form.append(file.name, file.data);
+
+    return fetch(
+      url,
+      Object.assign<RequestInit, RequestInit>(
+        { method: "POST", body: form, credentials: "include" },
+        config
+      )
+    ).then((response) => {
+      if (!response.ok) {
+        throw Error(`Fetch API error: ${response.text}`);
+      }
+      return response.json();
+    });
   },
 
   put: (resource: string, content: unknown, config: RequestInit = {}) => {

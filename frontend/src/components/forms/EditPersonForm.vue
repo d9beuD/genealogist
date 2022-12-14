@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {
   BButton,
+  BDropdown,
+  BDropdownItem,
   BForm,
   BFormCheckbox,
+  BFormFile,
   BFormGroup,
   BFormInput,
   BFormRadio,
@@ -15,6 +18,9 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faBabyCarriage,
   faCoffinCross,
+  faFileImage,
+  faFileXmark,
+  faImagePolaroidUser,
   faMars,
   faSave,
   faVenus,
@@ -22,6 +28,7 @@ import {
 import api from "@/api";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
 import { useRouter } from "vue-router";
+import MemberIllustration from "./MemberIllustration.vue";
 
 interface Props {
   treeId: number;
@@ -57,6 +64,7 @@ const person = reactive<Person>({
   parents: [],
   children: [],
 });
+const tempPicture = ref<File | null>(null);
 
 function onSubmit() {
   isLoading.value = true;
@@ -91,6 +99,24 @@ function loadData() {
   });
 }
 
+function selectPicture() {
+  const input = document.getElementById("fileInput") as HTMLInputElement;
+
+  if (input === null) {
+    return;
+  }
+
+  input.click();
+}
+
+function uploadPicture() {
+  if (tempPicture.value === null) {
+    return;
+  }
+  return api.people.setPicture(props.memberId, tempPicture.value).then(() => {
+    loadData();
+  });
+}
 onMounted(() => {
   loadData();
 });
@@ -98,6 +124,20 @@ onMounted(() => {
 watch(
   () => props.memberId,
   () => loadData()
+);
+
+watch(
+  () => tempPicture.value,
+  (value) => {
+    if (value !== null) {
+      const request = uploadPicture();
+      if (typeof request !== "undefined") {
+        request.finally(() => {
+          tempPicture.value = null;
+        });
+      }
+    }
+  }
 );
 </script>
 
@@ -109,14 +149,31 @@ watch(
         <div class="row">
           <div class="col-md-auto">
             <div class="pt-2 sticky-top">
-              <div
-                class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto"
-                :style="{ height: '10rem', width: '10rem' }"
-              >
-                illustration
-              </div>
+              <MemberIllustration
+                class="mb-2"
+                :is-male="person.gender"
+                :src="person.picture"
+              />
+              <BDropdown block>
+                <template #button-content>
+                  <FontAwesomeIcon :icon="faImagePolaroidUser" />
+                  {{ $t("button.image") }}
+                </template>
+
+                <BDropdownItem @click="selectPicture">
+                  <FontAwesomeIcon :icon="faFileImage" fixed-width />
+                  {{ $t("action.select") }}
+                </BDropdownItem>
+              </BDropdown>
+              <BFormFile
+                v-model="tempPicture"
+                id="fileInput"
+                class="d-none"
+                plain
+              />
             </div>
           </div>
+
           <div class="col pt-3">
             <h4 class="section">{{ $t("page.title.generalInformation") }}</h4>
             <div class="form-row">

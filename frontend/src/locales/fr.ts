@@ -8,8 +8,13 @@ export default {
     login: "Se connecter",
     logout: "Se déconnecter",
     register: "S'inscrire",
+    remove: "Retirer",
     save: "Enregistrer",
+    select: "Sélectionner",
     update: "Modifier",
+  },
+  button: {
+    image: "Image",
   },
   confirm: {
     treeDeletion:

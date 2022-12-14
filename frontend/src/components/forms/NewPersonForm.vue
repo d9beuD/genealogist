@@ -22,6 +22,7 @@ import {
 import api from "@/api";
 import { useRouter } from "vue-router";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
+import MemberIllustration from "./MemberIllustration.vue";
 
 interface Props {
   treeId: number;
@@ -78,12 +79,7 @@ function onSubmit() {
         <div class="row">
           <div class="col-md-auto">
             <div class="pt-2 sticky-top">
-              <div
-                class="border rounded-pill d-flex align-items-center justify-content-center bg-white mx-auto"
-                :style="{ height: '10rem', width: '10rem' }"
-              >
-                illustration
-              </div>
+              <MemberIllustration :is-male="person.gender" />
             </div>
           </div>
           <div class="col pt-3">
