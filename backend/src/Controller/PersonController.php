@@ -96,13 +96,15 @@ class PersonController extends AbstractController
         return $this->json($person);
     }
 
-    #[Route('/person/{id}', name: 'app_person_delete', methods: ['POST'])]
-    public function delete(Request $request, Person $person, PersonRepository $personRepository): Response
+    #[Route('/person/{id}', name: 'app_person_delete', methods: ['DELETE'])]
+    public function delete(Person $person, PersonRepository $personRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
-            $personRepository->remove($person, true);
+        if ($person->getTree()->getOwner()->getUserIdentifier() !== $this->getUser()->getUserIdentifier()) {
+            throw new AccessDeniedException();
         }
 
-        return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
+        $personRepository->remove($person, true);
+
+        return $this->json($person);
     }
 }

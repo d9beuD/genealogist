@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/pro-duotone-svg-icons";
 import api from "@/api";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
+import { useRouter } from "vue-router";
 
 interface Props {
   treeId: number;
@@ -28,12 +29,14 @@ interface Props {
 }
 
 interface Emits {
+  (e: "deletedMember"): void;
   (e: "updatedMember"): void;
   (e: "submitError"): void;
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+const router = useRouter();
 
 const isLoading = ref(false);
 const person = reactive<Person>({
@@ -70,6 +73,18 @@ function onSubmit() {
     });
 }
 
+function onDelete() {
+  api.people
+    .delete(props.memberId)
+    .then(() => {
+      emit("deletedMember");
+      router.push({ name: "treeMembers" });
+    })
+    .catch(() => {
+      emit("submitError");
+    });
+}
+
 function loadData() {
   return api.people.getMember(props.memberId).then((response) => {
     Object.assign(person, response);
@@ -87,7 +102,7 @@ watch(
 </script>
 
 <template>
-  <MemberToolbar />
+  <MemberToolbar @remove-member="onDelete" />
   <div class="pb-5 flex-scroll">
     <div class="container-fluid">
       <BForm @submit.prevent="onSubmit">

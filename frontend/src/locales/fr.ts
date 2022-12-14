@@ -68,6 +68,7 @@ export default {
   toast: {
     title: {
       success: "Succès !",
+      error: "Erreur !",
     },
     body: {
       memberAdded: "Le nouveau membre a été ajouté.",

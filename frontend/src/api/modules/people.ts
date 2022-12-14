@@ -17,4 +17,8 @@ export default {
   update: (memberId: number, form: Person): Promise<Person> => {
     return instance.put(`/person/${memberId}`, form);
   },
+
+  delete: (memberId: number): Promise<Person | null> => {
+    return instance.delete(`/person/${memberId}`);
+  },
 };

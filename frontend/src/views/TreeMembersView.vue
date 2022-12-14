@@ -11,6 +11,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const members = reactive<Person[]>([]);
 const isLoading = ref(false);
+const showDeleteSuccess = ref(false);
 const showError = ref(false);
 const showAddSuccess = ref(false);
 const showUpdateSuccess = ref(false);
@@ -30,6 +31,11 @@ function loadMembers() {
 
 function onMemberAdded() {
   showAddSuccess.value = true;
+  loadMembers();
+}
+
+function onMemberDeleted() {
+  showDeleteSuccess.value = true;
   loadMembers();
 }
 
@@ -85,6 +91,7 @@ onMounted(() => {
         @newMember="onMemberAdded"
         @updatedMember="onMemberUpdated"
         @submitError="onSubmitError"
+        @deletedMember="onMemberDeleted"
       />
     </div>
   </div>
@@ -92,6 +99,7 @@ onMounted(() => {
     v-model="showAddSuccess"
     variant="success"
     :title="$t('toast.title.success')"
+    solid
   >
     {{ $t("toast.body.memberAdded") }}
   </BToast>
@@ -99,13 +107,23 @@ onMounted(() => {
     v-model="showUpdateSuccess"
     variant="success"
     :title="$t('toast.title.success')"
+    solid
+  >
+    {{ $t("toast.body.memberUpdated") }}
+  </BToast>
+  <BToast
+    v-model="showDeleteSuccess"
+    variant="success"
+    :title="$t('toast.title.success')"
+    solid
   >
     {{ $t("toast.body.memberUpdated") }}
   </BToast>
   <BToast
     v-model="showError"
     variant="danger"
-    :title="$t('toast.title.success')"
+    :title="$t('toast.title.error')"
+    solid
   >
     {{ $t("toast.body.submitError") }}
   </BToast>
