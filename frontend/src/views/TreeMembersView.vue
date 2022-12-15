@@ -37,7 +37,11 @@ onMounted(() => {
             </div>
           </div>
           <div class="col">
-            <BFormInput class="border-0" placeholder="search..." />
+            <BFormInput
+              v-model="treeStore.filter"
+              class="border-0"
+              :placeholder="`${$t('action.search')}...`"
+            />
           </div>
           <div class="col-auto">
             <div class="">
