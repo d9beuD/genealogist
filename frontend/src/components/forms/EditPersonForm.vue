@@ -29,6 +29,8 @@ import api from "@/api";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
 import { useRouter } from "vue-router";
 import MemberIllustration from "./MemberIllustration.vue";
+import { useTreeStore } from "@/stores/trees";
+import trees from "@/api/modules/trees";
 
 interface Props {
   treeId: number;
@@ -44,6 +46,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 const router = useRouter();
+const treeStore = useTreeStore();
 
 const isLoading = ref(false);
 const person = reactive<Person>({
@@ -71,6 +74,7 @@ function onSubmit() {
   api.people
     .update(props.memberId, person)
     .then(() => {
+      treeStore.updateMember(person);
       emit("updatedMember");
     })
     .catch(() => {
@@ -85,6 +89,7 @@ function onDelete() {
   api.people
     .delete(props.memberId)
     .then(() => {
+      treeStore.removeMember(person);
       emit("deletedMember");
       router.push({ name: "treeMembers" });
     })
@@ -94,8 +99,13 @@ function onDelete() {
 }
 
 function loadData() {
+  const storedMember = treeStore.getMember(props.memberId);
+  if (storedMember) {
+    Object.assign(person, storedMember);
+  }
   return api.people.getMember(props.memberId).then((response) => {
     Object.assign(person, response);
+    treeStore.updateMember(response);
   });
 }
 

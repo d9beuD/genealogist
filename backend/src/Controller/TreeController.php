@@ -68,4 +68,10 @@ class TreeController extends AbstractController
         $treeRepository->remove($tree, true);
         return $this->json($tree);
     }
+
+    #[Route('/{id}/members', name: 'app_tree_members', methods: ['GET'])]
+    public function getMembers(Tree $tree): Response
+    {
+        return $this->json($tree->getMembers());
+    }
 }

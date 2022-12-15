@@ -11,11 +11,13 @@ import { baseURL } from "@/api/instance";
 interface Props {
   src?: string | null;
   isMale?: boolean | null;
+  size?: "sm" | "md" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
   src: null,
   isMale: true,
+  size: "lg",
 });
 
 const placeholderIcon = computed(() => {
@@ -29,6 +31,26 @@ const isImageSupplied = computed(() => {
   return props.src !== null;
 });
 
+const size = computed(() => {
+  const sizes = {
+    sm: "2rem",
+    md: "5rem",
+    lg: "10rem",
+  };
+
+  return sizes[props.size];
+});
+
+const fontSize = computed(() => {
+  const sizes = {
+    sm: "1.25rem",
+    md: "3rem",
+    lg: "5.5rem",
+  };
+
+  return sizes[props.size];
+});
+
 const classes = computed(() => {
   const list = [
     "border",
@@ -38,14 +60,17 @@ const classes = computed(() => {
     "justify-content-center",
     "bg-white",
     "mx-auto",
-    "display-2",
   ];
 
   return list;
 });
 
 const style = computed(() => {
-  const styles = { height: "10rem", width: "10rem" };
+  const styles = {
+    height: size.value,
+    width: size.value,
+    fontSize: fontSize.value,
+  };
 
   if (isImageSupplied.value) {
     const encoded = encodeURI(`${baseURL}${props.src}`);
@@ -63,6 +88,14 @@ const style = computed(() => {
 
 <template>
   <div :class="classes" :style="style">
-    <FontAwesomeIcon v-if="props.src === null" :icon="placeholderIcon" />
+    <FontAwesomeIcon
+      v-if="props.src === null"
+      :icon="placeholderIcon"
+      :style="{
+        '--fa-secondary-opacity': 1,
+        '--fa-secondary-color': '#ffd6b3',
+        '--fa-primary-color': '#462e1c',
+      }"
+    />
   </div>
 </template>

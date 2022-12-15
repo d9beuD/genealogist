@@ -18,17 +18,6 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class PersonController extends AbstractController
 {
-    #[Route('/tree/{id}/members', name: 'app_tree_members', methods: ['GET'])]
-    public function getTreeMembers(Request $request, Tree $tree, PersonRepository $personRepository): Response
-    {
-        return $this->json([
-            'data' => $personRepository->findTreeMembers($tree, $request),
-            'count' => $personRepository->findTreeMembersCount($tree),
-            'limit' => PaginationService::getLimit($request),
-            'offset' => PaginationService::getOffset($request),
-        ]);
-    }
-
     #[Route('/tree/{id}/members', name: 'app_person_new', methods: ['POST'])]
     public function new(
         Request $request,
