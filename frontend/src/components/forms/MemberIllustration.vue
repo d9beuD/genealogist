@@ -63,6 +63,14 @@ const style = computed(() => {
 
 <template>
   <div :class="classes" :style="style">
-    <FontAwesomeIcon v-if="props.src === null" :icon="placeholderIcon" />
+    <FontAwesomeIcon
+      v-if="props.src === null"
+      :icon="placeholderIcon"
+      :style="{
+        '--fa-secondary-opacity': 1,
+        '--fa-secondary-color': '#ffd6b3',
+        '--fa-primary-color': '#462e1c',
+      }"
+    />
   </div>
 </template>
