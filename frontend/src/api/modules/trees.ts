@@ -1,5 +1,5 @@
 import instance from "../instance";
-import type { APIList, Tree, treeForm } from "../types";
+import type { APIList, Person, Tree, treeForm } from "../types";
 
 export default {
   add: (form: treeForm): Promise<Tree> => {
@@ -20,5 +20,9 @@ export default {
 
   delete: (tree: Tree): Promise<Tree | null> => {
     return instance.delete(`/tree/${tree.id}`);
+  },
+
+  getMembers: (treeId: number): Promise<Person[]> => {
+    return instance.get(`/tree/${treeId}/members`);
   },
 };

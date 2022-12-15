@@ -23,6 +23,7 @@ import api from "@/api";
 import { useRouter } from "vue-router";
 import MemberToolbar from "../toolbars/MemberToolbar.vue";
 import MemberIllustration from "./MemberIllustration.vue";
+import { useTreeStore } from "@/stores/trees";
 
 interface Props {
   treeId: number;
@@ -36,6 +37,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 const router = useRouter();
+const treeStore = useTreeStore();
 
 const isLoading = ref(false);
 const person = reactive<personForm>({
@@ -59,6 +61,7 @@ function onSubmit() {
   api.people
     .add(props.treeId, person)
     .then((response) => {
+      treeStore.addMember(response);
       emit("newMember");
       router.push({ name: "showMember", params: { memberId: response.id } });
     })

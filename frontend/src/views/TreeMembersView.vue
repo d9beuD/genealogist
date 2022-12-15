@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import api from "@/api";
-import type { Person } from "@/api/types";
 import MemberList from "@/components/lists/MemberList.vue";
+import { useTreeStore } from "@/stores/trees";
 import { faBarsFilter, faPlus } from "@fortawesome/pro-duotone-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton, BFormInput, BToast } from "bootstrap-vue";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const members = reactive<Person[]>([]);
-const isLoading = ref(false);
+const treeStore = useTreeStore();
 const showDeleteSuccess = ref(false);
 const showError = ref(false);
 const showAddSuccess = ref(false);
@@ -20,37 +18,8 @@ const isListCentered = computed(() => {
   return route.name === "treeMembers";
 });
 
-function loadMembers() {
-  return api.people
-    .getTreeMembers(route.params.treeId as unknown as number)
-    .then((data) => {
-      members.splice(0, members.length);
-      members.push(...data.data);
-    });
-}
-
-function onMemberAdded() {
-  showAddSuccess.value = true;
-  loadMembers();
-}
-
-function onMemberDeleted() {
-  showDeleteSuccess.value = true;
-  loadMembers();
-}
-
-function onMemberUpdated() {
-  showUpdateSuccess.value = true;
-  loadMembers();
-}
-
-function onSubmitError() {
-  showError.value = true;
-}
-
 onMounted(() => {
-  isLoading.value = true;
-  loadMembers().finally(() => (isLoading.value = false));
+  treeStore.loadTree(route.params.treeId as unknown as number);
 });
 </script>
 
@@ -80,18 +49,18 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex-scroll">
-        <MemberList :members="members" />
+        <MemberList />
         <div class="text-center text-secondary py-3">
-          {{ $tc("list.memberCount", members.length) }}
+          {{ $tc("list.memberCount", treeStore.orderedMembers.length) }}
         </div>
       </div>
     </div>
     <div class="col col-scroll">
       <RouterView
-        @newMember="onMemberAdded"
-        @updatedMember="onMemberUpdated"
-        @submitError="onSubmitError"
-        @deletedMember="onMemberDeleted"
+        @newMember="showAddSuccess = true"
+        @deletedMember="showDeleteSuccess = true"
+        @updatedMember="showUpdateSuccess = true"
+        @submitError="showError = true"
       />
     </div>
   </div>
