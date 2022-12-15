@@ -69,7 +69,7 @@ class TreeController extends AbstractController
         return $this->json($tree);
     }
 
-    #[Route('/tree/{id}/members', name: 'app_tree_members', methods: ['GET'])]
+    #[Route('/{id}/members', name: 'app_tree_members', methods: ['GET'])]
     public function getMembers(Tree $tree): Response
     {
         return $this->json($tree->getMembers());
