@@ -1,4 +1,6 @@
-export const baseURL = import.meta.env.DEV ? "http://localhost:8000/" : "";
+export const baseURL = import.meta.env.DEV
+  ? "http://localhost:8000/"
+  : "https://api.genealogist.d9beud.com";
 const defaultConfig: RequestInit = {
   headers: {
     "Content-Type": "application/json",
