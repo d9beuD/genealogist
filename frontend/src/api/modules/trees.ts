@@ -1,12 +1,12 @@
 import instance from "../instance";
-import type { APIList, Person, Tree, treeForm } from "../types";
+import type { Person, Tree, treeForm } from "../types";
 
 export default {
   add: (form: treeForm): Promise<Tree> => {
     return instance.post("/tree", form);
   },
 
-  list: (): Promise<APIList<Tree>> => {
+  list: (): Promise<Tree[]> => {
     return instance.get("/tree");
   },
 

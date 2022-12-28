@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tree;
 use App\Entity\User;
-use App\Form\TreeType;
 use App\Repository\TreeRepository;
-use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,16 +16,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class TreeController extends AbstractController
 {
     #[Route('/', name: 'app_tree_index', methods: ['GET'])]
-    public function index(TreeRepository $treeRepository, Request $request): Response
+    public function index(#[CurrentUser] User $user): Response
     {
-        $trees = $treeRepository->findAllPaginated($request);
-
-        return $this->json([
-            'data' => $trees,
-            'count' => $treeRepository->findAllCount(),
-            'limit' => PaginationService::getLimit($request),
-            'offset' => PaginationService::getOffset($request),
-        ]);
+        return $this->json($user->getTrees());
     }
 
     #[Route('', name: 'app_tree_new', methods: ['POST'])]
