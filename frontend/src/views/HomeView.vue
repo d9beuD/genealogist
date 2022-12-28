@@ -12,7 +12,7 @@ const isLoading = ref(false);
 function loadData() {
   return api.trees.list().then((data) => {
     trees.splice(0, trees.length);
-    trees.push(...data.data);
+    trees.push(...data);
   });
 }
 
