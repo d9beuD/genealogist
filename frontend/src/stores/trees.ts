@@ -10,9 +10,30 @@ export const useTreeStore = defineStore("trees", () => {
   const tree = ref<Tree | null>(
     JSON.parse(localStorage.getItem("app.content.tree.id") ?? "null")
   );
+  const filter = ref("");
 
-  const orderedMembers = computed(() => {
-    return [...members].sort((a, b) => {
+  const filteredMembers = computed<Person[]>(() => {
+    if (filter.value.length === 0) {
+      return [...members];
+    }
+    const regex = new RegExp(
+      filter.value.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+      "i"
+    );
+    return [
+      ...members.filter((member: Person) => {
+        return (
+          `${member.lastname} ${member.firstname}`
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .search(regex) > -1
+        );
+      }),
+    ];
+  });
+
+  const orderedMembers = computed<Person[]>(() => {
+    return [...filteredMembers.value].sort((a, b) => {
       return `${a.lastname} ${a.firstname}`.localeCompare(
         `${b.lastname} ${b.firstname}`
       );
@@ -93,6 +114,7 @@ export const useTreeStore = defineStore("trees", () => {
 
   return {
     tree,
+    filter,
     orderedMembers,
     groupedMembers,
     loadTree,

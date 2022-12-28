@@ -10,6 +10,7 @@ export default {
     register: "Register",
     remove: "Remove",
     save: "Save",
+    search: "Search",
     select: "Select",
     update: "Update",
   },

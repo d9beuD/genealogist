@@ -99,7 +99,7 @@ function onDelete() {
 }
 
 function loadData() {
-  const storedMember = treeStore.getMember(props.memberId);
+  const storedMember = treeStore.getMember(props.memberId.toString());
   if (storedMember) {
     Object.assign(person, storedMember);
   }
