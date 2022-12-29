@@ -27,7 +27,7 @@ jobs:
         run: |
           cd backend
           touch .env.local
-          echo "DATABASE_URL=\"${{.secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
+          echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
           echo "APP_ENV=prod" >> .env.local
           composer dump-env .env.local
       
