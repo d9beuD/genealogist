@@ -22,6 +22,7 @@ jobs:
       - name: Build
         run: |
           cd frontend
+          yarn global add vite
           yarn build-only
       
       - name: Deploy
