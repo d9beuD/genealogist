@@ -1,0 +1,19 @@
+name: Vue to Github Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_vue:
+    runs-on: ubuntu-latest
+    name: Build Vue
+    steps:
+    - uses: actions/checkout@v2
+    - id: Build-Vue
+      uses: xRealNeon/VuePagesAction@1.0.1
+      with:
+        username: 'd9beuD'
+        reponame: 'genealogist'
+        token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
