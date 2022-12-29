@@ -18,19 +18,20 @@ jobs:
           cache: yarn
           cache-dependency-path: frontend/yarn.lock
 
-      - name: Move to frontend
-        run: cd frontend
-
       - name: Setup Font Awesome
         run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
           npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FA_TOKEN }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          cd frontend
+          yarn install --frozen-lockfile
         
       - name: Build
-        run: yarn build-only
+        run: |
+          cd frontend
+          yarn build-only
       
       - name: Setup Pages
         uses: actions/configure-pages@v2
