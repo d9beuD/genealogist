@@ -17,12 +17,12 @@ jobs:
           node-version: 16
           cache: yarn
           cache-dependency-path: frontend/yarn.lock
-      - run: yarn install --frozen-lockfile
 
       - name: Build
         run: |
           cd frontend
-          yarn global add vite
+          yarn install --frozen-lockfile
+          yarn install
           yarn build-only
       
       - name: Deploy
