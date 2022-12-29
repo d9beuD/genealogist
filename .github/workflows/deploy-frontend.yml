@@ -18,3 +18,5 @@ jobs:
         username: 'd9beuD'
         reponame: 'genealogist'
         token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
+        script: |
+          cd frontend
