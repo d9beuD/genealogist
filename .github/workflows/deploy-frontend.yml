@@ -18,18 +18,28 @@ jobs:
           cache: yarn
           cache-dependency-path: frontend/yarn.lock
 
-      - name: Build
+      - name: Move to frontend
+        run: cd frontend
+
+      - name: Setup Font Awesome
         run: |
-          cd frontend
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
           npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FA_TOKEN }}
-          yarn install --frozen-lockfile
-          yarn install
-          yarn build-only
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        
+      - name: Build
+        run: yarn build-only
       
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vitepress/dist
-          cname: genealogist.d9beud.com
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
