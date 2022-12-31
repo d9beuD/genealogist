@@ -32,7 +32,7 @@ jobs:
           composer dump-env .env.local
       
       - name: Upload to hosting FTP
-        uses: SamKirkland/FTP-Deploy-Action@v3
+        uses: SamKirkland/FTP-Deploy-Action@3
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
