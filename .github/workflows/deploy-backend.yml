@@ -32,13 +32,17 @@ jobs:
           composer dump-env .env.local
       
       - name: Upload to hosting FTP
-        uses: dennisameling/ftp-upload-action@v1
+        uses: SamKirkland/FTP-Deploy-Action@v3
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_dir: ./backend/
-          server_dir: ./com.d9beud.com.genealogist.api/
-          secure: false
+          local-dir: ./backend/
+          server-dir: ./com.d9beud.com.genealogist.api/
+          security: loose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            var/cache/**
 
         
