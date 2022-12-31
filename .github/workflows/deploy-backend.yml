@@ -39,5 +39,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local_dir: ./backend/
           server_dir: ./com.d9beud.com.genealogist.api/
+          secure: false
 
         
