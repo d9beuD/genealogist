@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md border-bottom shadow-sm">
+    <div class="container">
+        <a href="/" class="navbar-brand">
+            <i 
+                class="fa-duotone fa-tree"
+                style="
+                    --fa-secondary-opacity: 1.0;
+                    --fa-primary-color: sienna;
+                    --fa-secondary-color: olivedrab;
+                "
+            ></i>
+            Geneaolist
+        </a>
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0"></ul>
+
+            {% if is_granted('ROLE_USER') %}
+            {% else %}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="btn btn-primary">S'inscrire</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
