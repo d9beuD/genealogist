@@ -1,0 +1,18 @@
+.form-small {
+    max-width: 20rem;
+}
+
+.form-medium {
+    max-width: 30rem;
+}
+
+.form-large {
+    max-width: 40rem;
+}
+
+.form-small,
+.form-medium,
+.form-large {
+    margin-left: auto;
+    margin-right: auto;
+}
