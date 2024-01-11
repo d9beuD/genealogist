@@ -24,7 +24,15 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0"></ul>
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_tree_index') }}" class="nav-link">
+                            Arbres
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
 
             <ul class="navbar-nav">
                 {% if is_granted('ROLE_USER') %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tree{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        {{ tree.members | join(', ') }}
+    </div>
+</section>
+{% endblock %}

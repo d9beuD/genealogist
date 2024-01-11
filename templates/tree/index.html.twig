@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes projets{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <h1>Mes projets</h1>
+
+        <div class="row g-3">
+            {% for tree in trees %}
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="bg-body rounded p-3 shadow-sm h-100">
+                        <div class="row gx-1">
+                            <div class="col">
+                                <h2 class="h5">Arbre #{{ tree.id }}</h2>
+                            </div>
+                            <div class="col-auto">
+                                <div class="dropdown">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-light rounded-pill dropdown-toggle no-caret p-0"
+                                        style="width: 2em; height: 2em;"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><h6 class="dropdown-header">Actions</h6></li>
+                                        <li>
+                                            <a href="{{ path('app_tree_show', {'id': tree.id}) }}" class="dropdown-item">
+                                                <i class="fa-solid fa-fw fa-eye"></i>
+                                                Afficher
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('app_tree_edit', {'id': tree.id}) }}" class="dropdown-item">
+                                                <i class="fa-solid fa-fw fa-pen-to-square"></i>
+                                                Modifier
+                                            </a>
+                                        </li>
+                                        <li>
+                                            {% include "tree/_delete_form_dropdown.html.twig" %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-secondary">{{ tree.createdAt ? tree.createdAt|date('d/m/Y') : '' }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="bg-body rounded p-3 shadow-sm h-100 d-flex justify-content-center align-items-center display-5 position-relative">
+                    <a href="{{ path('app_tree_new') }}" class="stretched-link">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+{% endblock %}

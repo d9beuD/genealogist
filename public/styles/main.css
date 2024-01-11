@@ -16,3 +16,11 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.table-responsive > .table tr:last-child > td {
+    border-bottom: none;
+}
+
+.no-caret::after {
+    content: none !important;
+}
