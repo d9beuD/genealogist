@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Person;
 use App\Entity\Tree;
 use App\Entity\User;
+use App\Form\MembersSearchType;
 use App\Form\TreeType;
 use App\Repository\TreeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,8 +42,20 @@ class TreeController extends AbstractController
     #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree): Response
     {
+        $form = $this->createForm(MembersSearchType::class);
+        $members = $tree->getMembers();
+        $groupedMembers = array_reduce($members->toArray(), function (array $groupedMembers, Person $member) {
+            $firstLetter = strtoupper(mb_substr($member->getLastname(), 0, 1));
+            $groupedMembers[$firstLetter][] = $member;
+
+            return $groupedMembers;
+        }, []);
+
         return $this->render('tree/show.html.twig', [
             'tree' => $tree,
+            'form' => $form->createView(),
+            'grouped_members' => $groupedMembers,
+            'members_count' => $members->count(),
         ]);
     }
 

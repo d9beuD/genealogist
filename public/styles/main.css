@@ -24,3 +24,7 @@
 .no-caret::after {
     content: none !important;
 }
+
+.tree-member-item:hover {
+    background-color: var(--bs-tertiary-bg);
+}

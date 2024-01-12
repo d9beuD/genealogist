@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+    {{ form_row(form.portrait) }}
+
+    <div class="row g-2">
+        <div class="col-6">
+            {{ form_row(form.firstname) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.lastname) }}
+        </div>
+    </div>
+    {{ form_row(form.bio) }}
+    {{ form_row(form.birth) }}
+
+    <div class="mb-3">
+        {{ form_row(form.birthDaySure) }}
+        {{ form_row(form.birthMonthSure) }}
+        {{ form_row(form.birthYearSure) }}
+    </div>
+
+    {{ form_row(form.death) }}
+
+    <div class="mb-3">
+        {{ form_row(form.deathDaySure) }}
+        {{ form_row(form.deathMonthSure) }}
+        {{ form_row(form.deathYearSure) }}
+    </div>
+
+    <div class="row g-1 justify-content-end">
+        <div class="col-auto">
+            <a href="{{ path('app_tree_show', { id: tree.id }) }}" class="btn btn-secondary">Annuler</a>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}

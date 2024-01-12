@@ -49,8 +49,8 @@ class Person
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portrait = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $bio = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $bio = '';
 
     #[ORM\ManyToMany(targetEntity: Union::class, mappedBy: 'people')]
     private Collection $unions;
@@ -209,7 +209,7 @@ class Person
         return $this->bio;
     }
 
-    public function setBio(string $bio): static
+    public function setBio(?string $bio): static
     {
         $this->bio = $bio;
 

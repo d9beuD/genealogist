@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Person{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <h1>Ajouter un membre</h1>
+
+        {{ include('person/_form.html.twig') }}
+    </div>
+</section>
+{% endblock %}

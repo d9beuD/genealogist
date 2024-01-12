@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Person{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <h1>Modifier une personne</h1>
+
+        {{ include('person/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+</section>
+{% endblock %}
