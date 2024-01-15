@@ -61,15 +61,21 @@ class PersonController extends AbstractController
         Person $person, 
         EntityManagerInterface $entityManager,
         #[MapEntity(id: 'treeId')] Tree $tree,
+        ImageManager $imageManager,
     ): Response
     {
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('portrait')->getData()) {
+                $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $imageManager->remove($person->getPortrait());
+                $person->setPortrait($path);
+            }
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('person/edit.html.twig', [

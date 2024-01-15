@@ -5,9 +5,19 @@
 {% block body %}
 <section class="py-5">
     <div class="container">
-        <h1>Modifier une personne</h1>
+        <h1 class="mb-3">Modifier une personne</h1>
 
-        {{ include('person/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        <div class="row gx-4 gy-3">
+            {% if person.portrait %}
+                <div class="col-8 col-sm-6 col-md-3">
+                    <img src="/pictures/{{ person.portrait }}" alt="Person profile picture" class="img-fluid rounded-5">
+                </div>
+            {% endif %}
+
+            <div class="col-12 col-md">
+                {{ include('person/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
