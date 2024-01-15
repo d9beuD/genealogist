@@ -77,6 +77,15 @@ class Person
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $birthName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $otherNames = null;
+
+    #[ORM\Column(length: 60, nullable: true)]
+    private ?string $birthPlace = null;
+
+    #[ORM\Column(length: 60, nullable: true)]
+    private ?string $deathPlace = null;
+
     public function __construct()
     {
         $this->unions = new ArrayCollection();
@@ -314,6 +323,42 @@ class Person
     public function setBirthName(?string $birthName): static
     {
         $this->birthName = $birthName;
+
+        return $this;
+    }
+
+    public function getOtherNames(): ?string
+    {
+        return $this->otherNames;
+    }
+
+    public function setOtherNames(?string $otherNames): static
+    {
+        $this->otherNames = $otherNames;
+
+        return $this;
+    }
+
+    public function getBirthPlace(): ?string
+    {
+        return $this->birthPlace;
+    }
+
+    public function setBirthPlace(?string $birthPlace): static
+    {
+        $this->birthPlace = $birthPlace;
+
+        return $this;
+    }
+
+    public function getDeathPlace(): ?string
+    {
+        return $this->deathPlace;
+    }
+
+    public function setDeathPlace(?string $deathPlace): static
+    {
+        $this->deathPlace = $deathPlace;
 
         return $this;
     }

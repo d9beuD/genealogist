@@ -8,20 +8,33 @@
         <div class="col-6 col-md-4">
             {{ form_row(form.lastname) }}
         </div>
-        <div class="col-md-4">
+        <div class="col-6 col-md-4">
             {{ form_row(form.birthName) }}
+        </div>
+        <div class="col-6 col-md-6">
+            {{ form_row(form.otherNames) }}
         </div>
     </div>
 
     {{ form_row(form.gender) }}
     {{ form_row(form.bio) }}
-    {{ form_row(form.birth) }}
 
-    <div class="mb-3">
-        {{ form_row(form.birthDaySure) }}
-        {{ form_row(form.birthMonthSure) }}
-        {{ form_row(form.birthYearSure) }}
+    <div class="row g-2">
+        <div class="col-md-6 order-1">
+            {{ form_row(form.birth) }}
+        </div>
+        <div class="col order-2 order-md-3">
+            <div class="mb-3">
+                {{ form_row(form.birthDaySure) }}
+                {{ form_row(form.birthMonthSure) }}
+                {{ form_row(form.birthYearSure) }}
+            </div>
+        </div>
+        <div class="col-md-6 order-3 order-md-2">
+            {{ form_row(form.birthPlace) }}
+        </div>
     </div>
+
 
     {{ form_row(form.dead, { attr: {
         'data-bs-toggle': 'collapse',
@@ -29,13 +42,22 @@
     } }) }}
     
     <div class="collapse{{ form.dead.vars.data ? ' show':'' }}" id="death-form-collapse">
-        {{ form_row(form.death) }}
-
-        <div class="mb-3">
-            {{ form_row(form.deathDaySure) }}
-            {{ form_row(form.deathMonthSure) }}
-            {{ form_row(form.deathYearSure) }}
+        <div class="row g-2">
+            <div class="col-md-6 order-1">
+                {{ form_row(form.death) }}
+            </div>
+            <div class="col order-2 order-md-3">
+                <div class="mb-3">
+                    {{ form_row(form.deathDaySure) }}
+                    {{ form_row(form.deathMonthSure) }}
+                    {{ form_row(form.deathYearSure) }}
+                </div>
+            </div>
+            <div class="col-md-6 order-3 order-md-2">
+                {{ form_row(form.deathPlace) }}
+            </div>
         </div>
+
     </div>
 
     <div class="row g-1 justify-content-end">

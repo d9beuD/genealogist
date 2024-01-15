@@ -37,10 +37,18 @@ class PersonType extends AbstractType
                 'label' => 'Nom de naissance',
                 'required' => false,
             ])
+            ->add('otherNames', TextType::class, [
+                'label' => 'Autres noms',
+                'required' => false,
+            ])
             ->add('bio', TextareaType::class, [
                 'required' => false,
             ])
             ->add('birth')
+            ->add('birthPlace', TextType::class, [
+                'label' => 'Lieu de naissance',
+                'required' => false,
+            ])
             ->add('birthDaySure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Jour certain',
@@ -72,6 +80,10 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('death')
+            ->add('deathPlace', TextType::class, [
+                'label' => 'Lieu de décès',
+                'required' => false,
+            ])
             ->add('deathDaySure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Jour certain',
