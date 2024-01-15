@@ -7,19 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
+    const FEMALE = 0;
+    const MALE = 1;
+    const OTHER = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, options: ['default' => ''], nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 30, nullable: true)]
+    #[ORM\Column(length: 30, options:['default' => ''], nullable: true)]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -61,6 +66,16 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tree $tree = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Assert\Choice(choices: [self::FEMALE, self::MALE, self::OTHER])]
+    private ?int $gender = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $dead = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $birthName = null;
 
     public function __construct()
     {
@@ -263,6 +278,42 @@ class Person
     public function setTree(?Tree $tree): static
     {
         $this->tree = $tree;
+
+        return $this;
+    }
+
+    public function getGender(): ?int
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?int $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function isDead(): ?bool
+    {
+        return $this->dead;
+    }
+
+    public function setDead(bool $dead): static
+    {
+        $this->dead = $dead;
+
+        return $this;
+    }
+
+    public function getBirthName(): ?string
+    {
+        return $this->birthName;
+    }
+
+    public function setBirthName(?string $birthName): static
+    {
+        $this->birthName = $birthName;
 
         return $this;
     }

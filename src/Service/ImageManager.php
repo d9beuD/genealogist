@@ -15,7 +15,8 @@ class ImageManager
         private SluggerInterface $slugger,
         private ParameterBagInterface $params,
         private LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function save(UploadedFile $uploadedFile, ?Request $request = null): ?string
     {
@@ -30,10 +31,6 @@ class ImageManager
             );
         } catch (FileException $e) {
             $this->logger->error($e->getMessage());
-
-            if ($request) {
-                // $request->getSession()->getFlashBag()->add('danger', 'Une erreur est survenue lors de l\'enregistrement de l\'image.');
-            }
         }
 
         return $newFilename;

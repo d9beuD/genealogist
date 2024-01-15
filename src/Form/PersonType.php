@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,8 +25,18 @@ class PersonType extends AbstractType
                     'accept' => 'image/*',
                 ],
             ])
-            ->add('firstname')
-            ->add('lastname')
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'required' => false,
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
+                'required' => false,
+            ])
+            ->add('birthName', TextType::class, [
+                'label' => 'Nom de naissance',
+                'required' => false,
+            ])
             ->add('bio', TextareaType::class, [
                 'required' => false,
             ])
@@ -88,6 +100,28 @@ class PersonType extends AbstractType
                 ],
                 'row_attr' => [
                     'class' => 'd-inline'
+                ],
+            ])
+            ->add('dead', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Décédé',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('gender', ChoiceType::class, [
+                'label' => 'Genre',
+                'choices' => [
+                    'Homme' => Person::MALE,
+                    'Femme' => Person::FEMALE,
+                    'Autre' => Person::OTHER,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'radio-inline'
                 ],
             ])
         ;

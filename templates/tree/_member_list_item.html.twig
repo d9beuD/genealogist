@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">
+        {{ member.lastname | upper }} {{ member.firstname }}
+        {% if member.isDead %}
+            <span class="text-secondary ms-1">
+                <i class="fa-solid fa-cross"></i>
+            </span>
+        {% endif %}
+    </div>
+    
+    <div class="col-auto">
+        <div class="row g-2">
+            <div class="col-auto">
+                <a 
+                    href="{{ path('app_person_edit', {treeId: tree.id, id: member.id}) }}" 
+                    class="link-icon"
+                >
+                    <i class="fa-solid fa-edit"></i>
+                </a>
+            </div>
+            <div class="col-auto">
+                {{ include('person/_delete_form.html.twig', { person: member }) }}
+            </div>
+        </div>
+    </div>
+</div>

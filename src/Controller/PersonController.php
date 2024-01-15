@@ -28,11 +28,20 @@ class PersonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$person->isDead()) {
+                $person->setDeath(null);
+                $person->setDeathDaySure(false);
+                $person->setDeathMonthSure(false);
+                $person->setDeathYearSure(false);
+            }
+
             if ($form->get('portrait')->getData()) {
                 $path = $imageManager->save($form->get('portrait')->getData(), $request);
                 $person->setPortrait($path);
             }
+
             $tree->addMember($person);
+
             $entityManager->persist($person);
             $entityManager->flush();
 
@@ -66,11 +75,19 @@ class PersonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$person->isDead()) {
+                $person->setDeath(null);
+                $person->setDeathDaySure(false);
+                $person->setDeathMonthSure(false);
+                $person->setDeathYearSure(false);
+            }
+
             if ($form->get('portrait')->getData()) {
                 $path = $imageManager->save($form->get('portrait')->getData(), $request);
                 $imageManager->remove($person->getPortrait());
                 $person->setPortrait($path);
             }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);

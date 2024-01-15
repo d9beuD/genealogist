@@ -2,13 +2,18 @@
     {{ form_row(form.portrait) }}
 
     <div class="row g-2">
-        <div class="col-6">
+        <div class="col-6 col-md-4">
             {{ form_row(form.firstname) }}
         </div>
-        <div class="col-6">
+        <div class="col-6 col-md-4">
             {{ form_row(form.lastname) }}
         </div>
+        <div class="col-md-4">
+            {{ form_row(form.birthName) }}
+        </div>
     </div>
+
+    {{ form_row(form.gender) }}
     {{ form_row(form.bio) }}
     {{ form_row(form.birth) }}
 
@@ -18,12 +23,19 @@
         {{ form_row(form.birthYearSure) }}
     </div>
 
-    {{ form_row(form.death) }}
+    {{ form_row(form.dead, { attr: {
+        'data-bs-toggle': 'collapse',
+        'data-bs-target': '#death-form-collapse',
+    } }) }}
+    
+    <div class="collapse{{ form.dead.vars.data ? ' show':'' }}" id="death-form-collapse">
+        {{ form_row(form.death) }}
 
-    <div class="mb-3">
-        {{ form_row(form.deathDaySure) }}
-        {{ form_row(form.deathMonthSure) }}
-        {{ form_row(form.deathYearSure) }}
+        <div class="mb-3">
+            {{ form_row(form.deathDaySure) }}
+            {{ form_row(form.deathMonthSure) }}
+            {{ form_row(form.deathYearSure) }}
+        </div>
     </div>
 
     <div class="row g-1 justify-content-end">

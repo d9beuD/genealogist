@@ -44,7 +44,18 @@ class TreeController extends AbstractController
     {
         $form = $this->createForm(MembersSearchType::class);
         $members = $tree->getMembers();
-        $groupedMembers = array_reduce($members->toArray(), function (array $groupedMembers, Person $member) {
+        $orderedMembers = $members->toArray();
+
+        usort($orderedMembers, function($a, $b) {
+            $lastNameComparison = strcmp($a->getLastName(), $b->getLastName());
+            if ($lastNameComparison == 0) {
+                // If last names are equal, sort by first name
+                return strcmp($a->getFirstName(), $b->getFirstName());
+            }
+            return $lastNameComparison;
+        });
+        
+        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member) {
             $firstLetter = strtoupper(mb_substr($member->getLastname(), 0, 1));
             $groupedMembers[$firstLetter][] = $member;
 
