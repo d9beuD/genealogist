@@ -25,3 +25,4 @@
 ###< symfony/asset-mapper ###
 
 .DS_Store
+public/pictures

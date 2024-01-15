@@ -31,6 +31,7 @@ class PersonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('portrait')->getData()) {
                 $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $person->setPortrait($path);
             }
             $tree->addMember($person);
             $entityManager->persist($person);
