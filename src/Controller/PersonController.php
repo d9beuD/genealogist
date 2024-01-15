@@ -86,13 +86,21 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_person_delete', methods: ['POST'])]
-    public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Person $person,
+        EntityManagerInterface $entityManager,
+        ImageManager $imageManager,
+        Tree $tree
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
+            if ($person->getPortrait()) {
+                $imageManager->remove($person->getPortrait());
+            }
             $entityManager->remove($person);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
 }
