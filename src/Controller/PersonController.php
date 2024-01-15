@@ -18,12 +18,11 @@ class PersonController extends AbstractController
 {
     #[Route('/new', name: 'app_person_new', methods: ['GET', 'POST'])]
     public function new(
-        Request $request, 
+        Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(id: 'treeId')] Tree $tree,
         ImageManager $imageManager,
-    ): Response 
-    {
+    ): Response {
         $person = new Person();
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
@@ -57,13 +56,12 @@ class PersonController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request $request, 
-        Person $person, 
+        Request $request,
+        Person $person,
         EntityManagerInterface $entityManager,
         #[MapEntity(id: 'treeId')] Tree $tree,
         ImageManager $imageManager,
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
 
