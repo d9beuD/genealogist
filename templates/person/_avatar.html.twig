@@ -23,8 +23,15 @@
             </div>
         </div>
 
-        <div class="col-auto fw-bold">
-            {{ person.firstname }} {{ person.lastname | upper }}
+        <div class="col-auto">
+            <div class="fw-bold">
+                {{ person.firstname }} {{ person.lastname | upper }}
+            </div>
+            {% if person.birth %}
+                <div class="text-secondary small">
+                    {{ person.birth | date('d/m/Y') }}
+                </div>
+            {% endif %}
         </div>
 
         {% if with_actions is defined and with_actions %}
