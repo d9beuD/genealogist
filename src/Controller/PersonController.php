@@ -78,4 +78,11 @@ class PersonController extends AbstractController
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
+    public function tree(Person $person): Response {
+        return $this->render('person/show_tree.html.twig', [
+            'person' => $person,
+        ]);
+    }
 }

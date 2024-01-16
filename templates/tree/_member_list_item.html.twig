@@ -21,6 +21,14 @@
         <div class="row g-2">
             <div class="col-auto">
                 <a 
+                    href="{{ path('app_person_tree', { id: member.id }) }}" 
+                    class="link-icon"
+                >
+                    <i class="fa-solid fa-tree"></i>
+                </a>
+            </div>
+            <div class="col-auto">
+                <a 
                     href="{{ path('app_person_edit', { id: member.id }) }}" 
                     class="link-icon"
                 >

@@ -136,3 +136,28 @@
     width: var(--link-length);
     height: 0;
 }
+
+.tree-link {
+    --link-color: var(--bs-secondary);
+    --link-width: .25rem;
+    --link-radius: .5rem;
+    width: 50%;
+    height: 1rem;
+    border-bottom: var(--link-width) solid var(--link-color);
+}
+
+.tree-link.tree-link-start {
+    border-right: var(--link-width) solid var(--link-color);
+    border-bottom-right-radius: var(--link-radius);
+}
+
+.tree-link.tree-link-end {
+    border-left: var(--link-width) solid var(--link-color);
+    border-bottom-left-radius: var(--link-radius);
+}
+
+.tree-link.tree-link-center {
+    border-left: var(--link-width) solid var(--link-color);
+    border-bottom: none;
+    width: 0;
+}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Arbre de {{ person.firstname }} {{ person.lastname | upper }}{% endblock %}
+
+{% block body %}
+<div class="bg-body border-bottom shadow-sm py-2">
+    <div class="container">
+        <a href="{{ path('app_tree_show', { id: person.tree.id }) }}" class="link-icon text-decoration-none">
+            <i class="fa-solid fa-chevron-left"></i>
+            Retour à l'arbre
+        </a>
+    </div>
+</div>
+<section id="tree" class="py-5">
+    <div class="mw-100 overflow-scroll">
+        {{ include('tree/tree.html.twig', { person: person }) }}
+    </div>
+</section>
+{% endblock %}
