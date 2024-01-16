@@ -71,18 +71,25 @@ class UnionController extends AbstractController
                 'id' => $union->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
+
+        $treeMember = $person->getTree()->getMembers()->toArray();
+        $unionMembers = [
+            ...$union->getPeople()->toArray(),
+            ...$union->getChildren()->toArray()
+        ];
         
         return $this->render('union/edit.html.twig', [
             'union' => $union,
             'form' => $form,
             'person' => $person,
-            'personForm' => $this->createForm(PersonSelectType::class, null, [
-                'available_members' => $person->getTree()->getMembers()->toArray(),
-                'union_members' => [
-                    ...$union->getPeople()->toArray(),
-                    ...$union->getChildren()->toArray()
-                ],
-            ])
+            'partner_form' => $this->createForm(PersonSelectType::class, null, [
+                'available_members' => $treeMember,
+                'union_members' => $unionMembers,
+            ]),
+            'child_form' => $this->createForm(PersonSelectType::class, null, [
+                'available_members' => $treeMember,
+                'union_members' => $unionMembers,
+            ]),
         ]);
     }
 

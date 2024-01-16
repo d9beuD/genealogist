@@ -36,11 +36,11 @@
 
         {% if union.people | length < 2 %}
             <h3>Ajouter un conjoint</h3>
-            {{ include('union/_form_union_selector.html.twig', { form: personForm, person: person }) }}
+            {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
         {% endif %}
 
         <h3>Ajouter un enfant</h3>
-        {{ include('union/_form_union_selector.html.twig', { form: personForm, person: person, type: 'child' }) }}
+        {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
     </div>
 </section>
 {% endblock %}
