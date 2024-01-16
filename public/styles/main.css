@@ -64,10 +64,11 @@
 .avatar {
     background-color: rgb(var(--bs-body-bg-rgb));
     border-radius: var(--bs-border-radius-pill);
-    padding: .25rem .5rem .25rem .25rem;
+    padding: .25rem .75rem .25rem .25rem;
     border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
     position: relative;
     box-shadow: var(--bs-box-shadow-sm);
+    line-height: 1em !important;
 }
 
 .avatar.avatar-actions {
@@ -97,4 +98,33 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+}
+
+.avatar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.avatar-group .avatar {
+    width: 100%;
+}
+
+.avatar-link {
+    --link-width: .5rem;
+    --link-length: 1.5rem;
+    --link-color: var(--bs-secondary);
+}
+
+.avatar-link.avatar-link-v {
+    border-left: var(--link-width) solid var(--link-color);
+    height: var(--link-length);
+    width: 0;
+}
+
+.avatar-link.avatar-link-h {
+    border-top: var(--link-width) solid var(--link-color);
+    width: var(--link-length);
+    height: 0;
 }
