@@ -12,11 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/person')]
 class PersonController extends AbstractController
 {
     #[Route('/{id}', name: 'app_person_show', methods: ['GET'])]
+    #[IsGranted('view', 'person')]
     public function show(Person $person): Response
     {
         return $this->render('person/show.html.twig', [
@@ -25,6 +27,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', 'person')]
     public function edit(
         Request $request,
         Person $person,
@@ -61,6 +64,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_person_delete', methods: ['POST'])]
+    #[IsGranted('delete', 'person')]
     public function delete(
         Request $request,
         Person $person,
@@ -80,6 +84,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
+    #[IsGranted('view', 'person')]
     public function tree(Person $person): Response {
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,

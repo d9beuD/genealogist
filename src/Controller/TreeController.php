@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/project')]
 class TreeController extends AbstractController
@@ -73,6 +74,7 @@ class TreeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', 'tree')]
     public function edit(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TreeType::class, $tree);
@@ -91,6 +93,7 @@ class TreeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_tree_delete', methods: ['POST'])]
+    #[IsGranted('delete', 'tree')]
     public function delete(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
@@ -102,6 +105,7 @@ class TreeController extends AbstractController
     }
 
     #[Route('/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
+    #[IsGranted('add_member', 'tree')]
     public function addMember(
         Request $request,
         EntityManagerInterface $entityManager,
