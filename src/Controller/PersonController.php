@@ -47,7 +47,9 @@ class PersonController extends AbstractController
 
             if ($form->get('portrait')->getData()) {
                 $path = $imageManager->save($form->get('portrait')->getData(), $request);
-                $imageManager->remove($person->getPortrait());
+                if ($person->getPortrait()) {
+                    $imageManager->remove($person->getPortrait());
+                }
                 $person->setPortrait($path);
             }
 
