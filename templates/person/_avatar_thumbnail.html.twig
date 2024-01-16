@@ -1,0 +1,15 @@
+<div class="avatar-thumbnail{{ size|default('md') != 'md' ? ' avatar-thumbnail-'~size : ''}}">
+    {% if person.portrait %}
+        <img src="/pictures/{{ person.portrait }}" alt="">
+    {% else %}
+        <div class="avatar-placeholder">
+            {% if person.gender == 0 %}
+                <i class="fa-solid fa-user-vneck-hair-long"></i>
+            {% elseif person.gender == 1 %}
+                <i class="fa-solid fa-user-vneck-hair"></i>
+            {% elseif person.gender == 2 %}
+                <i class="fa-solid fa-user-vneck"></i>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

@@ -77,8 +77,11 @@ class UnionController extends AbstractController
             'form' => $form,
             'person' => $person,
             'personForm' => $this->createForm(PersonSelectType::class, null, [
-                'current_tree' => $person->getTree(),
-                'members_to_exclude' => $union->getPeople(),
+                'available_members' => $person->getTree()->getMembers()->toArray(),
+                'union_members' => [
+                    ...$union->getPeople()->toArray(),
+                    ...$union->getChildren()->toArray()
+                ],
             ])
         ]);
     }
@@ -98,8 +101,11 @@ class UnionController extends AbstractController
     public function addPartner(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
-            'current_tree' => $person->getTree(),
-            'members_to_exclude' => $union->getPeople(),
+            'available_members' => $person->getTree()->getMembers()->toArray(),
+            'union_members' => [
+                ...$union->getPeople()->toArray(),
+                ...$union->getChildren()->toArray()
+            ],
         ]);
         $form->handleRequest($request);
 
@@ -129,6 +135,9 @@ class UnionController extends AbstractController
             $union->removePerson($partner);
 
             if ($union->getPeople()->count() === 0) {
+                foreach ($union->getChildren() as $child) {
+                    $union->removeChild($child);
+                }
                 $entityManager->remove($union);
                 $entityManager->flush();
 
@@ -138,6 +147,51 @@ class UnionController extends AbstractController
                 ], Response::HTTP_SEE_OTHER);
             }
 
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_union_edit', [
+            'personId' => $person->getId(),
+            'id' => $union->getId(),
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
+    public function addChild(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
+    {
+        $form = $this->createForm(PersonSelectType::class, null, [
+            'available_members' => $person->getTree()->getMembers()->toArray(),
+            'union_members' => [
+                ...$union->getPeople()->toArray(),
+                ...$union->getChildren()->toArray()
+            ],
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $union->addChild($form->get('person')->getData());
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_union_edit', [
+            'personId' => $person->getId(),
+            'id' => $union->getId(),
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/person/{personId}/union/{id}/remove-child/{childId}', name: 'app_union_remove_child', methods: ['POST'])]
+    public function removeChild(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        #[MapEntity(id: 'personId')] 
+        Person $person, 
+        Union $union, 
+        #[MapEntity(id: 'childId')] 
+        Person $child
+    ): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
+            $union->removeChild($child);
             $entityManager->flush();
         }
 

@@ -21,7 +21,7 @@
 
         <hr class="my-4">
 
-        <section id="unions">
+        <section id="unions" class="mb-4">
             <h2 class="mb-3">Unions</h2>
 
             <div class="row g-4">
@@ -48,6 +48,23 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="children">
+            <h2 class="mb-3">Enfants</h2>
+
+            <div class="row g-4">
+            {% for union in person.unions %}
+                {% for child in union.children %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            <a href="{{ path('app_person_edit', { id: child.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: child }) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
             </div>
         </section>
     </div>

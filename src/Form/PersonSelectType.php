@@ -16,17 +16,17 @@ class PersonSelectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var Tree */
-        $currentTree = $options['current_tree'];
-        /** @var Collection<int, Person> */
-        $unionMembers = $options['members_to_exclude'];
+        /** @var Person[] */
+        $availableMembers = $options['available_members'];
+        /** @var Person[] */
+        $unionMembers = $options['union_members'];
 
         $builder
             ->add('person', EntityType::class, [
                 'class' => Person::class,
                 'choices' => array_diff(
-                    $currentTree->getMembers()->toArray(), 
-                    $unionMembers->toArray()
+                    $availableMembers, 
+                    $unionMembers
                 ),
                 'label' => 'Conjoint(e)',
                 'multiple' => false,
@@ -37,8 +37,8 @@ class PersonSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'current_tree' => null,
-            'members_to_exclude' => null,
+            'available_members' => null,
+            'union_members' => null,
         ]);
     }
 }

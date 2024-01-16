@@ -14,6 +14,7 @@
             </div>
         </div>
 
+        <h2 class="h5">Partenaires</h2>
         <div class="row g-2 mb-3">
             {% for partner in union.people %}
                 <div class="col-auto">
@@ -22,11 +23,24 @@
             {% endfor %}
         </div>
 
+        <h2 class="h5">Enfants</h2>
+        <div class="row g-2 mb-3">
+            {% for child in union.children %}
+                <div class="col-auto">
+                    {{ include('person/_avatar.html.twig', { person: child, with_actions: true, from: person }) }}
+                </div>
+            {% endfor %}
+        </div>
+
         {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
         {% if union.people | length < 2 %}
+            <h3>Ajouter un conjoint</h3>
             {{ include('union/_form_union_selector.html.twig', { form: personForm, person: person }) }}
         {% endif %}
+
+        <h3>Ajouter un enfant</h3>
+        {{ include('union/_form_union_selector.html.twig', { form: personForm, person: person, type: 'child' }) }}
     </div>
 </section>
 {% endblock %}

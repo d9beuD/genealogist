@@ -5,22 +5,7 @@
     
     <div class="row g-2 align-items-center">
         <div class="col-auto">
-            <div class="avatar-thumbnail">
-                {% if person.portrait %}
-                    <img src="/pictures/{{ person.portrait }}" alt="">
-                {% else %}
-                    <div class="avatar-placeholder">
-                        {% if person.gender == 0 %}
-                            <i class="fa-solid fa-user-vneck-hair-long"></i>
-                        {% elseif person.gender == 1 %}
-                            <i class="fa-solid fa-user-vneck-hair"></i>
-                        {% elseif person.gender == 2 %}
-                            <i class="fa-solid fa-user-vneck"></i>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            
-            </div>
+            {{ include('person/_avatar_thumbnail.html.twig', { person: person }) }}
         </div>
 
         <div class="col-auto">
@@ -48,7 +33,7 @@
                             </a>
                         </li>
                         <li>
-                            {{ include('union/_delete_member_dropdown.html.twig', { partner: person, from: from|default(person), union: union }) }}
+                            {{ include('union/_delete_' ~ type|default('partner') ~ '_dropdown.html.twig', { partner: person, from: from|default(person), union: union }) }}
                         </li>
                     </ul>
                 </div>

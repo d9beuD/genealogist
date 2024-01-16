@@ -1,7 +1,4 @@
-{% set members = person.tree.members %}
-
-{{ form_start(form, { action: path('app_union_add_partner', { personId: person.id, id: union.id }) }) }}
-    <h3>Ajouter un conjoint</h3>
+{{ form_start(form, { action: path('app_union_add_' ~ type|default('partner'), { personId: person.id, id: union.id }) }) }}
     <div class="mb-3">
         <div class="row g-2">
             <div class="col">

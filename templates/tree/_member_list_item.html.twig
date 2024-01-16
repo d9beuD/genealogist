@@ -1,11 +1,20 @@
 <div class="row">
     <div class="col">
-        {{ member.lastname | upper }} {{ member.firstname }}
-        {% if member.isDead %}
-            <span class="text-secondary ms-1">
-                <i class="fa-solid fa-cross"></i>
-            </span>
-        {% endif %}
+        <div class="row gx-2 align-items-center">
+            <div class="col-auto">
+                {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
+            </div>
+            <div class="col-auto">
+                {{ member.lastname | upper }} {{ member.firstname }}
+            </div>
+            {% if member.isDead %}
+                <div class="col-auto">
+                    <span class="text-secondary">
+                        <i class="fa-solid fa-cross"></i>
+                    </span>
+                </div>
+            {% endif %}
+        </div>
     </div>
     
     <div class="col-auto">

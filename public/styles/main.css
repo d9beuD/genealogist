@@ -82,11 +82,19 @@
     width: var(--thumbnail-size);
     border-radius: var(--bs-border-radius-pill);
     overflow: hidden;
+    position: relative;
+    font-size: var(--thumbnail-size);
 }
 
 .avatar-thumbnail > img {
     object-fit: contain;
     height: 100%;
+    top: 0;
+    vertical-align: top !important;
+}
+
+.avatar-thumbnail-sm {
+    --thumbnail-size: 1.5rem;
 }
 
 .avatar-placeholder {
@@ -97,7 +105,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: .75em;
 }
 
 .avatar-group {
