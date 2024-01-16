@@ -48,6 +48,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/project, roles: ROLE_USER }
+        - { path: ^/person, roles: ROLE_USER }
+        - { path: ^/union, roles: ROLE_USER }
 
 when@test:
     security:
