@@ -19,11 +19,15 @@
                             <div class="mb-3">
                                 {% for member in members %}
                                     <div class="tree-member-item px-4 py-1">
-                                        {{ include("tree/_member_list_item.html.twig", {member:member}) }}
+                                        {{ include("tree/_member_list_item.html.twig", { member: member }) }}
                                     </div>
                                 {% endfor %}
                             </div>
                         </section>
+                    {% else %}
+                        <div class="text-secondary px-4 py-1">
+                            Cet arbre n'a pas encore de membre.
+                        </div>
                     {% endfor %}
                 </div>
             </div>
