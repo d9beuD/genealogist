@@ -21,10 +21,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class TreeController extends AbstractController
 {
     #[Route('/', name: 'app_tree_index', methods: ['GET'])]
-    public function index(TreeRepository $treeRepository): Response
+    public function index(#[CurrentUser()] User $currentUser): Response
     {
         return $this->render('tree/index.html.twig', [
-            'trees' => $treeRepository->findAll(),
+            'trees' => $currentUser->getTrees(),
         ]);
     }
 
