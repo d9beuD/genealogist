@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UnionController extends AbstractController
 {
@@ -25,6 +26,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', 'person')]
     public function new(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $union = new Union();
@@ -50,6 +52,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/union/{id}', name: 'app_union_show', methods: ['GET'])]
+    #[IsGranted('view', 'union')]
     public function show(Union $union): Response
     {
         return $this->render('union/show.html.twig', [
