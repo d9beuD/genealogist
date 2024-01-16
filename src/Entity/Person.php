@@ -93,7 +93,7 @@ class Person
 
     public function __toString(): string
     {
-        return strtoupper($this->getLastname()) . ' ' . $this->getFirstname();
+        return $this->getFullName();
     }
 
     public function getId(): ?int
@@ -123,6 +123,11 @@ class Person
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->firstname . ' ' . mb_strtoupper($this->lastname);
     }
 
     public function getBirth(): ?\DateTimeInterface

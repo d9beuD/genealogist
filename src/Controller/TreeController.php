@@ -11,6 +11,7 @@ use App\Form\TreeType;
 use App\Repository\TreeRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,10 +44,22 @@ class TreeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
-    public function show(Tree $tree): Response
+    public function show(Tree $tree, Request $request): Response
     {
         $form = $this->createForm(MembersSearchType::class);
+        $form->handleRequest($request);
         $members = $tree->getMembers();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $name = mb_strtoupper($form->get('name')->getData());
+            $members = $members->filter(function (Person $member) use ($name) {
+                if ($name) {
+                    return str_contains(mb_strtoupper($member->getFullName()), $name);
+                }
+                return true;
+            });
+        }
+        
         $orderedMembers = $members->toArray();
 
         usort($orderedMembers, function($a, $b) {
