@@ -125,9 +125,14 @@ class Person
         return $this;
     }
 
+    public function getDefaultLastname(): string
+    {
+        return $this->birthName ?? $this->lastname ?? '';
+    }
+
     public function getFullName(): string
     {
-        return $this->firstname . ' ' . mb_strtoupper($this->lastname);
+        return mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname;
     }
 
     public function getBirth(): ?\DateTimeInterface

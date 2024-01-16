@@ -50,6 +50,7 @@ class TreeController extends AbstractController
         $form->handleRequest($request);
         $members = $tree->getMembers();
 
+        // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {
             $name = mb_strtoupper($form->get('name')->getData());
             $members = $members->filter(function (Person $member) use ($name) {
@@ -60,19 +61,15 @@ class TreeController extends AbstractController
             });
         }
         
+        // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-
         usort($orderedMembers, function($a, $b) {
-            $lastNameComparison = strcmp($a->getLastName(), $b->getLastName());
-            if ($lastNameComparison == 0) {
-                // If last names are equal, sort by first name
-                return strcmp($a->getFirstName(), $b->getFirstName());
-            }
-            return $lastNameComparison;
+            return strcmp($a->getFullName(), $b->getFullName());
         });
         
+        // Groupement par première lettre
         $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member) {
-            $firstLetter = strtoupper(mb_substr($member->getLastname(), 0, 1));
+            $firstLetter = strtoupper(mb_substr($member->getFullName(), 0, 1));
             $groupedMembers[$firstLetter][] = $member;
 
             return $groupedMembers;
