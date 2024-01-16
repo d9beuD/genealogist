@@ -1,4 +1,4 @@
-<div class="avatar {{ (with_actions | default(false)) ? 'avatar-actions' : '' }}">
+<div class="avatar{{ (with_actions | default(false)) ? ' avatar-actions' : '' }}">
     {% if href is defined %}
         <a href="{{ href }}" class="stretched-link"></a>
     {% endif %}
@@ -8,8 +8,8 @@
             {{ include('person/_avatar_thumbnail.html.twig', { person: person }) }}
         </div>
 
-        <div class="col-auto">
-            <div class="fw-bold">
+        <div class="col">
+            <div class="fw-bold text-nowrap">
                 {{ person.firstname }} {{ person.lastname | upper }}
             </div>
             {% if person.birth %}
