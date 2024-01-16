@@ -16,44 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/person')]
 class PersonController extends AbstractController
 {
-    // #[Route('/new', name: 'app_person_new', methods: ['GET', 'POST'])]
-    // public function new(
-    //     Request $request,
-    //     EntityManagerInterface $entityManager,
-    //     ImageManager $imageManager,
-    // ): Response {
-    //     $person = new Person();
-    //     $form = $this->createForm(PersonType::class, $person);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         if (!$person->isDead()) {
-    //             $person->setDeath(null);
-    //             $person->setDeathDaySure(false);
-    //             $person->setDeathMonthSure(false);
-    //             $person->setDeathYearSure(false);
-    //         }
-
-    //         if ($form->get('portrait')->getData()) {
-    //             $path = $imageManager->save($form->get('portrait')->getData(), $request);
-    //             $person->setPortrait($path);
-    //         }
-
-    //         $tree->addMember($person);
-
-    //         $entityManager->persist($person);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('person/new.html.twig', [
-    //         'person' => $person,
-    //         'form' => $form,
-    //         'tree' => $tree,
-    //     ]);
-    // }
-
     #[Route('/{id}', name: 'app_person_show', methods: ['GET'])]
     public function show(Person $person): Response
     {
