@@ -1,0 +1,17 @@
+{% set members = person.tree.members %}
+
+{{ form_start(form, { action: path('app_union_add_partner', { personId: person.id, id: union.id }) }) }}
+    <h3>Ajouter un conjoint</h3>
+    <div class="mb-3">
+        <div class="row g-2">
+            <div class="col">
+                {{ form_row(form.person, { label: false }) }}
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">
+                    Ajouter
+                </button>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}

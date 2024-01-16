@@ -6,6 +6,7 @@ use App\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -44,7 +45,11 @@ class PersonType extends AbstractType
             ->add('bio', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('birth')
+            ->add('birth', DateType::class, [
+                'label' => 'Date de naissance',
+                'required' => false,
+                'widget' => 'single_text',
+            ])
             ->add('birthPlace', TextType::class, [
                 'label' => 'Lieu de naissance',
                 'required' => false,
@@ -79,7 +84,11 @@ class PersonType extends AbstractType
                     'class' => 'd-inline'
                 ],
             ])
-            ->add('death')
+            ->add('death', DateType::class, [
+                'label' => 'Date de décès',
+                'required' => false,
+                'widget' => 'single_text',
+            ])
             ->add('deathPlace', TextType::class, [
                 'label' => 'Lieu de décès',
                 'required' => false,

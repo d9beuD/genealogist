@@ -91,6 +91,11 @@ class Person
         $this->unions = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return strtoupper($this->getLastname()) . ' ' . $this->getFirstname();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

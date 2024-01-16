@@ -17,17 +17,20 @@ class Union
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?bool $maried = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $date = null;
-
     #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'unions')]
     private Collection $people;
 
     #[ORM\OneToMany(mappedBy: 'parentUnion', targetEntity: Person::class)]
     private Collection $children;
+
+    #[ORM\Column]
+    private ?bool $married = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $weddingDate = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $weddingPlace = null;
 
     public function __construct()
     {
@@ -38,30 +41,6 @@ class Union
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function isMaried(): ?bool
-    {
-        return $this->maried;
-    }
-
-    public function setMaried(bool $maried): static
-    {
-        $this->maried = $maried;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(?\DateTimeInterface $date): static
-    {
-        $this->date = $date;
-
-        return $this;
     }
 
     /**
@@ -114,6 +93,42 @@ class Union
                 $child->setParentUnion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isMarried(): ?bool
+    {
+        return $this->married;
+    }
+
+    public function setMarried(bool $married): static
+    {
+        $this->married = $married;
+
+        return $this;
+    }
+
+    public function getWeddingDate(): ?\DateTimeInterface
+    {
+        return $this->weddingDate;
+    }
+
+    public function setWeddingDate(?\DateTimeInterface $weddingDate): static
+    {
+        $this->weddingDate = $weddingDate;
+
+        return $this;
+    }
+
+    public function getWeddingPlace(): ?string
+    {
+        return $this->weddingPlace;
+    }
+
+    public function setWeddingPlace(?string $weddingPlace): static
+    {
+        $this->weddingPlace = $weddingPlace;
 
         return $this;
     }

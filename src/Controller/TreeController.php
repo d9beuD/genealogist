@@ -6,8 +6,10 @@ use App\Entity\Person;
 use App\Entity\Tree;
 use App\Entity\User;
 use App\Form\MembersSearchType;
+use App\Form\PersonType;
 use App\Form\TreeType;
 use App\Repository\TreeRepository;
+use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,5 +99,45 @@ class TreeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
+    public function addMember(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ImageManager $imageManager,
+        Tree $tree
+    ): Response
+    {
+        $person = new Person();
+        $form = $this->createForm(PersonType::class, $person);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$person->isDead()) {
+                $person->setDeath(null);
+                $person->setDeathDaySure(false);
+                $person->setDeathMonthSure(false);
+                $person->setDeathYearSure(false);
+            }
+
+            if ($form->get('portrait')->getData()) {
+                $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $person->setPortrait($path);
+            }
+
+            $tree->addMember($person);
+
+            $entityManager->persist($person);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('person/new.html.twig', [
+            'person' => $person,
+            'form' => $form,
+            'tree' => $tree,
+        ]);
     }
 }

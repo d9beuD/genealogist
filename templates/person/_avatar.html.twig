@@ -1,0 +1,51 @@
+<div class="avatar {{ (with_actions | default(false)) ? 'avatar-actions' : '' }}">
+    {% if href is defined %}
+        <a href="{{ href }}" class="stretched-link"></a>
+    {% endif %}
+    
+    <div class="row g-2 align-items-center">
+        <div class="col-auto">
+            <div class="avatar-thumbnail">
+                {% if person.portrait %}
+                    <img src="/pictures/{{ person.portrait }}" alt="">
+                {% else %}
+                    <div class="avatar-placeholder">
+                        {% if person.gender == 0 %}
+                            <i class="fa-solid fa-user-vneck-hair-long"></i>
+                        {% elseif person.gender == 1 %}
+                            <i class="fa-solid fa-user-vneck-hair"></i>
+                        {% elseif person.gender == 2 %}
+                            <i class="fa-solid fa-user-vneck"></i>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            
+            </div>
+        </div>
+
+        <div class="col-auto fw-bold">
+            {{ person.firstname }} {{ person.lastname | upper }}
+        </div>
+
+        {% if with_actions is defined and with_actions %}
+            <div class="col-auto">
+                <div class="dropdown">
+                    <button class="btn btn-light rounded-pill dropdown-toggle no-caret" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_person_edit', { id: person.id }) }}">
+                                <i class="fa-solid fa-fw fa-eye"></i>
+                                Voir
+                            </a>
+                        </li>
+                        <li>
+                            {{ include('union/_delete_member_dropdown.html.twig', { partner: person, from: from|default(person), union: union }) }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

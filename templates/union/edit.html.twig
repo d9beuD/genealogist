@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'union{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col">
+                <h1>Modifier l'union</h1>
+            </div>
+            <div class="col-auto">
+                {{ include('union/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+        <div class="row g-2 mb-3">
+            {% for partner in union.people %}
+                <div class="col-auto">
+                    {{ include('person/_avatar.html.twig', { person: partner, with_actions: true, from: person }) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        {% if union.people | length < 2 %}
+            {{ include('union/_form_union_selector.html.twig', { form: personForm, person: person }) }}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

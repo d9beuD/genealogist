@@ -9,7 +9,7 @@
                     --fa-secondary-color: olivedrab;
                 "
             ></i>
-            Geneaolist
+            Genealogist
         </a>
         <button 
             class="navbar-toggler" 
@@ -28,7 +28,7 @@
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item">
                         <a href="{{ path('app_tree_index') }}" class="nav-link">
-                            Arbres
+                            Mes projets
                         </a>
                     </li>
                 {% endif %}

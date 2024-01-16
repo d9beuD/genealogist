@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    AddDefaultCharset utf-8
+    Options -MultiViews
+    RewriteEngine On
+
+    # Force HTTPS
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
