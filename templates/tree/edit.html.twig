@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Tree{% endblock %}
+{% block title %}Modifier l'arbre{% endblock %}
 
 {% block body %}
-    <h1>Edit Tree</h1>
+    <section class="py-5">
+        <div class="container">
+            <div class="form-medium">
+                <h1>Modifier l'arbre</h1>
 
-    {{ include('tree/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_tree_index') }}">back to list</a>
-
-    {{ include('tree/_delete_form.html.twig') }}
+                {{ include('tree/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
+        </div>
+    </section>
 {% endblock %}

@@ -14,11 +14,7 @@ class TreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('createdAt')
-            ->add('owner', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
+            ->add('name')
         ;
     }
 

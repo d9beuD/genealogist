@@ -34,10 +34,16 @@ class TreeController extends AbstractController
     public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser): Response
     {
         $tree = new Tree();
-        $tree->setOwner($currentUser);
-        $tree->setCreatedAt(new \DateTimeImmutable());
+        $tree
+            ->setOwner($currentUser)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setName('My family tree')
+        ;
         
         $entityManager->persist($tree);
+        $entityManager->flush();
+
+        $tree->setName($tree->getName() . ' #' . $tree->getId());
         $entityManager->flush();
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
