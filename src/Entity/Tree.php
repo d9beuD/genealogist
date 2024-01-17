@@ -26,6 +26,9 @@ class Tree
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(length: 30, options: ['default' => 'My family tree'])]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -86,6 +89,18 @@ class Tree
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
