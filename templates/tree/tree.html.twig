@@ -1,0 +1,37 @@
+{% set link = link|default(false) %}
+
+<div class="row g-0 flex-column-reverse aling-items-center justify-content-center flex-grow-1">
+    {% if link %}
+        <div class="col">
+            <div class="tree-link tree-link-{{ direction }} m{{ direction == 'start' ? 'e':'s' }}-auto"></div>
+        </div>
+    {% endif %}
+
+    <div class="col d-flex align-items-center justify-content-center flex-wrap">
+        {{ include('person/_avatar.html.twig', { person: person }) }}
+    </div>
+
+    {% if person.parentUnion is not null %}
+        <div class="col d-flex justify-content-center">
+            <div class="tree-link tree-link-center"></div>
+        </div>
+
+        {% if person.parentUnion.weddingDate is not null %}
+            <div class="col d-flex flex-nowrap justify-content-center position-relative">
+                <div class="bg-body rounded-pill small border shadow-sm px-2 position-absolute top-0" style="margin-top: -1em; z-index: 1;">
+                    {{ person.parentUnion.weddingDate|date('d/m/Y') }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="col">
+            <div class="row g-0 align-items-end justify-content-around flex-nowrap">
+                {% for parent in person.parentUnion.people %}
+                    <div class="col">
+                        {{ include('tree/tree.html.twig', { person: parent, link: true, direction: loop.index0 ? 'start':'end' }) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>

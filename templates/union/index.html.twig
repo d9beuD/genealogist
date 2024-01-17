@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Union index{% endblock %}
+
+{% block body %}
+    <h1>Union index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Married</th>
+                <th>WeddingDate</th>
+                <th>WeddingPlace</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for union in unions %}
+            <tr>
+                <td>{{ union.id }}</td>
+                <td>{{ union.date ? union.date|date('Y-m-d') : '' }}</td>
+                <td>{{ union.married ? 'Yes' : 'No' }}</td>
+                <td>{{ union.weddingDate ? union.weddingDate|date('Y-m-d') : '' }}</td>
+                <td>{{ union.weddingPlace }}</td>
+                <td>
+                    <a href="{{ path('app_union_show', {'id': union.id}) }}">show</a>
+                    <a href="{{ path('app_union_edit', {'id': union.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_union_new') }}">Create new</a>
+{% endblock %}

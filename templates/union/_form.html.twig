@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+    {{ form_row(form.married) }}
+
+    <div class="row g-2">
+        <div class="col-6">
+            {{ form_row(form.weddingDate) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.weddingPlace) }}
+        </div>
+    </div>
+
+    <div class="text-end">
+        <a class="btn btn-secondary" href="{{ path('app_person_edit', { id: person.id }) }}">Annuler</a>
+        <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
+    </div>
+{{ form_end(form) }}

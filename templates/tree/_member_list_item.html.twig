@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col">
+        <div class="row gx-2 align-items-center">
+            <div class="col-auto">
+                {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
+            </div>
+            <div class="col-auto">
+                {{ member.fullName }}
+            </div>
+            {% if member.isDead %}
+                <div class="col-auto">
+                    <span class="text-secondary">
+                        <i class="fa-solid fa-cross"></i>
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="col-auto">
+        <div class="row g-2">
+            {% if is_granted('view', member) %}
+                <div class="col-auto">
+                    <a 
+                        href="{{ path('app_person_tree', { id: member.id }) }}" 
+                        class="link-icon"
+                    >
+                        <i class="fa-solid fa-tree"></i>
+                    </a>
+                </div>
+            {% endif %}
+            {% if is_granted('edit', member) %}
+                <div class="col-auto">
+                    <a 
+                        href="{{ path('app_person_edit', { id: member.id }) }}" 
+                        class="link-icon"
+                    >
+                        <i class="fa-solid fa-edit"></i>
+                    </a>
+                </div>
+            {% endif %}
+            {% if is_granted('delete', member) %}
+                <div class="col-auto">
+                    {{ include('person/_delete_form.html.twig', { person: member }) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

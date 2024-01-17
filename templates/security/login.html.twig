@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <div class="form-medium">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <h1>Connexion</h1>
+            
+            {{ form_start(form) }}
+                {{ form_row(form.email, { value: last_username }) }}
+                {{ form_row(form.password) }}
+                {{ form_row(form.remember_me) }}
+
+                <div class="text-end">
+                    <button class="btn btn-primary" type="submit">
+                        Se connecter
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Person index{% endblock %}
+
+{% block body %}
+    <h1>Person index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Birth</th>
+                <th>Death</th>
+                <th>BirthDaySure</th>
+                <th>BirthMonthSure</th>
+                <th>BirthYearSure</th>
+                <th>DeathDaySure</th>
+                <th>DeathMonthSure</th>
+                <th>DeathYearSure</th>
+                <th>Portrait</th>
+                <th>Bio</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.firstname }}</td>
+                <td>{{ person.lastname }}</td>
+                <td>{{ person.birth ? person.birth|date('Y-m-d') : '' }}</td>
+                <td>{{ person.death ? person.death|date('Y-m-d') : '' }}</td>
+                <td>{{ person.birthDaySure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.birthMonthSure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.birthYearSure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.deathDaySure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.deathMonthSure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.deathYearSure ? 'Yes' : 'No' }}</td>
+                <td>{{ person.portrait }}</td>
+                <td>{{ person.bio }}</td>
+                <td>
+                    <a href="{{ path('app_person_show', {'id': person.id}) }}">show</a>
+                    <a href="{{ path('app_person_edit', {'id': person.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tree_members_add') }}">Create new</a>
+{% endblock %}

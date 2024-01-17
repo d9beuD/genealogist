@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-md border-bottom shadow-sm bg-body">
+    <div class="container">
+        <a href="/" class="navbar-brand">
+            <i 
+                class="fa-duotone fa-tree"
+                style="
+                    --fa-secondary-opacity: 1.0;
+                    --fa-primary-color: sienna;
+                    --fa-secondary-color: olivedrab;
+                "
+            ></i>
+            Genealogist
+        </a>
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_tree_index') }}" class="nav-link">
+                            Mes projets
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user-circle"></i>
+                            {{ app.user.firstname }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ path('app_logout') }}" class="dropdown-item">
+                                    <i class="fa-solid fa-fw fa-power-off"></i>
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,9 @@
+{% set form_id = 'delete_button_' ~ person.id %}
+
+<form method="post" action="{{ path('app_person_delete', { id: person.id, treeId: tree.id }) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    {# <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ person.id) }}"> #}
+    <button type="submit" class="d-none" id="{{ form_id }}"></button>
+    <a href="#" onclick="document.querySelector('#{{ form_id }}').click();" class="link-danger">
+        <i class="fa-solid fa-trash"></i>
+    </a>
+</form>

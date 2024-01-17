@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Union{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <h1>Créer une union</h1>
+
+        <div class="alert alert-primary">
+            <div class="row g-3">
+                <div class="col-auto">
+                    <i class="fa-solid fa-info-circle"></i>
+                </div>
+                <div class="col">
+                    Vous pourrez ajouter des personnes à cette union une fois qu'elle sera créée.
+                </div>
+            </div>
+        </div>
+
+        {{ include('union/_form.html.twig') }}
+    </div>
+</section>
+{% endblock %}

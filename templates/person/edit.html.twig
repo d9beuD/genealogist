@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Person{% endblock %}
+
+{% block body %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-3">Modifier une personne</h1>
+
+        <section id="profile" class="row gx-4 gy-3 mb-3">
+            {% if person.portrait %}
+                <div class="col-8 col-sm-6 col-md-3">
+                    <img src="/pictures/{{ person.portrait }}" alt="Person profile picture" class="img-fluid border rounded-5 shadow-sm">
+                </div>
+            {% endif %}
+
+            <div class="col-12 col-md">
+                {{ include('person/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
+        </section>
+
+        <hr class="my-4">
+
+        <section id="unions" class="mb-4">
+            <h2 class="mb-3">Unions</h2>
+
+            <div class="row g-4">
+                {% for union in person.unions %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            <a href="{{ path('app_union_edit', { id: union.id, personId: person.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: person }) }}
+
+                            {% for partner in union.people %}
+                                {% if partner.id != person.id %}
+                                    <div class="avatar-link avatar-link-v"></div>
+                                    {{ include('person/_avatar.html.twig', { person: partner }) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <div class="col-auto">
+                    <div class="union union-new">
+                        <a href="{{ path('app_union_new', { personId: person.id }) }}" class="stretched-link">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="children">
+            <h2 class="mb-3">Enfants</h2>
+
+            <div class="row g-4">
+            {% for union in person.unions %}
+                {% for child in union.children %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            <a href="{{ path('app_person_edit', { id: child.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: child }) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}
