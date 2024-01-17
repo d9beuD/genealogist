@@ -377,4 +377,13 @@ class Person
 
         return $this;
     }
+
+    public function hasChildren(): bool
+    {
+        return array_reduce(
+            $this->unions->toArray(), 
+            fn($carry, Union $union) => $carry || $union->hasChildren(), 
+            false
+        );
+    }
 }

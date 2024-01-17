@@ -132,4 +132,9 @@ class Union
 
         return $this;
     }
+
+    public function hasChildren(): bool
+    {
+        return !$this->children->isEmpty();
+    }
 }

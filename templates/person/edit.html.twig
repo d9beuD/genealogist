@@ -21,6 +21,27 @@
 
         <hr class="my-4">
 
+        <section id="children" class="mb-4">
+            <h2 class="mb-3">Parents</h2>
+
+            {% if person.parentUnion %}
+                <div class="row g-4">
+                {% for parent in person.parentUnion.people %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            <a href="{{ path('app_person_edit', { id: parent.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: parent }) }}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-secondary">
+                    Il n'y a pas de parent renseigné.
+                </div>
+            {% endif %}
+        </section>
+
         <section id="unions" class="mb-4">
             <h2 class="mb-3">Unions</h2>
 
@@ -51,21 +72,28 @@
             </div>
         </section>
 
-        <section id="children">
+        <section id="children" class="mb-4">
             <h2 class="mb-3">Enfants</h2>
 
-            <div class="row g-4">
-            {% for union in person.unions %}
-                {% for child in union.children %}
-                    <div class="col-auto">
-                        <div class="avatar-group">
-                            <a href="{{ path('app_person_edit', { id: child.id }) }}" class="stretched-link"></a>
-                            {{ include('person/_avatar.html.twig', { person: child }) }}
+            {% if person.hasChildren %}
+                <div class="row g-4">
+                {% for union in person.unions %}
+                    {% for child in union.children %}
+                        <div class="col-auto">
+                            <div class="avatar-group">
+                                <a href="{{ path('app_person_edit', { id: child.id }) }}" class="stretched-link"></a>
+                                {{ include('person/_avatar.html.twig', { person: child }) }}
+                            </div>
                         </div>
+                    {% endfor %}
                     </div>
                 {% endfor %}
-            {% endfor %}
-            </div>
+                </div>
+            {% else %}
+                <div class="alert alert-secondary">
+                    Il n'y a pas d'enfant renseigné.
+                </div>
+            {% endif %}
         </section>
     </div>
 </section>
