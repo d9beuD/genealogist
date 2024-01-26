@@ -98,6 +98,14 @@ class UnionController extends AbstractController
         $tree = $union->getPeople()->first()->getTree();
 
         if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
+            // First, remove the union from all people
+            foreach ($union->getPeople() as $person) {
+                $person->removeUnion($union);
+            }
+            foreach ($union->getChildren() as $child) {
+                $union->removeChild($child);
+            }
+
             $entityManager->remove($union);
             $entityManager->flush();
         }
