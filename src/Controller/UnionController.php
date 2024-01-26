@@ -54,6 +54,7 @@ class UnionController extends AbstractController
     }
     
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', 'union')]
     public function edit(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $form = $this->createForm(UnionType::class, $union);
@@ -90,6 +91,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/union/{id}', name: 'app_union_delete', methods: ['POST'])]
+    #[IsGranted('delete', 'union')]
     public function delete(Request $request, Union $union, EntityManagerInterface $entityManager): Response
     {
         /** @var Tree */
@@ -104,6 +106,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/add-partner', name: 'app_union_add_partner', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function addPartner(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
@@ -127,6 +130,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/remove-partner/{partnerId}', name: 'app_union_remove_partner', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function removePartner(
         Request $request, 
         EntityManagerInterface $entityManager, 
@@ -163,6 +167,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function addChild(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
@@ -186,6 +191,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/remove-child/{childId}', name: 'app_union_remove_child', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function removeChild(
         Request $request, 
         EntityManagerInterface $entityManager, 
