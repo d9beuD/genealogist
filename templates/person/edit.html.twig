@@ -26,7 +26,7 @@
 
             {% if person.parentUnion %}
                 <div class="row g-4">
-                {% for parent in person.parentUnion.people %}
+                {% for parent in person.parentUnion.people | sort((a, b) => a.gender <=> b.gender) | reverse %}
                     <div class="col-auto">
                         <div class="avatar-group">
                             <a href="{{ path('app_person_edit', { id: parent.id }) }}" class="stretched-link"></a>
