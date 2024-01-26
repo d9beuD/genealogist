@@ -3,12 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Person;
-use App\Entity\Tree;
-use App\Repository\PersonRepository;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,13 +17,18 @@ class PersonSelectType extends AbstractType
         /** @var Person[] */
         $unionMembers = $options['union_members'];
 
+        // Prepare the choices
+        $choices = array_udiff($availableMembers, $unionMembers, function ($a, $b) {
+            return $a->getId() <=> $b->getId();
+        });
+        usort($choices, function ($a, $b) {
+            return $a->getFullName() <=> $b->getFullName();
+        });
+
         $builder
             ->add('person', EntityType::class, [
                 'class' => Person::class,
-                'choices' => array_diff(
-                    $availableMembers, 
-                    $unionMembers
-                ),
+                'choices' => $choices,
                 'label' => 'Conjoint(e)',
                 'multiple' => false,
             ])
@@ -37,8 +38,8 @@ class PersonSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'available_members' => null,
-            'union_members' => null,
+            'available_members' => [],
+            'union_members' => [],
         ]);
     }
 }
