@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Entity\Tree;
 use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
@@ -99,12 +100,15 @@ class UnionController extends AbstractController
     #[Route('/union/{id}', name: 'app_union_delete', methods: ['POST'])]
     public function delete(Request $request, Union $union, EntityManagerInterface $entityManager): Response
     {
+        /** @var Tree */
+        $tree = $union->getPeople()->first()->getTree();
+
         if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
             $entityManager->remove($union);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_union_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/person/{personId}/union/{id}/add-partner', name: 'app_union_add_partner', methods: ['POST'])]
