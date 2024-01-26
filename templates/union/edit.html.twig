@@ -27,7 +27,7 @@
         <div class="row g-2 mb-3">
             {% for child in union.children %}
                 <div class="col-auto">
-                    {{ include('person/_avatar.html.twig', { person: child, with_actions: true, from: person }) }}
+                    {{ include('person/_avatar.html.twig', { person: child, with_actions: true, from: person, type: 'child' }) }}
                 </div>
             {% endfor %}
         </div>
