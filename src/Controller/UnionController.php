@@ -18,14 +18,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UnionController extends AbstractController
 {
-    #[Route('/union', name: 'app_union_index', methods: ['GET'])]
-    public function index(UnionRepository $unionRepository): Response
-    {
-        return $this->render('union/index.html.twig', [
-            'unions' => $unionRepository->findAll(),
-        ]);
-    }
-
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function new(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
