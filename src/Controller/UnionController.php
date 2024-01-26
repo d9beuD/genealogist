@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Entity\Tree;
 use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
@@ -17,14 +18,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UnionController extends AbstractController
 {
-    #[Route('/union', name: 'app_union_index', methods: ['GET'])]
-    public function index(UnionRepository $unionRepository): Response
-    {
-        return $this->render('union/index.html.twig', [
-            'unions' => $unionRepository->findAll(),
-        ]);
-    }
-
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function new(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
@@ -61,6 +54,7 @@ class UnionController extends AbstractController
     }
     
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', 'union')]
     public function edit(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $form = $this->createForm(UnionType::class, $union);
@@ -97,17 +91,30 @@ class UnionController extends AbstractController
     }
 
     #[Route('/union/{id}', name: 'app_union_delete', methods: ['POST'])]
+    #[IsGranted('delete', 'union')]
     public function delete(Request $request, Union $union, EntityManagerInterface $entityManager): Response
     {
+        /** @var Tree */
+        $tree = $union->getPeople()->first()->getTree();
+
         if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
+            // First, remove the union from all people
+            foreach ($union->getPeople() as $person) {
+                $person->removeUnion($union);
+            }
+            foreach ($union->getChildren() as $child) {
+                $union->removeChild($child);
+            }
+
             $entityManager->remove($union);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_union_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/person/{personId}/union/{id}/add-partner', name: 'app_union_add_partner', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function addPartner(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
@@ -131,6 +138,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/remove-partner/{partnerId}', name: 'app_union_remove_partner', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function removePartner(
         Request $request, 
         EntityManagerInterface $entityManager, 
@@ -167,6 +175,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function addChild(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
@@ -190,6 +199,7 @@ class UnionController extends AbstractController
     }
 
     #[Route('/person/{personId}/union/{id}/remove-child/{childId}', name: 'app_union_remove_child', methods: ['POST'])]
+    #[IsGranted('edit', 'union')]
     public function removeChild(
         Request $request, 
         EntityManagerInterface $entityManager, 
