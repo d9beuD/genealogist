@@ -18,32 +18,38 @@
     </div>
     
     <div class="col-auto">
-        <div class="row g-2">
+        <a href="#" type="button" class="link-dark" data-bs-toggle="dropdown" aria-expanded="false" style="height: 1.5rem; width: 1.5rem;">
+            <i class="fa-solid fa-ellipsis"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">Actions</h6></li>
             {% if is_granted('view', member) %}
-                <div class="col-auto">
+                <li>
                     <a 
                         href="{{ path('app_person_tree', { id: member.id }) }}" 
-                        class="link-icon"
+                        class="dropdown-item"
                     >
                         <i class="fa-solid fa-tree"></i>
+                        Voir l'arbre
                     </a>
-                </div>
+                </li>
             {% endif %}
             {% if is_granted('edit', member) %}
-                <div class="col-auto">
+                <li>
                     <a 
                         href="{{ path('app_person_edit', { id: member.id }) }}" 
-                        class="link-icon"
+                        class="dropdown-item"
                     >
                         <i class="fa-solid fa-edit"></i>
+                        Modifier
                     </a>
-                </div>
+                </li>
             {% endif %}
             {% if is_granted('delete', member) %}
-                <div class="col-auto">
+                <li>
                     {{ include('person/_delete_form.html.twig', { person: member }) }}
-                </div>
+                </li>
             {% endif %}
-        </div>
+        </ul>
     </div>
 </div>
