@@ -71,8 +71,9 @@ class PersonController extends AbstractController
         Person $person,
         EntityManagerInterface $entityManager,
         ImageManager $imageManager,
-        Tree $tree
     ): Response {
+        $tree = $person->getTree();
+
         if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
             if ($person->getPortrait()) {
                 $imageManager->remove($person->getPortrait());
