@@ -136,9 +136,9 @@ class TreeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$person->isDead()) {
                 $person->setDeath(null);
-                $person->setDeathDaySure(false);
-                $person->setDeathMonthSure(false);
-                $person->setDeathYearSure(false);
+                $person->setDeathDayUnsure(false);
+                $person->setDeathMonthUnsure(false);
+                $person->setDeathYearUnsure(false);
             }
 
             if ($form->get('portrait')->getData()) {
