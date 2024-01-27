@@ -3,6 +3,17 @@
 {% block title %}Edit Person{% endblock %}
 
 {% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        {% if person.tree.name is defined %}
+            <li class="breadcrumb-item"><a href="#">{{ person.tree.name }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active" aria-current="page">{{ person.firstname }} {{ person.lastname }}</li>
+    </ol>
+</nav>
+
+
 <section class="py-5">
     <div class="container">
         <h1 class="mb-3">Modifier une personne</h1>
