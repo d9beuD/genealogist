@@ -33,23 +33,23 @@ class Person
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $death = null;
 
-    #[ORM\Column]
-    private ?bool $birthDaySure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $birthDayUnsure = null;
 
-    #[ORM\Column]
-    private ?bool $birthMonthSure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $birthMonthUnsure = null;
 
-    #[ORM\Column]
-    private ?bool $birthYearSure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $birthYearUnsure = null;
 
-    #[ORM\Column]
-    private ?bool $deathDaySure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $deathDayUnsure = null;
 
-    #[ORM\Column]
-    private ?bool $deathMonthSure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $deathMonthUnsure = null;
 
-    #[ORM\Column]
-    private ?bool $deathYearSure = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $deathYearUnsure = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portrait = null;
@@ -159,74 +159,74 @@ class Person
         return $this;
     }
 
-    public function isBirthDaySure(): ?bool
+    public function isBirthDayUnsure(): ?bool
     {
-        return $this->birthDaySure;
+        return $this->birthDayUnsure;
     }
 
-    public function setBirthDaySure(bool $birthDaySure): static
+    public function setBirthDayUnsure(bool $birthDayUnsure): static
     {
-        $this->birthDaySure = $birthDaySure;
+        $this->birthDayUnsure = $birthDayUnsure;
 
         return $this;
     }
 
-    public function isBirthMonthSure(): ?bool
+    public function isBirthMonthUnsure(): ?bool
     {
-        return $this->birthMonthSure;
+        return $this->birthMonthUnsure;
     }
 
-    public function setBirthMonthSure(bool $birthMonthSure): static
+    public function setBirthMonthUnsure(bool $birthMonthUnsure): static
     {
-        $this->birthMonthSure = $birthMonthSure;
+        $this->birthMonthUnsure = $birthMonthUnsure;
 
         return $this;
     }
 
-    public function isBirthYearSure(): ?bool
+    public function isBirthYearUnsure(): ?bool
     {
-        return $this->birthYearSure;
+        return $this->birthYearUnsure;
     }
 
-    public function setBirthYearSure(bool $birthYearSure): static
+    public function setBirthYearUnsure(bool $birthYearUnsure): static
     {
-        $this->birthYearSure = $birthYearSure;
+        $this->birthYearUnsure = $birthYearUnsure;
 
         return $this;
     }
 
-    public function isDeathDaySure(): ?bool
+    public function isDeathDayUnsure(): ?bool
     {
-        return $this->deathDaySure;
+        return $this->deathDayUnsure;
     }
 
-    public function setDeathDaySure(bool $deathDaySure): static
+    public function setDeathDayUnsure(bool $deathDayUnsure): static
     {
-        $this->deathDaySure = $deathDaySure;
+        $this->deathDayUnsure = $deathDayUnsure;
 
         return $this;
     }
 
-    public function isDeathMonthSure(): ?bool
+    public function isDeathMonthUnsure(): ?bool
     {
-        return $this->deathMonthSure;
+        return $this->deathMonthUnsure;
     }
 
-    public function setDeathMonthSure(bool $deathMonthSure): static
+    public function setDeathMonthUnsure(bool $deathMonthUnsure): static
     {
-        $this->deathMonthSure = $deathMonthSure;
+        $this->deathMonthUnsure = $deathMonthUnsure;
 
         return $this;
     }
 
-    public function isDeathYearSure(): ?bool
+    public function isDeathYearUnsure(): ?bool
     {
-        return $this->deathYearSure;
+        return $this->deathYearUnsure;
     }
 
-    public function setDeathYearSure(bool $deathYearSure): static
+    public function setDeathYearUnsure(bool $deathYearUnsure): static
     {
-        $this->deathYearSure = $deathYearSure;
+        $this->deathYearUnsure = $deathYearUnsure;
 
         return $this;
     }

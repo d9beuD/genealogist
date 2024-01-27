@@ -54,9 +54,9 @@ class PersonType extends AbstractType
                 'label' => 'Lieu de naissance',
                 'required' => false,
             ])
-            ->add('birthDaySure', CheckboxType::class, [
+            ->add('birthDayUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Jour certain',
+                'label' => 'Jour incertain',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -64,9 +64,9 @@ class PersonType extends AbstractType
                     'class' => 'd-inline'
                 ],
             ])
-            ->add('birthMonthSure', CheckboxType::class, [
+            ->add('birthMonthUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mois certain',
+                'label' => 'Mois incertain',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -74,9 +74,9 @@ class PersonType extends AbstractType
                     'class' => 'd-inline'
                 ],
             ])
-            ->add('birthYearSure', CheckboxType::class, [
+            ->add('birthYearUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Année certaine',
+                'label' => 'Année incertaine',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -93,9 +93,9 @@ class PersonType extends AbstractType
                 'label' => 'Lieu de décès',
                 'required' => false,
             ])
-            ->add('deathDaySure', CheckboxType::class, [
+            ->add('deathDayUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Jour certain',
+                'label' => 'Jour incertain',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -103,9 +103,9 @@ class PersonType extends AbstractType
                     'class' => 'd-inline'
                 ],
             ])
-            ->add('deathMonthSure', CheckboxType::class, [
+            ->add('deathMonthUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mois certain',
+                'label' => 'Mois incertain',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -113,9 +113,9 @@ class PersonType extends AbstractType
                     'class' => 'd-inline'
                 ],
             ])
-            ->add('deathYearSure', CheckboxType::class, [
+            ->add('deathYearUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Année certaine',
+                'label' => 'Année incertaine',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
