@@ -7,7 +7,6 @@ use App\Entity\Tree;
 use App\Form\PersonType;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,9 +39,9 @@ class PersonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$person->isDead()) {
                 $person->setDeath(null);
-                $person->setDeathDaySure(false);
-                $person->setDeathMonthSure(false);
-                $person->setDeathYearSure(false);
+                $person->setDeathDayUnsure(false);
+                $person->setDeathMonthUnsure(false);
+                $person->setDeathYearUnsure(false);
             }
 
             if ($form->get('portrait')->getData()) {
