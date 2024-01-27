@@ -7,6 +7,7 @@
             <div class="col-auto" title="{{ member.birth | date('d/m/Y') }}">
                 {{ member.fullName }}
             </div>
+            
             {% if member.isDead %}
                 <div class="col-auto" title="{{ member.death | date('d/m/Y') }}">
                     <span class="text-secondary">
@@ -34,6 +35,7 @@
                     </a>
                 </li>
             {% endif %}
+
             {% if is_granted('edit', member) %}
                 <li>
                     <a 
@@ -45,6 +47,7 @@
                     </a>
                 </li>
             {% endif %}
+
             {% if is_granted('delete', member) %}
                 <li>
                     {{ include('person/_delete_form.html.twig', { person: member }) }}
