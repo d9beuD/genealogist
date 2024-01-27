@@ -4,11 +4,11 @@
             <div class="col-auto">
                 {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
             </div>
-            <div class="col-auto">
+            <div class="col-auto" title="{{ member.birth | date('d/m/Y') }}">
                 {{ member.fullName }}
             </div>
             {% if member.isDead %}
-                <div class="col-auto">
+                <div class="col-auto" title="{{ member.death | date('d/m/Y') }}">
                     <span class="text-secondary">
                         <i class="fa-solid fa-cross"></i>
                     </span>
