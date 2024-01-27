@@ -2,11 +2,17 @@
     {{ form_row(form.married) }}
 
     <div class="row g-2">
-        <div class="col-6">
+        <div class="col-md-6 order-1">
             {{ form_row(form.weddingDate) }}
+
         </div>
-        <div class="col-6">
+        <div class="col-md-6 order-3 order-md)2">
             {{ form_row(form.weddingPlace) }}
+        </div>
+        <div class="col order-2 order-md-3">
+            {{ form_row(form.dayUnsure) }}
+            {{ form_row(form.monthUnsure) }}
+            {{ form_row(form.yearUnsure) }}
         </div>
     </div>
 

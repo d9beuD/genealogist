@@ -32,6 +32,15 @@ class Union
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $weddingPlace = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $dayUnsure = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $monthUnsure = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $yearUnsure = null;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -136,5 +145,41 @@ class Union
     public function hasChildren(): bool
     {
         return !$this->children->isEmpty();
+    }
+
+    public function isDayUnsure(): ?bool
+    {
+        return $this->dayUnsure;
+    }
+
+    public function setDayUnsure(bool $dayUnsure): static
+    {
+        $this->dayUnsure = $dayUnsure;
+
+        return $this;
+    }
+
+    public function isMonthUnsure(): ?bool
+    {
+        return $this->monthUnsure;
+    }
+
+    public function setMonthUnsure(bool $monthUnsure): static
+    {
+        $this->monthUnsure = $monthUnsure;
+
+        return $this;
+    }
+
+    public function isYearUnsure(): ?bool
+    {
+        return $this->yearUnsure;
+    }
+
+    public function setYearUnsure(bool $yearUnsure): static
+    {
+        $this->yearUnsure = $yearUnsure;
+
+        return $this;
     }
 }

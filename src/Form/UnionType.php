@@ -29,6 +29,36 @@ class UnionType extends AbstractType
                 'required' => false,
                 'label' => 'Lieu union',
             ])
+            ->add('dayUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Jour incertain',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('monthUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Mois incertain',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('yearUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Année incertaine',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
         ;
     }
 
