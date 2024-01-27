@@ -2,36 +2,24 @@
 
 I started this project as a personal challenge. I wanted to deepen my web programing skills. Because I created this repository a long time ago, the project structure changed several times as I was changing my mind on what this project may work or look like.
 
-## Backend usage
+## Usage
 
-~~In a dev environment, you can start the server with [Symfony CLI](https://symfony.com/download) using the following command.~~
+### Start dev server
 
-Don't use the dev server provided by Symfony as it runs on `127.0.0.1` and [modern browsers do not store and send back session cookies provided in a fetch API request](https://stackoverflow.com/a/60384407). Your server must run on **something else** than `127.0.0.1` like `localhost` or whatever.
-
-```sh
-php -S localhost:8000 public/index.php
-```
-
-## Frontend usage
-
-For the frontend, I use a [Vue 3](https://vuejs.org) application with [Vite](https://vitejs.dev) environment. So you can start the dev server with:
-
-#### `npm`
+In a dev environment, you can start the server with [Symfony CLI](https://symfony.com/download) using the following command.
 
 ```sh
-npm i
-npm run dev
+symfony serve -d
 ```
 
-#### `yarn`
+### Make icons work
 
-```sh
-yarn
-yarn dev
-```
+Because Font Awesome won't serve icons on a local IP address (`127.0.0.1`), change the Symfony's server provided address with `localhost` and icons will start working again.
 
-### There is a lot of warnings in the console
+### Entities changed
 
-In this project, I use the [BootstrapVue](https://github.com/bootstrap-vue/bootstrap-vue) library that is not yet fully compatible with Vue 3. It is still writtent with Vue 2. Hopefully, there is a package called `@vue-compat` that provides compatibility between Vue 2 components/library and Vue 3, that facilitate code migration from one version to another. 
+You made modifications to entities? Don't forget to [create and execute](https://symfony.com/doc/current/doctrine.html#migrations-creating-the-database-tables-schema) a migration file.
 
-So, [BootstrapVue works in this Vue 3 project](https://bootstrap-vue.org/vue3) in counterpart of `@vue-compat` warning us about a lot of deprecated functionalities from Vue 2. You can safely ignore them as we are just wating for BootstrapVue to migrate their library to fully support Vue 3.
+## I want to contribute
+
+Thank you, any help is appreciated. Go to issues tab and find one you like without a code branch refered. Then, feel free to fork this repository and start a new pull request.
