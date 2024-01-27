@@ -3,6 +3,19 @@
 {% block title %}Union{% endblock %}
 
 {% block body %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% if tree_name is defined %}
+            <li class="breadcrumb-item"><a href="{{ path('tree_details', { 'treeId': tree_id }) }}">{{ tree_name }}</a></li>
+        {% endif %}
+        {% if person_full_name is defined %}
+            <li class="breadcrumb-item"><a href="{{ path('person_details', { 'personId': person_id }) }}">{{ person_full_name }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active" aria-current="page">Union Details</li>
+    </ol>
+</nav>
+
     <h1>Union</h1>
 
     <table class="table">
