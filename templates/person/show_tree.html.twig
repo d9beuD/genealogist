@@ -11,6 +11,8 @@
         </a>
     </div>
 </div>
+{{ include('_includes/main/flashes.html.twig') }}
+
 <section id="tree" class="py-5">
     <div class="mw-100 d-flex overflow-x-auto">
         {{ include('tree/tree.html.twig', { person: person }) }}

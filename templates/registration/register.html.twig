@@ -3,7 +3,9 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<section class="py-5">
+{{ include('_includes/main/flashes.html.twig') }}
+
+<section class="my-4">
     <div class="container">
         <div class="form-medium">
             {% for flash_error in app.flashes('verify_email_error') %}
