@@ -8,7 +8,10 @@
     {% endif %}
 
     <div class="col d-flex align-items-center justify-content-center flex-wrap">
-        {{ include('person/_avatar.html.twig', { person: person }) }}
+        <div class="position-relative">
+            <a href="{{ path('app_person_edit', { id: person.id }) }}" class="stretched-link"></a>
+            {{ include('person/_avatar.html.twig', { person: person }) }}
+        </div>
     </div>
 
     {% if person.parentUnion is not null %}
