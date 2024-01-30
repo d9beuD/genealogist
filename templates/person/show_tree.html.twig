@@ -3,14 +3,11 @@
 {% block title %}Arbre de {{ person.firstname }} {{ person.lastname | upper }}{% endblock %}
 
 {% block body %}
-<div class="bg-body border-bottom shadow-sm py-2">
-    <div class="container">
-        <a href="{{ path('app_tree_show', { id: person.tree.id }) }}" class="link-icon text-decoration-none">
-            <i class="fa-solid fa-chevron-left"></i>
-            Retour à l'arbre
-        </a>
-    </div>
-</div>
+{{ include('_includes/main/breadcrumb.html.twig', { items: [
+    { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+    { label: 'Arbre de ' ~ person.fullName, link: path('app_tree_show', { id: person.tree.id }) }
+] }) }}
+
 {{ include('_includes/main/flashes.html.twig') }}
 
 <section id="tree" class="py-5">
