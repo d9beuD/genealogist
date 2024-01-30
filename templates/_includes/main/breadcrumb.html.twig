@@ -1,0 +1,25 @@
+<div class="bg-body-blur py-3 border-bottom sticky-top">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                {% set count = items|length %}
+                {% set last_item = items|last %}
+
+                {% for item in items %}
+                    {% if not loop.last %}
+                        <li class="breadcrumb-item">
+                            <a href="{{ item.link }}">
+                                {{ item.label }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ last_item.label }}
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>

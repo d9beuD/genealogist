@@ -3,20 +3,13 @@
 {% block title %}Modifier l'union{% endblock %}
 
 {% block body %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        {% if person.tree.name is defined %}
-            <li class="breadcrumb-item"><a href="#">{{ person.tree.name }}</a></li>
-        {% endif %}
-        {% if person.firstname is defined and person.lastname is defined %}
-            <li class="breadcrumb-item"><a href="#">{{ person.firstname }} {{ person.lastname }}</a></li>
-        {% endif %}
-        <li class="breadcrumb-item active" aria-current="page">Edit Union</li>
-    </ol>
-</nav>
+{{ include('_includes/main/breadcrumb.html.twig', { items: [
+    { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+    { label: person.fullName, link: path('app_person_edit', { id: person.id }) },
+    { label: 'Modifier l\'union', link: null },
+] }) }}
 
-<section class="py-5">
+<section class="py-4">
     <div class="container">
         <div class="row align-items-end">
             <div class="col">

@@ -161,3 +161,10 @@
     border-bottom: none;
     width: 0;
 }
+
+.bg-body-blur {
+    --bg-opacity: .8;
+    --blur-amount: 1rem;
+    background-color: rgba(var(--bs-body-bg-rgb),var(--bg-opacity)) !important;
+    backdrop-filter: blur(var(--blur-amount));
+}
