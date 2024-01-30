@@ -134,7 +134,7 @@ class UnionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addPerson($form->get('person')->getData());
             $entityManager->flush();
-            $this->addFlash('success', 'Le partenaire ' . $person->getFullName() . ' a bien été ajouté.');
+            $this->addFlash('success', 'Le partenaire **' . $person->getFullName() . '** a bien été ajouté.');
         }
 
         return $this->redirectToRoute('app_union_edit', [
@@ -156,7 +156,7 @@ class UnionController extends AbstractController
     ): Response {
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
-            $this->addFlash('success', 'Le partenaire ' . $partner->getFullName() . ' a bien été supprimé.');
+            $this->addFlash('success', 'Le partenaire **' . $partner->getFullName() . '** a bien été supprimé.');
 
             if ($union->getPeople()->count() === 0) {
                 foreach ($union->getChildren() as $child) {
@@ -198,7 +198,7 @@ class UnionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addChild($form->get('person')->getData());
             $entityManager->flush();
-            $this->addFlash('success', 'L\'enfant ' . $person->getFullName() . ' a bien été ajouté.');
+            $this->addFlash('success', 'L\'enfant **' . $person->getFullName() . '** a bien été ajouté.');
         }
 
         return $this->redirectToRoute('app_union_edit', [
@@ -221,7 +221,7 @@ class UnionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);
             $entityManager->flush();
-            $this->addFlash('success', 'L\'enfant ' . $child->getFullName() . ' a bien été supprimé.');
+            $this->addFlash('success', 'L\'enfant **' . $child->getFullName() . '** a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_union_edit', [

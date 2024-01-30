@@ -42,7 +42,7 @@ class TreeController extends AbstractController
         $entityManager->persist($tree);
         $entityManager->flush();
 
-        $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a été créé avec succès.');
+        $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a été créé avec succès.');
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -98,7 +98,7 @@ class TreeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a bien été modifié.');
+            $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a bien été modifié.');
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -116,7 +116,7 @@ class TreeController extends AbstractController
             $entityManager->remove($tree);
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a bien été supprimé.');
+            $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
@@ -151,7 +151,7 @@ class TreeController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
-            $this->addFlash('success', $person->getFullName() . ' a été ajoutée avec succès.');
+            $this->addFlash('success', '**' . $person->getFullName() . '** a été ajoutée avec succès.');
 
             return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
         }
