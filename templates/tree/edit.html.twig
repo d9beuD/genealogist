@@ -3,13 +3,15 @@
 {% block title %}Modifier l'arbre{% endblock %}
 
 {% block body %}
-    <section class="py-5">
-        <div class="container">
-            <div class="form-medium">
-                <h1>Modifier l'arbre</h1>
+{{ include('_includes/main/flashes.html.twig') }}
 
-                {{ include('tree/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-            </div>
+<section class="my-4">
+    <div class="container">
+        <div class="form-medium">
+            <h1>Modifier l'arbre</h1>
+
+            {{ include('tree/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

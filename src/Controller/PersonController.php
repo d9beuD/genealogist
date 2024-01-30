@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Entity\Tree;
 use App\Form\PersonType;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,6 +52,7 @@ class PersonController extends AbstractController
             }
 
             $entityManager->flush();
+            $this->addFlash('success', '**' . $person->getFullName() . '** a bien été modifié.');
 
             return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -80,6 +80,9 @@ class PersonController extends AbstractController
             }
             $entityManager->remove($person);
             $entityManager->flush();
+            $this->addFlash('success', '**' . $person->getFullName() . '** a bien été supprimé.');
+        } else {
+            $this->addFlash('danger', '**' . $person->getFullName() . '** n\'a pas pu être supprimé.');
         }
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
@@ -87,7 +90,8 @@ class PersonController extends AbstractController
 
     #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
     #[IsGranted('view', 'person')]
-    public function tree(Person $person): Response {
+    public function tree(Person $person): Response
+    {
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,
         ]);

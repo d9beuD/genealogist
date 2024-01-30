@@ -3,7 +3,9 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<section class="py-5">
+{{ include('_includes/main/flashes.html.twig') }}
+
+<section class="my-4">
     <div class="container">
         <div class="form-medium">
             {% if error %}
@@ -12,7 +14,7 @@
 
             {% if app.user %}
                 <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>.
                 </div>
             {% endif %}
 
