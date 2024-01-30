@@ -132,7 +132,7 @@ class Person
 
     public function getFullName(): string
     {
-        return mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname;
+        return trim(mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname);
     }
 
     public function getBirth(): ?\DateTimeInterface
