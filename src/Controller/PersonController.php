@@ -80,6 +80,7 @@ class PersonController extends AbstractController
             }
             $entityManager->remove($person);
             $entityManager->flush();
+            $this->addFlash('success', '**' . $person->getFullName() . '** a bien été supprimé.');
         } else {
             $this->addFlash('danger', '**' . $person->getFullName() . '** n\'a pas pu être supprimé.');
         }
