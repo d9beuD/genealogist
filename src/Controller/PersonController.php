@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Entity\Tree;
 use App\Form\PersonType;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
