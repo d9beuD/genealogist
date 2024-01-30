@@ -7,7 +7,6 @@ use App\Entity\Tree;
 use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
-use App\Repository\UnionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +29,8 @@ class UnionController extends AbstractController
             $person->addUnion($union);
             $entityManager->persist($union);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'union a bien été créée.');
 
             return $this->redirectToRoute('app_union_edit', [
                 'personId' => $person->getId(),
@@ -62,6 +63,8 @@ class UnionController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'union a bien été modifiée.');
             
             return $this->redirectToRoute('app_union_edit', [
                 'personId' => $person->getId(),
@@ -108,6 +111,8 @@ class UnionController extends AbstractController
 
             $entityManager->remove($union);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'union a bien été supprimée.');
         }
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
@@ -129,6 +134,7 @@ class UnionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addPerson($form->get('person')->getData());
             $entityManager->flush();
+            $this->addFlash('success', 'Le partenaire ' . $person->getFullName() . ' a bien été ajouté.');
         }
 
         return $this->redirectToRoute('app_union_edit', [
@@ -151,6 +157,7 @@ class UnionController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
+            $this->addFlash('success', 'Le partenaire ' . $partner->getFullName() . ' a bien été supprimé.');
 
             if ($union->getPeople()->count() === 0) {
                 foreach ($union->getChildren() as $child) {
@@ -158,6 +165,8 @@ class UnionController extends AbstractController
                 }
                 $entityManager->remove($union);
                 $entityManager->flush();
+
+                $this->addFlash('info', 'Comme il n\'y avait plus de partenaire dans cette union, elle a également été supprimée.');
 
                 return $this->redirectToRoute('app_person_edit', [
                     'treeId' => $person->getTree()->getId(),
@@ -190,6 +199,7 @@ class UnionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addChild($form->get('person')->getData());
             $entityManager->flush();
+            $this->addFlash('success', 'L\'enfant ' . $person->getFullName() . ' a bien été ajouté.');
         }
 
         return $this->redirectToRoute('app_union_edit', [
@@ -213,6 +223,7 @@ class UnionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'enfant ' . $child->getFullName() . ' a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_union_edit', [

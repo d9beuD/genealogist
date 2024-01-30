@@ -53,6 +53,7 @@ class PersonController extends AbstractController
             }
 
             $entityManager->flush();
+            $this->addFlash('success', $person->getFullName() . ' a bien été modifié.');
 
             return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -80,6 +81,8 @@ class PersonController extends AbstractController
             }
             $entityManager->remove($person);
             $entityManager->flush();
+        } else {
+            $this->addFlash('danger', $person->getFullName() . ' n\'a pas pu être supprimé.');
         }
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);

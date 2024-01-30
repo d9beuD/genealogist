@@ -8,10 +8,8 @@ use App\Entity\User;
 use App\Form\MembersSearchType;
 use App\Form\PersonType;
 use App\Form\TreeType;
-use App\Repository\TreeRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,20 +29,20 @@ class TreeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
-    public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser): Response
+    public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
     {
+        $total = $user->getTrees()->count();
         $tree = new Tree();
         $tree
-            ->setOwner($currentUser)
+            ->setOwner($user)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setName('My family tree')
+            ->setName('Family tree' . ' #' . ($total + 1))
         ;
         
         $entityManager->persist($tree);
         $entityManager->flush();
 
-        $tree->setName($tree->getName() . ' #' . $tree->getId());
-        $entityManager->flush();
+        $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a été créé avec succès.');
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -81,6 +79,7 @@ class TreeController extends AbstractController
             return $groupedMembers;
         }, []);
 
+
         return $this->render('tree/show.html.twig', [
             'tree' => $tree,
             'form' => $form->createView(),
@@ -99,6 +98,7 @@ class TreeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a bien été modifié.');
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -115,6 +115,8 @@ class TreeController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tree);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'arbre ' . $tree->getName() . ' a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
@@ -147,9 +149,10 @@ class TreeController extends AbstractController
             }
 
             $tree->addMember($person);
-
             $entityManager->persist($person);
             $entityManager->flush();
+
+            $this->addFlash('success', $person->getFullName() . ' a été ajoutée avec succès.');
 
             return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
         }
