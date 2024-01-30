@@ -89,7 +89,8 @@ class PersonController extends AbstractController
 
     #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
     #[IsGranted('view', 'person')]
-    public function tree(Person $person): Response {
+    public function tree(Person $person): Response
+    {
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,
         ]);

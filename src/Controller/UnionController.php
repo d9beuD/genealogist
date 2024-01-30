@@ -53,19 +53,19 @@ class UnionController extends AbstractController
             'union' => $union,
         ]);
     }
-    
+
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'union')]
     public function edit(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $form = $this->createForm(UnionType::class, $union);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
             $this->addFlash('success', 'L\'union a bien été modifiée.');
-            
+
             return $this->redirectToRoute('app_union_edit', [
                 'personId' => $person->getId(),
                 'id' => $union->getId(),
@@ -77,7 +77,7 @@ class UnionController extends AbstractController
             ...$union->getPeople()->toArray(),
             ...$union->getChildren()->toArray()
         ];
-        
+
         return $this->render('union/edit.html.twig', [
             'union' => $union,
             'form' => $form,
@@ -146,15 +146,14 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/remove-partner/{partnerId}', name: 'app_union_remove_partner', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
     public function removePartner(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] 
-        Person $person, 
-        Union $union, 
-        #[MapEntity(id: 'partnerId')] 
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(id: 'personId')]
+        Person $person,
+        Union $union,
+        #[MapEntity(id: 'partnerId')]
         Person $partner
-    ): Response
-    {
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
             $this->addFlash('success', 'Le partenaire ' . $partner->getFullName() . ' a bien été supprimé.');
@@ -211,15 +210,14 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/remove-child/{childId}', name: 'app_union_remove_child', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
     public function removeChild(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] 
-        Person $person, 
-        Union $union, 
-        #[MapEntity(id: 'childId')] 
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(id: 'personId')]
+        Person $person,
+        Union $union,
+        #[MapEntity(id: 'childId')]
         Person $child
-    ): Response
-    {
+    ): Response {
         if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);
             $entityManager->flush();

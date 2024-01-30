@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
-    const FEMALE = 0;
-    const MALE = 1;
-    const OTHER = 2;
+    public const FEMALE = 0;
+    public const MALE = 1;
+    public const OTHER = 2;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -381,8 +381,8 @@ class Person
     public function hasChildren(): bool
     {
         return array_reduce(
-            $this->unions->toArray(), 
-            fn($carry, Union $union) => $carry || $union->hasChildren(), 
+            $this->unions->toArray(),
+            fn ($carry, Union $union) => $carry || $union->hasChildren(),
             false
         );
     }

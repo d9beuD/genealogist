@@ -38,7 +38,7 @@ class TreeController extends AbstractController
             ->setCreatedAt(new \DateTimeImmutable())
             ->setName('Family tree' . ' #' . ($total + 1))
         ;
-        
+
         $entityManager->persist($tree);
         $entityManager->flush();
 
@@ -64,13 +64,13 @@ class TreeController extends AbstractController
                 return true;
             });
         }
-        
+
         // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-        usort($orderedMembers, function($a, $b) {
+        usort($orderedMembers, function ($a, $b) {
             return strcmp(trim($a->getFullName()), trim($b->getFullName()));
         });
-        
+
         // Groupement par première lettre
         $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member) {
             $firstLetter = strtoupper(mb_substr(trim($member->getFullName()), 0, 1));
@@ -129,8 +129,7 @@ class TreeController extends AbstractController
         EntityManagerInterface $entityManager,
         ImageManager $imageManager,
         Tree $tree
-    ): Response
-    {
+    ): Response {
         $person = new Person();
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
