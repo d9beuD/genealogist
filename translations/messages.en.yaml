@@ -6,3 +6,9 @@ form:
         lastname: Lastname
         password: Password
         remember_me: 'Remember me'
+action:
+    login: Login
+    register: Register
+    logout: Logout
+nav:
+    profile: Profile

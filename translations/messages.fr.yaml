@@ -6,3 +6,9 @@ form:
         lastname: Nom
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
+action:
+    login: 'Se connecter'
+    register: "S'inscrire"
+    logout: 'Se déconnecter'
+nav:
+    profile: Profil

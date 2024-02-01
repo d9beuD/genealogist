@@ -45,23 +45,23 @@
                             <li>
                                 <a href="{{ path('app_user_edit') }}" class="dropdown-item">
                                     <i class="fa-solid fa-fw fa-user"></i>
-                                    Profil
+                                    {{ 'nav.profile'|trans }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('app_logout') }}" class="dropdown-item">
                                     <i class="fa-solid fa-fw fa-power-off"></i>
-                                    Déconnexion
+                                    {{ 'action.logout'|trans }}
                                 </a>
                             </li>
                         </ul>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                        <a href="{{ path('app_login') }}" class="nav-link">{{ 'action.login'|trans }}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
+                        <a href="{{ path('app_register') }}" class="btn btn-primary">{{ 'action.register'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>
