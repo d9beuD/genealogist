@@ -28,7 +28,7 @@
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item">
                         <a href="{{ path('app_tree_index') }}" class="nav-link">
-                            Mes projets
+                            {{ 'nav.my_projects'|trans }}
                         </a>
                     </li>
                 {% endif %}

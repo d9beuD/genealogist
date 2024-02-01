@@ -1,7 +1,7 @@
-<form method="post" action="{{ path('app_tree_delete', {'id': tree.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_tree_delete', {'id': tree.id}) }}" onsubmit="return confirm('{{ 'alert.confirm_delete_item'|trans }}?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tree.id) }}">
     <button class="dropdown-item text-danger">
         <i class="fa-solid fa-fw fa-trash"></i>
-        Supprimer
+        {{ 'action.delete'|trans }}
     </button>
 </form>

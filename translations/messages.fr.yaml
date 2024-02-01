@@ -9,11 +9,19 @@ form:
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
 action:
+    delete: Supprimer
+    edit: Modifier
     login: 'Se connecter'
     register: "S'inscrire"
     logout: 'Se déconnecter'
+    show: Afficher
     update: Mettre à jour
 nav:
     profile: Profil
+    my_projects: Mes projets
 profile:
     my_information: Mes informations
+label:
+    actions: Actions
+alert:
+    confirm_delete_item: Êtes-vous sûr de vouloir supprimer cet élément ?

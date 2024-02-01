@@ -9,11 +9,19 @@ form:
         password: Password
         remember_me: 'Remember me'
 action:
+    delete: Delete
+    edit: Edit
     login: Login
     register: Register
     logout: Logout
+    show: Show
     update: Update
 nav:
     profile: Profile
+    my_projects: My projects
 profile:
     my_information: My information
+label:
+    actions: Actions
+alert:
+    confirm_delete_item: Are you sure you want to delete this item?

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes projets{% endblock %}
+{% block title %}{{ 'nav.my_projects'|trans }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/flashes.html.twig') }}
 
 <section class="my-4">
     <div class="container">
-        <h1>Mes projets</h1>
+        <h1>{{ 'nav.my_projects'|trans }}</h1>
 
         <div class="row g-3">
             {% for tree in trees %}
@@ -29,12 +29,12 @@
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><h6 class="dropdown-header">Actions</h6></li>
+                                        <li><h6 class="dropdown-header">{{ 'label.actions'|trans }}</h6></li>
                                         {% if is_granted('view', tree) %}
                                             <li>
                                                 <a href="{{ path('app_tree_show', {'id': tree.id}) }}" class="dropdown-item">
                                                     <i class="fa-solid fa-fw fa-eye"></i>
-                                                    Afficher
+                                                    {{ 'action.show'|trans }}
                                                 </a>
                                             </li>
                                         {% endif %}
@@ -42,7 +42,7 @@
                                             <li>
                                                 <a href="{{ path('app_tree_edit', {'id': tree.id}) }}" class="dropdown-item">
                                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
-                                                    Modifier
+                                                    {{ 'action.edit'|trans }}
                                                 </a>
                                             </li>
                                         {% endif %}
