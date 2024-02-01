@@ -12,5 +12,8 @@ action:
     login: 'Se connecter'
     register: "S'inscrire"
     logout: 'Se déconnecter'
+    update: Mettre à jour
 nav:
     profile: Profil
+profile:
+    my_information: Mes informations

@@ -12,5 +12,8 @@ action:
     login: Login
     register: Register
     logout: Logout
+    update: Update
 nav:
     profile: Profile
+profile:
+    my_information: My information

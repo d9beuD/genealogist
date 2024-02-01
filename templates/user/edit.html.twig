@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}{{ 'nav.profile'|trans }}{% endblock %}
 
 {% block body %}
 <section class="py-5">
     <div class="container">
         <div class="form-medium">
-            <h1>Mes informations</h1>
+            <h1>{{ 'profile.my_information'|trans }}</h1>
 
             {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-            {# {{ include('user/_delete_form.html.twig') }} #}
         </div>
     </div>
 </section>
