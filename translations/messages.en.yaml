@@ -1,4 +1,5 @@
 form:
+    login: Login
     register: Register
     field:
         agreeTerms: 'Accept usage conditions'

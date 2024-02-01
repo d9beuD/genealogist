@@ -1,4 +1,5 @@
 form:
+    login: Connexion
     register: Inscription
     field:
         agreeTerms: "Accepter les conditions d'utilisation"
