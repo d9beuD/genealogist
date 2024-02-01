@@ -1,5 +1,8 @@
 form:
     field:
+        agreeTerms: "Accepter les conditions d'utilisation"
         email: 'Adresse email'
+        firstname: Prénom
+        lastname: Nom
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
