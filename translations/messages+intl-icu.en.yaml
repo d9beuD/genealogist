@@ -25,3 +25,4 @@ label:
     actions: Actions
 alert:
     confirm_delete_item: Are you sure you want to delete this item?
+calendar: '{date, date, medium}'
