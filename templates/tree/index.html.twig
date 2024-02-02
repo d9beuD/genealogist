@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="text-secondary">{{ tree.createdAt ? tree.createdAt|date('d/m/Y') : '' }}</div>
+                        <div class="text-secondary">{{ tree.createdAt ? 'calendar'|trans({'date': tree.createdAt}) : '' }}</div>
                     </div>
                 </div>
             {% endfor %}
