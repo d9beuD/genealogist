@@ -14,6 +14,7 @@ action:
     login: Login
     register: Register
     logout: Logout
+    rename: Rename
     show: Show
     update: Update
 nav:
