@@ -15,6 +15,7 @@ form:
         gender: Gender
         lastname: Lastname
         married: Married
+        name: Name
         password: Password
         other_names: Other names
         portrait: Portrait
@@ -61,6 +62,7 @@ title:
     add_partner: Add a partner
     create_union_for: Create an union for {name}
     edit_union_of: Edit union of {name}
+    rename_tree: Rename tree {name}
     tree_of: Tree of {name}
 alert:
     add_union_members_later: |
