@@ -15,7 +15,7 @@ class MembersSearchType extends AbstractType
             ->add('name', SearchType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Recherche par nom',
+                    'placeholder' => 'form.placeholder.search_by_name',
                 ],
             ])
             ->setMethod('GET')

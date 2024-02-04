@@ -10,28 +10,34 @@
         <div class="row g-3">
             <div class="col-md-4 col-lg-3">
                 {% include "tree/_search_form.html.twig" %}
-                <span class="text-secondary">{{ members_count }} membres trouvés</span>
+                <span class="text-secondary">
+                    {{ 'alert.tree_members_count'|trans({ members: members_count}) }}
+                </span>
             </div>
 
             <div class="col">
-                <div class="bg-body rounded border shadow-sm">
-                    {% for letter, members in grouped_members %}
-                        <section>
-                            <div class="px-4 py-1 fw-bold border-bottom mb-2">{{ letter }}</div>
-                            <div class="mb-3">
-                                {% for member in members %}
-                                    <div class="tree-member-item px-4 py-1">
-                                        {{ include("tree/_member_list_item.html.twig", { member: member }) }}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </section>
-                    {% else %}
-                        <div class="text-secondary px-4 py-1">
-                            Cet arbre n'a pas encore de membre.
+                {% if grouped_members|length %}
+                    <div class="bg-body rounded border shadow-sm">
+                        {% for letter, members in grouped_members %}
+                            <section>
+                                <div class="px-4 py-1 fw-bold border-bottom mb-2">{{ letter }}</div>
+                                <div class="mb-3">
+                                    {% for member in members %}
+                                        <div class="tree-member-item px-4 py-1">
+                                            {{ include("tree/_member_list_item.html.twig", { member: member }) }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </section>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-secondary px-4 py-1">
+                        <div class="alert alert-secondary">
+                            {{ 'alert.tree_has_no_member'|trans }}
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

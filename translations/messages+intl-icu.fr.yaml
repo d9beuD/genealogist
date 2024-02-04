@@ -8,6 +8,8 @@ form:
         lastname: Nom
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
+    placeholder:
+        search_by_name: Recherche par nom
 action:
     delete: Supprimer
     edit: Modifier
@@ -15,6 +17,7 @@ action:
     register: "S'inscrire"
     logout: 'Se déconnecter'
     rename: Renommer
+    see_tree: Voir l'arbre
     show: Afficher
     update: Mettre à jour
 nav:
@@ -26,4 +29,12 @@ label:
     actions: Actions
 alert:
     confirm_delete_item: Êtes-vous sûr de vouloir supprimer cet élément ?
+    confirm_delete_person: Êtes-vous sûr de vouloir supprimer {person_name}?
+    tree_has_no_member: Cet arbre n'a pas encore de membre.
+    tree_members_count: >-
+        {members, plural,
+            =0    {Aucun membre trouvé}
+            =1    {Un membre trouvé}
+            other {# membres trouvés}
+        }
 calendar: '{date, date, medium}'
