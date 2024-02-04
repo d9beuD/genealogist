@@ -3,13 +3,30 @@ form:
     register: Inscription
     field:
         agreeTerms: "Accepter les conditions d'utilisation"
+        birth_date: Date de naissance
+        birth_name: Nom de naissance
+        birth_place: Lieu de naissance
+        death_date: Date de naissance
+        death_place: Lieu de naissance
+        bio: Biographie
+        deceased: Décédé
         email: 'Adresse email'
         firstname: Prénom
+        gender: Genre
         lastname: Nom
         password: 'Mot de passe'
+        other_names: Autres noms
+        portrait: Portrait
         remember_me: 'Se souvenir de moi'
+        uncertain_day: Jour incertain
+        uncertain_month: Mois incertain
+        uncertain_year: Année incertaine
     placeholder:
         search_by_name: Recherche par nom
+    choice:
+        male: Homme
+        female: Femme
+        other: Autre
 action:
     delete: Supprimer
     edit: Modifier
@@ -27,9 +44,18 @@ profile:
     my_information: Mes informations
 label:
     actions: Actions
+    children: Enfants
+    home: Accueil
+    parents: Parents
+    unions: Unions
+title:
+    add_member: Ajouter un membre
+    tree_of: Arbre de {name}
 alert:
     confirm_delete_item: Êtes-vous sûr de vouloir supprimer cet élément ?
     confirm_delete_person: Êtes-vous sûr de vouloir supprimer {person_name}?
+    no_child_registered: Il n'y a pas d'enfant renseigné.
+    no_parent_registered: Il n'y a pas de parent renseigné.
     tree_has_no_member: Cet arbre n'a pas encore de membre.
     tree_members_count: >-
         {members, plural,

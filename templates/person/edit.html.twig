@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Person{% endblock %}
+{% block title %}{{ person.fullName }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/breadcrumb.html.twig', { items: [
@@ -12,7 +12,7 @@
 
 <section class="py-4">
     <div class="container">
-        <h1 class="mb-3">Modifier une personne</h1>
+        <h1 class="mb-3">{{ person.fullName }}</h1>
 
         <section id="profile" class="row gx-4 gy-3 mb-3">
             {% if person.portrait %}
@@ -29,7 +29,7 @@
         <hr class="my-4">
 
         <section id="children" class="mb-4">
-            <h2 class="mb-3">Parents</h2>
+            <h2 class="mb-3">{{ 'label.parents'|trans }}</h2>
 
             {% if person.parentUnion %}
                 <div class="row g-4">
@@ -44,13 +44,13 @@
                 </div>
             {% else %}
                 <div class="alert alert-secondary">
-                    Il n'y a pas de parent renseigné.
+                    {{ 'alert.no_parent_registered'|trans }}
                 </div>
             {% endif %}
         </section>
 
         <section id="unions" class="mb-4">
-            <h2 class="mb-3">Unions</h2>
+            <h2 class="mb-3">{{ 'label.unions'|trans }}</h2>
 
             <div class="row g-4">
                 {% for union in person.unions %}
@@ -80,7 +80,7 @@
         </section>
 
         <section id="children" class="mb-4">
-            <h2 class="mb-3">Enfants</h2>
+            <h2 class="mb-3">{{ 'label.children'|trans }}</h2>
 
             {% if person.hasChildren %}
                 <div class="row g-4">
@@ -98,7 +98,7 @@
                 </div>
             {% else %}
                 <div class="alert alert-secondary">
-                    Il n'y a pas d'enfant renseigné.
+                    {{ 'alert.no_parent_registered'|trans }}
                 </div>
             {% endif %}
         </section>

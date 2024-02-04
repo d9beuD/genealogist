@@ -14,7 +14,7 @@
             </div>
             {% if person.birth %}
                 <div class="text-secondary small">
-                    {{ person.birth | date('d/m/Y') }}
+                    {{ 'calendar'|trans({ date: person.birth }) }}
                 </div>
             {% endif %}
         </div>
@@ -22,7 +22,13 @@
         {% if with_actions is defined and with_actions %}
             <div class="col-auto">
                 <div class="dropdown">
-                    <button class="btn btn-light rounded-pill dropdown-toggle no-caret" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button 
+                        class="btn btn-light rounded-pill dropdown-toggle no-caret" 
+                        type="button" 
+                        id="dropdownMenuButton1" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false"
+                    >
                         <i class="fa-solid fa-ellipsis"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
@@ -33,7 +39,10 @@
                             </a>
                         </li>
                         <li>
-                            {{ include('union/_delete_' ~ type|default('partner') ~ '_dropdown.html.twig', { partner: person, from: from|default(person), union: union }) }}
+                            {{ include(
+                                'union/_delete_' ~ type|default('partner') ~ '_dropdown.html.twig', 
+                                { partner: person, from: from|default(person), union: union }
+                            ) }}
                         </li>
                     </ul>
                 </div>

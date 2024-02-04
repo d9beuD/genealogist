@@ -3,13 +3,30 @@ form:
     register: Register
     field:
         agreeTerms: 'Accept usage conditions'
+        birth_date: Birth date
+        birth_name: Birth name
+        birth_place: Birth place
+        death_date: Death date
+        death_place: Death place
+        bio: Biography
+        deceased: Deceased
         email: 'Email address'
         firstname: Firstname
+        gender: Gender
         lastname: Lastname
         password: Password
+        other_names: Other names
+        portrait: Portrait
         remember_me: 'Remember me'
+        uncertain_day: Uncertain day
+        uncertain_month: Uncertain month
+        uncertain_year: Uncertain year
     placeholder:
         search_by_name: Search by name
+    choice:
+        male: Male
+        female: Female
+        other: Other
 action:
     delete: Delete
     edit: Edit
@@ -27,9 +44,18 @@ profile:
     my_information: My information
 label:
     actions: Actions
+    children: Children
+    home: Home
+    parents: Parents
+    unions: Unions
+title:
+    add_member: Add a member
+    tree_of: Tree of {name}
 alert:
     confirm_delete_item: Are you sure you want to delete this item?
     confirm_delete_person: Are you sure you want to delete {person_name}?
+    no_child_registered: There is no child registered.
+    no_parent_registered: There is no parent registered.
     tree_has_no_member: This tree has no member yet.
     tree_members_count: >-
         {members, plural,

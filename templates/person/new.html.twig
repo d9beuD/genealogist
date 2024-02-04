@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Person{% endblock %}
+{% block title %}{{ 'title.add_member'|trans }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/flashes.html.twig') }}
 
 <section class="my-4">
     <div class="container">
-        <h1>Ajouter un membre</h1>
+        <h1>{{ 'title.add_member'|trans }}</h1>
 
         {{ include('person/_form.html.twig') }}
     </div>
