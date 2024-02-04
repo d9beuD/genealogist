@@ -50,6 +50,10 @@ nav:
     my_projects: Mes projets
 profile:
     my_information: Mes informations
+    registration:
+        success: Votre compte a été créé avec succès. Un email de confirmation vous a été envoyé.
+    edit:
+        success: Vos informations ont bien été modifiées.
 label:
     actions: Actions
     children: Enfants
@@ -62,6 +66,7 @@ title:
     add_member: Ajouter un membre
     add_partner: Ajouter un partenaire
     create_union_for: Créer une union pour {name}
+    edit_union: Modifier l'union
     edit_union_of: Modifier l'union de {name}
     rename_tree: Renommer l'arbre {name}
     tree_of: Arbre de {name}
@@ -82,3 +87,41 @@ alert:
             other {# membres trouvés}
         }
 calendar: '{date, date, medium}'
+person:
+    edit:
+        success: '**{name}** a bien été modifié.'
+    delete:
+        success: '**{name}** a bien été supprimé.'
+        error: "**{name}** n'a pas été supprimé."
+tree:
+    new:
+        success: "L'arbre **{name}** a été créé avec succès."
+    edit:
+        success: "L'arbre **{name}** a bien été modifié."
+    delete:
+        success: "L'arbre **{name}** a bien été supprimé."
+        error: "L'arbre **{name}** n'a pas été supprimé."
+    add_member:
+        success: "**{name}** a bien été ajouté à l'arbre."
+        error: "**{name}** n'a pas été ajouté à l'arbre."
+union:
+    new:
+        success: "L'union a bien été créée."
+    edit:
+        success: "L'union a bien été modifiée."
+    delete:
+        success: "L'union a bien été supprimée."
+        error: "L'union n'a pas été supprimée."
+        info: "Comme il n'y avait plus de partenaire dans cette union, elle a également été supprimée."
+    partner:
+        add:
+            success: "**{name}** a bien été ajouté comme partenaire."
+        remove:
+            success: "**{name}** a bien été retiré comme partenaire."
+            error: "**{name}** n'a pas été retiré comme partenaire."
+    child:
+        add:
+            success: "**{name}** a bien été ajouté comme enfant."
+        remove:
+            success: "**{name}** a bien été retiré comme enfant."
+            error: "**{name}** n'a pas été retiré comme enfant."
