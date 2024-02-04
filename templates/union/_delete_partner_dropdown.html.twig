@@ -1,7 +1,11 @@
-<form method="post" action="{{ path('app_union_remove_partner', { id: union.id, personId: from.id, partnerId: partner.id }) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form 
+    method="post" 
+    action="{{ path('app_union_remove_partner', { id: union.id, personId: from.id, partnerId: partner.id }) }}" 
+    onsubmit="return confirm('{{ 'alert.confirm_delete_union_member'|trans({ name: partner.fullName }) }}?');"
+>
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ partner.id) }}">
     <button class="dropdown-item text-danger">
         <i class="fa-solid fa-fw fa-trash"></i>
-        Supprimer
+        {{ 'action.delete'|trans }}
     </button>
 </form>

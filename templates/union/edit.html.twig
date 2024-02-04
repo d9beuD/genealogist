@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier l'union{% endblock %}
+{% block title %}{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/breadcrumb.html.twig', { items: [
@@ -13,14 +13,14 @@
     <div class="container">
         <div class="row align-items-end">
             <div class="col">
-                <h1>Modifier l'union</h1>
+                <h1>{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}</h1>
             </div>
             <div class="col-auto">
                 {{ include('union/_delete_form.html.twig') }}
             </div>
         </div>
 
-        <h2 class="h5">Partenaires</h2>
+        <h2 class="h5">{{ 'label.partners'|trans }}</h2>
         <div class="row g-2 mb-3">
             {% for partner in union.people %}
                 <div class="col-auto">
@@ -29,7 +29,7 @@
             {% endfor %}
         </div>
 
-        <h2 class="h5">Enfants</h2>
+        <h2 class="h5">{{ 'label.children'|trans }}</h2>
         <div class="row g-2 mb-3">
             {% for child in union.children %}
                 <div class="col-auto">
@@ -41,11 +41,11 @@
         {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
         {% if union.people | length < 2 %}
-            <h3>Ajouter un conjoint</h3>
+            <h3>{{ 'title.add_partner'|trans }}</h3>
             {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
         {% endif %}
 
-        <h3>Ajouter un enfant</h3>
+        <h3>{{ 'title.add_child'|trans }}</h3>
         {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
     </div>
 </section>

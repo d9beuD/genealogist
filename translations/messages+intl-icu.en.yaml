@@ -14,6 +14,7 @@ form:
         firstname: Firstname
         gender: Gender
         lastname: Lastname
+        married: Married
         password: Password
         other_names: Other names
         portrait: Portrait
@@ -21,6 +22,8 @@ form:
         uncertain_day: Uncertain day
         uncertain_month: Uncertain month
         uncertain_year: Uncertain year
+        union_date: Union date
+        union_place: Union place
     placeholder:
         search_by_name: Search by name
     choice:
@@ -28,6 +31,9 @@ form:
         female: Female
         other: Other
 action:
+    add: Add
+    cancel: Cancel
+    create: Create
     delete: Delete
     edit: Edit
     login: Login
@@ -47,13 +53,22 @@ label:
     children: Children
     home: Home
     parents: Parents
+    partners: Partners
     unions: Unions
 title:
+    add_child: Add a child
     add_member: Add a member
+    add_partner: Add a partner
+    create_union_for: Create an union for {name}
+    edit_union_of: Edit union of {name}
     tree_of: Tree of {name}
 alert:
+    add_union_members_later: |
+        You will be able to add members to this union once it is created.
     confirm_delete_item: Are you sure you want to delete this item?
     confirm_delete_person: Are you sure you want to delete {person_name}?
+    confirm_delete_union: Are you sure you want to delete this union?
+    confirm_delete_union_member: Are you sure you want to remove {name} from this union?
     no_child_registered: There is no child registered.
     no_parent_registered: There is no parent registered.
     tree_has_no_member: This tree has no member yet.
