@@ -16,6 +16,11 @@ framework:
     php_errors:
         log: true
 
+    default_locale: en
+    enabled_locales: [en, fr]
+    set_content_language_from_locale: true
+    set_locale_from_accept_language: true
+
 when@test:
     framework:
         test: true

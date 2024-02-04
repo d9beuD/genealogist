@@ -17,21 +17,21 @@ class UnionType extends AbstractType
         $builder
             ->add('married', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mariés',
+                'label' => 'form.field.married',
                 'label_attr' => ['class' => 'checkbox-switch'],
             ])
             ->add('weddingDate', DateType::class, [
                 'required' => false,
-                'label' => 'Date union',
+                'label' => 'form.field.union_date',
                 'widget' => 'single_text',
             ])
             ->add('weddingPlace', TextType::class, [
                 'required' => false,
-                'label' => 'Lieu union',
+                'label' => 'form.field.union_place',
             ])
             ->add('dayUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Jour incertain',
+                'label' => 'form.field.uncertain_day',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -41,7 +41,7 @@ class UnionType extends AbstractType
             ])
             ->add('monthUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mois incertain',
+                'label' => 'form.field.uncertain_month',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -51,7 +51,7 @@ class UnionType extends AbstractType
             ])
             ->add('yearUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Année incertaine',
+                'label' => 'form.field.uncertain_year',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],

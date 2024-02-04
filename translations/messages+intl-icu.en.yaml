@@ -1,0 +1,84 @@
+form:
+    login: Login
+    register: Register
+    field:
+        agreeTerms: 'Accept usage conditions'
+        birth_date: Birth date
+        birth_name: Birth name
+        birth_place: Birth place
+        death_date: Death date
+        death_place: Death place
+        bio: Biography
+        deceased: Deceased
+        email: 'Email address'
+        firstname: Firstname
+        gender: Gender
+        lastname: Lastname
+        married: Married
+        name: Name
+        password: Password
+        other_names: Other names
+        portrait: Portrait
+        remember_me: 'Remember me'
+        uncertain_day: Uncertain day
+        uncertain_month: Uncertain month
+        uncertain_year: Uncertain year
+        union_date: Union date
+        union_place: Union place
+    placeholder:
+        search_by_name: Search by name
+    choice:
+        male: Male
+        female: Female
+        other: Other
+action:
+    add: Add
+    cancel: Cancel
+    create: Create
+    delete: Delete
+    edit: Edit
+    login: Login
+    register: Register
+    logout: Logout
+    rename: Rename
+    save: Save
+    see_tree: See tree
+    show: Show
+    update: Update
+nav:
+    profile: Profile
+    my_projects: My projects
+profile:
+    my_information: My information
+label:
+    actions: Actions
+    children: Children
+    home: Home
+    parents: Parents
+    partners: Partners
+    unions: Unions
+title:
+    add_child: Add a child
+    add_member: Add a member
+    add_partner: Add a partner
+    create_union_for: Create an union for {name}
+    edit_union_of: Edit union of {name}
+    rename_tree: Rename tree {name}
+    tree_of: Tree of {name}
+alert:
+    add_union_members_later: |
+        You will be able to add members to this union once it is created.
+    confirm_delete_item: Are you sure you want to delete this item?
+    confirm_delete_person: Are you sure you want to delete {person_name}?
+    confirm_delete_union: Are you sure you want to delete this union?
+    confirm_delete_union_member: Are you sure you want to remove {name} from this union?
+    no_child_registered: There is no child registered.
+    no_parent_registered: There is no parent registered.
+    tree_has_no_member: This tree has no member yet.
+    tree_members_count: >-
+        {members, plural,
+            =0    {No member found}
+            =1    {One member found}
+            other {# members found}
+        }
+calendar: '{date, date, medium}'

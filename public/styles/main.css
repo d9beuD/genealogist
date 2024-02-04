@@ -168,3 +168,7 @@
     background-color: rgba(var(--bs-body-bg-rgb),var(--bg-opacity)) !important;
     backdrop-filter: blur(var(--blur-amount));
 }
+
+.alert p:last-of-type {
+    margin-bottom: 0;
+}

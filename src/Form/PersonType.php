@@ -19,7 +19,7 @@ class PersonType extends AbstractType
     {
         $builder
             ->add('portrait', FileType::class, [
-                'label' => 'Portrait',
+                'label' => 'form.field.portrait',
                 'required' => false,
                 'mapped' => false,
                 'attr' => [
@@ -27,36 +27,37 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'form.field.firstname',
                 'required' => false,
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'form.field.lastname',
                 'required' => false,
             ])
             ->add('birthName', TextType::class, [
-                'label' => 'Nom de naissance',
+                'label' => 'form.field.birth_name',
                 'required' => false,
             ])
             ->add('otherNames', TextType::class, [
-                'label' => 'Autres noms',
+                'label' => 'form.field.other_names',
                 'required' => false,
             ])
             ->add('bio', TextareaType::class, [
+                'label' => 'form.field.bio',
                 'required' => false,
             ])
             ->add('birth', DateType::class, [
-                'label' => 'Date de naissance',
+                'label' => 'form.field.birth_date',
                 'required' => false,
                 'widget' => 'single_text',
             ])
             ->add('birthPlace', TextType::class, [
-                'label' => 'Lieu de naissance',
+                'label' => 'form.field.birth_place',
                 'required' => false,
             ])
             ->add('birthDayUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Jour incertain',
+                'label' => 'form.field.uncertain_day',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -66,7 +67,7 @@ class PersonType extends AbstractType
             ])
             ->add('birthMonthUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mois incertain',
+                'label' => 'form.field.uncertain_month',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -76,7 +77,7 @@ class PersonType extends AbstractType
             ])
             ->add('birthYearUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Année incertaine',
+                'label' => 'form.field.uncertain_year',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -85,17 +86,17 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('death', DateType::class, [
-                'label' => 'Date de décès',
+                'label' => 'form.field.death_date',
                 'required' => false,
                 'widget' => 'single_text',
             ])
             ->add('deathPlace', TextType::class, [
-                'label' => 'Lieu de décès',
+                'label' => 'form.field.death_place',
                 'required' => false,
             ])
             ->add('deathDayUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Jour incertain',
+                'label' => 'form.field.uncertain_day',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -105,7 +106,7 @@ class PersonType extends AbstractType
             ])
             ->add('deathMonthUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Mois incertain',
+                'label' => 'form.field.uncertain_month',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -115,7 +116,7 @@ class PersonType extends AbstractType
             ])
             ->add('deathYearUnsure', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Année incertaine',
+                'label' => 'form.field.uncertain_year',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -125,7 +126,7 @@ class PersonType extends AbstractType
             ])
             ->add('dead', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Décédé',
+                'label' => 'form.field.deceased',
                 'label_attr' => [
                     'class' => 'checkbox-inline checkbox-switch'
                 ],
@@ -134,11 +135,11 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => 'Genre',
+                'label' => 'form.field.gender',
                 'choices' => [
-                    'Homme' => Person::MALE,
-                    'Femme' => Person::FEMALE,
-                    'Autre' => Person::OTHER,
+                    'form.choice.male' => Person::MALE,
+                    'form.choice.female' => Person::FEMALE,
+                    'form.choice.other' => Person::OTHER,
                 ],
                 'expanded' => true,
                 'label_attr' => [

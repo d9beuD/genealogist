@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier l'arbre{% endblock %}
+{% block title %}{{ 'title.rename_tree'|trans({ name: tree.name }) }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/flashes.html.twig') }}
@@ -8,9 +8,9 @@
 <section class="my-4">
     <div class="container">
         <div class="form-medium">
-            <h1>Modifier l'arbre</h1>
+            <h1>{{ 'title.rename_tree'|trans({ name: tree.name }) }}</h1>
 
-            {{ include('tree/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            {{ include('tree/_form.html.twig', { button_label: 'action.update'|trans }) }}
         </div>
     </div>
 </section>

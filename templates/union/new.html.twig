@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Union{% endblock %}
+{% block title %}{{ 'title.create_union_for'|trans({ name: person.fullName }) }}{% endblock %}
 
 {% block body %}
 <section class="py-5">
     <div class="container">
-        <h1>Créer une union</h1>
+        <h1>{{ 'title.create_union_for'|trans({ name: person.fullName }) }}</h1>
 
         <div class="alert alert-primary">
             <div class="row g-3">
@@ -13,7 +13,7 @@
                     <i class="fa-solid fa-info-circle"></i>
                 </div>
                 <div class="col">
-                    Vous pourrez ajouter des personnes à cette union une fois qu'elle sera créée.
+                    {{ 'alert.add_union_members_later'|trans }}
                 </div>
             </div>
         </div>

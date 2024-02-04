@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,13 +14,20 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('email', EmailType::class, [
+                'label' => 'form.field.email'
+            ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'required' => false,
+                'label' => 'form.field.password',
             ])
-            ->add('firstname')
-            ->add('lastname')
+            ->add('firstname', null, [
+                'label' => 'form.field.firstname'
+            ])
+            ->add('lastname', null, [
+                'label' => 'form.field.lastname'
+            ])
         ;
     }
 

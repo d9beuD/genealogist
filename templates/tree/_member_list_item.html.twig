@@ -4,12 +4,12 @@
             <div class="col-auto">
                 {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
             </div>
-            <div class="col-auto" title="{{ member.birth | date('d/m/Y') }}">
+            <div class="col-auto" title="{{ member.birth ? 'calendar'|trans({ date: member.birth }) : '' }}">
                 {{ member.fullName }}
             </div>
             
             {% if member.isDead %}
-                <div class="col-auto" title="{{ member.death | date('d/m/Y') }}">
+                <div class="col-auto" title="{{ member.death ? 'calendar'|trans({ date: member.death }) : '' }}">
                     <span class="text-secondary">
                         <i class="fa-solid fa-cross"></i>
                     </span>
@@ -23,7 +23,7 @@
             <i class="fa-solid fa-ellipsis"></i>
         </a>
         <ul class="dropdown-menu">
-            <li><h6 class="dropdown-header">Actions</h6></li>
+            <li><h6 class="dropdown-header">{{ 'label.actions'|trans }}</h6></li>
             {% if is_granted('view', member) %}
                 <li>
                     <a 
@@ -43,7 +43,7 @@
                         class="dropdown-item"
                     >
                         <i class="fa-solid fa-edit"></i>
-                        Modifier
+                        {{ 'action.edit'|trans }}
                     </a>
                 </li>
             {% endif %}

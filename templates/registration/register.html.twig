@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'form.register'|trans }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/flashes.html.twig') }}
@@ -12,7 +12,7 @@
                 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
             {% endfor %}
 
-            <h1>Inscription</h1>
+            <h1>{{ 'form.register'|trans }}</h1>
 
             {{ form_errors(registrationForm) }}
 
@@ -30,7 +30,7 @@
                 {{ form_row(registrationForm.agreeTerms) }}
 
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary">{{ 'action.register'|trans }}</button>
                 </div>
             {{ form_end(registrationForm) }}
         </div>

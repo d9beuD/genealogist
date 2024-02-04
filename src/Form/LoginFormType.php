@@ -16,7 +16,7 @@ class LoginFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Adresse email',
+                'label' => 'form.field.email',
                 'attr' => ['autocomplete' => 'email'],
                 'constraints' => [
                     new NotBlank([
@@ -25,7 +25,7 @@ class LoginFormType extends AbstractType
                 ],
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'form.field.password',
                 'attr' => ['autocomplete' => 'current-password'],
                 'constraints' => [
                     new NotBlank([
@@ -34,7 +34,7 @@ class LoginFormType extends AbstractType
                 ],
             ])
             ->add('remember_me', CheckboxType::class, [
-                'label' => 'Se souvenir de moi',
+                'label' => 'form.field.remember_me',
                 'required' => false,
             ])
         ;

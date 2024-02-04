@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Arbre de {{ person.firstname }} {{ person.lastname | upper }}{% endblock %}
+{% block title %}{{ 'title.tree_of'|trans({ name: person.fullName }) }}{% endblock %}
 
 {% block body %}
 {{ include('_includes/main/breadcrumb.html.twig', { items: [
     { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
-    { label: 'Arbre de ' ~ person.fullName, link: path('app_tree_show', { id: person.tree.id }) }
+    { label: 'title.tree_of'|trans({ name: person.fullName }), link: path('app_tree_show', { id: person.tree.id }) }
 ] }) }}
 
 {{ include('_includes/main/flashes.html.twig') }}

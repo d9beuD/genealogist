@@ -2,7 +2,7 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_home') }}">{{ 'label.home'|trans }}</a></li>
                 {% set count = items|length %}
                 {% set last_item = items|last %}
 

@@ -17,7 +17,7 @@
     </div>
 
     <div class="text-end">
-        <a class="btn btn-secondary" href="{{ path('app_person_edit', { id: person.id }) }}">Annuler</a>
-        <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
+        <a class="btn btn-secondary" href="{{ path('app_person_edit', { id: person.id }) }}">{{ 'action.cancel'|trans }}</a>
+        <button class="btn btn-primary">{{ button_label|default('action.create'|trans) }}</button>
     </div>
 {{ form_end(form) }}

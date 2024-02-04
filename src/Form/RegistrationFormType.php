@@ -20,7 +20,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'form.field.firstname',
                 'attr' => ['autofocus' => true],
                 'constraints' => [
                     new NotBlank([
@@ -29,14 +29,14 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'form.field.lastname',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a lastname'
                     ]),
                 ],
             ])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
+            ->add('email', EmailType::class, ['label' => 'form.field.email'])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -44,7 +44,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
-                'label' => 'Accepter les conditions d\'utilisation',
+                'label' => 'form.field.agreeTerms',
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -62,7 +62,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Mot de passe',
+                'label' => 'form.field.password',
             ])
         ;
     }
