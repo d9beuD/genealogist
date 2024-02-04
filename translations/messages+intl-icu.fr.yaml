@@ -41,6 +41,7 @@ action:
     register: "S'inscrire"
     logout: 'Se déconnecter'
     rename: Renommer
+    save: Enregistrer
     see_tree: Voir l'arbre
     show: Afficher
     update: Mettre à jour

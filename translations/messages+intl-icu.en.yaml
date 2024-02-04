@@ -41,6 +41,7 @@ action:
     register: Register
     logout: Logout
     rename: Rename
+    save: Save
     see_tree: See tree
     show: Show
     update: Update
