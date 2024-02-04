@@ -32,6 +32,8 @@ form:
         other: Autre
 action:
     add: Ajouter
+    cancel: Annuler
+    create: Créer
     delete: Supprimer
     edit: Modifier
     login: 'Se connecter'
