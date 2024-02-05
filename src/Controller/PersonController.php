@@ -11,10 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 #[Route('/person')]
 class PersonController extends AbstractController
 {
+    public function __construct(
+        private TranslatorInterface $translator,
+    ) {}
+
     #[Route('/{id}', name: 'app_person_show', methods: ['GET'])]
     #[IsGranted('view', 'person')]
     public function show(Person $person): Response
@@ -52,7 +58,10 @@ class PersonController extends AbstractController
             }
 
             $entityManager->flush();
-            $this->addFlash('success', '**' . $person->getFullName() . '** a bien été modifié.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans('person.edit.success', ['name' => $person->getFullName()]),
+            );
 
             return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -80,9 +89,15 @@ class PersonController extends AbstractController
             }
             $entityManager->remove($person);
             $entityManager->flush();
-            $this->addFlash('success', '**' . $person->getFullName() . '** a bien été supprimé.');
+            $this->addFlash(
+                'success',
+                $this->translator->trans('person.delete.success', ['name' => $person->getFullName()]),
+            );
         } else {
-            $this->addFlash('danger', '**' . $person->getFullName() . '** n\'a pas pu être supprimé.');
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('person.delete.error', ['name' => $person->getFullName()]),
+            );
         }
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);

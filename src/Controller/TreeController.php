@@ -16,10 +16,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/project')]
 class TreeController extends AbstractController
 {
+    public function __construct(
+        private TranslatorInterface $translator,
+    ) {}
+
     #[Route('/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response
     {
@@ -42,7 +47,10 @@ class TreeController extends AbstractController
         $entityManager->persist($tree);
         $entityManager->flush();
 
-        $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a été créé avec succès.');
+        $this->addFlash(
+            'success', 
+            $this->translator->trans('tree.new.success', ['name' => $tree->getName()])
+        );
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -98,7 +106,10 @@ class TreeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a bien été modifié.');
+            $this->addFlash(
+                'success', 
+                $this->translator->trans('tree.edit.success', ['name' => $tree->getName()])
+            );
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -116,7 +127,15 @@ class TreeController extends AbstractController
             $entityManager->remove($tree);
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'arbre **' . $tree->getName() . '** a bien été supprimé.');
+            $this->addFlash(
+                'success', 
+                $this->translator->trans('tree.delete.success', ['name' => $tree->getName()])
+            );
+        } else {
+            $this->addFlash(
+                'danger', 
+                $this->translator->trans('tree.delete.error', ['name' => $tree->getName()])
+            );
         }
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
@@ -151,7 +170,10 @@ class TreeController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
-            $this->addFlash('success', '**' . $person->getFullName() . '** a été ajoutée avec succès.');
+            $this->addFlash(
+                'success', 
+                $this->translator->trans('tree.add_member.success', ['name' => $person->getFullName()])
+            );
 
             return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
         }

@@ -12,10 +12,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/profile')]
 class UserController extends AbstractController
 {
+    public function __construct(
+        private TranslatorInterface $translator,
+    ) {}
+
     #[Route('/', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, #[CurrentUser()] User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -26,7 +31,10 @@ class UserController extends AbstractController
             if ($plainPassword = $form->get('password')->getData()) {
                 $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
             }
-            $this->addFlash('success', 'Votre profil a bien été modifié.');
+            $this->addFlash(
+                'success', 
+                $this->translator->trans('profile.edit.success')
+            );
             $entityManager->flush();
         }
 

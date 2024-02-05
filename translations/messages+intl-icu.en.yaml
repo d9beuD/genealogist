@@ -50,6 +50,10 @@ nav:
     my_projects: My projects
 profile:
     my_information: My information
+    registration:
+        success: Your account has been created with success. A confirmation email has been sent to you.
+    edit:
+        success: Your data has been edited.
 label:
     actions: Actions
     children: Children
@@ -62,6 +66,7 @@ title:
     add_member: Add a member
     add_partner: Add a partner
     create_union_for: Create an union for {name}
+    edit_union: Edit union
     edit_union_of: Edit union of {name}
     rename_tree: Rename tree {name}
     tree_of: Tree of {name}
@@ -82,3 +87,41 @@ alert:
             other {# members found}
         }
 calendar: '{date, date, medium}'
+person:
+    edit:
+        success: '**{name}** has been successfully modified.'
+    delete:
+        success: '**{name}** has been successfully deleted.'
+        error: '**{name}** has not been deleted.'
+tree:
+    new:
+        success: 'The tree **{name}** has been successfully created.'
+    edit:
+        success: 'The tree **{name}** has been successfully modified.'
+    delete:
+        success: 'The tree **{name}** has been successfully deleted.'
+        error: 'The tree **{name}** has not been deleted.'
+    add_member:
+        success: '**{name}** has been successfully added to the tree.'
+        error: '**{name}** has not been added to the tree.'
+union:
+    new:
+        success: 'The union has been successfully created.'
+    edit:
+        success: 'The union has been successfully modified.'
+    delete:
+        success: 'The union has been successfully deleted.'
+        error: 'The union has not been deleted.'
+        info: 'Since there were no more partners in this union, it has also been deleted.'
+    partner:
+        add:
+            success: '**{name}** has been successfully added as a partner.'
+        remove:
+            success: '**{name}** has been successfully removed as a partner.'
+            error: '**{name}** has not been removed as a partner.'
+    child:
+        add:
+            success: '**{name}** has been successfully added as a child.'
+        remove:
+            success: '**{name}** has been successfully removed as a child.'
+            error: '**{name}** has not been removed as a child.'
