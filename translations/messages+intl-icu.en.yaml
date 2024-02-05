@@ -13,6 +13,13 @@ form:
         email: 'Email address'
         firstname: Firstname
         gender: Gender
+        gender.value: >-
+            {gender, select,
+                0 {Female}
+                1 {Male}
+                3 {Other}
+                other {}
+            }
         lastname: Lastname
         married: Married
         name: Name
