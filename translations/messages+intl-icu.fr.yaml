@@ -6,8 +6,8 @@ form:
         birth_date: Date de naissance
         birth_name: Nom de naissance
         birth_place: Lieu de naissance
-        death_date: Date de naissance
-        death_place: Lieu de naissance
+        death_date: Date de décès
+        death_place: Lieu de décès
         bio: Biographie
         deceased: Décédé
         email: 'Adresse email'
