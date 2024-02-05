@@ -1,0 +1,14 @@
+{% macro list_item(icon, label, value) %}
+    <li class="list-group-item">
+        <div class="row gx-2 align-items-center" style="line-height: 1rem;">
+            <div class="col-auto">
+                <i class="fa-solid fa-fw fa-xl fa-{{ icon }}"></i>
+            </div>
+            <div class="col">
+                <h6 class="mb-0">{{ label }}</h6>
+                <span class="text-secondary">{{ value }}</span>
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+

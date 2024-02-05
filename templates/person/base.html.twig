@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% import "person/_macro.html.twig" as macro %}
 {% set route_name = app.request.get('_route') %}
 
 {% block body %}
@@ -27,6 +28,30 @@
                     {% endif %}
 
                     <h1 class="h2 my-2 text-center">{{ person.fullName }}</h1>
+
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{ macro.list_item('id-card', 'form.field.gender'|trans, 'form.field.gender.value'|trans({ gender: person.gender })) }}
+
+                            {% if person.birth %}
+                                {{ macro.list_item('cake-candles', 'form.field.birth_date'|trans, 'calendar'|trans({ date: person.birth })) }}
+                            {% endif %}
+
+                            {% if person.birthPlace and person.birthPlace != '' %}
+                                {{ macro.list_item('map-marker-alt', 'form.field.birth_place'|trans, person.birthPlace) }}
+                            {% endif %}
+
+                            {% if person.isDead %}
+                                {% if person.death %}
+                                    {{ macro.list_item('tombstone', 'form.field.death_date'|trans, 'calendar'|trans({ date: person.death })) }}
+                                {% endif %}
+                                
+                                {% if person.deathPlace and person.deathPlace != '' %}
+                                    {{ macro.list_item('map-marker-alt', 'form.field.death_place'|trans, person.deathPlace) }}
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
                 
                 <div class="col">
