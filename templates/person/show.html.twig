@@ -1,0 +1,141 @@
+{% extends 'person/base.html.twig' %}
+
+{% block title %}{{ person.fullName }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: null },
+    ] }) }}
+{% endblock %}
+
+{% block content %}
+    <section id="bio" class="mb-4">
+        {% if person.bio and person.bio != '' %}
+            <div class="description p-3 rounded" style="background-color: var(--bs-secondary-bg);">
+                {{ person.bio|markdown_to_html }}
+            </div>
+        {% else %}
+            <p class="text-secondary fst-italic">
+                {{ 'alert.no_description_provided'|trans }}
+            </p>
+        {% endif %}
+    </section>
+
+    <section id="parents" class="mb-4">
+        <div class="row g-1 align-items-center mb-3">
+            <div class="col-auto">
+                <h2 class="h3 mb-0">{{ 'label.parents'|trans }}</h2>
+            </div>
+            <div class="col-auto">
+                {% if person.parentUnion %}
+                    <span class="badge rounded-pill text-bg-secondary">{{ person.parentUnion.people|length }}</span>
+                {% else %}
+                    <span class="badge rounded-pill bg-secondary">0</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if person.parentUnion %}
+            <div class="row g-4">
+            {% for parent in person.parentUnion.people | sort((a, b) => a.gender <=> b.gender) | reverse %}
+                <div class="col-auto">
+                    <div class="position-relative">
+                        <a href="{{ path('app_person_show', { id: parent.id }) }}" class="stretched-link"></a>
+                        {{ include('person/_avatar.html.twig', { person: parent }) }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-info-circle"></i>
+                    </div>
+                    <div class="col">
+                        {{ 'alert.no_parent_registered'|trans }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+
+    <section id="unions" class="mb-4">
+        <div class="row g-2 align-items-center mb-3">
+            <div class="col-auto">
+                <h2 class="h3 mb-0">{{ 'label.unions'|trans }}</h2>
+            </div>
+            <div class="col-auto">
+                <span class="badge rounded-pill text-bg-secondary">{{ person.unions|length }}</span>
+            </div>
+        </div>
+
+        {% if person.unions|length %}
+            <div class="row g-4">
+                {% for union in person.unions %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            {{ include('person/_avatar.html.twig', { person: person }) }}
+
+                            {% for partner in union.people %}
+                                {% if partner.id != person.id %}
+                                    <div class="avatar-link avatar-link-v"></div>
+                                    <div class="position-relative w-100">
+                                        <a href="{{ path('app_person_show', { id: partner.id }) }}" class="stretched-link"></a>
+                                        {{ include('person/_avatar.html.twig', { person: partner }) }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-info-circle"></i>
+                    </div>
+                    <div class="col">
+                        {{ 'alert.no_union_registered'|trans }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+
+    <section id="children" class="mb-4">
+        <div class="row g-2 align-items-center mb-3">
+            <div class="col-auto">
+                <h2 class="h3 mb-0">{{ 'label.children'|trans }}</h2>
+            </div>
+            <div class="col-auto">
+                <span class="badge rounded-pill text-bg-secondary">{{ person.children|length }}</span>
+            </div>
+        </div>
+
+        {% if person.children|length %}
+            <div class="row g-4">
+                {% for child in person.children %}
+                    <div class="col-auto">
+                        <div class="position-relative">
+                            <a href="{{ path('app_person_show', { id: child.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: child }) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-info-circle"></i>
+                    </div>
+                    <div class="col">
+                        {{ 'alert.no_child_registered'|trans }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+{% endblock %}

@@ -386,4 +386,16 @@ class Person
             false
         );
     }
+
+    public function getChildren(): Collection
+    {
+        $children = new ArrayCollection();
+        foreach ($this->getUnions() as $union) {
+            foreach ($union->getChildren() as $child) {
+                $children->add($child);
+            }
+        }
+
+        return $children;
+    }
 }

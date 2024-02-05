@@ -85,7 +85,9 @@ alert:
     confirm_delete_union: Are you sure you want to delete this union?
     confirm_delete_union_member: Are you sure you want to remove {name} from this union?
     no_child_registered: There is no child registered.
+    no_description_provided: No description provided.
     no_parent_registered: There is no parent registered.
+    no_union_registered: There is no union registered.
     tree_has_no_member: This tree has no member yet.
     tree_members_count: >-
         {members, plural,
