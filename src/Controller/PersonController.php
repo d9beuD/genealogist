@@ -62,8 +62,6 @@ class PersonController extends AbstractController
                 'success',
                 $this->translator->trans('person.edit.success', ['name' => $person->getFullName()]),
             );
-
-            return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('person/edit.html.twig', [
