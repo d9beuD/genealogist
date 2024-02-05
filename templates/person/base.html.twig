@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% set route_name = app.request.get('_route') %}
+
+{% block body %}
+    {% block breadcrumb %}{% endblock %}
+
+    {{ include('_includes/main/flashes.html.twig') }}
+
+    <section class="my-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 col-md-4 col-lg-3">
+                    {% if person.portrait %}
+                        <img 
+                            src="/pictures/{{ person.portrait }}" 
+                            alt="Person profile picture" 
+                            class="img-fluid border rounded-5 shadow-sm"
+                        >
+                    {% else %}
+                        {% set icon = person.gender == 0 
+                            ? 'fa-user-vneck-hair-long' : person.gender == 1 
+                            ? 'fa-user-vneck-hair' : 'fa-user-vneck' 
+                        %}
+                        <div class="display-1 text-secondary text-center mb-3">
+                            <i class="fa-solid fa-xl {{ icon }}"></i>
+                        </div>
+                    {% endif %}
+
+                    <h1 class="h2 my-2 text-center">{{ person.fullName }}</h1>
+                </div>
+                
+                <div class="col">
+                    <nav class="mb-3">
+                        <ul class="nav nav-underline">
+                            <li class="nav-item">
+                                <a 
+                                    class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}" 
+                                    href="{{ path('app_person_show', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_show' %}aria-current="page"{% endif %}
+                                    
+                                >Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a 
+                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}" 
+                                    href="{{ path('app_person_edit', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
+                                    
+                                >Edit</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+{% endblock %}
