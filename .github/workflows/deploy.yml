@@ -19,7 +19,7 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: locked
-          composer-options: "--ignore-platform-reqs --optimize-autoloader"
+          composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
           
       - name: Create env.local.php
         run: |
