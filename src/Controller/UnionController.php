@@ -104,13 +104,10 @@ class UnionController extends AbstractController
         ]);
     }
 
-    #[Route('/union/{id}', name: 'app_union_delete', methods: ['POST'])]
+    #[Route('/person/{personId}/union/{id}', name: 'app_union_delete', methods: ['POST'])]
     #[IsGranted('delete', 'union')]
-    public function delete(Request $request, Union $union, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
     {
-        /** @var Tree */
-        $tree = $union->getPeople()->first()->getTree();
-
         if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
             // First, remove the union from all people
             foreach ($union->getPeople() as $person) {
@@ -134,7 +131,7 @@ class UnionController extends AbstractController
             );
         }
 
-        return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_person_unions', ['id' => $person->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/person/{personId}/union/{id}/add-partner', name: 'app_union_add_partner', methods: ['POST'])]

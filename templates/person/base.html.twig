@@ -63,7 +63,10 @@
                                     href="{{ path('app_person_show', {id: person.id}) }}"
                                     {% if route_name == 'app_person_show' %}aria-current="page"{% endif %}
                                     
-                                >Profile</a>
+                                >
+                                    <i class="fa-solid fa-user-circle"></i>
+                                    Profile
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a 
@@ -71,7 +74,26 @@
                                     href="{{ path('app_person_edit', {id: person.id}) }}"
                                     {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
                                     
-                                >Edit</a>
+                                >
+                                    <i class="fa-solid fa-edit"></i>
+                                    Edit
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            {% set is_active = 
+                                route_name == 'app_person_unions'
+                                or route_name == 'app_union_new'
+                                or route_name == 'app_union_edit'
+                            %}
+                                <a 
+                                    class="nav-link{{ is_active ? ' active':'' }}"
+                                    href="{{ path('app_person_unions', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_unions' %}aria-current="page"{% endif %}
+                                    
+                                >
+                                    <i class="fa-solid fa-family"></i>
+                                    Unions
+                                </a>
                             </li>
                         </ul>
                     </nav>
