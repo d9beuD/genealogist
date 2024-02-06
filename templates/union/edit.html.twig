@@ -1,54 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'person/base.html.twig' %}
 
 {% block title %}{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}{% endblock %}
 
-{% block body %}
-{{ include('_includes/main/breadcrumb.html.twig', { items: [
-    { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
-    { label: person.fullName, link: path('app_person_edit', { id: person.id }) },
-    { label: 'Modifier l\'union', link: null },
-] }) }}
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: path('app_person_edit', { id: person.id }) },
+        { label: 'Modifier l\'union', link: null },
+    ] }) }}
+{% endblock %}
 
-{{ include('_includes/main/flashes.html.twig') }}
+{% block content %}
+    {{ include('_includes/main/flashes.html.twig') }}
 
-<section class="py-4">
-    <div class="container">
-        <div class="row align-items-end">
-            <div class="col">
-                <h1>{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}</h1>
-            </div>
-            <div class="col-auto">
-                {{ include('union/_delete_form.html.twig') }}
-            </div>
+    <div class="row align-items-end">
+        <div class="col">
+            <h2>{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}</h2>
         </div>
-
-        <h2 class="h5">{{ 'label.partners'|trans }}</h2>
-        <div class="row g-2 mb-3">
-            {% for partner in union.people %}
-                <div class="col-auto">
-                    {{ include('person/_avatar.html.twig', { person: partner, with_actions: true, from: person }) }}
-                </div>
-            {% endfor %}
+        <div class="col-auto">
+            {{ include('union/_delete_form.html.twig') }}
         </div>
-
-        <h2 class="h5">{{ 'label.children'|trans }}</h2>
-        <div class="row g-2 mb-3">
-            {% for child in union.children %}
-                <div class="col-auto">
-                    {{ include('person/_avatar.html.twig', { person: child, with_actions: true, from: person, type: 'child' }) }}
-                </div>
-            {% endfor %}
-        </div>
-
-        {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-        {% if union.people | length < 2 %}
-            <h3>{{ 'title.add_partner'|trans }}</h3>
-            {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
-        {% endif %}
-
-        <h3>{{ 'title.add_child'|trans }}</h3>
-        {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
     </div>
-</section>
+
+    <h2 class="h5">{{ 'label.partners'|trans }}</h2>
+    <div class="row g-2 mb-3">
+        {% for partner in union.people %}
+            <div class="col-auto">
+                {{ include('person/_avatar.html.twig', { person: partner, with_actions: true, from: person }) }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="h5">{{ 'label.children'|trans }}</h2>
+    <div class="row g-2 mb-3">
+        {% for child in union.children %}
+            <div class="col-auto">
+                {{ include('person/_avatar.html.twig', { person: child, with_actions: true, from: person, type: 'child' }) }}
+            </div>
+        {% endfor %}
+    </div>
+
+    {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    {% if union.people | length < 2 %}
+        <h3>{{ 'title.add_partner'|trans }}</h3>
+        {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
+    {% endif %}
+
+    <h3>{{ 'title.add_child'|trans }}</h3>
+    {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
 {% endblock %}

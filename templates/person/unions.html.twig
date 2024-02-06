@@ -1,0 +1,56 @@
+{% extends 'person/base.html.twig' %}
+
+{% block title %}{{ person.fullName }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: null },
+    ] }) }}
+{% endblock %}
+
+{% block content %}
+    <section id="unions" class="mb-4">
+        <div class="row g-2 align-items-center mb-3">
+            <div class="col-auto">
+                <h2 class="h3 mb-0">{{ 'label.unions'|trans }}</h2>
+            </div>
+            <div class="col-auto">
+                <a href="{{ path('app_union_new', { personId: person.id }) }}" class="btn btn-sm btn-primary rounded-pill">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </div>
+        </div>
+
+        {% if person.unions|length %}
+            <div class="row g-4">
+                {% for union in person.unions %}
+                    <div class="col-auto">
+                        <div class="avatar-group">
+                            <a href="{{ path('app_union_edit', { id: union.id, personId: person.id }) }}" class="stretched-link"></a>
+                            {{ include('person/_avatar.html.twig', { person: person }) }}
+
+                            {% for partner in union.people %}
+                                {% if partner.id != person.id %}
+                                    <div class="avatar-link avatar-link-v"></div>
+                                    {{ include('person/_avatar.html.twig', { person: partner }) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <i class="fa-solid fa-info-circle"></i>
+                    </div>
+                    <div class="col">
+                        {{ 'alert.no_union_registered'|trans }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
