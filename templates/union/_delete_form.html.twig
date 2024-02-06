@@ -1,6 +1,6 @@
 <form 
     method="post" 
-    action="{{ path('app_union_delete', {'id': union.id}) }}" 
+    action="{{ path('app_union_delete', {'id': union.id, personId: person.id}) }}" 
     onsubmit="return confirm('{{ 'alert.confirm_delete_union'|trans }}');"
 >
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ union.id) }}">

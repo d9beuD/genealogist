@@ -1,27 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'person/base.html.twig' %}
 
 {% block title %}{{ 'title.create_union_for'|trans({ name: person.fullName }) }}{% endblock %}
 
-{% block body %}
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: path('app_person_unions', { id: person.id }) },
+        { label: 'label.unions'|trans, link: null },
+    ] }) }}
+{% endblock %}
+
+{% block content %}
 
 {{ include('_includes/main/flashes.html.twig') }}
 
-<section class="py-5">
-    <div class="container">
-        <h1>{{ 'title.create_union_for'|trans({ name: person.fullName }) }}</h1>
+    <h2>{{ 'title.create_union_for'|trans({ name: person.fullName }) }}</h2>
 
-        <div class="alert alert-primary">
-            <div class="row g-3">
-                <div class="col-auto">
-                    <i class="fa-solid fa-info-circle"></i>
-                </div>
-                <div class="col">
-                    {{ 'alert.add_union_members_later'|trans }}
-                </div>
+    <div class="alert alert-primary">
+        <div class="row g-3">
+            <div class="col-auto">
+                <i class="fa-solid fa-info-circle"></i>
+            </div>
+            <div class="col">
+                {{ 'alert.add_union_members_later'|trans }}
             </div>
         </div>
-
-        {{ include('union/_form.html.twig') }}
     </div>
-</section>
+
+    {{ include('union/_form.html.twig') }}
 {% endblock %}

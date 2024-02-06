@@ -6,13 +6,20 @@ form:
         birth_date: Date de naissance
         birth_name: Nom de naissance
         birth_place: Lieu de naissance
-        death_date: Date de naissance
-        death_place: Lieu de naissance
+        death_date: Date de décès
+        death_place: Lieu de décès
         bio: Biographie
         deceased: Décédé
         email: 'Adresse email'
         firstname: Prénom
         gender: Genre
+        gender.value: >-
+            {gender, select,
+                0 {Femme}
+                1 {Homme}
+                3 {Autre}
+                other {}
+            }
         lastname: Nom
         married: Mariés
         name: Nom
@@ -78,7 +85,9 @@ alert:
     confirm_delete_union: Êtes-vous sûr de vouloir supprimer cette union ?
     confirm_delete_union_member: Êtes-vous sûr de vouloir supprimer {name} de cette union ?
     no_child_registered: Il n'y a pas d'enfant renseigné.
+    no_description_provided: Aucune description fournie.
     no_parent_registered: Il n'y a pas de parent renseigné.
+    no_union_registered: Il n'y a pas d'union renseignée.
     tree_has_no_member: Cet arbre n'a pas encore de membre.
     tree_members_count: >-
         {members, plural,

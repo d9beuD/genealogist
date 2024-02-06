@@ -30,6 +30,15 @@ class PersonController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/unions', name: 'app_person_unions', methods: ['GET'])]
+    #[IsGranted('edit', 'person')]
+    public function unions(Person $person): Response
+    {
+        return $this->render('person/unions.html.twig', [
+            'person' => $person,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function edit(
@@ -62,8 +71,6 @@ class PersonController extends AbstractController
                 'success',
                 $this->translator->trans('person.edit.success', ['name' => $person->getFullName()]),
             );
-
-            return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('person/edit.html.twig', [

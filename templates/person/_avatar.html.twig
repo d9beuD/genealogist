@@ -31,9 +31,9 @@
                     >
                         <i class="fa-solid fa-ellipsis"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="dropdownMenuButton1">
                         <li>
-                            <a class="dropdown-item" href="{{ path('app_person_edit', { id: person.id }) }}">
+                            <a class="dropdown-item" href="{{ path('app_person_show', { id: person.id }) }}">
                                 <i class="fa-solid fa-fw fa-eye"></i>
                                 {{ 'action.show'|trans }}
                             </a>

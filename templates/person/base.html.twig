@@ -1,0 +1,108 @@
+{% extends "base.html.twig" %}
+{% import "person/_macro.html.twig" as macro %}
+{% set route_name = app.request.get('_route') %}
+
+{% block body %}
+    {% block breadcrumb %}{% endblock %}
+
+    {{ include('_includes/main/flashes.html.twig') }}
+
+    <section class="my-4">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-8 col-md-4 col-lg-3 mx-auto">
+                    {% if person.portrait %}
+                        <img 
+                            src="/pictures/{{ person.portrait }}" 
+                            alt="Person profile picture" 
+                            class="img-fluid border rounded-5 shadow-sm"
+                        >
+                    {% else %}
+                        {% set icon = person.gender == 0 
+                            ? 'fa-user-vneck-hair-long' : person.gender == 1 
+                            ? 'fa-user-vneck-hair' : 'fa-user-vneck' 
+                        %}
+                        <div class="display-1 text-secondary text-center mb-3">
+                            <i class="fa-solid fa-xl {{ icon }}"></i>
+                        </div>
+                    {% endif %}
+
+                    <h1 class="h2 my-2 text-center">{{ person.fullName }}</h1>
+
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{ macro.list_item('id-card', 'form.field.gender'|trans, 'form.field.gender.value'|trans({ gender: person.gender })) }}
+
+                            {% if person.birth %}
+                                {{ macro.list_item('cake-candles', 'form.field.birth_date'|trans, 'calendar'|trans({ date: person.birth })) }}
+                            {% endif %}
+
+                            {% if person.birthPlace and person.birthPlace != '' %}
+                                {{ macro.list_item('map-marker-alt', 'form.field.birth_place'|trans, person.birthPlace) }}
+                            {% endif %}
+
+                            {% if person.isDead %}
+                                {% if person.death %}
+                                    {{ macro.list_item('tombstone', 'form.field.death_date'|trans, 'calendar'|trans({ date: person.death })) }}
+                                {% endif %}
+                                
+                                {% if person.deathPlace and person.deathPlace != '' %}
+                                    {{ macro.list_item('map-marker-alt', 'form.field.death_place'|trans, person.deathPlace) }}
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <nav class="mb-3">
+                        <ul class="nav nav-underline">
+                            <li class="nav-item">
+                                <a 
+                                    class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}" 
+                                    href="{{ path('app_person_show', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_show' %}aria-current="page"{% endif %}
+                                    
+                                >
+                                    <i class="fa-solid fa-user-circle"></i>
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a 
+                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}" 
+                                    href="{{ path('app_person_edit', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
+                                    
+                                >
+                                    <i class="fa-solid fa-edit"></i>
+                                    Edit
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            {% set is_active = 
+                                route_name == 'app_person_unions'
+                                or route_name == 'app_union_new'
+                                or route_name == 'app_union_edit'
+                            %}
+                                <a 
+                                    class="nav-link{{ is_active ? ' active':'' }}"
+                                    href="{{ path('app_person_unions', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_unions' %}aria-current="page"{% endif %}
+                                    
+                                >
+                                    <i class="fa-solid fa-family"></i>
+                                    Unions
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+{% endblock %}

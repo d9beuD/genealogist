@@ -36,6 +36,18 @@
                 </li>
             {% endif %}
 
+            {% if is_granted('view', member) %}
+                <li>
+                    <a 
+                        href="{{ path('app_person_show', { id: member.id }) }}" 
+                        class="dropdown-item"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        {{ 'action.show'|trans }}
+                    </a>
+                </li>
+            {% endif %}
+
             {% if is_granted('edit', member) %}
                 <li>
                     <a 

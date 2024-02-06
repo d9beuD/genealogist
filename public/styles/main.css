@@ -172,3 +172,13 @@
 .alert p:last-of-type {
     margin-bottom: 0;
 }
+
+.description {
+    background-color: var(--bs-secondary-bg);
+    padding: 1rem;
+    border-radius: var(--bs-border-radius);
+}
+
+.description p:last-of-type {
+    margin-bottom: 0;
+}

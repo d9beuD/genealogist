@@ -63,7 +63,7 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'children')]
     private ?Union $parentUnion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'members')]
+    #[ORM\ManyToOne(inversedBy: 'members', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tree $tree = null;
 
@@ -385,5 +385,17 @@ class Person
             fn ($carry, Union $union) => $carry || $union->hasChildren(),
             false
         );
+    }
+
+    public function getChildren(): Collection
+    {
+        $children = new ArrayCollection();
+        foreach ($this->getUnions() as $union) {
+            foreach ($union->getChildren() as $child) {
+                $children->add($child);
+            }
+        }
+
+        return $children;
     }
 }
