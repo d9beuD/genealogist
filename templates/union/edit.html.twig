@@ -13,7 +13,7 @@
 {% block content %}
     {{ include('_includes/main/flashes.html.twig') }}
 
-    <div class="row align-items-end">
+    <div class="row align-items-center">
         <div class="col">
             <h2>{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}</h2>
         </div>
@@ -43,10 +43,14 @@
     {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
     {% if union.people | length < 2 %}
-        <h3>{{ 'title.add_partner'|trans }}</h3>
-        {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
+        <section class="py-4">
+            <h2 class="h5">{{ 'title.add_partner'|trans }}</h2>
+            {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
+        </section>
     {% endif %}
 
-    <h3>{{ 'title.add_child'|trans }}</h3>
-    {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
+    <section class="py-4">
+        <h2 class="h5">{{ 'title.add_child'|trans }}</h2>
+        {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
+    </section>
 {% endblock %}
