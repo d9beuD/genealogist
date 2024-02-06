@@ -40,16 +40,20 @@
         {% endfor %}
     </div>
 
+    <hr>
+
     {{ include('union/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
+    <hr>
+
     {% if union.people | length < 2 %}
-        <section class="py-4">
+        <section class="my-4">
             <h2 class="h5">{{ 'title.add_partner'|trans }}</h2>
             {{ include('union/_form_union_selector.html.twig', { form: partner_form, person: person }) }}
         </section>
     {% endif %}
 
-    <section class="py-4">
+    <section class="my-4">
         <h2 class="h5">{{ 'title.add_child'|trans }}</h2>
         {{ include('union/_form_union_selector.html.twig', { form: child_form, person: person, type: 'child' }) }}
     </section>
