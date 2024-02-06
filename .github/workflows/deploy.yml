@@ -1,0 +1,46 @@
+name: Deploy to FTP
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ftp_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--ignore-platform-reqs --optimize-autoloader"
+          
+      - name: Create env.local.php
+        run: |
+          cd backend
+          touch .env.local
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_DEBUG=0" >> .env.local
+          echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
+          echo "MAILER_DSN=\"${{ secrets.SYMFONY_MAILER_DSN }}\"" >> .env.local
+          composer dump-env .env.local
+      
+      - name: Upload to hosting FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./backend/
+          server-dir: ./com.d9beud.genealogist/
+          security: loose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            var/cache/**
