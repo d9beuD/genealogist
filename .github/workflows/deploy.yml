@@ -23,7 +23,6 @@ jobs:
           
       - name: Create env.local.php
         run: |
-          cd backend
           touch .env.local
           echo "APP_ENV=prod" >> .env.local
           echo "APP_DEBUG=0" >> .env.local
