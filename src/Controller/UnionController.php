@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Entity\Tree;
 use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
+use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function PHPSTORM_META\map;
 
 class UnionController extends AbstractController
 {
@@ -64,8 +66,13 @@ class UnionController extends AbstractController
 
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'union')]
-    public function edit(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
-    {
+    public function edit(
+        Request $request, 
+        Union $union, 
+        EntityManagerInterface $entityManager, 
+        #[MapEntity(id: 'personId')] Person $person,
+        PersonRepository $personRepository,
+    ): Response {
         $form = $this->createForm(UnionType::class, $union);
         $form->handleRequest($request);
 
@@ -84,10 +91,23 @@ class UnionController extends AbstractController
         }
 
         $treeMember = $person->getTree()->getMembers()->toArray();
-        $unionMembers = [
+        $membersToExclude = [
             ...$union->getPeople()->toArray(),
-            ...$union->getChildren()->toArray()
+            ...$union->getChildren()->toArray(),
         ];
+
+        if ($person->getParentUnion()) {
+            $membersToExclude = [
+                ...$membersToExclude,
+                ...$person->getParentUnion()->getPeople()->toArray(),
+                ...$person->getParentUnion()->getChildren()->toArray(),
+            ];
+        }
+
+        $unionPartners = $union->getPeople();
+        $birthDates = array_map(fn(Person $person) => $person->getBirth(), $unionPartners->toArray());
+        $birthDates = array_filter($birthDates, fn($date) => $date !== null);
+        $mostRecentBirthDate = max($birthDates);
 
         return $this->render('union/edit.html.twig', [
             'union' => $union,
@@ -95,11 +115,11 @@ class UnionController extends AbstractController
             'person' => $person,
             'partner_form' => $this->createForm(PersonSelectType::class, null, [
                 'available_members' => $treeMember,
-                'union_members' => $unionMembers,
+                'union_members' => $membersToExclude,
             ]),
             'child_form' => $this->createForm(PersonSelectType::class, null, [
-                'available_members' => $treeMember,
-                'union_members' => $unionMembers,
+                'available_members' => $personRepository->getOrphanMembers($person->getTree(), $mostRecentBirthDate),
+                'union_members' => $membersToExclude,
             ]),
         ]);
     }
@@ -214,10 +234,15 @@ class UnionController extends AbstractController
 
     #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
-    public function addChild(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
-    {
+    public function addChild(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        #[MapEntity(id: 'personId')] Person $person, 
+        Union $union,
+        PersonRepository $personRepository,
+    ): Response {
         $form = $this->createForm(PersonSelectType::class, null, [
-            'available_members' => $person->getTree()->getMembers()->toArray(),
+            'available_members' => $personRepository->getOrphanMembers($person->getTree()),
             'union_members' => [
                 ...$union->getPeople()->toArray(),
                 ...$union->getChildren()->toArray()
