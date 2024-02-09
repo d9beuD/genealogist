@@ -26,6 +26,7 @@ jobs:
           touch .env.local
           echo "APP_ENV=prod" >> .env.local
           echo "APP_DEBUG=0" >> .env.local
+          echo "APP_VERSION=\"${{ github.ref_name }}\"" >> .env.local
           echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
           echo "MAILER_DSN=\"${{ secrets.SYMFONY_MAILER_DSN }}\"" >> .env.local
           composer dump-env prod
