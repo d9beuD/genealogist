@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  APP_ENV: prod
+
 jobs:
   ftp_upload:
     runs-on: ubuntu-latest
