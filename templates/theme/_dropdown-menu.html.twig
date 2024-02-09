@@ -1,0 +1,26 @@
+<li class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {% set theme = app.request.cookies.get('theme')|default('auto') %}
+        <i class="fa-solid fa-{{ theme == 'light' ? 'sun-bright' : theme == 'dark' ? 'moon' : 'circle-half-stroke' }}"></i>
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="#" class="dropdown-item" data-bs-theme-value="light">
+                <i class="fa-solid fa-fw fa-sun-bright"></i>
+                Light
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-item" data-bs-theme-value="dark">
+                <i class="fa-solid fa-fw fa-moon"></i>
+                Dark
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-item" data-bs-theme-value="auto">
+                <i class="fa-solid fa-fw fa-circle-half-stroke"></i>
+                Auto
+            </a>
+        </li>
+    </ul>
+</li>
