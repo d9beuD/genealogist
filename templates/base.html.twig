@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100" data-bs-theme="light">
+<html class="h-100" data-bs-theme="{{ app.request.cookies.get('theme')|default('auto') }}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,5 +20,47 @@
         {% include "_includes/main/navbar.html.twig" %}
         <main>{% block body %}{% endblock %}</main>
         {% include "_includes/main/footer.html.twig" %}
+        <script>
+            (() => {
+                'use strict';
+
+                // Define the function to apply the color scheme
+                const themeSavedInCookie = document.documentElement.dataset.bsTheme !== 'auto';
+                const getBrowserColorScheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+                const applyColorScheme = (mode) => {
+                    document.documentElement.dataset.bsTheme = mode;
+                }
+                const saveColorScheme = (mode) => {
+                    fetch('/settings/theme', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ mode }),
+                        credentials: 'same-origin',
+                    })
+                }
+
+                // If the theme is not saved in the cookie, apply the browser color scheme
+                // and save it in the cookie
+                if (!themeSavedInCookie) {
+                    const browserColorScheme = getBrowserColorScheme();
+                    applyColorScheme(browserColorScheme);
+                    saveColorScheme(browserColorScheme);
+                }
+
+                // Listen for the user's color scheme preference changes
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.querySelectorAll('[data-bs-theme-value]')
+                        .forEach((toggle) => {
+                            toggle.addEventListener('click', (event) => {
+                                const mode = event.target.dataset.bsThemeValue;
+                                applyColorScheme(mode);
+                                saveColorScheme(mode);
+                            })
+                        })
+                })
+            })()
+        </script>
     </body>
 </html>
