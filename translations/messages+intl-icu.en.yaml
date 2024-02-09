@@ -10,6 +10,7 @@ form:
         death_place: Death place
         bio: Biography
         deceased: Deceased
+        description: Description
         email: 'Email address'
         firstname: Firstname
         gender: Gender

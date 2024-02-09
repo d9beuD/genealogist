@@ -10,11 +10,15 @@
             {{ form_row(form.weddingPlace) }}
         </div>
         <div class="col order-2 order-md-3">
-            {{ form_row(form.dayUnsure) }}
-            {{ form_row(form.monthUnsure) }}
-            {{ form_row(form.yearUnsure) }}
+            <div class="mb-3">
+                {{ form_row(form.dayUnsure) }}
+                {{ form_row(form.monthUnsure) }}
+                {{ form_row(form.yearUnsure) }}
+            </div>
         </div>
     </div>
+
+    {{ form_row(form.description) }}
 
     <div class="text-end">
         <a class="btn btn-secondary" href="{{ path('app_person_unions', { id: person.id }) }}">{{ 'action.cancel'|trans }}</a>
