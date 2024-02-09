@@ -29,7 +29,7 @@
 
                     <h1 class="h2 my-2 text-center">{{ person.fullName }}</h1>
 
-                    <div class="card">
+                    <div class="card mb-3">
                         <ul class="list-group list-group-flush">
                             {{ macro.list_item('id-card', 'form.field.gender'|trans, 'form.field.gender.value'|trans({ gender: person.gender })) }}
 
@@ -52,6 +52,11 @@
                             {% endif %}
                         </ul>
                     </div>
+
+                    <a href="{{ path('app_person_tree', { id: person.id }) }}" class="btn btn-secondary w-100">
+                        <i class="fa-solid fa-tree"></i>
+                        {{ 'action.see_tree'|trans }}
+                    </a>
                 </div>
                 
                 <div class="col">
