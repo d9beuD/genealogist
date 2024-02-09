@@ -41,6 +41,9 @@ class Union
     #[ORM\Column(options: ['default' => false])]
     private ?bool $yearUnsure = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -179,6 +182,18 @@ class Union
     public function setYearUnsure(bool $yearUnsure): static
     {
         $this->yearUnsure = $yearUnsure;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
