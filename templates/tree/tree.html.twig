@@ -3,7 +3,7 @@
 <div class="row g-0 flex-column-reverse aling-items-center justify-content-center flex-grow-1">
     {% if link %}
         <div class="col">
-            <div class="tree-link tree-link-{{ direction }} m{{ direction == 'start' ? 'e':'s' }}-auto"></div>
+            <div class="tree-link tree-link-{{ direction }} {{ margin }}"></div>
         </div>
     {% endif %}
 
@@ -31,7 +31,10 @@
             <div class="row g-0 align-items-end justify-content-around flex-nowrap">
                 {% for parent in person.parentUnion.people | sort((a, b) => a.gender <=> b.gender) | reverse %}
                     <div class="col">
-                        {{ include('tree/tree.html.twig', { person: parent, link: true, direction: loop.index0 ? 'start':'end' }) }}
+                        {% set parent_count = person.parentUnion.people|length %}
+                        {% set link_direction = parent_count > 1 ? (loop.index0 ? 'start' : 'end') : 'center' %}
+                        {% set link_margin = parent_count > 1 ? (loop.index0 ? 'me-auto' : 'ms-auto') : 'mx-auto' %}
+                        {{ include('tree/tree.html.twig', { person: parent, link: true, direction: link_direction, margin: link_margin }) }}
                     </div>
                 {% endfor %}
             </div>
