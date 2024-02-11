@@ -16,8 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-use function PHPSTORM_META\map;
-
 class UnionController extends AbstractController
 {
     public function __construct(
