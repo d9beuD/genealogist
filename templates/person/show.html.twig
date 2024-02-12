@@ -40,10 +40,10 @@
             <div class="row g-4">
             {% for parent in person.parentUnion.people | sort((a, b) => a.gender <=> b.gender) | reverse %}
                 <div class="col-auto">
-                    <div class="position-relative">
-                        <a href="{{ path('app_person_show', { id: parent.id }) }}" class="stretched-link"></a>
-                        {{ include('person/_avatar.html.twig', { person: parent }) }}
-                    </div>
+                    {{ include('person/_avatar.html.twig', { 
+                        person: parent, 
+                        href: path('app_person_show', { id: parent.id }) 
+                    }) }}
                 </div>
             {% endfor %}
             </div>
@@ -81,10 +81,10 @@
                             {% for partner in union.people %}
                                 {% if partner.id != person.id %}
                                     <div class="avatar-link avatar-link-v"></div>
-                                    <div class="position-relative w-100">
-                                        <a href="{{ path('app_person_show', { id: partner.id }) }}" class="stretched-link"></a>
-                                        {{ include('person/_avatar.html.twig', { person: partner }) }}
-                                    </div>
+                                    {{ include('person/_avatar.html.twig', { 
+                                        person: partner, 
+                                        href: path('app_person_show', { id: partner.id }) 
+                                    }) }}
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -119,10 +119,10 @@
             <div class="row g-4">
                 {% for child in person.children %}
                     <div class="col-auto">
-                        <div class="position-relative">
-                            <a href="{{ path('app_person_show', { id: child.id }) }}" class="stretched-link"></a>
-                            {{ include('person/_avatar.html.twig', { person: child }) }}
-                        </div>
+                        {{ include('person/_avatar.html.twig', { 
+                            person: child,
+                            href: path('app_person_show', { id: child.id })
+                        }) }}
                     </div>
                 {% endfor %}
             </div>
