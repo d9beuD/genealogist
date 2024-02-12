@@ -65,10 +65,14 @@ profile:
 label:
     actions: Actions
     children: Children
+    date_uncertain: Uncertain date
     home: Home
     parents: Parents
     partners: Partners
     unions: Unions
+    year: Year
+    month: Month
+    day: Day
 title:
     add_child: Add a child
     add_member: Add a member
