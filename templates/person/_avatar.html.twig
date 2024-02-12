@@ -15,6 +15,12 @@
             {% if person.birth %}
                 <div class="text-secondary small">
                     {{ 'calendar'|trans({ date: person.birth }) }}
+                    {{ include('person/_date_indicator.html.twig', { item: {
+                        date: person.birth, 
+                        day_unsure: person.birthDayUnsure,
+                        month_unsure: person.birthMonthUnsure,
+                        year_unsure: person.birthYearUnsure,
+                    } })}}
                 </div>
             {% endif %}
         </div>
