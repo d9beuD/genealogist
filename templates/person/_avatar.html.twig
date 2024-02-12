@@ -1,8 +1,4 @@
 <div class="avatar{{ (with_actions | default(false)) ? ' avatar-actions' : '' }}">
-    {% if href is defined %}
-        <a href="{{ href }}" class="stretched-link"></a>
-    {% endif %}
-    
     <div class="row g-2 align-items-center flex-nowrap">
         <div class="col-auto">
             {{ include('person/_avatar_thumbnail.html.twig', { person: person }) }}
@@ -10,11 +6,23 @@
 
         <div class="col">
             <div class="fw-bold text-nowrap">
-                {{ person.fullName }}
+                {% if href is defined %}
+                    <a href="{{ href }}" class="link-body-emphasis link-underline-opacity-75-hover link-underline-opacity-0">
+                        {{ person.fullName }}
+                    </a>
+                {% else %}
+                    {{ person.fullName }}
+                {% endif %}
             </div>
             {% if person.birth %}
                 <div class="text-secondary small">
                     {{ 'calendar'|trans({ date: person.birth }) }}
+                    {{ include('person/_date_indicator.html.twig', { item: {
+                        date: person.birth, 
+                        day_unsure: person.birthDayUnsure,
+                        month_unsure: person.birthMonthUnsure,
+                        year_unsure: person.birthYearUnsure,
+                    } })}}
                 </div>
             {% endif %}
         </div>

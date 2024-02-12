@@ -1,0 +1,28 @@
+{% macro check_icon(checked) %}
+    <i class="fa-solid fa-lg fa-{{ checked ? 'check' : 'times' }} text-{{ checked ? 'success' : 'danger' }}"></i>
+{% endmacro check_icon %}
+
+{% if item.day_unsure or item.month_unsure or item.year_unsure %}
+    {% set content %}
+        <p>
+            Attention, certaines parties de la date ne sont que des estimations :
+        </p>
+        <div class="row g-3">
+            <div class="col-auto">
+                {{ _self.check_icon(not item.year_unsure) }}
+                {{ 'label.year'|trans }}
+            </div>
+            <div class="col-auto">
+                {{ _self.check_icon(not item.month_unsure) }}
+                {{ 'label.month'|trans }}
+            </div>
+            <div class="col-auto">
+                {{ _self.check_icon(not item.day_unsure) }}
+                {{ 'label.day'|trans }}
+            </div>
+        </div>
+    {% endset %}
+    <span data-bs-toggle="popover" title="{{ 'label.date_uncertain'|trans }}" data-bs-content="{{ content|e }}" tabindex="0">
+        <i class="fa-solid fa-question-circle"></i>
+    </span>
+{% endif %}

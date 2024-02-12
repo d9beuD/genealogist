@@ -162,10 +162,14 @@
     width: 0;
 }
 
+#breadcrumb {
+    top: -1px;
+}
+
 .bg-body-blur {
     --bg-opacity: .8;
     --blur-amount: 1rem;
-    background-color: rgba(var(--bs-body-bg-rgb),var(--bg-opacity)) !important;
+    background-color: rgba(var(--bs-tertiary-bg-rgb),var(--bg-opacity)) !important;
     backdrop-filter: blur(var(--blur-amount));
 }
 
@@ -181,4 +185,8 @@
 
 .description p:last-of-type {
     margin-bottom: 0;
+}
+
+.popover {
+    box-shadow: var(--bs-popover-box-shadow) !important;
 }
