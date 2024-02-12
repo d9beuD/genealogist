@@ -1,15 +1,19 @@
-<div class="bg-body-blur py-3 border-bottom sticky-top" style="z-index: 100;">
+<div class="bg-body-blur py-3 sticky-top" id="breadcrumb" style="z-index: 100;">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ path('app_home') }}">{{ 'label.home'|trans }}</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ path('app_home') }}" class="link-underline-primary link-underline-opacity-0 link-underline-opacity-100-hover">
+                        {{ 'label.home'|trans }}
+                    </a>
+                </li>
                 {% set count = items|length %}
                 {% set last_item = items|last %}
 
                 {% for item in items %}
                     {% if not loop.last %}
                         <li class="breadcrumb-item">
-                            <a href="{{ item.link }}">
+                            <a href="{{ item.link }}" class="link-underline-primary link-underline-opacity-0 link-underline-opacity-100-hover">
                                 {{ item.label }}
                             </a>
                         </li>

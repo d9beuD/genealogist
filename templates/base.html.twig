@@ -24,6 +24,7 @@
             (() => {
                 'use strict';
 
+                /** Theme */
                 // Define the function to apply the color scheme
                 const themeSavedInCookie = document.documentElement.dataset.bsTheme !== 'auto';
                 const getBrowserColorScheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -61,12 +62,29 @@
                         })
                 })
 
+                /** Popovers */
                 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
                 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
                     container: 'body',
                     trigger: 'hover',
                     html: true,
                 }))
+
+                /** Breadcrumb */
+                const breadcrumb = document.querySelector("#breadcrumb")
+                const observer = new IntersectionObserver( 
+                    (entries) => {
+                        entries.forEach(e => {
+                            if (e.isIntersecting) {
+                                e.target.classList.remove('border-bottom')
+                            } else {
+                                e.target.classList.add('border-bottom')
+                            }
+                        })
+                    },
+                    { threshold: [1] }
+                );
+                observer.observe(breadcrumb);
             })()
         </script>
     </body>
