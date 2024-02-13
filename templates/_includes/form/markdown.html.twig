@@ -1,0 +1,17 @@
+{{ form_label(field) }}
+{{ form_row(field, { label: false }) }}
+<script>
+    (() => {
+        const mdEditor_{{ field.vars.id }} = new EasyMDE({
+            element: document.getElementById('{{ field.vars.id }}'),
+            onToggleFullScreen: (opened) => {
+                const breadcrumb = document.querySelector('#breadcrumb');
+                if (opened) {
+                    breadcrumb.classList.add('d-none');
+                } else {
+                    breadcrumb.classList.remove('d-none');
+                }
+            }
+        });
+    })();
+</script>

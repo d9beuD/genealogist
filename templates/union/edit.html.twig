@@ -2,6 +2,14 @@
 
 {% block title %}{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+{% endblock %}
+
 {% block breadcrumb %}
     {{ include('_includes/main/breadcrumb.html.twig', { items: [
         { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },

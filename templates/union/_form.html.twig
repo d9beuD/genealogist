@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    {{ form_row(form.description) }}
+    {{ include('_includes/form/markdown.html.twig', { field: form.description }) }}
 
     <div class="text-end">
         <a class="btn btn-secondary" href="{{ path('app_person_unions', { id: person.id }) }}">{{ 'action.cancel'|trans }}</a>
