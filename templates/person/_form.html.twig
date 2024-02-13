@@ -17,7 +17,7 @@
     </div>
 
     {{ form_row(form.gender) }}
-    {{ form_row(form.bio) }}
+    {{ include('_includes/form/markdown.html.twig', { field: form.bio })}}
 
     <div class="row g-2">
         <div class="col-md-6 order-1">
