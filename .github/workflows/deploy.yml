@@ -41,6 +41,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ./com.d9beud.genealogist/
+          log-level: 'minimal'
           exclude: |
             **/.git*
             **/.git*/**
