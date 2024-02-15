@@ -40,6 +40,12 @@ class Source
     #[ORM\JoinColumn(nullable: false)]
     private ?Person $person = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comment = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $directProof = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +95,30 @@ class Source
     public function setPerson(?Person $person): static
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): static
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function isDirectProof(): ?bool
+    {
+        return $this->directProof;
+    }
+
+    public function setDirectProof(bool $directProof): static
+    {
+        $this->directProof = $directProof;
 
         return $this;
     }

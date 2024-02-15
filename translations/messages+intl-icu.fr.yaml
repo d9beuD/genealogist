@@ -34,6 +34,8 @@ form:
         union_date: Date de l'union
         union_place: Lieu de l'union
         type: Type
+        comment: Commentaire
+        direct_proof: Preuve directe
     placeholder:
         search_by_name: Recherche par nom
     choice:
@@ -81,6 +83,7 @@ label:
     day: Jour
     sources: Sources
     profile: Profil
+    direct_proof: Preuve directe
 title:
     add_child: Ajouter un enfant
     add_member: Ajouter un membre

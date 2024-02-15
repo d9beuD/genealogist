@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class SourceType extends AbstractType
 {
@@ -27,6 +28,15 @@ class SourceType extends AbstractType
             ])
             ->add('url', UrlType::class, [
                 'label' => 'URL',
+            ])
+            ->add('comment', null, [
+                'label' => 'form.field.comment',
+                'constraints' => [
+                    new Length(['max' => 255]),
+                ],
+            ])
+            ->add('directProof', null, [
+                'label' => 'form.field.direct_proof',
             ])
         ;
     }
