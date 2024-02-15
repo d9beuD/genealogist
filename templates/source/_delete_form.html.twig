@@ -1,0 +1,10 @@
+<form 
+    method="post" 
+    action="{{ path('app_source_delete', { id: source.id, personId: person.id }) }}" 
+    onsubmit="return confirm('{{ 'alert.confirm_delete_source'|trans }}');"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ source.id) }}">
+    <button class="btn btn-sm btn-link link-danger p-0">
+        <i class="fa-solid fa-lg fa-trash"></i>
+    </button>
+</form>

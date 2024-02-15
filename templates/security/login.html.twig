@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% from "_includes/macro.html.twig" import alert %}
 
 {% block title %}{{ 'form.login'|trans }}{% endblock %}
 
@@ -9,7 +10,7 @@
     <div class="container">
         <div class="form-medium">
             {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {{ alert('danger', error.messageKey|trans(error.messageData, 'security')) }}
             {% endif %}
 
             {% if app.user %}
