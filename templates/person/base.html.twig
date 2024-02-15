@@ -59,9 +59,9 @@
                     </a>
                 </div>
                 
-                <div class="col">
+                <div class="col-12 col-md">
                     <nav class="mb-3">
-                        <ul class="nav nav-underline">
+                        <ul class="nav nav-underline" style="gap: 0 var(--bs-nav-underline-gap);">
                             <li class="nav-item">
                                 <a 
                                     class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}" 
@@ -70,26 +70,14 @@
                                     
                                 >
                                     <i class="fa-solid fa-user-circle"></i>
-                                    Profile
+                                    {{ 'label.profile'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a 
-                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}" 
-                                    href="{{ path('app_person_edit', {id: person.id}) }}"
-                                    {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
-                                    
-                                >
-                                    <i class="fa-solid fa-edit"></i>
-                                    Edit
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                            {% set is_active = 
-                                route_name == 'app_person_unions'
-                                or route_name == 'app_union_new'
-                                or route_name == 'app_union_edit'
-                            %}
+                                {% set is_active = 
+                                    route_name == 'app_person_unions'
+                                    or route_name starts with 'app_union'
+                                %}
                                 <a 
                                     class="nav-link{{ is_active ? ' active':'' }}"
                                     href="{{ path('app_person_unions', {id: person.id}) }}"
@@ -97,7 +85,28 @@
                                     
                                 >
                                     <i class="fa-solid fa-family"></i>
-                                    Unions
+                                    {{ 'label.unions'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a 
+                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}" 
+                                    href="{{ path('app_person_edit', {id: person.id}) }}"
+                                    {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
+                                >
+                                    <i class="fa-solid fa-edit"></i>
+                                    {{ 'action.edit'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                {% set is_active = route_name starts with 'app_source' %}
+                                <a 
+                                    class="nav-link{{ is_active ? ' active':'' }}" 
+                                    href="{{ path('app_source_index', {personId: person.id}) }}"
+                                    {% if is_active %}aria-current="page"{% endif %}
+                                >
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    {{ 'label.sources'|trans }}
                                 </a>
                             </li>
                         </ul>

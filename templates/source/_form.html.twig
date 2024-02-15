@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    <div class="row g-3 align-items-end">
+        <div class="col-sm-auto">
+            {{ form_row(form.type) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.url) }}
+        </div>
+        <div class="col-sm-auto text-end">
+            <button class="btn btn-primary mb-3" type="submit">
+                <i class="fa-solid fa-plus"></i>
+                <span class="d-sm-none">{{ 'action.add'|trans }}</span>
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}

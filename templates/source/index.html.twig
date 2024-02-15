@@ -1,0 +1,43 @@
+{% extends 'person/base.html.twig' %}
+{% from "_includes/macro.html.twig" import alert %}
+
+{% block title %}{{ 'title.sources_of'|trans({ name: person.fullName }) }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: null },
+    ] }) }}
+{% endblock %}
+
+{% block content %}
+    {{ include('source/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <hr>
+
+    {% if sources|length > 0 %}
+        {% for source in sources %}
+            <div class="mb-4">
+                <div class="row g-0 align-items-center">
+                    <div class="col-auto">
+                        <span class="badge rounded-pill text-bg-primary mb-1">
+                            {{ source.types[source.type]|trans }}
+                        </span>
+                    </div>
+                    <div class="col-auto">
+                        {{ include('source/_delete_form.html.twig', { source: source, person: person }) }}
+                    </div>
+                </div>
+                <div class="text-truncate">
+                    <a href="{{ source.url }}" target="_blank" class="icon-link">
+                        <i class="fa-solid fa-external-link"></i>
+                        {{ source.url }}
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {{ alert('secondary', 'alert.no_source_registered'|trans) }}
+    {% endif %}
+    
+{% endblock %}

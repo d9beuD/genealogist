@@ -33,12 +33,18 @@ form:
         uncertain_year: Année incertaine
         union_date: Date de l'union
         union_place: Lieu de l'union
+        type: Type
     placeholder:
         search_by_name: Recherche par nom
     choice:
         male: Homme
         female: Femme
         other: Autre
+        certificate_birth: Acte de naissance
+        certificate_baptism: Acte de baptême
+        certificate_marriage: Acte de mariage
+        certificate_death: Acte de décès
+        certificate_military: Acte militaire
 action:
     add: Ajouter
     cancel: Annuler
@@ -73,6 +79,8 @@ label:
     year: Année
     month: Mois
     day: Jour
+    sources: Sources
+    profile: Profil
 title:
     add_child: Ajouter un enfant
     add_member: Ajouter un membre
@@ -82,16 +90,19 @@ title:
     edit_union_of: Modifier l'union de {name}
     rename_tree: Renommer l'arbre {name}
     tree_of: Arbre de {name}
+    sources_of: Sources de {name}
 alert:
     add_union_members_later: |
         Vous pourrez ajouter des membres à cette union une fois qu'elle sera créée.
     confirm_delete_item: Êtes-vous sûr de vouloir supprimer cet élément ?
     confirm_delete_person: Êtes-vous sûr de vouloir supprimer {person_name} ?
+    confirm_delete_source: Êtes-vous sûr de vouloir supprimer cette source ?
     confirm_delete_union: Êtes-vous sûr de vouloir supprimer cette union ?
     confirm_delete_union_member: Êtes-vous sûr de vouloir supprimer {name} de cette union ?
     no_child_registered: Il n'y a pas d'enfant renseigné.
     no_description_provided: Aucune description fournie.
     no_parent_registered: Il n'y a pas de parent renseigné.
+    no_source_registered: Aucune source renseignée.
     no_union_registered: Il n'y a pas d'union renseignée.
     tree_has_no_member: Cet arbre n'a pas encore de membre.
     tree_members_count: >-
@@ -139,3 +150,9 @@ union:
         remove:
             success: "**{name}** a bien été retiré comme enfant."
             error: "**{name}** n'a pas été retiré comme enfant."
+source:
+    new:
+        success: "La source a bien été ajoutée."
+    delete:
+        success: "La source a bien été supprimée."
+        error: "La source n'a pas été supprimée."
