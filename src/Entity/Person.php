@@ -86,9 +86,13 @@ class Person
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $deathPlace = null;
 
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Source::class, orphanRemoval: true)]
+    private Collection $sources;
+
     public function __construct()
     {
         $this->unions = new ArrayCollection();
+        $this->sources = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -397,5 +401,35 @@ class Person
         }
 
         return $children;
+    }
+
+    /**
+     * @return Collection<int, Source>
+     */
+    public function getSources(): Collection
+    {
+        return $this->sources;
+    }
+
+    public function addSource(Source $source): static
+    {
+        if (!$this->sources->contains($source)) {
+            $this->sources->add($source);
+            $source->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSource(Source $source): static
+    {
+        if ($this->sources->removeElement($source)) {
+            // set the owning side to null (unless already changed)
+            if ($source->getPerson() === $this) {
+                $source->setPerson(null);
+            }
+        }
+
+        return $this;
     }
 }
