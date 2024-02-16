@@ -211,7 +211,7 @@ class UnionController extends AbstractController
                     $this->translator->trans('union.delete.info')
                 );
 
-                return $this->redirectToRoute('app_person_edit', [
+                return $this->redirectToRoute('app_person_unions', [
                     'treeId' => $person->getTree()->getId(),
                     'id' => $person->getId(),
                 ], Response::HTTP_SEE_OTHER);
