@@ -32,6 +32,7 @@ jobs:
           echo "APP_DEBUG=0" >> .env.local
           echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
           echo "MAILER_DSN=\"${{ secrets.SYMFONY_MAILER_DSN }}\"" >> .env.local
+          composer dump-autoload --optimize --classmap-authoritative
           composer dump-env prod
       
       - name: Upload to hosting FTP
