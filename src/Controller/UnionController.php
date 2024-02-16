@@ -7,6 +7,7 @@ use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
 use App\Repository\PersonRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,7 +106,7 @@ class UnionController extends AbstractController
         $unionPartners = $union->getPeople();
         $birthDates = array_map(fn(Person $person) => $person->getBirth(), $unionPartners->toArray());
         $birthDates = array_filter($birthDates, fn($date) => $date !== null);
-        $mostRecentBirthDate = max($birthDates);
+        $mostRecentBirthDate = count($birthDates) < 1 ? new DateTime() : max($birthDates);
 
         return $this->render('union/edit.html.twig', [
             'union' => $union,
