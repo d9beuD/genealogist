@@ -16,13 +16,39 @@
             </div>
             {% if person.birth %}
                 <div class="text-secondary small">
-                    {{ 'calendar'|trans({ date: person.birth }) }}
-                    {{ include('person/_date_indicator.html.twig', { item: {
-                        date: person.birth, 
-                        day_unsure: person.birthDayUnsure,
-                        month_unsure: person.birthMonthUnsure,
-                        year_unsure: person.birthYearUnsure,
-                    } })}}
+                    <div class="row g-1">
+                        {% if person.birth %}
+                            <div class="col-auto">
+                                <span title="{{ 'calendar'|trans({ date: person.birth }) }}">
+                                    {{ person.birth|date('Y') }}
+                                </span>
+                                {{ include('person/_date_indicator.html.twig', { item: {
+                                    date: person.birth, 
+                                    day_unsure: person.birthDayUnsure,
+                                    month_unsure: person.birthMonthUnsure,
+                                    year_unsure: person.birthYearUnsure,
+                                } })}}
+                            </div>
+                        {% endif %}
+                            
+                        {% if person.birth and person.death %}
+                            <div class="col-auto">•</div>
+                        {% endif %}
+
+                        {% if person.death %}
+                            <div class="col-auto">
+                                <span title="{{ 'calendar'|trans({ date: person.death }) }}">
+                                    {{ person.death|date('Y') }}
+                                </span>
+                                {{ include('person/_date_indicator.html.twig', { item: {
+                                    date: person.death, 
+                                    day_unsure: person.deathDayUnsure,
+                                    month_unsure: person.deathMonthUnsure,
+                                    year_unsure: person.deathYearUnsure,
+                                } })}}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             {% endif %}
         </div>
