@@ -108,12 +108,19 @@ alert:
     no_source_registered: Aucune source renseignée.
     no_union_registered: Il n'y a pas d'union renseignée.
     tree_has_no_member: Cet arbre n'a pas encore de membre.
-    tree_members_count: >-
+    tree_members_found_count: >-
         {members, plural,
             =0    {Aucun membre trouvé}
             =1    {Un membre trouvé}
             other {# membres trouvés}
         }
+    tree_members_count: >-
+        {members, plural,
+            =0    {# membre}
+            =1    {# membre}
+            other {# membres}
+        }
+    
 calendar: '{date, date, medium}'
 person:
     edit:

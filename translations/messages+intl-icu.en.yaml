@@ -108,11 +108,17 @@ alert:
     no_source_registered: No source registered.
     no_union_registered: There is no union registered.
     tree_has_no_member: This tree has no member yet.
-    tree_members_count: >-
+    tree_members_found_count: >-
         {members, plural,
             =0    {No member found}
             =1    {One member found}
             other {# members found}
+        }
+    tree_members_count: >-
+        {members, plural,
+            =0    {# member}
+            =1    {# member}
+            other {# members}
         }
 calendar: '{date, date, medium}'
 person:
