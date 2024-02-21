@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\PersonType;
+use App\Form\TreeOptionsType;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,10 +113,15 @@ class PersonController extends AbstractController
 
     #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
     #[IsGranted('view', 'person')]
-    public function tree(Person $person): Response
+    public function tree(Person $person, Request $request): Response
     {
+        $form = $this->createForm(TreeOptionsType::class);
+        $form->handleRequest($request);
+
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,
+            'form' => $form->createView(),
+            'tree_view' => true,
         ]);
     }
 }

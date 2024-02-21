@@ -61,6 +61,12 @@
     object-fit: cover;
 }
 
+.img-profile {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
 .avatar {
     background-color: rgb(var(--bs-body-bg-rgb));
     border-radius: var(--bs-border-radius-pill);
@@ -87,9 +93,9 @@
 }
 
 .avatar-thumbnail > img {
-    object-fit: contain;
+    object-fit: cover;
     height: 100%;
-    top: 0;
+    aspect-ratio: 1;
     vertical-align: top !important;
 }
 
@@ -189,4 +195,40 @@
 
 .popover {
     box-shadow: var(--bs-popover-box-shadow) !important;
+}
+
+main.tree-view {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+#tree-view-panel {
+    max-width: 100dvw;
+    overflow: auto;
+}
+
+
+@media (min-width: 768px) {
+    main.tree-view {
+        overflow: hidden;
+    }
+    
+    #tree {
+        flex: 1 1 auto;
+        overflow: auto;
+        border-top: var(--bs-border-width) solid var(--bs-border-color);
+    }
+
+    #tree-option-panel {
+        width: 20rem;
+        max-width: 20rem;
+        border-right: var(--bs-border-width) solid var(--bs-border-color);
+    }
+
+    #tree-view-panel {
+        min-width: 0;
+        overflow: auto;
+    }
 }

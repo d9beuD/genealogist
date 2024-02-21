@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+    <div class="row g-2 align-items-center mb-2">
+        <div class="col-auto">
+            {{ form_label(form.depth, null, { label_attr: { class: 'mb-0' } }) }}
+        </div>
+        <div class="col-auto">
+            <a href="#" class="link-secondary" title="{{ 'form.help.depth_more_info'|trans }}" data-bs-toggle="tooltip">
+                <i class="fa-solid fa-info-circle"></i>
+            </a>
+        </div>
+    </div>
+    
+    {{ form_row(form.depth, { 
+        label: false,
+        attr: {
+            value: form.depth.vars.data ?? 4
+        }
+    }) }}
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            {{ 'action.apply'|trans }}
+        </button>
+    </div>
+{{ form_end(form) }}

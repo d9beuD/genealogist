@@ -10,10 +10,15 @@
 
 {{ include('_includes/main/flashes.html.twig') }}
 
-<section id="tree" class="py-5">
-    <div class="mw-100 d-flex overflow-x-auto">
-        <div class="px-3">
-            {{ include('tree/tree.html.twig', { person: person }) }}
+<section id="tree" class="row gx-0">
+    <div class="col-md-auto bg-body" id="tree-option-panel">
+        <div class="px-3 py-4">
+            {{ include('tree/_tree_form.html.twig', { tree: person.tree }) }}
+        </div>
+    </div>
+    <div class="col-md d-flex justify-content-center align-items-center" id="tree-view-panel">
+        <div class="p-3" style="width: fit-content;">
+            {{ include('tree/tree.html.twig', { person: person, depth: 1 }) }}
         </div>
     </div>
 </section>
