@@ -59,7 +59,7 @@ class RegistrationController extends AbstractController
                 $this->translator->trans('profile.registration.success')
             );
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_tree_index');
         }
 
         return $this->render('registration/register.html.twig', [
