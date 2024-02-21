@@ -56,7 +56,10 @@
                             </div>
                         </div>
 
-                        <div class="text-secondary">{{ tree.createdAt ? 'calendar'|trans({'date': tree.createdAt}) : '' }}</div>
+                        <div class="row gy-1 gx-3 text-secondary">
+                            <div class="col-auto">{{ 'alert.tree_members_count'|trans({ members: tree.members|length }) }}</div>
+                            <div class="col-auto">{{ tree.createdAt ? 'calendar'|trans({'date': tree.createdAt}) : '' }}</div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
