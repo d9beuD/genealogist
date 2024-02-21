@@ -10,6 +10,7 @@ form:
         death_place: Death place
         bio: Biography
         deceased: Deceased
+        depth: Depth
         description: Description
         email: 'Email address'
         firstname: Firstname
@@ -47,8 +48,14 @@ form:
         certificate_marriage: Marriage certificate
         certificate_death: Death certificate
         certificate_military: Military record
+    help:
+        depth: 0 means there is no limit.
+        depth_more_info: >-
+            The depth of the tree is the number of generations between the selected 
+            person and its ancestors.
 action:
     add: Add
+    apply: Apply
     cancel: Cancel
     create: Create
     delete: Delete

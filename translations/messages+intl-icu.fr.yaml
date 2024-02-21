@@ -10,6 +10,7 @@ form:
         death_place: Lieu de décès
         bio: Biographie
         deceased: Décédé
+        depth: Profondeur
         description: Description
         email: 'Adresse email'
         firstname: Prénom
@@ -47,8 +48,14 @@ form:
         certificate_marriage: Acte de mariage
         certificate_death: Acte de décès
         certificate_military: Acte militaire
+    help:
+        depth: 0 veut dire qu'il n'y a pas de limite.
+        depth_more_info: >-
+            La profondeur de l'arbre est le nombre de générations entre la personne
+            sélectionnée et ses ancêtres. 
 action:
     add: Ajouter
+    apply: Appliquer
     cancel: Annuler
     create: Créer
     delete: Supprimer
