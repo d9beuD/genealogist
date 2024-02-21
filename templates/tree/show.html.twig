@@ -10,13 +10,24 @@
     <div class="container">
         <div class="row g-3">
             <div class="col-md-4 col-lg-3">
-                {% include "tree/_search_form.html.twig" %}
+                <h1 class="h3 mb-0">{{ tree.name }}</h1>
+                
                 <span class="text-secondary">
                     {{ 'alert.tree_members_found_count'|trans({ members: members_count}) }}
                 </span>
+
+                <div class="list-group mt-3">
+                    <a href="{{ path('app_tree_members_add', { id: tree.id }) }}" class="list-group-item link-primary">
+                        <i class="fa-solid fa-fw fa-plus"></i>
+                        {{ 'action.new_member'|trans }}
+                    </a>
+                </div>
             </div>
 
             <div class="col">
+                <div class="d-flex justify-content-end">
+                    {% include "tree/_search_form.html.twig" %}
+                </div>
                 {% if grouped_members|length %}
                     <div class="bg-body rounded border shadow-sm">
                         {% for letter, members in grouped_members %}
