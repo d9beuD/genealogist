@@ -10,7 +10,6 @@
     <div class="container">
         <div class="row g-3">
             <div class="col-md-4 col-lg-3">
-                {% include "tree/_search_form.html.twig" %}
                 <span class="text-secondary">
                     {{ 'alert.tree_members_found_count'|trans({ members: members_count}) }}
                 </span>
@@ -24,6 +23,9 @@
             </div>
 
             <div class="col">
+                <div class="d-flex justify-content-end">
+                    {% include "tree/_search_form.html.twig" %}
+                </div>
                 {% if grouped_members|length %}
                     <div class="bg-body rounded border shadow-sm">
                         {% for letter, members in grouped_members %}
