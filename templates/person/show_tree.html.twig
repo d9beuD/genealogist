@@ -16,9 +16,11 @@
             {{ include('tree/_tree_form.html.twig', { tree: person.tree }) }}
         </div>
     </div>
-    <div class="col-md d-flex justify-content-center align-items-center" id="tree-view-panel">
-        <div class="p-3" style="width: fit-content;">
-            {{ include('tree/tree.html.twig', { person: person, depth: 1 }) }}
+    <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
+        <div class="text-center" style="width: inherit; height: inherit; max-height: inherit;">
+            <div class="m-3 d-inline-block">
+                {{ include('tree/tree.html.twig', { person: person, depth: 1 }) }}
+            </div>
         </div>
     </div>
 </section>

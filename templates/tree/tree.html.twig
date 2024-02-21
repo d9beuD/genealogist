@@ -1,7 +1,7 @@
 {% set link = link|default(false) %}
 {% set max_depth = form.depth.vars.data|default(0) %}
 
-<div class="row g-0 flex-column-reverse aling-items-center justify-content-center flex-grow-1 flex-nowrap">
+<div class="row g-0 flex-column-reverse aling-items-center justify-content-center flex-nowrap" style="width: fit-content;">
     {% if link %}
         <div class="col">
             <div class="tree-link tree-link-{{ direction }} {{ margin }}"></div>

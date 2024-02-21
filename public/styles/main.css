@@ -206,6 +206,7 @@ main.tree-view {
 
 #tree-view-panel {
     max-width: 100dvw;
+    max-height: 100%;
     overflow: auto;
 }
 
