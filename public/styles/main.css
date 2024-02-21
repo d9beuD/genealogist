@@ -61,6 +61,12 @@
     object-fit: cover;
 }
 
+.img-profile {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
 .avatar {
     background-color: rgb(var(--bs-body-bg-rgb));
     border-radius: var(--bs-border-radius-pill);
@@ -87,9 +93,9 @@
 }
 
 .avatar-thumbnail > img {
-    object-fit: contain;
+    object-fit: cover;
     height: 100%;
-    top: 0;
+    aspect-ratio: 1;
     vertical-align: top !important;
 }
 
