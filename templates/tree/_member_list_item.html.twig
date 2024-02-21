@@ -5,7 +5,9 @@
                 {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
             </div>
             <div class="col-auto" title="{{ member.birth ? 'calendar'|trans({ date: member.birth }) : '' }}">
-                {{ member.fullName }}
+                <a href="{{ path('app_person_show', { id: member.id }) }}" class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover">
+                    {{ member.fullName }}
+                </a>
             </div>
             
             {% if member.isDead %}
@@ -44,18 +46,6 @@
                     >
                         <i class="fa-solid fa-tree"></i>
                         Voir l'arbre
-                    </a>
-                </li>
-            {% endif %}
-
-            {% if is_granted('view', member) %}
-                <li>
-                    <a 
-                        href="{{ path('app_person_show', { id: member.id }) }}" 
-                        class="dropdown-item"
-                    >
-                        <i class="fa-solid fa-eye"></i>
-                        {{ 'action.show'|trans }}
                     </a>
                 </li>
             {% endif %}
