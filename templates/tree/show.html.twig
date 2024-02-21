@@ -14,6 +14,13 @@
                 <span class="text-secondary">
                     {{ 'alert.tree_members_found_count'|trans({ members: members_count}) }}
                 </span>
+
+                <div class="list-group mt-3">
+                    <a href="{{ path('app_tree_members_add', { id: tree.id }) }}" class="list-group-item link-primary">
+                        <i class="fa-solid fa-fw fa-plus"></i>
+                        {{ 'action.new_member'|trans }}
+                    </a>
+                </div>
             </div>
 
             <div class="col">
