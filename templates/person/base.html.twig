@@ -13,16 +13,16 @@
                 <div class="col-8 col-md-4 col-lg-3 mx-auto">
                     {% if person.portrait %}
                         <div class="ratio ratio-1x1">
-                            <img 
-                                src="/pictures/{{ person.portrait }}" 
-                                alt="Person profile picture" 
+                            <img
+                                src="/pictures/{{ person.portrait }}"
+                                alt="Person profile picture"
                                 class="img-fluid border rounded-5 shadow-sm img-profile"
                             >
                         </div>
                     {% else %}
-                        {% set icon = person.gender == 0 
-                            ? 'fa-user-vneck-hair-long' : person.gender == 1 
-                            ? 'fa-user-vneck-hair' : 'fa-user-vneck' 
+                        {% set icon = person.gender == 0
+                            ? 'fa-user-vneck-hair-long' : person.gender == 1
+                            ? 'fa-user-vneck-hair' : 'fa-user-vneck'
                         %}
                         <div class="display-1 text-secondary text-center mb-3">
                             <i class="fa-solid fa-xl {{ icon }}"></i>
@@ -66,17 +66,16 @@
                         <ul class="nav nav-underline" style="gap: 0 var(--bs-nav-underline-gap);">
                             <li class="nav-item">
                                 <a 
-                                    class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}" 
+                                    class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}"
                                     href="{{ path('app_person_show', {id: person.id}) }}"
                                     {% if route_name == 'app_person_show' %}aria-current="page"{% endif %}
-                                    
                                 >
                                     <i class="fa-solid fa-user-circle"></i>
                                     {{ 'label.profile'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                {% set is_active = 
+                                {% set is_active =
                                     route_name == 'app_person_unions'
                                     or route_name starts with 'app_union'
                                 %}
@@ -91,8 +90,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a 
-                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}" 
+                                <a
+                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}"
                                     href="{{ path('app_person_edit', {id: person.id}) }}"
                                     {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
                                 >
@@ -103,7 +102,7 @@
                             <li class="nav-item">
                                 {% set is_active = route_name starts with 'app_source' %}
                                 <a 
-                                    class="nav-link{{ is_active ? ' active':'' }}" 
+                                    class="nav-link{{ is_active ? ' active':'' }}"
                                     href="{{ path('app_source_index', {personId: person.id}) }}"
                                     {% if is_active %}aria-current="page"{% endif %}
                                 >
@@ -117,8 +116,6 @@
                     {% block content %}{% endblock %}
                 </div>
             </div>
-
-
         </div>
     </section>
 {% endblock %}
