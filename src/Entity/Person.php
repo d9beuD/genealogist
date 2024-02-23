@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
+    use FormatEmptyStringTrait;
+
     public const FEMALE = 0;
     public const MALE = 1;
     public const OTHER = 2;
@@ -107,7 +110,7 @@ class Person
 
     public function getFirstname(): ?string
     {
-        return $this->firstname;
+        return $this->formatEmptyString($this->firstname);
     }
 
     public function setFirstname(string $firstname): static
@@ -119,7 +122,7 @@ class Person
 
     public function getLastname(): ?string
     {
-        return $this->lastname;
+        return $this->formatEmptyString($this->lastname);
     }
 
     public function setLastname(?string $lastname): static
@@ -131,7 +134,7 @@ class Person
 
     public function getDefaultLastname(): string
     {
-        return $this->birthName ?? $this->lastname ?? '';
+        return $this->getBirthName() ?? $this->getLastname() ?? '';
     }
 
     public function getFullName(): string
@@ -249,7 +252,7 @@ class Person
 
     public function getBio(): ?string
     {
-        return $this->bio;
+        return $this->formatEmptyString($this->bio);
     }
 
     public function setBio(?string $bio): static
@@ -336,7 +339,7 @@ class Person
 
     public function getBirthName(): ?string
     {
-        return $this->birthName;
+        return $this->formatEmptyString($this->birthName);
     }
 
     public function setBirthName(?string $birthName): static
@@ -360,7 +363,7 @@ class Person
 
     public function getBirthPlace(): ?string
     {
-        return $this->birthPlace;
+        return $this->formatEmptyString($this->birthPlace);
     }
 
     public function setBirthPlace(?string $birthPlace): static
@@ -372,7 +375,7 @@ class Person
 
     public function getDeathPlace(): ?string
     {
-        return $this->deathPlace;
+        return $this->formatEmptyString($this->deathPlace);
     }
 
     public function setDeathPlace(?string $deathPlace): static

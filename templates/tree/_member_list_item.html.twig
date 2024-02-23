@@ -5,7 +5,7 @@
                 {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
             </div>
             <div class="col-auto" title="{{ member.birth ? 'calendar'|trans({ date: member.birth }) : '' }}">
-                <a href="{{ path('app_person_show', { id: member.id }) }}" class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover">
+                <a href="{{ path('app_person_show', { id: member.id }) }}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-100-hover">
                     {{ member.fullName }}
                 </a>
             </div>

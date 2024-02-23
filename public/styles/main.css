@@ -233,3 +233,51 @@ main.tree-view {
         overflow: auto;
     }
 }
+
+.event {
+    /* min-height: max-content; */
+    background-color: var(--bs-body-bg);
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    border-radius: var(--bs-border-radius-pill);
+    padding: .25rem;
+}
+
+.event-line {
+    background-color: var(--bs-secondary);
+    width: .25rem;
+    height: 1rem;
+    margin-left: 3rem;
+}
+
+.event .event-icon {
+    --icon-size: 2rem;
+    height: var(--icon-size);
+    width: var(--icon-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--bs-border-radius-pill);
+}
+
+.event > .event-message {
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.event > .event-message p {
+    margin-bottom: 0;
+    color: var(--bs-secondary);
+}
+
+.event > .event-message strong {
+    color: var(--bs-body-color) !important;
+}
+
+.event > .event-message a {
+    color: var(--bs-body-color) !important;
+    text-decoration: none;
+}
+
+.event > .event-message a:hover {
+    text-decoration: underline;
+}

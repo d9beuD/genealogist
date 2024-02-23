@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\SourceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 class Source
 {
+    use FormatEmptyStringTrait;
+    
     public const CERT_BIRTH = 1;
     public const CERT_BAPTISM = 2;
     public const CERT_MARRIAGE = 3;
@@ -101,7 +104,7 @@ class Source
 
     public function getComment(): ?string
     {
-        return $this->comment;
+        return $this->formatEmptyString($this->comment);
     }
 
     public function setComment(?string $comment): static
