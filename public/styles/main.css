@@ -272,3 +272,12 @@ main.tree-view {
 .event > .event-message strong {
     color: var(--bs-body-color) !important;
 }
+
+.event > .event-message a {
+    color: var(--bs-body-color) !important;
+    text-decoration: none;
+}
+
+.event > .event-message a:hover {
+    text-decoration: underline;
+}

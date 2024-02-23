@@ -45,6 +45,7 @@ class LifeLineController extends AbstractController
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'partner' => $hasPartner ? $union->getPartner($person)->getFullName() : '?',
+                    'partner_path' => $hasPartner ? $this->generateUrl('app_person_life_line', ['id' => $union->getPartner($person)->getId()]) : '#',
                     'place' => $union->getWeddingPlace() ?? 'empty',
                     'year' => $hasUnionDate ? $union->getWeddingDate()->format('Y') : 'empty',
                 ]),
@@ -60,6 +61,7 @@ class LifeLineController extends AbstractController
                     'message' => $translator->trans('life_line.child.message', [
                         'name' => $person->getFullName(),
                         'child' => $child->getFullName(),
+                        'child_path' => $this->generateUrl('app_person_life_line', ['id' => $child->getId()]),
                         'year' => $hasBirthDate ? $child->getBirth()->format('Y') : 'empty',
                     ]),
                 ];

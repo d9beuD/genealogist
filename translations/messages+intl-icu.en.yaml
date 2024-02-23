@@ -193,7 +193,7 @@ life_line:
         }.
     union.label: Union
     union.message: >-
-        **{name}** united with **{partner}**{place, select,
+        **{name}** united with **[{partner}]({partner_path})**{place, select,
             empty {}
             other { in {place}}
         }{year, select,
@@ -201,7 +201,8 @@ life_line:
             other { in {year}}
         }.
     child.label: Child
-    child.message: '**{name}** had **{child}** as a child{year, select,
-        empty {}
-        other { in {year}}
-    }.'
+    child.message: >-
+        **{name}** had **[{child}]({child_path})** as a child{year, select,
+            empty {}
+            other { in {year}}
+        }.

@@ -218,7 +218,7 @@ life_line:
             1 {uni}
             3 {uni•e}
             other {uni}
-        } avec **{partner}**{place, select,
+        } avec **[{partner}]({partner_path})**{place, select,
             empty {}
             other { à {place}}
         }{year, select,
@@ -226,7 +226,8 @@ life_line:
             other { en {year}}
         }.
     child.label: Enfant
-    child.message: '**{name}** a eu **{child}** comme enfant{year, select,
-        empty {}
-        other { en {year}}
-    }.'
+    child.message: >-
+        **{name}** a eu **[{child}]({child_path})** comme enfant{year, select,
+            empty {}
+            other { en {year}}
+        }.
