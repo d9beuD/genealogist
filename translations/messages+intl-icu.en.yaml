@@ -175,18 +175,16 @@ life_line:
         sorted chronologically.
     birth.label: Birth
     birth.message: >-
-        **{name}** was born
-        {year, select,
-            empty {}
-            other { in {year}}
-        }{place, select,
+        **{name}** was born{place, select,
             empty {}
             other { in {place}}
+        }{year, select,
+            empty {}
+            other { in {year}}
         }.
     death.label: Death
     death.message: >-
-        **{name}** died
-        {place, select,
+        **{name}** died{place, select,
             empty {}
             other { in {place}}
         }{year, select,
