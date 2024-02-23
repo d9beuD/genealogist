@@ -19,7 +19,7 @@
     <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
         <div class="text-center" style="width: inherit; height: inherit; max-height: inherit;">
             <div class="m-3 d-inline-block">
-                {{ include('tree/tree.html.twig', { person: person, depth: 1 }) }}
+                {{ include('tree/tree.html.twig', { person: person, depth: 1, max_depth: form.depth.vars.data|default(4) }) }}
             </div>
         </div>
     </div>
