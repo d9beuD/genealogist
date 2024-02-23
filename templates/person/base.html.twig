@@ -100,6 +100,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a
+                                    href="{{ path('app_person_life_line', { id: person.id }) }}"
+                                    class="nav-link{{ route_name starts with 'app_person_life_line' ? ' active':'' }}"
+                                >
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                    {{ 'label.life_line'|trans }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 {% set is_active = route_name starts with 'app_source' %}
                                 <a 
                                     class="nav-link{{ is_active ? ' active':'' }}"
