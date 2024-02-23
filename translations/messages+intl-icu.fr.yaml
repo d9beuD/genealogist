@@ -188,12 +188,12 @@ life_line:
             1 {né}
             3 {né•e}
             other {né}
-        }{year, select,
-            empty {}
-            other { en {year}}
         }{place, select,
             empty {}
             other { à {place}}
+        }{year, select,
+            empty {}
+            other { en {year}}
         }.
     death.label: Décès
     death.message: >-
