@@ -170,6 +170,9 @@ union:
             success: '**{name}** has been successfully removed as a child.'
             error: '**{name}** has not been removed as a child.'
 life_line:
+    not_all_dated: |
+        Not all events were dated, so they could not be automatically
+        sorted chronologically.
     birth.label: Birth
     birth.message: >-
         **{name}** was born

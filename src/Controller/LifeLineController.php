@@ -94,6 +94,7 @@ class LifeLineController extends AbstractController
         return $this->render('life_line/index.html.twig', [
             'person' => $person,
             'events' => $events,
+            'all_events_have_date' => $allEventsHaveDate,
         ]);
     }
 }

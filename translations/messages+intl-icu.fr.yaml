@@ -177,6 +177,9 @@ source:
         success: "La source a bien été supprimée."
         error: "La source n'a pas été supprimée."
 life_line:
+    not_all_dated: |
+        Tous les évènements n'étaient pas datés, ils n'ont donc pas pu être 
+        automatiquement triés chronologiquement.
     birth.label: Naissance
     birth.message: >-
         **{name}** est

@@ -1,4 +1,5 @@
 {% extends 'person/base.html.twig' %}
+{% from "_includes/macro.html.twig" import alert %}
 
 {% block title %}{{ 'title.life_line_of'|trans({ name: person.fullName }) }}{% endblock %}
 
@@ -10,6 +11,13 @@
 {% endblock %}
 
 {% block content %}
+    {% if not all_events_have_date %}
+        <div class="mb-4">
+            {{ alert('secondary', 'life_line.not_all_dated'|trans) }}
+        </div>
+    {% endif %}
+
+
     <div class="row g-0 position-relative">
         <div class="col d-flex flex-column">
             {% for event in events %}
