@@ -172,7 +172,8 @@ union:
 life_line:
     birth.label: Birth
     birth.message: >-
-        **{name}** was born on {year, select,
+        **{name}** was born
+        {year, select,
             empty {}
             other { in {year}}
         }{place, select,
@@ -181,15 +182,25 @@ life_line:
         }.
     death.label: Death
     death.message: >-
-        **{name}** died in {year}{place, select,
+        **{name}** died
+        {place, select,
             empty {}
             other { in {place}}
+        }{year, select,
+            empty {}
+            other { in {year}}
         }.
     union.label: Union
     union.message: >-
         **{name}** united with **{partner}**{place, select,
             empty {}
             other { in {place}}
+        }{year, select,
+            empty {}
+            other { in {year}}
         }.
     child.label: Child
-    child.message: '**{name}** had **{child}** as a child.'
+    child.message: '**{name}** had **{child}** as a child{year, select,
+        empty {}
+        other { in {year}}
+    }.'
