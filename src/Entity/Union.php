@@ -197,4 +197,15 @@ class Union
 
         return $this;
     }
+
+    public function getPartner(Person $person): ?Person
+    {
+        foreach ($this->people as $partner) {
+            if ($partner !== $person) {
+                return $partner;
+            }
+        }
+
+        return null;
+    }
 }
