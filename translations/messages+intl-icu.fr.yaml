@@ -92,6 +92,7 @@ label:
     sources: Sources
     profile: Profil
     direct_proof: Preuve directe
+    life_line: Ligne de vie
 title:
     add_child: Ajouter un enfant
     add_member: Ajouter un membre
@@ -102,6 +103,7 @@ title:
     rename_tree: Renommer l'arbre {name}
     tree_of: Arbre de {name}
     sources_of: Sources de {name}
+    life_line_of: Ligne de vie de {name}
 alert:
     add_union_members_later: |
         Vous pourrez ajouter des membres à cette union une fois qu'elle sera créée.
@@ -174,3 +176,54 @@ source:
     delete:
         success: "La source a bien été supprimée."
         error: "La source n'a pas été supprimée."
+life_line:
+    birth.label: Naissance
+    birth.message: >-
+        **{name}** est
+        {gender, select,
+            0 {née}
+            1 {né}
+            3 {né•e}
+            other {né}
+        }{year, select,
+            empty {}
+            other { en {year}}
+        }{place, select,
+            empty {}
+            other { à {place}}
+        }.
+    death.label: Décès
+    death.message: >-
+        **{name}** est
+        {gender, select,
+            0 {décédée}
+            1 {décédé}
+            3 {décédé•e}
+            other {décédé}
+        }{year, select,
+            empty {}
+            other { en {year}}
+        }{place, select,
+            empty {}
+            other { à {place}}
+        }.
+    union.label: Union
+    union.message: >-
+        **{name}** s'est
+        {gender, select,
+            0 {unie}
+            1 {uni}
+            3 {uni•e}
+            other {uni}
+        } avec **{partner}**{place, select,
+            empty {}
+            other { à {place}}
+        }{year, select,
+            empty {}
+            other { en {year}}
+        }.
+    child.label: Enfant
+    child.message: '**{name}** a eu **{child}** comme enfant{year, select,
+        empty {}
+        other { en {year}}
+    }.'

@@ -1,0 +1,42 @@
+{% extends 'person/base.html.twig' %}
+
+{% block title %}{{ 'title.life_line_of'|trans({ name: person.fullName }) }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ include('_includes/main/breadcrumb.html.twig', { items: [
+        { label: person.tree.name, link: path('app_tree_show', { id: person.tree.id }) },
+        { label: person.fullName, link: null },
+    ] }) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row g-0 position-relative">
+        <div class="col d-flex flex-column">
+            {% for event in events %}
+                {% if loop.index0 != 0 %}
+                    <div class="event-line"></div>
+                {% endif %}
+                <div class="row g-0 align-items-center event">
+                    <div class="col-auto">
+                        {% set icon = '' %}
+                        {% if event.type == 'birth' %}
+                            {% set icon = 'baby' %}
+                        {% elseif event.type == 'death' %}
+                            {% set icon = 'tombstone-blank' %}
+                        {% elseif event.type == 'union' %}
+                            {% set icon = 'ring-diamond' %}
+                        {% elseif event.type == 'child' %}
+                            {% set icon = 'baby-carriage' %}
+                        {% endif %}
+                        <div class="event-icon text-bg-secondary">
+                            <i class="fa-solid fa-fw fa-{{ icon }}"></i>
+                        </div>
+                    </div>
+                    <div class="col event-message">
+                        {{ event.message|markdown_to_html}}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

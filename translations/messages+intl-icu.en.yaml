@@ -92,6 +92,7 @@ label:
     sources: Sources
     profile: Profile
     direct_proof: Direct proof
+    life_line: Life line
 title:
     add_child: Add a child
     add_member: Add a member
@@ -102,6 +103,7 @@ title:
     rename_tree: Rename tree {name}
     tree_of: Tree of {name}
     sources_of: Sources of {name}
+    life_line_of: Life line of {name}
 alert:
     add_union_members_later: |
         You will be able to add members to this union once it is created.
@@ -167,3 +169,27 @@ union:
         remove:
             success: '**{name}** has been successfully removed as a child.'
             error: '**{name}** has not been removed as a child.'
+life_line:
+    birth.label: Birth
+    birth.message: >-
+        **{name}** was born on {year, select,
+            empty {}
+            other { in {year}}
+        }{place, select,
+            empty {}
+            other { in {place}}
+        }.
+    death.label: Death
+    death.message: >-
+        **{name}** died in {year}{place, select,
+            empty {}
+            other { in {place}}
+        }.
+    union.label: Union
+    union.message: >-
+        **{name}** united with **{partner}**{place, select,
+            empty {}
+            other { in {place}}
+        }.
+    child.label: Child
+    child.message: '**{name}** had **{child}** as a child.'
