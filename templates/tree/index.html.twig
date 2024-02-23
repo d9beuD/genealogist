@@ -15,7 +15,11 @@
                     <div class="bg-body rounded p-3 shadow-sm h-100">
                         <div class="row gx-1">
                             <div class="col">
-                                <h2 class="h5">{{ tree.name }}</h2>
+                                <h2 class="h5">
+                                    <a href="{{ path('app_tree_show', {'id': tree.id}) }}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-75-hover">
+                                        {{ tree.name }}
+                                    </a>
+                                </h2>
                             </div>
                             <div class="col-auto">
                                 <div class="dropdown">
