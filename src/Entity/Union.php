@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\UnionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`union`')]
 class Union
 {
+    use FormatEmptyStringTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -135,7 +138,7 @@ class Union
 
     public function getWeddingPlace(): ?string
     {
-        return $this->weddingPlace;
+        return $this->formatEmptyString($this->weddingPlace);
     }
 
     public function setWeddingPlace(?string $weddingPlace): static
@@ -188,7 +191,7 @@ class Union
 
     public function getDescription(): ?string
     {
-        return $this->description;
+        return $this->formatEmptyString($this->description);
     }
 
     public function setDescription(?string $description): static
