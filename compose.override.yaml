@@ -3,12 +3,27 @@ version: '3'
 services:
 ###> doctrine/doctrine-bundle ###
   database:
+    platform: linux/arm64
     ports:
-      - "5432"
+      - "3306:3306"
 ###< doctrine/doctrine-bundle ###
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    platform: linux/arm64
+    ports:
+      - "8080:80"
+    environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOST=database
+    - PMA_PORT=3306
+    - PMA_USER=root
+    - PMA_PASSWORD=
+    depends_on:
+      - database
+
 ###> symfony/mailer ###
-  mailer:
-    image: schickling/mailcatcher
-    ports: ["1025", "1080"]
+  # mailer:
+  #   image: schickling/mailcatcher
+  #   ports: ["1025", "1080"]
 ###< symfony/mailer ###
