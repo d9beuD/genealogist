@@ -3,10 +3,12 @@
 {% block title %}{{ 'title.edit_union_of'|trans({ name: person.fullName }) }}{% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 {% endblock %}
 
