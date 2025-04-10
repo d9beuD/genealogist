@@ -7,13 +7,13 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-bundle": "^2.14",
         "doctrine/doctrine-migrations-bundle": "^3.4",
-        "doctrine/orm": "^2.17",
+        "doctrine/orm": "^3.3",
         "fakerphp/faker": "^1.24",
-        "league/commonmark": "^2.4",
-        "phpdocumentor/reflection-docblock": "^5.3",
-        "phpstan/phpdoc-parser": "^1.25",
+        "league/commonmark": "^2.6",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.1",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",
         "symfony/console": "7.2.*",
@@ -43,10 +43,10 @@
         "symfony/validator": "7.2.*",
         "symfony/web-link": "7.2.*",
         "symfony/yaml": "7.2.*",
-        "symfonycasts/verify-email-bundle": "^1.16",
-        "twig/extra-bundle": "^3.8",
-        "twig/markdown-extra": "^3.8",
-        "twig/twig": "^2.12|^3.0"
+        "symfonycasts/verify-email-bundle": "^1.17",
+        "twig/extra-bundle": "^3.20",
+        "twig/markdown-extra": "^3.20",
+        "twig/twig": "^3.20"
     },
     "config": {
         "allow-plugins": {
