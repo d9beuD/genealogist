@@ -31,44 +31,6 @@
             (() => {
                 'use strict';
 
-                /** Theme */
-                // Define the function to apply the color scheme
-                const themeSavedInCookie = document.documentElement.dataset.bsTheme !== 'auto';
-                const getBrowserColorScheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-                const applyColorScheme = (mode) => {
-                    document.documentElement.dataset.bsTheme = mode;
-                }
-                const saveColorScheme = (mode) => {
-                    fetch('/settings/theme', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ mode }),
-                        credentials: 'same-origin',
-                    })
-                }
-
-                // If the theme is not saved in the cookie, apply the browser color scheme
-                // and save it in the cookie
-                if (!themeSavedInCookie) {
-                    const browserColorScheme = getBrowserColorScheme();
-                    applyColorScheme(browserColorScheme);
-                    saveColorScheme(browserColorScheme);
-                }
-
-                // Listen for the user's color scheme preference changes
-                window.addEventListener('DOMContentLoaded', () => {
-                    document.querySelectorAll('[data-bs-theme-value]')
-                        .forEach((toggle) => {
-                            toggle.addEventListener('click', (event) => {
-                                const mode = event.target.dataset.bsThemeValue;
-                                applyColorScheme(mode);
-                                saveColorScheme(mode);
-                            })
-                        })
-                })
-
                 /** Popovers */
                 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
                 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
