@@ -51,6 +51,11 @@ class Union
     {
         $this->people = new ArrayCollection();
         $this->children = new ArrayCollection();
+
+        $this->married = false;
+        $this->dayUnsure = false;
+        $this->monthUnsure = false;
+        $this->yearUnsure = false;
     }
 
     public function getId(): ?int

@@ -96,6 +96,16 @@ class Person
     {
         $this->unions = new ArrayCollection();
         $this->sources = new ArrayCollection();
+
+        $this->birthDayUnsure = false;
+        $this->birthMonthUnsure = false;
+        $this->birthYearUnsure = false;
+
+        $this->deathDayUnsure = false;
+        $this->deathMonthUnsure = false;
+        $this->deathYearUnsure = false;
+
+        $this->dead = false;
     }
 
     public function __toString(): string
