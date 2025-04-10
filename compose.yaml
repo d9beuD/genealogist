@@ -1,21 +1,62 @@
-version: '3'
+name: genealogist
 
 services:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    image: bitnami/mariadb:10.6.20
+    container_name: genealogist-database
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-root_password}
+      - MARIADB_USER=${MARIADB_USER:-app}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-app_password}
+      - MARIADB_DATABASE=${MARIADB_DATABASE:-app}
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - database_data:/bitnami/mariadb
+    networks:
+      - genealogist_network
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+  ###< doctrine/doctrine-bundle ###
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    container_name: genealogist-phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=database
+      - PMA_USER=${MARIADB_USER:-app}
+      - PMA_PASSWORD=${MARIADB_PASSWORD:-app_password}
+    depends_on:
+      - database
+    networks:
+      - genealogist_network
+    restart: unless-stopped
+
+  apache:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: genealogist-apache
+    volumes:
+      - .:/var/www/
+      - ./docker/apache/apache.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./docker/apache/php.ini:/usr/local/etc/php/conf.d/php.custom.ini
+      - ./docker/apache/.htaccess:/var/www/public/.htaccess
+    ports:
+      - 8000:80
+    depends_on:
+      - database
+    networks:
+      - genealogist_network
+    restart: unless-stopped
+
+networks:
+  genealogist_network:
+    driver: bridge
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
+    driver: local
