@@ -26,7 +26,6 @@
         </main>
         
         {% include "_includes/main/footer.html.twig" %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             (() => {
                 'use strict';
@@ -45,19 +44,22 @@
 
                 /** Breadcrumb */
                 const breadcrumb = document.querySelector("#breadcrumb")
-                // const observer = new IntersectionObserver( 
-                //     (entries) => {
-                //         entries.forEach(e => {
-                //             if (e.isIntersecting) {
-                //                 e.target.classList.remove('border-bottom')
-                //             } else {
-                //                 e.target.classList.add('border-bottom')
-                //             }
-                //         })
-                //     },
-                //     { threshold: [1] }
-                // );
-                // observer.observe(breadcrumb);
+                const observer = new IntersectionObserver( 
+                    (entries) => {
+                        entries.forEach(e => {
+                            if (e.isIntersecting) {
+                                e.target.classList.remove('border-bottom')
+                            } else {
+                                e.target.classList.add('border-bottom')
+                            }
+                        })
+                    },
+                    { threshold: [1] }
+                );
+
+                if (breadcrumb) {
+                    observer.observe(breadcrumb);
+                }
             })()
         </script>
     </body>
