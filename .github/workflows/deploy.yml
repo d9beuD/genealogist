@@ -1,15 +1,16 @@
-name: Deploy to FTP
+name: Deploy with rsync
 
-on:
+on: 
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   APP_ENV: prod
   APP_VERSION: ${{ github.ref_name }}
 
 jobs:
-  ftp_upload:
+  rsync_upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,33 +18,60 @@ jobs:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
+
+      - name: Setup env
+        run: |
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_DEBUG=0" >> .env.local
+          touch .env.prod.local
+          echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
+          echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: locked
           composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
-          
-      - name: Create env.local.php
+
+      - name: Import assets
         run: |
-          touch .env.local
-          echo "APP_VERSION=\"${{ github.ref_name }}\"" >> .env.local
-          echo "APP_DEBUG=0" >> .env.local
-          echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
-          echo "MAILER_DSN=\"${{ secrets.SYMFONY_MAILER_DSN }}\"" >> .env.local
-          composer dump-autoload --optimize --classmap-authoritative
+          php bin/console sass:build
+          php bin/console asset-map:compile
+          php bin/console assets:install
+
+      - name: Optimize app
+        run: |
           composer dump-env prod
-      
-      - name: Upload to hosting FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+          composer dump-autoload --optimize --classmap-authoritative
+          php bin/console cache:warmup
+
+          # Copy .htaccess
+          cp docker/apache/.htaccess public/.htaccess
+
+          # Optimize PHP
+          cp docker/apache/php_prod.ini public/php.ini
+          echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
+
+          # Register custom public/php.ini in public/.htaccess
+          echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
+
+      - name: Whitelist IP address
+        uses: d9beuD/o2switch-whitelisting@v1.0.3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./com.d9beud.genealogist.app/
-          log-level: 'minimal'
-          exclude: |
-            **/.git*
-            **/.git*/**
-            var/cache/**
+          o2switch_username: ${{ secrets.SSH_USER }}
+          o2switch_password: ${{ secrets.SSH_PASSWORD }}
+          o2switch_host: ${{ secrets.SSH_HOST }}
+          otp_secret: ${{ secrets.O2SWITCH_OTP_SECRET }}
+
+      - name: Deploy with rsync
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          # Updates are based on file hash, not time + size
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          TARGET: ${{ secrets.APP_PATH }}/
+          EXCLUDE: ".git*, public/pictures/*"
