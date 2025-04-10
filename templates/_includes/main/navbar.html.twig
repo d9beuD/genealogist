@@ -35,7 +35,6 @@
             </ul>
 
             <ul class="navbar-nav">
-                {{ include('theme/_dropdown-menu.html.twig') }}
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
