@@ -50,8 +50,8 @@ jobs:
           cp docker/apache/.htaccess public/.htaccess
 
           # Optimize PHP
-          cp docker/apache/php_prod.ini public/php.ini
-          echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
+          # cp docker/apache/php_prod.ini public/php.ini
+          # echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
 
           # Register custom public/php.ini in public/.htaccess
           echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
