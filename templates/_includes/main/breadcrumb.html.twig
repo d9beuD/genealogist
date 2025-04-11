@@ -1,4 +1,4 @@
-<div class="bg-body-blur py-3 sticky-top" id="breadcrumb" style="z-index: 100;">
+<div {{ stimulus_controller('breadcrumb')|stimulus_target('breadcrumb', 'breadcrumb') }} class="bg-body-blur py-3 sticky-top" id="breadcrumb" style="z-index: 100;">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
