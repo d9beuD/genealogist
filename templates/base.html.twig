@@ -41,25 +41,6 @@
                 /** Tooltips */
                 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
                 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-                /** Breadcrumb */
-                const breadcrumb = document.querySelector("#breadcrumb")
-                const observer = new IntersectionObserver( 
-                    (entries) => {
-                        entries.forEach(e => {
-                            if (e.isIntersecting) {
-                                e.target.classList.remove('border-bottom')
-                            } else {
-                                e.target.classList.add('border-bottom')
-                            }
-                        })
-                    },
-                    { threshold: [1] }
-                );
-
-                if (breadcrumb) {
-                    observer.observe(breadcrumb);
-                }
             })()
         </script>
     </body>
