@@ -5,6 +5,7 @@ namespace App\Security\Voter;
 use App\Entity\Union;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,7 +21,7 @@ class UnionVoter extends Voter
             && $subject instanceof \App\Entity\Union;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -34,16 +35,15 @@ class UnionVoter extends Voter
         switch ($attribute) {
             case self::EDIT:
                 return $this->canEdit($union, $user);
-                break;
 
             case self::VIEW:
                 return $this->canView($union, $user);
-                break;
 
             case self::DELETE:
                 return $this->canDelete($union, $user);
-                break;
         }
+
+        return false;
     }
 
     private function isOwner(Union $union, User $user): bool

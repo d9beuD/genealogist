@@ -23,17 +23,13 @@ class RegistrationFormType extends AbstractType
                 'label' => 'form.field.firstname',
                 'attr' => ['autofocus' => true],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a firstname'
-                    ]),
+                    new NotBlank(message: 'Please enter a firstname'),
                 ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'form.field.lastname',
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a lastname'
-                    ]),
+                    new NotBlank(message: 'Please enter a lastname'),
                 ],
             ])
             ->add('email', EmailType::class, ['label' => 'form.field.email'])
@@ -52,9 +48,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password.',
-                    ]),
+                    new NotBlank(message: 'Please enter a password.'),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters.',
