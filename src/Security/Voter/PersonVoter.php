@@ -5,6 +5,7 @@ namespace App\Security\Voter;
 use App\Entity\Person;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,7 +21,7 @@ class PersonVoter extends Voter
             && $subject instanceof \App\Entity\Person;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
@@ -34,16 +35,15 @@ class PersonVoter extends Voter
         switch ($attribute) {
             case self::EDIT:
                 return $this->canEdit($person, $user);
-                break;
 
             case self::VIEW:
                 return $this->canView($person, $user);
-                break;
 
             case self::DELETE:
                 return $this->canDelete($person, $user);
-                break;
         }
+
+        return false;
     }
 
     private function isOwner(Person $person, User $user): bool
