@@ -1,4 +1,4 @@
-FROM php:8.4.5-apache
+FROM php:8.4-apache
 
 WORKDIR /var/www
 ENV DEBIAN_FRONTEND=noninteractive
