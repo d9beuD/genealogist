@@ -19,18 +19,14 @@ class LoginFormType extends AbstractType
                 'label' => 'form.field.email',
                 'attr' => ['autocomplete' => 'email'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter an email.'
-                    ]),
+                    new NotBlank(message: 'Please enter an email.'),
                 ],
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'form.field.password',
                 'attr' => ['autocomplete' => 'current-password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password.'
-                    ]),
+                    new NotBlank(message: 'Please enter a password.'),
                 ],
             ])
             ->add('remember_me', CheckboxType::class, [
