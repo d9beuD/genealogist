@@ -390,6 +390,47 @@ class Person implements \Stringable
         return $this;
     }
 
+    public function getAge(): ?int
+    {
+        $referenceDate = $this->getAgeReferenceDate();
+
+        if (!$this->birth instanceof \DateTimeInterface || !$referenceDate instanceof \DateTimeInterface) {
+            return null;
+        }
+
+        return $this->birth->diff($referenceDate)->y;
+    }
+
+    public function isAgeApproximate(): bool
+    {
+        if ($this->getAge() === null) {
+            return false;
+        }
+
+        if ($this->isBirthDayUnsure() || $this->isBirthMonthUnsure() || $this->isBirthYearUnsure()) {
+            return true;
+        }
+
+        if (!$this->isDead()) {
+            return false;
+        }
+
+        return $this->isDeathDayUnsure() || $this->isDeathMonthUnsure() || $this->isDeathYearUnsure();
+    }
+
+    private function getAgeReferenceDate(): ?\DateTimeInterface
+    {
+        if (!$this->birth instanceof \DateTimeInterface) {
+            return null;
+        }
+
+        if ($this->isDead()) {
+            return $this->death;
+        }
+
+        return new \DateTimeImmutable('today');
+    }
+
     public function hasChildren(): bool
     {
         return array_reduce(

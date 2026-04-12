@@ -83,6 +83,7 @@ profile:
         success: Vos informations ont bien été modifiées.
 label:
     actions: Actions
+    age: Age
     children: Enfants
     date_uncertain: Date incertaine
     home: Accueil
@@ -137,6 +138,18 @@ alert:
     
 calendar: '{date, date, medium}'
 person:
+    age:
+        value: >-
+            {age, plural,
+                =1 {# an}
+                other {# ans}
+            }
+        approximate: >-
+            ~{age, plural,
+                =1 {# an}
+                other {# ans}
+            }
+        unknown: Âge inconnu
     edit:
         success: '**{name}** a bien été modifié.'
     delete:

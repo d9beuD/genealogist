@@ -31,21 +31,41 @@
 
                     <h1 class="h2 my-2 text-center">{{ person.fullName }}</h1>
 
+                    {% set age = person.age %}
+                    {% set age_translation_key = person.ageApproximate ? 'person.age.approximate' : 'person.age.value' %}
+                    {% set show_unknown_age = age is null and (not person.birth or (person.isDead and not person.death)) %}
+
                     <div class="card mb-3">
                         <ul class="list-group list-group-flush">
                             {{ macro.list_item('id-card', 'form.field.gender'|trans, 'form.field.gender.value'|trans({ gender: person.gender })) }}
 
                             {% if person.birth %}
-                                {{ macro.list_item('cake-candles', 'form.field.birth_date'|trans, 'calendar'|trans({ date: person.birth })) }}
+                                {% set birth_value %}
+                                    {{ 'calendar'|trans({ date: person.birth }) }}
+                                    {% if age is not null and not person.isDead %}
+                                        <span class="text-body-tertiary">({{ age_translation_key|trans({ age: age }) }})</span>
+                                    {% endif %}
+                                {% endset %}
+                                {{ macro.list_item('cake-candles', 'form.field.birth_date'|trans, birth_value|trim) }}
                             {% endif %}
 
                             {% if person.birthPlace and person.birthPlace != '' %}
                                 {{ macro.list_item('map-marker-alt', 'form.field.birth_place'|trans, person.birthPlace) }}
                             {% endif %}
 
+                            {% if show_unknown_age %}
+                                {{ macro.list_item('hourglass-half', 'label.age'|trans, 'person.age.unknown'|trans) }}
+                            {% endif %}
+
                             {% if person.isDead %}
                                 {% if person.death %}
-                                    {{ macro.list_item('tombstone', 'form.field.death_date'|trans, 'calendar'|trans({ date: person.death })) }}
+                                    {% set death_value %}
+                                        {{ 'calendar'|trans({ date: person.death }) }}
+                                        {% if age is not null %}
+                                            <span class="text-body-tertiary">({{ age_translation_key|trans({ age: age }) }})</span>
+                                        {% endif %}
+                                    {% endset %}
+                                    {{ macro.list_item('tombstone', 'form.field.death_date'|trans, death_value|trim) }}
                                 {% endif %}
                                 
                                 {% if person.deathPlace and person.deathPlace != '' %}
