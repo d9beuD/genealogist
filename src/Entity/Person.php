@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +32,10 @@ class Person
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $birth = null;
+    private ?DateTimeInterface $birth = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $death = null;
+    private ?DateTimeInterface $death = null;
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $birthDayUnsure = null;
@@ -152,24 +153,24 @@ class Person
         return trim(mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname);
     }
 
-    public function getBirth(): ?\DateTimeInterface
+    public function getBirth(): ?DateTimeInterface
     {
         return $this->birth;
     }
 
-    public function setBirth(?\DateTimeInterface $birth): static
+    public function setBirth(?DateTimeInterface $birth): static
     {
         $this->birth = $birth;
 
         return $this;
     }
 
-    public function getDeath(): ?\DateTimeInterface
+    public function getDeath(): ?DateTimeInterface
     {
         return $this->death;
     }
 
-    public function setDeath(?\DateTimeInterface $death): static
+    public function setDeath(?DateTimeInterface $death): static
     {
         $this->death = $death;
 
