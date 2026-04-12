@@ -7,7 +7,6 @@ use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
 use App\Repository\PersonRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
