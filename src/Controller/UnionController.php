@@ -191,7 +191,7 @@ class UnionController extends AbstractController
         Person $person,
         Union $union,
         #[MapEntity(id: 'partnerId')]
-        Person $partner
+        Person $partner,
     ): Response {
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
@@ -275,7 +275,7 @@ class UnionController extends AbstractController
         Person $person,
         Union $union,
         #[MapEntity(id: 'childId')]
-        Person $child
+        Person $child,
     ): Response {
         if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);

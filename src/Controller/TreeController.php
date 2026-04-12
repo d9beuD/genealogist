@@ -149,7 +149,7 @@ class TreeController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         ImageManager $imageManager,
-        Tree $tree
+        Tree $tree,
     ): Response {
         $person = new Person();
         $form = $this->createForm(PersonType::class, $person);
