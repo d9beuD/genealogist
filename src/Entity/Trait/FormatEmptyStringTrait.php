@@ -8,6 +8,6 @@ trait FormatEmptyStringTrait
 {
     public function formatEmptyString(?string $value): ?string
     {
-        return ($value !== null && trim($value) === '') ? null : $value;
+        return (null !== $value && '' === trim($value)) ? null : $value;
     }
 }

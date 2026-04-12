@@ -106,7 +106,7 @@ class UnionController extends AbstractController
 
         $unionPartners = $union->getPeople();
         $birthDates = array_map(fn (Person $person) => $person->getBirth(), $unionPartners->toArray());
-        $birthDates = array_filter($birthDates, fn ($date) => $date !== null);
+        $birthDates = array_filter($birthDates, fn ($date) => null !== $date);
         $mostRecentBirthDate = count($birthDates) < 1 ? null : max($birthDates);
 
         return $this->render('union/edit.html.twig', [
@@ -200,7 +200,7 @@ class UnionController extends AbstractController
                 $this->translator->trans('union.partner.remove.success', ['name' => $partner->getFullName()])
             );
 
-            if ($union->getPeople()->count() === 0) {
+            if (0 === $union->getPeople()->count()) {
                 foreach ($union->getChildren() as $child) {
                     $union->removeChild($child);
                 }
