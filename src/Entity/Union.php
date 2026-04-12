@@ -116,11 +116,9 @@ class Union
 
     public function removeChild(Person $child): static
     {
-        if ($this->children->removeElement($child)) {
-            // set the owning side to null (unless already changed)
-            if ($child->getParentUnion() === $this) {
-                $child->setParentUnion(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->children->removeElement($child) && $child->getParentUnion() === $this) {
+            $child->setParentUnion(null);
         }
 
         return $this;

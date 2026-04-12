@@ -175,11 +175,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeTree(Tree $tree): static
     {
-        if ($this->trees->removeElement($tree)) {
-            // set the owning side to null (unless already changed)
-            if ($tree->getOwner() === $this) {
-                $tree->setOwner(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->trees->removeElement($tree) && $tree->getOwner() === $this) {
+            $tree->setOwner(null);
         }
 
         return $this;

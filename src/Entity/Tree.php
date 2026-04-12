@@ -72,11 +72,9 @@ class Tree
 
     public function removeMember(Person $member): static
     {
-        if ($this->members->removeElement($member)) {
-            // set the owning side to null (unless already changed)
-            if ($member->getTree() === $this) {
-                $member->setTree(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->members->removeElement($member) && $member->getTree() === $this) {
+            $member->setTree(null);
         }
 
         return $this;

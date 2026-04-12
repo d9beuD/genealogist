@@ -427,11 +427,9 @@ class Person
 
     public function removeSource(Source $source): static
     {
-        if ($this->sources->removeElement($source)) {
-            // set the owning side to null (unless already changed)
-            if ($source->getPerson() === $this) {
-                $source->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->sources->removeElement($source) && $source->getPerson() === $this) {
+            $source->setPerson(null);
         }
 
         return $this;
