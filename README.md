@@ -1,6 +1,7 @@
 # Genealogist, a free family tree app
 
 [![Deploy to FTP](https://github.com/d9beuD/genealogist/actions/workflows/deploy.yml/badge.svg)](https://github.com/d9beuD/genealogist/actions/workflows/deploy.yml)
+[![Release Please](https://github.com/d9beuD/genealogist/actions/workflows/release-please.yml/badge.svg)](https://github.com/d9beuD/genealogist/actions/workflows/release-please.yml)
 
 I started this project as a personal challenge. I wanted to deepen my web programing skills. Because I created this repository a long time ago, the project structure changed several times as I was changing my mind on what this project may work or look like.
 
@@ -25,3 +26,9 @@ You made modifications to entities? Don't forget to [create and execute](https:/
 ## I want to contribute
 
 Thank you, any help is appreciated. Go to issues tab and find one you like without a code branch refered. Then, feel free to fork this repository and start a new pull request.
+
+## Releases
+
+This repository uses `release-please` to generate release PRs and GitHub releases from conventional commits on `main`.
+When a release PR is merged, `release-please` publishes the GitHub release and the existing deploy workflow runs on the `release.published` event.
+For cleaner generated release notes, prefer meaningful conventional commits or squash-merge mechanical PRs before release.
