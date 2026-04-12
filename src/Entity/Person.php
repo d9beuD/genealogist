@@ -38,22 +38,22 @@ class Person
     private ?DateTimeInterface $death = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthDayUnsure = null;
+    private ?bool $birthDayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthMonthUnsure = null;
+    private ?bool $birthMonthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthYearUnsure = null;
+    private ?bool $birthYearUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathDayUnsure = null;
+    private ?bool $deathDayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathMonthUnsure = null;
+    private ?bool $deathMonthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathYearUnsure = null;
+    private ?bool $deathYearUnsure = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portrait = null;
@@ -76,7 +76,7 @@ class Person
     private ?int $gender = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $dead = null;
+    private ?bool $dead = false;
 
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $birthName = null;
@@ -97,16 +97,6 @@ class Person
     {
         $this->unions = new ArrayCollection();
         $this->sources = new ArrayCollection();
-
-        $this->birthDayUnsure = false;
-        $this->birthMonthUnsure = false;
-        $this->birthYearUnsure = false;
-
-        $this->deathDayUnsure = false;
-        $this->deathMonthUnsure = false;
-        $this->deathYearUnsure = false;
-
-        $this->dead = false;
     }
 
     public function __toString(): string

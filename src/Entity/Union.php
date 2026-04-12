@@ -29,7 +29,7 @@ class Union
     private Collection $children;
 
     #[ORM\Column]
-    private ?bool $married = null;
+    private ?bool $married = false;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $startsAt = null;
@@ -38,13 +38,13 @@ class Union
     private ?string $place = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $dayUnsure = null;
+    private ?bool $dayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $monthUnsure = null;
+    private ?bool $monthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $yearUnsure = null;
+    private ?bool $yearUnsure = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -65,11 +65,6 @@ class Union
     {
         $this->people = new ArrayCollection();
         $this->children = new ArrayCollection();
-
-        $this->married = false;
-        $this->dayUnsure = false;
-        $this->monthUnsure = false;
-        $this->yearUnsure = false;
     }
 
     public function getId(): ?int
