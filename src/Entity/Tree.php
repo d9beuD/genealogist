@@ -20,7 +20,7 @@ class Tree
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
-    #[ORM\OneToMany(mappedBy: 'tree', targetEntity: Person::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'tree', orphanRemoval: true)]
     #[ORM\OrderBy(['lastname' => 'ASC', 'firstname' => 'ASC'])]
     private Collection $members;
 

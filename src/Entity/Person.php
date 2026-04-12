@@ -25,10 +25,10 @@ class Person
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30, options: ['default' => ''], nullable: true)]
+    #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 30, options:['default' => ''], nullable: true)]
+    #[ORM\Column(length: 30, nullable: true, options:['default' => ''])]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -67,7 +67,7 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'children')]
     private ?Union $parentUnion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'members', fetch: 'EAGER')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tree $tree = null;
 
@@ -90,7 +90,7 @@ class Person
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $deathPlace = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Source::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Source::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $sources;
 
     public function __construct()

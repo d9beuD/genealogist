@@ -25,7 +25,7 @@ class Union
     #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'unions')]
     private Collection $people;
 
-    #[ORM\OneToMany(mappedBy: 'parentUnion', targetEntity: Person::class)]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'parentUnion')]
     private Collection $children;
 
     #[ORM\Column]

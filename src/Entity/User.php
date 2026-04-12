@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Tree::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tree::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $trees;
 
     public function __construct()
