@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.1...genealogist-v2.4.2) (2026-04-12)
+
+
+### Bug Fixes
+
+* **doctrine:** Remove deprecated prod parameters ([083900f](https://github.com/d9beuD/genealogist/commit/083900f313f93078e77bc061e4dd5038f646c54c))
+
 ## [2.4.1](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.0...genealogist-v2.4.1) (2026-04-12)
 
 
