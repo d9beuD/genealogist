@@ -9,6 +9,7 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withAttributesSets(symfony: true)
     ->withPhpSets(php84: true)
     ->withPreparedSets(
         deadCode: true,
