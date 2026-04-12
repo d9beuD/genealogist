@@ -20,7 +20,8 @@ class PersonController extends AbstractController
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     #[Route('/{id}', name: 'app_person_show', methods: ['GET'])]
     #[IsGranted('view', 'person')]

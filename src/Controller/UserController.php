@@ -19,7 +19,8 @@ class UserController extends AbstractController
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, #[CurrentUser()] User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response

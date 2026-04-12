@@ -24,7 +24,8 @@ class TreeController extends AbstractController
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response

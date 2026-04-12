@@ -20,7 +20,8 @@ class UnionController extends AbstractController
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]

@@ -19,7 +19,8 @@ class SourceController extends AbstractController
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
     
     #[Route('/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
