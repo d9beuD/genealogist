@@ -64,6 +64,9 @@ class Source
         return $this->type;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getTypes(): array
     {
         return [
