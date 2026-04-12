@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;

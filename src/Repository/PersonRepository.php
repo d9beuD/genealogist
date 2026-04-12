@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use App\Entity\Tree;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

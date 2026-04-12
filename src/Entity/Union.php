@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use DateTimeImmutable;
 use App\Entity\Trait\FormatEmptyStringTrait;
 use App\Repository\UnionRepository;
 use Doctrine\Common\Collections\ArrayCollection;

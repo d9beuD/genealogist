@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use DateTimeInterface;
 use App\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
