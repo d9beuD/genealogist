@@ -3,21 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Form\TreeOptionsType;
+use App\Service\FavoriteMemberManager;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PersonController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager, private readonly FavoriteMemberManager $favoriteMemberManager,
     ) {
     }
 
@@ -123,5 +126,31 @@ class PersonController extends AbstractController
             'form' => $form->createView(),
             'tree_view' => true,
         ]);
+    }
+
+    #[Route('/person/{id}/favorite', name: 'app_person_favorite', methods: [Request::METHOD_GET])]
+    public function favorite(Person $person, #[CurrentUser()] User $user): Response
+    {
+        $this->favoriteMemberManager->favorite($person, $user);
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('person.favorite.added', ['name' => $person->getFullName()]),
+        );
+
+        return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()]);
+    }
+
+    #[Route('/person/{id}/unfavorite', name: 'app_person_unfavorite', methods: [Request::METHOD_GET])]
+    public function unfavorite(Person $person, #[CurrentUser()] User $user): Response
+    {
+        $this->favoriteMemberManager->unfavorite($person, $user);
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('person.favorite.removed', ['name' => $person->getFullName()]),
+        );
+
+        return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()]);
     }
 }

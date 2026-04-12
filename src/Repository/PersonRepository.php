@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\FavoriteMember;
 use App\Entity\Person;
 use App\Entity\Tree;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -49,28 +51,23 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
-    //    /**
-    //     * @return Person[] Returns an array of Person objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return array<int, Person>
+     */
+    public function findFavoritesInTree(Tree $tree, User $user): array
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('f')
+            ->from(FavoriteMember::class, 'f')
+            ->leftJoin('f.person', 'p')
+            ->where('f.user = :user')
+            ->andWhere('p.tree = :tree')
+            ->setParameter('user', $user)
+            ->setParameter('tree', $tree)
+            ->getQuery()
+        ;
 
-    //    public function findOneBySomeField($value): ?Person
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return array_map(static fn (FavoriteMember $favoriteMember): ?Person => $favoriteMember->getPerson(), $query->getResult());
+    }
 }

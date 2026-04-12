@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\MembersSearchType;
 use App\Form\PersonType;
 use App\Form\TreeType;
+use App\Repository\PersonRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TreeController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager, private readonly PersonRepository $personRepository,
     ) {
     }
 
@@ -56,7 +57,7 @@ class TreeController extends AbstractController
     }
 
     #[Route('/project/{id}', name: 'app_tree_show', methods: ['GET'])]
-    public function show(Tree $tree, Request $request): Response
+    public function show(Tree $tree, Request $request, #[CurrentUser()] User $user): Response
     {
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
@@ -92,6 +93,7 @@ class TreeController extends AbstractController
             'form' => $form->createView(),
             'grouped_members' => $groupedMembers,
             'members_count' => $members->count(),
+            'favorites' => $this->personRepository->findFavoritesInTree($tree, $user),
         ]);
     }
 

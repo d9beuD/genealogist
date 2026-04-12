@@ -52,6 +52,19 @@
 
             {% if is_granted('edit', member) %}
                 <li>
+                    {% if member.isFavoriteOf(app.user) %}
+                        <a href="{{ path('app_person_unfavorite', { id: member.id }) }}" class="dropdown-item">
+                            <i class="fa-kit fa-solid-star-slash"></i>
+                            {{ 'action.remove_favorite'|trans }}
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_person_favorite', { id: member.id }) }}" class="dropdown-item">
+                            <i class="fa-solid fa-star"></i>
+                            {{ 'action.add_favorite'|trans }}
+                        </a>
+                    {% endif %}
+                </li>
+                <li>
                     <a 
                         href="{{ path('app_person_edit', { id: member.id }) }}" 
                         class="dropdown-item"

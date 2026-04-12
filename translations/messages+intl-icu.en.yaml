@@ -70,6 +70,8 @@ action:
     see_tree: See tree
     show: Show
     update: Update
+    add_favorite: Add to favorites
+    remove_favorite: Remove from favorites
 nav:
     profile: Profile
     my_projects: My projects
@@ -94,6 +96,7 @@ label:
     profile: Profile
     direct_proof: Direct proof
     life_line: Life line
+    favorites: Favorites
 title:
     add_child: Add a child
     add_member: Add a member
@@ -138,6 +141,9 @@ person:
     delete:
         success: '**{name}** has been successfully deleted.'
         error: '**{name}** has not been deleted.'
+    favorite:
+        added: '**{name}** has been successfully added to favorites.'
+        removed: '**{name}** has been successfully removed from favorites.'
 tree:
     new:
         success: 'The tree **{name}** has been successfully created.'
