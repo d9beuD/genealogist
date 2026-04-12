@@ -103,8 +103,8 @@ class UnionController extends AbstractController
         }
 
         $unionPartners = $union->getPeople();
-        $birthDates = array_map(fn (Person $person) => $person->getBirth(), $unionPartners->toArray());
-        $birthDates = array_filter($birthDates, fn ($date) => null !== $date);
+        $birthDates = array_map(fn (Person $person): ?\DateTimeInterface => $person->getBirth(), $unionPartners->toArray());
+        $birthDates = array_filter($birthDates, fn ($date): bool => null !== $date);
 
         $mostRecentBirthDate = count($birthDates) < 1 ? null : max($birthDates);
 

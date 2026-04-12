@@ -18,8 +18,8 @@ class PersonSelectType extends AbstractType
         $unionMembers = $options['union_members'];
 
         // Prepare the choices
-        $choices = array_udiff($availableMembers, $unionMembers, fn ($a, $b) => $a->getId() <=> $b->getId());
-        usort($choices, fn ($a, $b) => $a->getFullName() <=> $b->getFullName());
+        $choices = array_udiff($availableMembers, $unionMembers, fn ($a, $b): int => $a->getId() <=> $b->getId());
+        usort($choices, fn ($a, $b): int => $a->getFullName() <=> $b->getFullName());
 
         $builder
             ->add('person', EntityType::class, [

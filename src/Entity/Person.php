@@ -391,7 +391,7 @@ class Person implements \Stringable
     {
         return array_reduce(
             $this->unions->toArray(),
-            fn ($carry, Union $union) => $carry || $union->hasChildren(),
+            fn ($carry, Union $union): bool => $carry || $union->hasChildren(),
             false
         );
     }
