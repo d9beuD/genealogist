@@ -173,6 +173,8 @@ union:
 source:
     new:
         success: "La source a bien été ajoutée."
+    edit:
+        success: "La source a bien été modifiée."
     delete:
         success: "La source a bien été supprimée."
         error: "La source n'a pas été supprimée."
