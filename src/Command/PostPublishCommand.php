@@ -16,11 +16,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class PostPublishCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     protected function configure(): void
     {}
 
