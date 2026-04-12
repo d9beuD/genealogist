@@ -77,7 +77,7 @@ class TreeController extends AbstractController
 
         // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-        usort($orderedMembers, fn($a, $b) => strcmp(trim($a->getFullName()), trim($b->getFullName())));
+        usort($orderedMembers, fn ($a, $b) => strcmp(trim($a->getFullName()), trim($b->getFullName())));
 
         // Groupement par première lettre
         $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member) {
