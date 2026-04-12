@@ -16,5 +16,6 @@ return RectorConfig::configure()
         codeQuality: true,
         codingStyle: true,
         doctrineCodeQuality: true,
+        earlyReturn: true,
         symfonyCodeQuality: true,
     );
