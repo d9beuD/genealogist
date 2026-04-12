@@ -51,7 +51,7 @@ class TreeControllerTest extends WebTestCase
 
         $this->kernelBrowser->submitForm('Save', [
             'tree[createdAt]' => 'Testing',
-            'tree[owner]' => 'Testing',
+            'tree[user]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/sweet/food/');
@@ -91,7 +91,7 @@ class TreeControllerTest extends WebTestCase
 
         $this->kernelBrowser->submitForm('Update', [
             'tree[createdAt]' => 'Something New',
-            'tree[owner]' => 'Something New',
+            'tree[user]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/tree/');
