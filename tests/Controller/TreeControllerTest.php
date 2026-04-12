@@ -62,14 +62,14 @@ class TreeControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Tree();
-        $fixture->setCreatedAt('My Title');
-        $fixture->setOwner('My Title');
+        $tree = new Tree();
+        $tree->setCreatedAt('My Title');
+        $tree->setOwner('My Title');
 
-        $this->manager->persist($fixture);
+        $this->manager->persist($tree);
         $this->manager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tree');
@@ -105,14 +105,14 @@ class TreeControllerTest extends WebTestCase
     public function testRemove(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Tree();
-        $fixture->setCreatedAt('Value');
-        $fixture->setOwner('Value');
+        $tree = new Tree();
+        $tree->setCreatedAt('Value');
+        $tree->setOwner('Value');
 
-        $this->manager->remove($fixture);
+        $this->manager->remove($tree);
         $this->manager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
         $this->client->submitForm('Delete');
 
         self::assertResponseRedirects('/tree/');

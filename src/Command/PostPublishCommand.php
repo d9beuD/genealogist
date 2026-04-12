@@ -21,7 +21,7 @@ class PostPublishCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $symfonyStyle = new SymfonyStyle($input, $output);
         $makeDiffCommand = $this->getApplication()->find('doctrine:migrations:diff');
         $makeDiffInput = new ArrayInput(['--allow-empty-diff' => true]);
         $applyDiffCommand = $this->getApplication()->find('doctrine:migrations:migrate');
@@ -31,18 +31,18 @@ class PostPublishCommand extends Command
         $makeDiffInput->setInteractive(false);
         $applyDiffInput->setInteractive(false);
 
-        $io->info('Looking for database changes');
+        $symfonyStyle->info('Looking for database changes');
 
         try {
             $makeDiffCommand->run($makeDiffInput, $output);
 
-            $io->info('Diff found, applying them');
+            $symfonyStyle->info('Diff found, applying them');
             $applyDiffCommand->run($applyDiffInput, $output);
         } catch (\Exception) {
-            $io->info('No diff found');
+            $symfonyStyle->info('No diff found');
         }
 
-        $io->info('Clearing application cache');
+        $symfonyStyle->info('Clearing application cache');
         $clearCacheCommand->run($input, $output);
 
         return Command::SUCCESS;

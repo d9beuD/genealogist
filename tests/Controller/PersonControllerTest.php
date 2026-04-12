@@ -75,27 +75,27 @@ class PersonControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Person();
-        $fixture->setFirstname('My Title');
-        $fixture->setLastname('My Title');
-        $fixture->setBirth('My Title');
-        $fixture->setDeath('My Title');
-        $fixture->setBirthDaySure('My Title');
-        $fixture->setBirthMonthSure('My Title');
-        $fixture->setBirthYearSure('My Title');
-        $fixture->setDeathDaySure('My Title');
-        $fixture->setDeathMonthSure('My Title');
-        $fixture->setDeathYearSure('My Title');
-        $fixture->setPortrait('My Title');
-        $fixture->setBio('My Title');
-        $fixture->setUnions('My Title');
-        $fixture->setParentUnion('My Title');
-        $fixture->setTree('My Title');
+        $person = new Person();
+        $person->setFirstname('My Title');
+        $person->setLastname('My Title');
+        $person->setBirth('My Title');
+        $person->setDeath('My Title');
+        $person->setBirthDaySure('My Title');
+        $person->setBirthMonthSure('My Title');
+        $person->setBirthYearSure('My Title');
+        $person->setDeathDaySure('My Title');
+        $person->setDeathMonthSure('My Title');
+        $person->setDeathYearSure('My Title');
+        $person->setPortrait('My Title');
+        $person->setBio('My Title');
+        $person->setUnions('My Title');
+        $person->setParentUnion('My Title');
+        $person->setTree('My Title');
 
-        $this->manager->persist($fixture);
+        $this->manager->persist($person);
         $this->manager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Person');
@@ -170,27 +170,27 @@ class PersonControllerTest extends WebTestCase
     public function testRemove(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Person();
-        $fixture->setFirstname('Value');
-        $fixture->setLastname('Value');
-        $fixture->setBirth('Value');
-        $fixture->setDeath('Value');
-        $fixture->setBirthDaySure('Value');
-        $fixture->setBirthMonthSure('Value');
-        $fixture->setBirthYearSure('Value');
-        $fixture->setDeathDaySure('Value');
-        $fixture->setDeathMonthSure('Value');
-        $fixture->setDeathYearSure('Value');
-        $fixture->setPortrait('Value');
-        $fixture->setBio('Value');
-        $fixture->setUnions('Value');
-        $fixture->setParentUnion('Value');
-        $fixture->setTree('Value');
+        $person = new Person();
+        $person->setFirstname('Value');
+        $person->setLastname('Value');
+        $person->setBirth('Value');
+        $person->setDeath('Value');
+        $person->setBirthDaySure('Value');
+        $person->setBirthMonthSure('Value');
+        $person->setBirthYearSure('Value');
+        $person->setDeathDaySure('Value');
+        $person->setDeathMonthSure('Value');
+        $person->setDeathYearSure('Value');
+        $person->setPortrait('Value');
+        $person->setBio('Value');
+        $person->setUnions('Value');
+        $person->setParentUnion('Value');
+        $person->setTree('Value');
 
-        $this->manager->remove($fixture);
+        $this->manager->remove($person);
         $this->manager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
         $this->client->submitForm('Delete');
 
         self::assertResponseRedirects('/person/');
