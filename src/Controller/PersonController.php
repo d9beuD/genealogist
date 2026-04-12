@@ -61,6 +61,7 @@ class PersonController extends AbstractController
                 if ($person->getPortrait()) {
                     $this->imageManager->remove($person->getPortrait());
                 }
+
                 $person->setPortrait($path);
             }
 
@@ -93,6 +94,7 @@ class PersonController extends AbstractController
             if ($person->getPortrait()) {
                 $this->imageManager->remove($person->getPortrait());
             }
+
             $this->entityManager->remove($person);
             $this->entityManager->flush();
             $this->addFlash(

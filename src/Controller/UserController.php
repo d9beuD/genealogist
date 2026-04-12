@@ -31,6 +31,7 @@ class UserController extends AbstractController
             if ($plainPassword = $form->get('password')->getData()) {
                 $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
             }
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('profile.edit.success')

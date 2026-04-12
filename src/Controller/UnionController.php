@@ -131,6 +131,7 @@ class UnionController extends AbstractController
             foreach ($union->getPeople() as $person) {
                 $person->removeUnion($union);
             }
+
             foreach ($union->getChildren() as $child) {
                 $union->removeChild($child);
             }
@@ -201,6 +202,7 @@ class UnionController extends AbstractController
                 foreach ($union->getChildren() as $child) {
                     $union->removeChild($child);
                 }
+
                 $this->entityManager->remove($union);
                 $this->entityManager->flush();
 
