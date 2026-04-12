@@ -17,6 +17,7 @@ return RectorConfig::configure()
         codingStyle: true,
         doctrineCodeQuality: true,
         earlyReturn: true,
+        privatization: true,
         strictBooleans: true,
         symfonyCodeQuality: true,
         typeDeclarationDocblocks: true,
