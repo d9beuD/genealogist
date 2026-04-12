@@ -83,14 +83,10 @@ class LifeLineController extends AbstractController
             ];
         }
 
-        $allEventsHaveDate = array_reduce($events, function ($carry, $event) {
-            return $carry && (bool) $event['date'];
-        }, true);
+        $allEventsHaveDate = array_reduce($events, fn($carry, $event) => $carry && (bool) $event['date'], true);
 
         if ($allEventsHaveDate) {
-            usort($events, function ($a, $b) {
-                return $a['date'] <=> $b['date'];
-            });
+            usort($events, fn($a, $b) => $a['date'] <=> $b['date']);
         }
 
         return $this->render('life_line/index.html.twig', [
