@@ -56,6 +56,5 @@ class ImageManager
             }
         }
         // $this->flashBag->add('warning', 'The image does not exist.');
-
     }
 }
