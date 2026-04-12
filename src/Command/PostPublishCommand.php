@@ -38,7 +38,7 @@ class PostPublishCommand extends Command
 
             $io->info('Diff found, applying them');
             $applyDiffCommand->run($applyDiffInput, $output);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $io->info('No diff found');
         }
 
