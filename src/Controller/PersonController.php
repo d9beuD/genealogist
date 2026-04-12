@@ -95,7 +95,7 @@ class PersonController extends AbstractController
     ): Response {
         $tree = $person->getTree();
 
-        if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
             if ($person->getPortrait()) {
                 $imageManager->remove($person->getPortrait());
             }

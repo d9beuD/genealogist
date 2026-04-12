@@ -43,7 +43,7 @@ class TreeController extends AbstractController
         $tree
             ->setOwner($user)
             ->setCreatedAt(new DateTimeImmutable())
-            ->setName('Family tree #' . ($total + 1))
+            ->setName('Family tree #'.($total + 1))
         ;
 
         $entityManager->persist($tree);

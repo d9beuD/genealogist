@@ -23,7 +23,7 @@ class ImageManager
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessClientExtension();
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessClientExtension();
 
         try {
             $uploadedFile->move(
@@ -45,7 +45,7 @@ class ImageManager
 
     public function remove(string $filename)
     {
-        $filePath = $this->params->get('portraits_directory') . '/' . $filename;
+        $filePath = $this->params->get('portraits_directory').'/'.$filename;
 
         if (file_exists($filePath)) {
             try {
