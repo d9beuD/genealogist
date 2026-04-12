@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.5.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.3...genealogist-v2.5.0) (2026-04-12)
+
+
+### Features
+
+* add favorite family members to tree view ([851d237](https://github.com/d9beuD/genealogist/commit/851d237d87d301e1f9f2d89eeb331239f87d73d2))
+* **favorites:** Add favorite family members to tree view ([57c1877](https://github.com/d9beuD/genealogist/commit/57c1877619a80480982924003be38473fef3799d)), closes [#133](https://github.com/d9beuD/genealogist/issues/133)
+
+
+### Bug Fixes
+
+* **user:** Restore tree association mapping ([6163c42](https://github.com/d9beuD/genealogist/commit/6163c429e467a5784ddf5797661dca7c27159c76))
+
+
+### Performance
+
+* **tree:** Preload favorites for member listings ([fd78069](https://github.com/d9beuD/genealogist/commit/fd780696ba0c63597f8e272b95505bbb10677289)), closes [#133](https://github.com/d9beuD/genealogist/issues/133)
+
+
+### Miscellaneous
+
+* **config:** Update Rector and Font Awesome settings ([ceca27f](https://github.com/d9beuD/genealogist/commit/ceca27fdb5dd8f59e3eec7f5e0b8c1094c024b3f)), closes [#133](https://github.com/d9beuD/genealogist/issues/133)
+
 ## [2.4.3](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.2...genealogist-v2.4.3) (2026-04-12)
 
 
