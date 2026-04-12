@@ -105,8 +105,8 @@ class UnionController extends AbstractController
         }
 
         $unionPartners = $union->getPeople();
-        $birthDates = array_map(fn(Person $person) => $person->getBirth(), $unionPartners->toArray());
-        $birthDates = array_filter($birthDates, fn($date) => $date !== null);
+        $birthDates = array_map(fn (Person $person) => $person->getBirth(), $unionPartners->toArray());
+        $birthDates = array_filter($birthDates, fn ($date) => $date !== null);
         $mostRecentBirthDate = count($birthDates) < 1 ? null : max($birthDates);
 
         return $this->render('union/edit.html.twig', [
