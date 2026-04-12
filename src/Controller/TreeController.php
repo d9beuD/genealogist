@@ -65,7 +65,7 @@ class TreeController extends AbstractController
 
         // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {
-            $name = mb_strtoupper($form->get('name')->getData());
+            $name = mb_strtoupper((string) $form->get('name')->getData());
             $members = $members->filter(function (Person $member) use ($name) {
                 if ('' !== $name && '0' !== $name) {
                     return str_contains(mb_strtoupper($member->getFullName()), $name);
