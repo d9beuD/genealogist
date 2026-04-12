@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% import "person/_macro.html.twig" as macro %}
-{% set route_name = app.request.get('_route') %}
+{% set route_name = app.request.attributes.get('_route') %}
 
 {% block body %}
     {% block breadcrumb %}{% endblock %}
