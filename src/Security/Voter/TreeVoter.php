@@ -21,7 +21,7 @@ class TreeVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::ADD_MEMBER])
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::ADD_MEMBER], true)
             && $subject instanceof Tree;
     }
 

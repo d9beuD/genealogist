@@ -19,7 +19,7 @@ class UnionVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE], true)
             && $subject instanceof Union;
     }
 
