@@ -40,6 +40,7 @@ class ImageManager
     public function update(string $oldFilename, UploadedFile $uploadedFile): ?string
     {
         $this->remove($oldFilename);
+
         return $this->save($uploadedFile);
     }
 

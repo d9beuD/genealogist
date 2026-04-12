@@ -39,6 +39,7 @@ class SourceController extends AbstractController
                 'success',
                 $this->translator->trans('source.new.success')
             );
+
             return $this->redirectToRoute('app_source_index', ['personId' => $person->getId()], Response::HTTP_SEE_OTHER);
         }
 

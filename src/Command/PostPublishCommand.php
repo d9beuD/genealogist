@@ -33,6 +33,7 @@ class PostPublishCommand extends Command
         $applyDiffInput->setInteractive(false);
 
         $io->info('Looking for database changes');
+
         try {
             $makeDiffCommand->run($makeDiffInput, $output);
 

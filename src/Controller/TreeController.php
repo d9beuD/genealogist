@@ -71,6 +71,7 @@ class TreeController extends AbstractController
                 if ('' !== $name && '0' !== $name) {
                     return str_contains(mb_strtoupper($member->getFullName()), $name);
                 }
+
                 return true;
             });
         }
@@ -111,6 +112,7 @@ class TreeController extends AbstractController
                 'success',
                 $this->translator->trans('tree.edit.success', ['name' => $tree->getName()])
             );
+
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
         }
 
