@@ -20,7 +20,6 @@ return RectorConfig::configure()
         instanceOf: true,
         naming: true,
         privatization: true,
-        strictBooleans: true,
         symfonyCodeQuality: true,
         typeDeclarationDocblocks: true,
         typeDeclarations: true,

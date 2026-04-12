@@ -22,6 +22,17 @@
                         {{ 'action.new_member'|trans }}
                     </a>
                 </div>
+
+                {% if favorites|length %}
+                    <div class="h6 mt-3">{{ 'label.favorites'|trans }}</div>
+                    <ul class="list-group">
+                        {% for member in favorites %}
+                            <li class="list-group-item">
+                                {{ include("tree/_member_list_item.html.twig", { member }) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
 
             <div class="col">

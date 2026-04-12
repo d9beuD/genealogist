@@ -70,6 +70,8 @@ action:
     see_tree: Voir l'arbre
     show: Afficher
     update: Mettre à jour
+    add_favorite: 'Ajouter aux favoris'
+    remove_favorite: 'Supprimer des favoris'
 nav:
     profile: Profil
     my_projects: Mes projets
@@ -94,6 +96,7 @@ label:
     profile: Profil
     direct_proof: Preuve directe
     life_line: Ligne de vie
+    favorites: Favoris
 title:
     add_child: Ajouter un enfant
     add_member: Ajouter un membre
@@ -139,6 +142,9 @@ person:
     delete:
         success: '**{name}** a bien été supprimé.'
         error: "**{name}** n'a pas été supprimé."
+    favorite:
+        added: "**{name}** a bien été ajouté aux favoris."
+        removed: "**{name}** a bien été enlevé des favoris."
 tree:
     new:
         success: "L'arbre **{name}** a été créé avec succès."

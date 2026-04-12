@@ -44,9 +44,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Tree::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $trees;
 
+    /**
+     * @var Collection<int, FavoriteMember>
+     */
+    #[ORM\OneToMany(targetEntity: FavoriteMember::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->trees = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +185,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // set the owning side to null (unless already changed)
         if ($this->trees->removeElement($tree) && $tree->getUser() === $this) {
             $tree->setUser(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FavoriteMember>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(FavoriteMember $favoriteMember): static
+    {
+        if (!$this->favorites->contains($favoriteMember)) {
+            $this->favorites->add($favoriteMember);
+            $favoriteMember->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(FavoriteMember $favoriteMember): static
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->favorites->removeElement($favoriteMember) && $favoriteMember->getUser() === $this) {
+            $favoriteMember->setUser(null);
         }
 
         return $this;

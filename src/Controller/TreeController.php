@@ -8,7 +8,9 @@ use App\Entity\User;
 use App\Form\MembersSearchType;
 use App\Form\PersonType;
 use App\Form\TreeType;
+use App\Repository\PersonRepository;
 use App\Service\ImageManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +23,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TreeController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager,
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager,
+        private readonly PersonRepository $personRepository,
     ) {
     }
 
@@ -56,12 +61,13 @@ class TreeController extends AbstractController
     }
 
     #[Route('/project/{id}', name: 'app_tree_show', methods: ['GET'])]
-    public function show(Tree $tree, Request $request): Response
+    public function show(Tree $tree, Request $request, #[CurrentUser()] User $user): Response
     {
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
 
-        $members = $tree->getMembers();
+        $members = $this->personRepository->findByTreeWithFavorites($tree);
+        $members = new ArrayCollection($members);
 
         // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +83,12 @@ class TreeController extends AbstractController
 
         // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-        usort($orderedMembers, fn ($a, $b): int => strcmp(trim($a->getFullName()), trim($b->getFullName())));
+        usort(
+            $orderedMembers,
+            fn ($a, $b): int => strcmp(
+                trim($a->getFullName()),
+                trim($b->getFullName())
+            ));
 
         // Groupement par première lettre
         $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $person): array {
@@ -92,6 +103,7 @@ class TreeController extends AbstractController
             'form' => $form->createView(),
             'grouped_members' => $groupedMembers,
             'members_count' => $members->count(),
+            'favorites' => $this->personRepository->findFavoritesInTree($tree, $user),
         ]);
     }
 

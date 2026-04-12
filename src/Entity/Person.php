@@ -94,6 +94,9 @@ class Person implements \Stringable
     #[ORM\OneToMany(targetEntity: Source::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $sources;
 
+    #[ORM\OneToMany(targetEntity: FavoriteMember::class, mappedBy: 'person', orphanRemoval: true)]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->unions = new ArrayCollection();
@@ -434,5 +437,40 @@ class Person implements \Stringable
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, FavoriteMember>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(FavoriteMember $favoriteMember): static
+    {
+        if (!$this->favorites->contains($favoriteMember)) {
+            $this->favorites->add($favoriteMember);
+            $favoriteMember->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(FavoriteMember $favoriteMember): static
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->favorites->removeElement($favoriteMember) && $favoriteMember->getPerson() === $this) {
+            $favoriteMember->setPerson(null);
+        }
+
+        return $this;
+    }
+
+    public function isFavoriteOf(User $user): bool
+    {
+        return $this->favorites->findFirst(
+            fn (int $index, FavoriteMember $favoriteMember): bool => $favoriteMember->getUser()->getId() === $user->getId()
+        ) instanceof FavoriteMember;
     }
 }
