@@ -68,10 +68,13 @@ class PersonController extends AbstractController
             }
 
             $entityManager->flush();
+            
             $this->addFlash(
                 'success',
                 $this->translator->trans('person.edit.success', ['name' => $person->getFullName()]),
             );
+
+            return $this->redirectToRoute('app_person_show', ['id' => $person->getId()]);
         }
 
         return $this->render('person/edit.html.twig', [
