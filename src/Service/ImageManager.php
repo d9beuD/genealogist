@@ -43,7 +43,7 @@ class ImageManager
         return $this->save($uploadedFile);
     }
 
-    public function remove(string $filename)
+    public function remove(string $filename): void
     {
         $filePath = $this->params->get('portraits_directory').'/'.$filename;
 
