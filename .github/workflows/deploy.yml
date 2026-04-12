@@ -58,7 +58,7 @@ jobs:
           echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
 
       - name: Whitelist IP address
-        uses: d9beuD/o2switch-whitelisting@v1.0.3
+        uses: d9beuD/o2switch-whitelisting@v1.0.4
         with:
           o2switch_username: ${{ secrets.SSH_USER }}
           o2switch_password: ${{ secrets.SSH_PASSWORD }}
