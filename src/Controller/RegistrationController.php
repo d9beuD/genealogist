@@ -55,7 +55,7 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('profile.registration.success')
             );
 
@@ -77,7 +77,7 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash(
-                'verify_email_error', 
+                'verify_email_error',
                 $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle')
             );
 
@@ -86,7 +86,7 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash(
-            'success', 
+            'success',
             $this->translator->trans('profile.email.verified')
         );
 

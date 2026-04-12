@@ -49,7 +49,7 @@ class TreeController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash(
-            'success', 
+            'success',
             $this->translator->trans('tree.new.success', ['name' => $tree->getName()])
         );
 
@@ -108,7 +108,7 @@ class TreeController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.edit.success', ['name' => $tree->getName()])
             );
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
@@ -129,12 +129,12 @@ class TreeController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.delete.success', ['name' => $tree->getName()])
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('tree.delete.error', ['name' => $tree->getName()])
             );
         }
@@ -172,7 +172,7 @@ class TreeController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.add_member.success', ['name' => $person->getFullName()])
             );
 

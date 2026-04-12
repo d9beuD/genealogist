@@ -36,7 +36,7 @@ class UnionController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.new.success')
             );
 
@@ -65,10 +65,11 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'union')]
     public function edit(
-        Request $request, 
-        Union $union, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] Person $person,
+        Request $request,
+        Union $union,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(id: 'personId')]
+        Person $person,
         PersonRepository $personRepository,
     ): Response {
         $form = $this->createForm(UnionType::class, $union);
@@ -78,7 +79,7 @@ class UnionController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.edit.success')
             );
 
@@ -139,12 +140,12 @@ class UnionController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.delete.success')
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.delete.error')
             );
         }
@@ -169,7 +170,7 @@ class UnionController extends AbstractController
             $union->addPerson($form->get('person')->getData());
             $entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.partner.add.success', ['name' => $person->getFullName()])
             );
         }
@@ -194,7 +195,7 @@ class UnionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.partner.remove.success', ['name' => $partner->getFullName()])
             );
 
@@ -206,7 +207,7 @@ class UnionController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash(
-                    'info', 
+                    'info',
                     $this->translator->trans('union.delete.info')
                 );
 
@@ -219,7 +220,7 @@ class UnionController extends AbstractController
             $entityManager->flush();
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.partner.remove.error', ['name' => $partner->getFullName()])
             );
         }
@@ -233,9 +234,10 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
     public function addChild(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] Person $person, 
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(id: 'personId')]
+        Person $person,
         Union $union,
         PersonRepository $personRepository,
     ): Response {
@@ -252,7 +254,7 @@ class UnionController extends AbstractController
             $union->addChild($form->get('person')->getData());
             $entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.child.add.success', ['name' => $form->get('person')->getData()->getFullName()])
             );
         }
@@ -278,12 +280,12 @@ class UnionController extends AbstractController
             $union->removeChild($child);
             $entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.child.remove.success', ['name' => $child->getFullName()])
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.child.remove.error', ['name' => $child->getFullName()])
             );
         }

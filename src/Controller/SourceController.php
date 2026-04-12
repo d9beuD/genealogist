@@ -56,7 +56,8 @@ class SourceController extends AbstractController
         Request $request,
         Source $source,
         EntityManagerInterface $entityManager,
-        #[MapEntity(id: 'personId')] Person $person,
+        #[MapEntity(id: 'personId')]
+        Person $person,
     ): Response {
         $this->assertSourceBelongsToPerson($source, $person);
 

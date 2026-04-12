@@ -32,7 +32,7 @@ class UserController extends AbstractController
                 $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
             }
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('profile.edit.success')
             );
             $entityManager->flush();
