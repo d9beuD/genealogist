@@ -61,7 +61,7 @@ jobs:
         uses: d9beuD/o2switch-whitelisting@v1.0.4
         with:
           o2switch_username: ${{ secrets.SSH_USER }}
-          o2switch_password: ${{ secrets.SSH_PASSWORD }}
+          o2switch_api_token: ${{ secrets.O2SWITCH_API_TOKEN }}
           o2switch_host: ${{ secrets.SSH_HOST }}
           otp_secret: ${{ secrets.O2SWITCH_OTP_SECRET }}
 
