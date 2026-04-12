@@ -44,9 +44,9 @@ class Tree
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): static
+    public function setOwner(?User $user): static
     {
-        $this->owner = $owner;
+        $this->owner = $user;
 
         return $this;
     }
@@ -59,21 +59,21 @@ class Tree
         return $this->members;
     }
 
-    public function addMember(Person $member): static
+    public function addMember(Person $person): static
     {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->setTree($this);
+        if (!$this->members->contains($person)) {
+            $this->members->add($person);
+            $person->setTree($this);
         }
 
         return $this;
     }
 
-    public function removeMember(Person $member): static
+    public function removeMember(Person $person): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->members->removeElement($member) && $member->getTree() === $this) {
-            $member->setTree(null);
+        if ($this->members->removeElement($person) && $person->getTree() === $this) {
+            $person->setTree(null);
         }
 
         return $this;

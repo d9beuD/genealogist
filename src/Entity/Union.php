@@ -102,21 +102,21 @@ class Union
         return $this->children;
     }
 
-    public function addChild(Person $child): static
+    public function addChild(Person $person): static
     {
-        if (!$this->children->contains($child)) {
-            $this->children->add($child);
-            $child->setParentUnion($this);
+        if (!$this->children->contains($person)) {
+            $this->children->add($person);
+            $person->setParentUnion($this);
         }
 
         return $this;
     }
 
-    public function removeChild(Person $child): static
+    public function removeChild(Person $person): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->children->removeElement($child) && $child->getParentUnion() === $this) {
-            $child->setParentUnion(null);
+        if ($this->children->removeElement($person) && $person->getParentUnion() === $this) {
+            $person->setParentUnion(null);
         }
 
         return $this;

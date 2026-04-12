@@ -66,9 +66,9 @@ class TreeController extends AbstractController
         // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {
             $name = mb_strtoupper((string) $form->get('name')->getData());
-            $members = $members->filter(function (Person $member) use ($name): bool {
+            $members = $members->filter(function (Person $person) use ($name): bool {
                 if ('' !== $name && '0' !== $name) {
-                    return str_contains(mb_strtoupper($member->getFullName()), $name);
+                    return str_contains(mb_strtoupper($person->getFullName()), $name);
                 }
 
                 return true;
@@ -80,9 +80,9 @@ class TreeController extends AbstractController
         usort($orderedMembers, fn ($a, $b): int => strcmp(trim($a->getFullName()), trim($b->getFullName())));
 
         // Groupement par première lettre
-        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member): array {
-            $firstLetter = strtoupper(mb_substr(trim($member->getFullName()), 0, 1));
-            $groupedMembers[$firstLetter][] = $member;
+        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $person): array {
+            $firstLetter = strtoupper(mb_substr(trim($person->getFullName()), 0, 1));
+            $groupedMembers[$firstLetter][] = $person;
 
             return $groupedMembers;
         }, []);
