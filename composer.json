@@ -85,12 +85,22 @@
             "importmap:install": "symfony-cmd",
             "sass:build": "symfony-cmd"
         },
+        "analyse": "php vendor/bin/phpstan analyse --memory-limit=1G",
+        "cs:check": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php vendor/bin/php-cs-fixer fix",
         "post-install-cmd": [
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "lint": [
+            "@analyse",
+            "@rector",
+            "@cs:check"
+        ],
+        "rector": "php vendor/bin/rector process --dry-run",
+        "rector:fix": "php vendor/bin/rector process"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -103,7 +113,10 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^13.1",
+        "rector/rector": "^2.4",
         "symfony/browser-kit": "8.0.*",
         "symfony/css-selector": "8.0.*",
         "symfony/debug-bundle": "8.0.*",
