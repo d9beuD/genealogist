@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ThemeController extends AbstractController
 {
-    public function __construct(private readonly \Psr\Log\LoggerInterface $logger)
+    public function __construct()
     {
     }
     #[Route('/settings/theme', name: 'app_theme', methods: ['post'])]
