@@ -14,4 +14,5 @@ return RectorConfig::configure()
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
+        symfonyCodeQuality: true,
     );
