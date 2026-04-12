@@ -21,8 +21,8 @@ class ImageManager
     public function save(UploadedFile $uploadedFile, ?Request $request = null): ?string
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessClientExtension();
+        $unicodeString = $this->slugger->slug($originalFilename);
+        $newFilename = $unicodeString.'-'.uniqid().'.'.$uploadedFile->guessClientExtension();
 
         try {
             $uploadedFile->move(

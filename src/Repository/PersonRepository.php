@@ -26,7 +26,7 @@ class PersonRepository extends ServiceEntityRepository
     {
         // Select members that are not part of any union
         // and that are born after parents birth date
-        $qb = $this->createQueryBuilder('p')
+        $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.tree', 't')
             ->leftJoin('p.parentUnion', 'u')
             ->andWhere('t.id = :treeId')
@@ -37,13 +37,13 @@ class PersonRepository extends ServiceEntityRepository
         if ($bornAfter instanceof \DateTime) {
             // If a birth date is provided, select members that are born after it
             // or that have no birth date
-            $qb
+            $queryBuilder
                 ->andWhere('p.birth IS NULL OR p.birth > :bornAfter')
                 ->setParameter('bornAfter', $bornAfter)
             ;
         }
 
-        return $qb
+        return $queryBuilder
             ->getQuery()
             ->getResult()
         ;

@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
+        $generator = Factory::create();
 
         $user = new User();
         $password = $this->userPasswordHasher->hashPassword($user, 'password');
@@ -42,9 +42,9 @@ class AppFixtures extends Fixture
         $grandParent1 = new Person();
         $grandParent1
             ->setTree($tree)
-            ->setFirstname($faker->firstNameMale())
-            ->setLastname($faker->lastName())
-            ->setBio($faker->paragraph())
+            ->setFirstname($generator->firstNameMale())
+            ->setLastname($generator->lastName())
+            ->setBio($generator->paragraph())
             ->setGender(Person::MALE)
 
             ->setBirth(new \DateTimeImmutable('1944-01-02'))
@@ -58,9 +58,9 @@ class AppFixtures extends Fixture
         $grandParent2 = new Person();
         $grandParent2
             ->setTree($tree)
-            ->setFirstname($faker->firstNameFemale())
-            ->setLastname($faker->lastName())
-            ->setBio($faker->paragraph())
+            ->setFirstname($generator->firstNameFemale())
+            ->setLastname($generator->lastName())
+            ->setBio($generator->paragraph())
             ->setGender(Person::FEMALE)
 
             ->setBirth(new \DateTimeImmutable('1945-02-03'))
@@ -74,9 +74,9 @@ class AppFixtures extends Fixture
         $grandParent3 = new Person();
         $grandParent3
             ->setTree($tree)
-            ->setFirstname($faker->firstNameMale())
-            ->setLastname($faker->lastName())
-            ->setBio($faker->paragraph())
+            ->setFirstname($generator->firstNameMale())
+            ->setLastname($generator->lastName())
+            ->setBio($generator->paragraph())
             ->setGender(Person::MALE)
 
             ->setBirth(new \DateTimeImmutable('1944-01-02'))
@@ -90,9 +90,9 @@ class AppFixtures extends Fixture
         $grandParent4 = new Person();
         $grandParent4
             ->setTree($tree)
-            ->setFirstname($faker->firstNameFemale())
-            ->setLastname($faker->lastName())
-            ->setBio($faker->paragraph())
+            ->setFirstname($generator->firstNameFemale())
+            ->setLastname($generator->lastName())
+            ->setBio($generator->paragraph())
             ->setGender(Person::FEMALE)
 
             ->setBirth(new \DateTimeImmutable('1945-02-03'))
@@ -106,9 +106,9 @@ class AppFixtures extends Fixture
         $parent1 = new Person();
         $parent1
             ->setTree($tree)
-            ->setFirstname($faker->firstNameMale())
+            ->setFirstname($generator->firstNameMale())
             ->setLastname($grandParent1->getLastname())
-            ->setBio($faker->paragraph())
+            ->setBio($generator->paragraph())
             ->setGender(Person::MALE)
 
             ->setBirth(new \DateTimeImmutable('1970-04-05'))
@@ -118,9 +118,9 @@ class AppFixtures extends Fixture
         $parent2 = new Person();
         $parent2
             ->setTree($tree)
-            ->setFirstname($faker->firstNameFemale())
+            ->setFirstname($generator->firstNameFemale())
             ->setLastname($grandParent3->getLastname())
-            ->setBio($faker->paragraph())
+            ->setBio($generator->paragraph())
             ->setGender(Person::FEMALE)
 
             ->setBirth(new \DateTimeImmutable('1971-06-07'))
@@ -130,9 +130,9 @@ class AppFixtures extends Fixture
         $child1 = new Person();
         $child1
             ->setTree($tree)
-            ->setFirstname($faker->firstNameMale())
+            ->setFirstname($generator->firstNameMale())
             ->setLastname($parent1->getLastname())
-            ->setBio($faker->paragraph())
+            ->setBio($generator->paragraph())
 
             ->setBirth(new \DateTimeImmutable('1970-04-05'))
             ->setBirthPlace('New York, NY')
@@ -141,9 +141,9 @@ class AppFixtures extends Fixture
         $child2 = new Person();
         $child2
             ->setTree($tree)
-            ->setFirstname($faker->firstNameFemale())
+            ->setFirstname($generator->firstNameFemale())
             ->setLastname($parent1->getLastname())
-            ->setBio($faker->paragraph())
+            ->setBio($generator->paragraph())
 
             ->setBirth(new \DateTimeImmutable('1971-06-07'))
             ->setBirthPlace('New York, NY')
