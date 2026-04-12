@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.1](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.0...genealogist-v2.4.1) (2026-04-12)
+
+
+### Bug Fixes
+
+* **person:** Move edit action to profile sheet ([7f8e807](https://github.com/d9beuD/genealogist/commit/7f8e807a2299049c44f1eb8e5d791141b0802336))
+
+
+### Miscellaneous
+
+* **agents:** rename .agent directory to .agents ([cdb9cd3](https://github.com/d9beuD/genealogist/commit/cdb9cd3795760e8b1c1521d4cd22f1415f76f681))
+
 ## [2.4.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.3.2...genealogist-v2.4.0) (2026-04-12)
 
 
