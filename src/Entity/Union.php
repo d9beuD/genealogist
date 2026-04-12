@@ -32,7 +32,7 @@ class Union
     private ?bool $married = false;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    private ?DateTimeInterface $startsAt = null;
+    private ?\DateTimeInterface $startsAt = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $place = null;
@@ -50,7 +50,7 @@ class Union
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $endsAt = null;
+    private ?\DateTimeImmutable $endsAt = null;
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $endDayUnsure = null;
@@ -136,12 +136,12 @@ class Union
         return $this;
     }
 
-    public function getStartsAt(): ?DateTimeImmutable
+    public function getStartsAt(): ?\DateTimeImmutable
     {
         return $this->startsAt;
     }
 
-    public function setStartsAt(?DateTimeImmutable $startsAt): static
+    public function setStartsAt(?\DateTimeImmutable $startsAt): static
     {
         $this->startsAt = $startsAt;
 
@@ -224,12 +224,12 @@ class Union
         return null;
     }
 
-    public function getEndsAt(): ?DateTimeImmutable
+    public function getEndsAt(): ?\DateTimeImmutable
     {
         return $this->endsAt;
     }
 
-    public function setEndsAt(?DateTimeImmutable $endsAt): static
+    public function setEndsAt(?\DateTimeImmutable $endsAt): static
     {
         $this->endsAt = $endsAt;
 

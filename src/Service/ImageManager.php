@@ -51,7 +51,7 @@ class ImageManager
         if (file_exists($filePath)) {
             try {
                 unlink($filePath);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 // $this->flashBag->add('danger', 'An error occurred while removing the image.');
             }

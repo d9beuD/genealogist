@@ -19,7 +19,7 @@ class ThemeController extends AbstractController
         $response = new Response();
         $data = json_decode($request->getContent(), true);
         $mode = $data['mode'] ?? 'auto';
-        $expires = new DateTime('+30 days');
+        $expires = new \DateTime('+30 days');
 
         $response->headers->setCookie(
             new Cookie('theme', $mode, $expires)

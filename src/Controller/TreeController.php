@@ -42,7 +42,7 @@ class TreeController extends AbstractController
         $tree = new Tree();
         $tree
             ->setOwner($user)
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setName('Family tree #'.($total + 1))
         ;
 

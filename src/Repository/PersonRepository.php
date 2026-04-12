@@ -23,7 +23,7 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
-    public function getOrphanMembers(Tree $tree, ?DateTime $bornAfter = null): array
+    public function getOrphanMembers(Tree $tree, ?\DateTime $bornAfter = null): array
     {
         // Select members that are not part of any union
         // and that are born after parents birth date
@@ -35,7 +35,7 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('treeId', $tree->getId())
         ;
 
-        if ($bornAfter instanceof DateTime) {
+        if ($bornAfter instanceof \DateTime) {
             // If a birth date is provided, select members that are born after it
             // or that have no birth date
             $qb

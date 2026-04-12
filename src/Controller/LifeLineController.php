@@ -17,7 +17,7 @@ class LifeLineController extends AbstractController
         $events = [];
 
         // Get birth event
-        if ($person->getBirth() instanceof DateTimeInterface) {
+        if ($person->getBirth() instanceof \DateTimeInterface) {
             $hasBirthDate = (bool) $person->getBirth();
 
             $events[] = [
@@ -70,7 +70,7 @@ class LifeLineController extends AbstractController
         }
 
         // Get death event
-        if ($person->getDeath() instanceof DateTimeInterface) {
+        if ($person->getDeath() instanceof \DateTimeInterface) {
             $events[] = [
                 'date' => $person->getDeath(),
                 'type' => 'death',
