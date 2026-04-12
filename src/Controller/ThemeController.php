@@ -11,9 +11,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ThemeController extends AbstractController
 {
-    public function __construct()
-    {
-    }
     #[Route('/settings/theme', name: 'app_theme', methods: ['post'])]
     public function setMode(Request $request): Response
     {
