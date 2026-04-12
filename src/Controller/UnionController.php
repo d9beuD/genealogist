@@ -95,7 +95,7 @@ class UnionController extends AbstractController
             ...$union->getChildren()->toArray(),
         ];
 
-        if ($person->getParentUnion()) {
+        if ($person->getParentUnion() instanceof Union) {
             $membersToExclude = [
                 ...$membersToExclude,
                 ...$person->getParentUnion()->getPeople()->toArray(),

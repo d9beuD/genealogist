@@ -35,7 +35,7 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('treeId', $tree->getId())
         ;
 
-        if ($bornAfter) {
+        if ($bornAfter instanceof DateTime) {
             // If a birth date is provided, select members that are born after it
             // or that have no birth date
             $qb

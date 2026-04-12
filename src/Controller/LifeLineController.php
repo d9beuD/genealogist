@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeInterface;
 use App\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class LifeLineController extends AbstractController
         $events = [];
 
         // Get birth event
-        if ($person->getBirth()) {
+        if ($person->getBirth() instanceof DateTimeInterface) {
             $hasBirthDate = !!$person->getBirth();
 
             $events[] = [
@@ -69,7 +70,7 @@ class LifeLineController extends AbstractController
         }
 
         // Get death event
-        if ($person->getDeath()) {
+        if ($person->getDeath() instanceof DateTimeInterface) {
             $events[] = [
                 'date' => $person->getDeath(),
                 'type' => 'death',
