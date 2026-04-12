@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -29,7 +29,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($plainPassword = $form->get('password')->getData()) {
-                $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
             }
 
             $this->addFlash(

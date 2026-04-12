@@ -10,30 +10,30 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PersonControllerTest extends WebTestCase
 {
-    private KernelBrowser $client;
+    private KernelBrowser $kernelBrowser;
 
-    private EntityManagerInterface $manager;
+    private EntityManagerInterface $entityManager;
 
-    private EntityRepository $repository;
+    private EntityRepository $entityRepository;
 
     private string $path = '/person/';
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
-        $this->repository = $this->manager->getRepository(Person::class);
+        $this->kernelBrowser = static::createClient();
+        $this->entityManager = static::getContainer()->get('doctrine')->getManager();
+        $this->entityRepository = $this->entityManager->getRepository(Person::class);
 
-        foreach ($this->repository->findAll() as $object) {
-            $this->manager->remove($object);
+        foreach ($this->entityRepository->findAll() as $object) {
+            $this->entityManager->remove($object);
         }
 
-        $this->manager->flush();
+        $this->entityManager->flush();
     }
 
     public function testIndex(): void
     {
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, $this->path);
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Person index');
@@ -45,11 +45,11 @@ class PersonControllerTest extends WebTestCase
     public function testNew(): void
     {
         $this->markTestIncomplete();
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%snew', $this->path));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->kernelBrowser->submitForm('Save', [
             'person[firstname]' => 'Testing',
             'person[lastname]' => 'Testing',
             'person[birth]' => 'Testing',
@@ -92,10 +92,10 @@ class PersonControllerTest extends WebTestCase
         $person->setParentUnion('My Title');
         $person->setTree('My Title');
 
-        $this->manager->persist($person);
-        $this->manager->flush();
+        $this->entityManager->persist($person);
+        $this->entityManager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Person');
@@ -123,12 +123,12 @@ class PersonControllerTest extends WebTestCase
         $fixture->setParentUnion('Value');
         $fixture->setTree('Value');
 
-        $this->manager->persist($fixture);
-        $this->manager->flush();
+        $this->entityManager->persist($fixture);
+        $this->entityManager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
+        $this->kernelBrowser->submitForm('Update', [
             'person[firstname]' => 'Something New',
             'person[lastname]' => 'Something New',
             'person[birth]' => 'Something New',
@@ -148,7 +148,7 @@ class PersonControllerTest extends WebTestCase
 
         self::assertResponseRedirects('/person/');
 
-        $fixture = $this->repository->findAll();
+        $fixture = $this->entityRepository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getFirstname());
         self::assertSame('Something New', $fixture[0]->getLastname());
@@ -187,13 +187,13 @@ class PersonControllerTest extends WebTestCase
         $person->setParentUnion('Value');
         $person->setTree('Value');
 
-        $this->manager->remove($person);
-        $this->manager->flush();
+        $this->entityManager->remove($person);
+        $this->entityManager->flush();
 
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
-        $this->client->submitForm('Delete');
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $person->getId()));
+        $this->kernelBrowser->submitForm('Delete');
 
         self::assertResponseRedirects('/person/');
-        self::assertSame(0, $this->repository->count([]));
+        self::assertSame(0, $this->entityRepository->count([]));
     }
 }

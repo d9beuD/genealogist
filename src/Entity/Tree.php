@@ -17,7 +17,7 @@ class Tree
 
     #[ORM\ManyToOne(inversedBy: 'trees')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
+    private ?User $user = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'tree', orphanRemoval: true)]
     #[ORM\OrderBy(['lastname' => 'ASC', 'firstname' => 'ASC'])]
@@ -41,12 +41,12 @@ class Tree
 
     public function getOwner(): ?User
     {
-        return $this->owner;
+        return $this->user;
     }
 
     public function setOwner(?User $user): static
     {
-        $this->owner = $user;
+        $this->user = $user;
 
         return $this;
     }

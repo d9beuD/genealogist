@@ -13,7 +13,7 @@ class ImageManager
 {
     public function __construct(
         private readonly SluggerInterface $slugger,
-        private readonly ParameterBagInterface $params,
+        private readonly ParameterBagInterface $parameterBag,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -26,7 +26,7 @@ class ImageManager
 
         try {
             $uploadedFile->move(
-                $this->params->get('portraits_directory'),
+                $this->parameterBag->get('portraits_directory'),
                 $newFilename
             );
         } catch (FileException $fileException) {
@@ -45,7 +45,7 @@ class ImageManager
 
     public function remove(string $filename): void
     {
-        $filePath = $this->params->get('portraits_directory').'/'.$filename;
+        $filePath = $this->parameterBag->get('portraits_directory').'/'.$filename;
 
         if (file_exists($filePath)) {
             try {
