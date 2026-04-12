@@ -3,13 +3,13 @@
 
     <div class="row g-2">
         <div class="col-md-6 order-1">
-            {{ form_row(form.weddingDate) }}
+            {{ form_row(form.startsAt) }}
 
         </div>
         <div class="col-md-6 order-3 order-md)2">
-            {{ form_row(form.weddingPlace) }}
+            {{ form_row(form.place) }}
         </div>
-        <div class="col order-2 order-md-3">
+        <div class="col-12 order-2 order-md-3">
             <div class="mb-3">
                 {{ form_row(form.dayUnsure) }}
                 {{ form_row(form.monthUnsure) }}
@@ -19,6 +19,19 @@
     </div>
 
     {{ include('_includes/form/markdown.html.twig', { field: form.description }) }}
+
+    <div class="row g-2">        
+        <div class="col-md-6">
+            {{ form_row(form.endsAt) }}
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                {{ form_row(form.endDayUnsure) }}
+                {{ form_row(form.endMonthUnsure) }}
+                {{ form_row(form.endYearUnsure) }}
+            </div>
+        </div>
+    </div>
 
     <div class="text-end">
         <a class="btn btn-secondary" href="{{ path('app_person_unions', { id: person.id }) }}">{{ 'action.cancel'|trans }}</a>

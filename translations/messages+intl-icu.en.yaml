@@ -32,7 +32,8 @@ form:
         uncertain_day: Uncertain day
         uncertain_month: Uncertain month
         uncertain_year: Uncertain year
-        union_date: Union date
+        union_start_date: Union start date
+        union_end_date: Union end date
         union_place: Union place
         type: Type
         comment: Comment

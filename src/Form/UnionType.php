@@ -21,12 +21,17 @@ class UnionType extends AbstractType
                 'label' => 'form.field.married',
                 'label_attr' => ['class' => 'checkbox-switch'],
             ])
-            ->add('weddingDate', DateType::class, [
+            ->add('startsAt', DateType::class, [
                 'required' => false,
-                'label' => 'form.field.union_date',
+                'label' => 'form.field.union_start_date',
                 'widget' => 'single_text',
             ])
-            ->add('weddingPlace', TextType::class, [
+            ->add('endsAt', DateType::class, [
+                'required' => false,
+                'label' => 'form.field.union_end_date',
+                'widget' => 'single_text',
+            ])
+            ->add('place', TextType::class, [
                 'required' => false,
                 'label' => 'form.field.union_place',
             ])
@@ -51,6 +56,36 @@ class UnionType extends AbstractType
                 ],
             ])
             ->add('yearUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'form.field.uncertain_year',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('endDayUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'form.field.uncertain_day',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('endMonthUnsure', CheckboxType::class, [
+                'required' => false,
+                'label' => 'form.field.uncertain_month',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch'
+                ],
+                'row_attr' => [
+                    'class' => 'd-inline'
+                ],
+            ])
+            ->add('endYearUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_year',
                 'label_attr' => [

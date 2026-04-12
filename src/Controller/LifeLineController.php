@@ -35,10 +35,10 @@ class LifeLineController extends AbstractController
         // Get union events
         foreach ($person->getUnions() as $union) {
             $hasPartner = $union->getPeople()->count() > 1;
-            $hasUnionDate = !!$union->getWeddingDate();
+            $hasUnionDate = !!$union->getStartsAt();
 
             $events[] = [
-                'date' => $union->getWeddingDate(),
+                'date' => $union->getStartsAt(),
                 'type' => 'union',
                 'label' => $translator->trans('life_line.union.label'),
                 'message' => $translator->trans('life_line.union.message', [
@@ -47,7 +47,7 @@ class LifeLineController extends AbstractController
                     'partner' => $hasPartner ? $union->getPartner($person)->getFullName() : '?',
                     'partner_path' => $hasPartner ? $this->generateUrl('app_person_life_line', ['id' => $union->getPartner($person)->getId()]) : '#',
                     'place' => $union->getWeddingPlace() ?? 'empty',
-                    'year' => $hasUnionDate ? $union->getWeddingDate()->format('Y') : 'empty',
+                    'year' => $hasUnionDate ? $union->getStartsAt()->format('Y') : 'empty',
                 ]),
             ];
 
