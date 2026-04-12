@@ -28,7 +28,7 @@ class Person
     #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 30, nullable: true, options:['default' => ''])]
+    #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
