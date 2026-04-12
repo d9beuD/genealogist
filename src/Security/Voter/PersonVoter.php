@@ -12,7 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class PersonVoter extends Voter
 {
     public const EDIT = 'edit';
+
     public const VIEW = 'view';
+
     public const DELETE = 'delete';
 
     protected function supports(string $attribute, mixed $subject): bool

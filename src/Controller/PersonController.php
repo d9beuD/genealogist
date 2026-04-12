@@ -20,6 +20,7 @@ class PersonController extends AbstractController
         private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Service\ImageManager $imageManager,
     ) {
     }
+
     #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
     #[IsGranted('view', 'person')]
     public function show(Person $person): Response
@@ -28,6 +29,7 @@ class PersonController extends AbstractController
             'person' => $person,
         ]);
     }
+
     #[Route('/person/{id}/unions', name: 'app_person_unions', methods: ['GET'])]
     #[IsGranted('edit', 'person')]
     public function unions(Person $person): Response
@@ -36,6 +38,7 @@ class PersonController extends AbstractController
             'person' => $person,
         ]);
     }
+
     #[Route('/person/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function edit(
@@ -77,6 +80,7 @@ class PersonController extends AbstractController
             'tree' => $person->getTree(),
         ]);
     }
+
     #[Route('/person/{id}', name: 'app_person_delete', methods: ['POST'])]
     #[IsGranted('delete', 'person')]
     public function delete(
@@ -104,6 +108,7 @@ class PersonController extends AbstractController
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('/person/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
     #[IsGranted('view', 'person')]
     public function tree(Person $person, Request $request): Response

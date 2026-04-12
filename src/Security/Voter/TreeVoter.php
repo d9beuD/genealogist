@@ -12,8 +12,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TreeVoter extends Voter
 {
     public const EDIT = 'edit';
+
     public const VIEW = 'view';
+
     public const DELETE = 'delete';
+
     public const ADD_MEMBER = 'add_member';
 
     protected function supports(string $attribute, mixed $subject): bool

@@ -11,8 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class TreeControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
+
     private EntityManagerInterface $manager;
+
     private EntityRepository $repository;
+
     private string $path = '/tree/';
 
     protected function setUp(): void

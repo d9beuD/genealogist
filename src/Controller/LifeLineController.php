@@ -13,6 +13,7 @@ class LifeLineController extends AbstractController
     public function __construct(private readonly \Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
     }
+
     #[Route('/person/{id}/life-line', name: 'app_person_life_line')]
     public function index(Person $person): Response
     {

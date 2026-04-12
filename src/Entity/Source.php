@@ -14,10 +14,15 @@ class Source
     use FormatEmptyStringTrait;
 
     public const CERT_BIRTH = 1;
+
     public const CERT_BAPTISM = 2;
+
     public const CERT_MARRIAGE = 3;
+
     public const CERT_DEATH = 4;
+
     public const CERT_MILITARY = 5;
+
     public const CERT_OTHER = 6;
 
     #[ORM\Id]

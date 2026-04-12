@@ -20,6 +20,7 @@ class SourceController extends AbstractController
         private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager,
     ) {
     }
+
     #[Route('/person/{personId}/source/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function index(Request $request, #[MapEntity(id: 'personId')] Person $person): Response
@@ -49,6 +50,7 @@ class SourceController extends AbstractController
             'editing_source' => null,
         ]);
     }
+
     #[Route('/person/{personId}/source/{id}/edit', name: 'app_source_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function edit(
@@ -82,6 +84,7 @@ class SourceController extends AbstractController
             'editing_source' => $source,
         ]);
     }
+
     #[Route('/person/{personId}/source/{id}', name: 'app_source_delete', methods: ['POST'])]
     #[IsGranted('edit', 'person')]
     public function delete(Request $request, Source $source, #[MapEntity(id: 'personId')] Person $person): Response
@@ -105,6 +108,7 @@ class SourceController extends AbstractController
 
         return $this->redirectToRoute('app_source_index', ['personId' => $person->getId()], Response::HTTP_SEE_OTHER);
     }
+
     private function assertSourceBelongsToPerson(Source $source, Person $person): void
     {
         if ($source->getPerson()?->getId() !== $person->getId()) {

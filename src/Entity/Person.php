@@ -16,7 +16,9 @@ class Person implements \Stringable
     use FormatEmptyStringTrait;
 
     public const FEMALE = 0;
+
     public const MALE = 1;
+
     public const OTHER = 2;
 
     #[ORM\Id]

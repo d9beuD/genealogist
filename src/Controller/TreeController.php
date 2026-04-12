@@ -24,6 +24,7 @@ class TreeController extends AbstractController
         private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Service\ImageManager $imageManager,
     ) {
     }
+
     #[Route('/project/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response
     {
@@ -31,6 +32,7 @@ class TreeController extends AbstractController
             'trees' => $currentUser->getTrees(),
         ]);
     }
+
     #[Route('/project/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
     public function new(#[CurrentUser()] User $user): Response
     {
@@ -52,6 +54,7 @@ class TreeController extends AbstractController
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('/project/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree, Request $request): Response
     {
@@ -90,6 +93,7 @@ class TreeController extends AbstractController
             'members_count' => $members->count(),
         ]);
     }
+
     #[Route('/project/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'tree')]
     public function edit(Request $request, Tree $tree): Response
@@ -113,6 +117,7 @@ class TreeController extends AbstractController
             'form' => $form,
         ]);
     }
+
     #[Route('/project/{id}', name: 'app_tree_delete', methods: ['POST'])]
     #[IsGranted('delete', 'tree')]
     public function delete(Request $request, Tree $tree): Response
@@ -134,6 +139,7 @@ class TreeController extends AbstractController
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('/project/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
     #[IsGranted('add_member', 'tree')]
     public function addMember(

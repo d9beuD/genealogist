@@ -20,6 +20,7 @@ class UserController extends AbstractController
         private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher,
     ) {
     }
+
     #[Route('/profile/', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, #[CurrentUser()] User $user): Response
     {
@@ -42,6 +43,7 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+
     #[Route('/profile/{id}', name: 'app_user_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user): Response

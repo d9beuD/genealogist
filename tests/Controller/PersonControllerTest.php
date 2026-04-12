@@ -11,8 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class PersonControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
+
     private EntityManagerInterface $manager;
+
     private EntityRepository $repository;
+
     private string $path = '/person/';
 
     protected function setUp(): void
