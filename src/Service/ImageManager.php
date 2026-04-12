@@ -56,7 +56,7 @@ class ImageManager
                 // $this->flashBag->add('danger', 'An error occurred while removing the image.');
             }
         }
-            // $this->flashBag->add('warning', 'The image does not exist.');
+        // $this->flashBag->add('warning', 'The image does not exist.');
         
     }
 }
