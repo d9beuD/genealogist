@@ -32,7 +32,7 @@ class SourceType extends AbstractType
             ->add('comment', null, [
                 'label' => 'form.field.comment',
                 'constraints' => [
-                    new Length(['max' => 255]),
+                    new Length(max: 255),
                 ],
             ])
             ->add('directProof', null, [
