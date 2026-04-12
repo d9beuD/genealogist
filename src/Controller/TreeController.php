@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TreeController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

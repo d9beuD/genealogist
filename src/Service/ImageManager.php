@@ -12,9 +12,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ImageManager
 {
     public function __construct(
-        private SluggerInterface $slugger,
-        private ParameterBagInterface $params,
-        private LoggerInterface $logger,
+        private readonly SluggerInterface $slugger,
+        private readonly ParameterBagInterface $params,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
