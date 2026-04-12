@@ -89,7 +89,6 @@ class TreeController extends AbstractController
             return $groupedMembers;
         }, []);
 
-
         return $this->render('tree/show.html.twig', [
             'tree' => $tree,
             'form' => $form->createView(),
