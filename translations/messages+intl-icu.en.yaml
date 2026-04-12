@@ -169,6 +169,14 @@ union:
         remove:
             success: '**{name}** has been successfully removed as a child.'
             error: '**{name}** has not been removed as a child.'
+source:
+    new:
+        success: 'The source has been successfully added.'
+    edit:
+        success: 'The source has been successfully modified.'
+    delete:
+        success: 'The source has been successfully deleted.'
+        error: 'The source has not been deleted.'
 life_line:
     not_all_dated: |
         Not all events were dated, so they could not be automatically
