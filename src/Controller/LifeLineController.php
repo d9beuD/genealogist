@@ -18,7 +18,7 @@ class LifeLineController extends AbstractController
 
         // Get birth event
         if ($person->getBirth() instanceof DateTimeInterface) {
-            $hasBirthDate = !!$person->getBirth();
+            $hasBirthDate = (bool) $person->getBirth();
 
             $events[] = [
                 'date' => $person->getBirth(),
@@ -36,7 +36,7 @@ class LifeLineController extends AbstractController
         // Get union events
         foreach ($person->getUnions() as $union) {
             $hasPartner = $union->getPeople()->count() > 1;
-            $hasUnionDate = !!$union->getStartsAt();
+            $hasUnionDate = (bool) $union->getStartsAt();
 
             $events[] = [
                 'date' => $union->getStartsAt(),
@@ -54,7 +54,7 @@ class LifeLineController extends AbstractController
 
             // Get child events
             foreach ($union->getChildren() as $child) {
-                $hasBirthDate = !!$child->getBirth();
+                $hasBirthDate = (bool) $child->getBirth();
                 $events[] = [
                     'date' => $child->getBirth(),
                     'type' => 'child',
@@ -85,7 +85,7 @@ class LifeLineController extends AbstractController
         }
 
         $allEventsHaveDate = array_reduce($events, function ($carry, $event) {
-            return $carry && !!$event['date'];
+            return $carry && (bool) $event['date'];
         }, true);
 
         if ($allEventsHaveDate) {
