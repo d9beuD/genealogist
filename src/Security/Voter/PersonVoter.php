@@ -31,19 +31,12 @@ class PersonVoter extends Voter
 
         /** @var Person */
         $person = $subject;
-
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($person, $user);
-
-            case self::VIEW:
-                return $this->canView($person, $user);
-
-            case self::DELETE:
-                return $this->canDelete($person, $user);
-        }
-
-        return false;
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($person, $user),
+            self::VIEW => $this->canView($person, $user),
+            self::DELETE => $this->canDelete($person, $user),
+            default => false,
+        };
     }
 
     private function isOwner(Person $person, User $user): bool

@@ -32,22 +32,13 @@ class TreeVoter extends Voter
 
         /** @var Tree */
         $tree = $subject;
-
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($tree, $user);
-
-            case self::VIEW:
-                return $this->canView($tree, $user);
-
-            case self::DELETE:
-                return $this->canDelete($tree, $user);
-
-            case self::ADD_MEMBER:
-                return $this->canAddMember($tree, $user);
-        }
-
-        return false;
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($tree, $user),
+            self::VIEW => $this->canView($tree, $user),
+            self::DELETE => $this->canDelete($tree, $user),
+            self::ADD_MEMBER => $this->canAddMember($tree, $user),
+            default => false,
+        };
     }
 
     private function isOwner(Tree $tree, User $user): bool

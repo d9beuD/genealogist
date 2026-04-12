@@ -31,19 +31,12 @@ class UnionVoter extends Voter
 
         /** @var Union */
         $union = $subject;
-
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($union, $user);
-
-            case self::VIEW:
-                return $this->canView($union, $user);
-
-            case self::DELETE:
-                return $this->canDelete($union, $user);
-        }
-
-        return false;
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($union, $user),
+            self::VIEW => $this->canView($union, $user),
+            self::DELETE => $this->canDelete($union, $user),
+            default => false,
+        };
     }
 
     private function isOwner(Union $union, User $user): bool
