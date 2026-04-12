@@ -24,8 +24,8 @@ class TreeControllerTest extends WebTestCase
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
         $this->entityRepository = $this->entityManager->getRepository(Tree::class);
 
-        foreach ($this->entityRepository->findAll() as $object) {
-            $this->entityManager->remove($object);
+        foreach ($this->entityRepository->findAll() as $tree) {
+            $this->entityManager->remove($tree);
         }
 
         $this->entityManager->flush();

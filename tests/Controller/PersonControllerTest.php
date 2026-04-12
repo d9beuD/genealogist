@@ -24,8 +24,8 @@ class PersonControllerTest extends WebTestCase
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
         $this->entityRepository = $this->entityManager->getRepository(Person::class);
 
-        foreach ($this->entityRepository->findAll() as $object) {
-            $this->entityManager->remove($object);
+        foreach ($this->entityRepository->findAll() as $person) {
+            $this->entityManager->remove($person);
         }
 
         $this->entityManager->flush();
