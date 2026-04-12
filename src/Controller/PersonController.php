@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PersonController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator,
+        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Service\ImageManager $imageManager,
     ) {
     }
     #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
@@ -41,8 +41,6 @@ class PersonController extends AbstractController
     public function edit(
         Request $request,
         Person $person,
-        EntityManagerInterface $entityManager,
-        ImageManager $imageManager,
     ): Response {
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
@@ -56,14 +54,14 @@ class PersonController extends AbstractController
             }
 
             if ($form->get('portrait')->getData()) {
-                $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $path = $this->imageManager->save($form->get('portrait')->getData(), $request);
                 if ($person->getPortrait()) {
-                    $imageManager->remove($person->getPortrait());
+                    $this->imageManager->remove($person->getPortrait());
                 }
                 $person->setPortrait($path);
             }
 
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -84,17 +82,15 @@ class PersonController extends AbstractController
     public function delete(
         Request $request,
         Person $person,
-        EntityManagerInterface $entityManager,
-        ImageManager $imageManager,
     ): Response {
         $tree = $person->getTree();
 
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
             if ($person->getPortrait()) {
-                $imageManager->remove($person->getPortrait());
+                $this->imageManager->remove($person->getPortrait());
             }
-            $entityManager->remove($person);
-            $entityManager->flush();
+            $this->entityManager->remove($person);
+            $this->entityManager->flush();
             $this->addFlash(
                 'success',
                 $this->translator->trans('person.delete.success', ['name' => $person->getFullName()]),

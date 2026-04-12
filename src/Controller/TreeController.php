@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TreeController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator,
+        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Service\ImageManager $imageManager,
     ) {
     }
     #[Route('/project/', name: 'app_tree_index', methods: ['GET'])]
@@ -32,7 +32,7 @@ class TreeController extends AbstractController
         ]);
     }
     #[Route('/project/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
-    public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
+    public function new(#[CurrentUser()] User $user): Response
     {
         $total = $user->getTrees()->count();
         $tree = new Tree();
@@ -42,8 +42,8 @@ class TreeController extends AbstractController
             ->setName('Family tree #'.($total + 1))
         ;
 
-        $entityManager->persist($tree);
-        $entityManager->flush();
+        $this->entityManager->persist($tree);
+        $this->entityManager->flush();
 
         $this->addFlash(
             'success',
@@ -92,13 +92,13 @@ class TreeController extends AbstractController
     }
     #[Route('/project/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'tree')]
-    public function edit(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Tree $tree): Response
     {
         $form = $this->createForm(TreeType::class, $tree);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -115,11 +115,11 @@ class TreeController extends AbstractController
     }
     #[Route('/project/{id}', name: 'app_tree_delete', methods: ['POST'])]
     #[IsGranted('delete', 'tree')]
-    public function delete(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Tree $tree): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tree);
-            $entityManager->flush();
+            $this->entityManager->remove($tree);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -138,8 +138,6 @@ class TreeController extends AbstractController
     #[IsGranted('add_member', 'tree')]
     public function addMember(
         Request $request,
-        EntityManagerInterface $entityManager,
-        ImageManager $imageManager,
         Tree $tree,
     ): Response {
         $person = new Person();
@@ -155,13 +153,13 @@ class TreeController extends AbstractController
             }
 
             if ($form->get('portrait')->getData()) {
-                $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $path = $this->imageManager->save($form->get('portrait')->getData(), $request);
                 $person->setPortrait($path);
             }
 
             $tree->addMember($person);
-            $entityManager->persist($person);
-            $entityManager->flush();
+            $this->entityManager->persist($person);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',

@@ -10,8 +10,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LifeLineController extends AbstractController
 {
+    public function __construct(private readonly \Symfony\Contracts\Translation\TranslatorInterface $translator)
+    {
+    }
     #[Route('/person/{id}/life-line', name: 'app_person_life_line')]
-    public function index(Person $person, TranslatorInterface $translator): Response
+    public function index(Person $person): Response
     {
         $events = [];
 
@@ -22,8 +25,8 @@ class LifeLineController extends AbstractController
             $events[] = [
                 'date' => $person->getBirth(),
                 'type' => 'birth',
-                'label' => $translator->trans('life_line.birth.label'),
-                'message' => $translator->trans('life_line.birth.message', [
+                'label' => $this->translator->trans('life_line.birth.label'),
+                'message' => $this->translator->trans('life_line.birth.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'year' => $hasBirthDate ? $person->getBirth()->format('Y') : 'empty',
@@ -40,8 +43,8 @@ class LifeLineController extends AbstractController
             $events[] = [
                 'date' => $union->getStartsAt(),
                 'type' => 'union',
-                'label' => $translator->trans('life_line.union.label'),
-                'message' => $translator->trans('life_line.union.message', [
+                'label' => $this->translator->trans('life_line.union.label'),
+                'message' => $this->translator->trans('life_line.union.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'partner' => $hasPartner ? $union->getPartner($person)->getFullName() : '?',
@@ -57,8 +60,8 @@ class LifeLineController extends AbstractController
                 $events[] = [
                     'date' => $child->getBirth(),
                     'type' => 'child',
-                    'label' => $translator->trans('life_line.child.label'),
-                    'message' => $translator->trans('life_line.child.message', [
+                    'label' => $this->translator->trans('life_line.child.label'),
+                    'message' => $this->translator->trans('life_line.child.message', [
                         'name' => $person->getFullName(),
                         'child' => $child->getFullName(),
                         'child_path' => $this->generateUrl('app_person_life_line', ['id' => $child->getId()]),
@@ -73,8 +76,8 @@ class LifeLineController extends AbstractController
             $events[] = [
                 'date' => $person->getDeath(),
                 'type' => 'death',
-                'label' => $translator->trans('life_line.death.label'),
-                'message' => $translator->trans('life_line.death.message', [
+                'label' => $this->translator->trans('life_line.death.label'),
+                'message' => $this->translator->trans('life_line.death.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'year' => $person->getDeath()->format('Y'),

@@ -17,12 +17,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SourceController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator,
+        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager,
     ) {
     }
     #[Route('/person/{personId}/source/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
-    public function index(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function index(Request $request, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $source = new Source();
         $createForm = $this->createForm(SourceType::class, $source);
@@ -30,8 +30,8 @@ class SourceController extends AbstractController
 
         if ($createForm->isSubmitted() && $createForm->isValid()) {
             $source->setPerson($person);
-            $entityManager->persist($source);
-            $entityManager->flush();
+            $this->entityManager->persist($source);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -54,7 +54,6 @@ class SourceController extends AbstractController
     public function edit(
         Request $request,
         Source $source,
-        EntityManagerInterface $entityManager,
         #[MapEntity(id: 'personId')]
         Person $person,
     ): Response {
@@ -65,7 +64,7 @@ class SourceController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -85,13 +84,13 @@ class SourceController extends AbstractController
     }
     #[Route('/person/{personId}/source/{id}', name: 'app_source_delete', methods: ['POST'])]
     #[IsGranted('edit', 'person')]
-    public function delete(Request $request, Source $source, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function delete(Request $request, Source $source, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $this->assertSourceBelongsToPerson($source, $person);
 
         if ($this->isCsrfTokenValid('delete'.$source->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($source);
-            $entityManager->flush();
+            $this->entityManager->remove($source);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',

@@ -11,8 +11,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ThemeController extends AbstractController
 {
+    public function __construct(private readonly \Psr\Log\LoggerInterface $logger)
+    {
+    }
     #[Route('/settings/theme', name: 'app_theme', methods: ['post'])]
-    public function setMode(Request $request, LoggerInterface $logger): Response
+    public function setMode(Request $request): Response
     {
         $response = new Response();
         $data = json_decode($request->getContent(), true);
