@@ -29,8 +29,8 @@ class ImageManager
                 $this->params->get('portraits_directory'),
                 $newFilename
             );
-        } catch (FileException $e) {
-            $this->logger->error($e->getMessage());
+        } catch (FileException $fileException) {
+            $this->logger->error($fileException->getMessage());
         }
 
         return $newFilename;

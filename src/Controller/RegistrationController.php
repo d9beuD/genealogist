@@ -78,10 +78,10 @@ class RegistrationController extends AbstractController
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
+        } catch (VerifyEmailExceptionInterface $verifyEmailException) {
             $this->addFlash(
                 'verify_email_error',
-                $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle')
+                $this->translator->trans($verifyEmailException->getReason(), [], 'VerifyEmailBundle')
             );
 
             return $this->redirectToRoute('app_register');
