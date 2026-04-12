@@ -20,4 +20,5 @@ return RectorConfig::configure()
         strictBooleans: true,
         symfonyCodeQuality: true,
         typeDeclarationDocblocks: true,
+        typeDeclarations: true,
     );
