@@ -44,7 +44,7 @@ class UnionVoter extends Voter
 
     private function isOwner(Union $union, User $user): bool
     {
-        return $user === $union->getPeople()[0]->getTree()->getOwner();
+        return $user === $union->getPeople()[0]->getTree()->getUser();
     }
 
     private function canEdit(Union $union, User $user): bool

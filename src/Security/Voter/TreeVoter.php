@@ -47,7 +47,7 @@ class TreeVoter extends Voter
 
     private function isOwner(Tree $tree, User $user): bool
     {
-        return $user === $tree->getOwner();
+        return $user === $tree->getUser();
     }
 
     private function canEdit(Tree $tree, User $user): bool

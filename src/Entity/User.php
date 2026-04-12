@@ -167,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->trees->contains($tree)) {
             $this->trees->add($tree);
-            $tree->setOwner($this);
+            $tree->setUser($this);
         }
 
         return $this;
@@ -176,8 +176,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTree(Tree $tree): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->trees->removeElement($tree) && $tree->getOwner() === $this) {
-            $tree->setOwner(null);
+        if ($this->trees->removeElement($tree) && $tree->getUser() === $this) {
+            $tree->setUser(null);
         }
 
         return $this;

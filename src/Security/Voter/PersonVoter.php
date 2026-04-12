@@ -44,7 +44,7 @@ class PersonVoter extends Voter
 
     private function isOwner(Person $person, User $user): bool
     {
-        return $user === $person->getTree()->getOwner();
+        return $user === $person->getTree()->getUser();
     }
 
     private function canEdit(Person $person, User $user): bool

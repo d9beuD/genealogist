@@ -64,7 +64,7 @@ class TreeControllerTest extends WebTestCase
         $this->markTestIncomplete();
         $tree = new Tree();
         $tree->setCreatedAt('My Title');
-        $tree->setOwner('My Title');
+        $tree->setUser('My Title');
 
         $this->entityManager->persist($tree);
         $this->entityManager->flush();
@@ -82,7 +82,7 @@ class TreeControllerTest extends WebTestCase
         $this->markTestIncomplete();
         $fixture = new Tree();
         $fixture->setCreatedAt('Value');
-        $fixture->setOwner('Value');
+        $fixture->setUser('Value');
 
         $this->entityManager->persist($fixture);
         $this->entityManager->flush();
@@ -107,7 +107,7 @@ class TreeControllerTest extends WebTestCase
         $this->markTestIncomplete();
         $tree = new Tree();
         $tree->setCreatedAt('Value');
-        $tree->setOwner('Value');
+        $tree->setUser('Value');
 
         $this->entityManager->remove($tree);
         $this->entityManager->flush();
