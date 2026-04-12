@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LifeLineController extends AbstractController
 {
-    public function __construct(private readonly \Symfony\Contracts\Translation\TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
     }
 

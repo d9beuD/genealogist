@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
     }
 

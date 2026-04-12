@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UnionController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Repository\PersonRepository $personRepository,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly PersonRepository $personRepository,
     ) {
     }
 

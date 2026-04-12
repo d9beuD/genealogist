@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PersonController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager, private readonly \App\Service\ImageManager $imageManager,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager,
     ) {
     }
 

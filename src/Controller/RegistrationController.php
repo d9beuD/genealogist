@@ -21,8 +21,8 @@ class RegistrationController extends AbstractController
     public function __construct(
         private readonly EmailVerifier $emailVerifier,
         private readonly TranslatorInterface $translator,
-        private readonly \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $userPasswordHasher,
-        private readonly \Doctrine\ORM\EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 

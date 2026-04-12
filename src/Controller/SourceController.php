@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SourceController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly \Doctrine\ORM\EntityManagerInterface $entityManager,
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
