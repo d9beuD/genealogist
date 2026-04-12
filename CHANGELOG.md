@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.5.0...genealogist-v2.6.0) (2026-04-12)
+
+
+### Features
+
+* **person:** show computed age on profile ([d206823](https://github.com/d9beuD/genealogist/commit/d20682378a30fbe85f884b70ab821de83a5a6d94))
+* **person:** Show computed age on profile ([d1fd8a8](https://github.com/d9beuD/genealogist/commit/d1fd8a8243099828d4ba2155d7422055bef8fdad)), closes [#129](https://github.com/d9beuD/genealogist/issues/129)
+
 ## [2.5.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.3...genealogist-v2.5.0) (2026-04-12)
 
 
