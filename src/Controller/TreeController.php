@@ -10,6 +10,7 @@ use App\Form\PersonType;
 use App\Form\TreeType;
 use App\Repository\PersonRepository;
 use App\Service\ImageManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,7 +63,8 @@ class TreeController extends AbstractController
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
 
-        $members = $tree->getMembers();
+        $members = $this->personRepository->findByTreeWithFavorites($tree);
+        $members = new ArrayCollection($members);
 
         // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {

@@ -70,4 +70,21 @@ class PersonRepository extends ServiceEntityRepository
 
         return array_map(static fn (FavoriteMember $favoriteMember): ?Person => $favoriteMember->getPerson(), $query->getResult());
     }
+
+    /**
+     * @return array<int, Person>
+     */
+    public function findByTreeWithFavorites(Tree $tree): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $query = $queryBuilder
+            ->select('p, f')
+            ->leftJoin('p.favorites', 'f')
+            ->where('p.tree = :tree')
+            ->setParameter('tree', $tree)
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
 }
