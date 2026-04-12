@@ -31,6 +31,7 @@ class UnionVoter extends Voter
 
         /** @var Union */
         $union = $subject;
+
         return match ($attribute) {
             self::EDIT => $this->canEdit($union, $user),
             self::VIEW => $this->canView($union, $user),

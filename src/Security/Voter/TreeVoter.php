@@ -32,6 +32,7 @@ class TreeVoter extends Voter
 
         /** @var Tree */
         $tree = $subject;
+
         return match ($attribute) {
             self::EDIT => $this->canEdit($tree, $user),
             self::VIEW => $this->canView($tree, $user),

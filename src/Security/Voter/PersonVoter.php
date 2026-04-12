@@ -31,6 +31,7 @@ class PersonVoter extends Voter
 
         /** @var Person */
         $person = $subject;
+
         return match ($attribute) {
             self::EDIT => $this->canEdit($person, $user),
             self::VIEW => $this->canView($person, $user),
