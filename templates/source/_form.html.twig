@@ -13,15 +13,15 @@
     {{ form_row(form.directProof) }}
 
     <div class="text-end">
+        {% if cancel_path is defined and cancel_path %}
+            <a href="{{ cancel_path }}" class="btn btn-secondary mb-3">
+                {{ 'action.cancel'|trans }}
+            </a>
+        {% endif %}
+            
         <button class="btn btn-primary mb-3" type="submit">
             <i class="fa-solid {{ button_icon|default('fa-plus') }}"></i>
             {{ button_label|default('action.add'|trans) }}
         </button>
-
-        {% if cancel_path is defined and cancel_path %}
-            <a href="{{ cancel_path }}" class="btn btn-link mb-3">
-                {{ 'action.cancel'|trans }}
-            </a>
-        {% endif %}
     </div>
 {{ form_end(form) }}
