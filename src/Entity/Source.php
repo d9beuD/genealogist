@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Source
 {
     use FormatEmptyStringTrait;
-    
+
     public const CERT_BIRTH = 1;
     public const CERT_BAPTISM = 2;
     public const CERT_MARRIAGE = 3;

@@ -47,10 +47,10 @@ class AppFixtures extends Fixture
             ->setLastname($faker->lastName())
             ->setBio($faker->paragraph())
             ->setGender(Person::MALE)
-            
+
             ->setBirth(new DateTimeImmutable('1944-01-02'))
             ->setBirthPlace('New York, NY')
-            
+
             ->setDead(true)
             ->setDeath(new DateTimeImmutable('2010-02-03'))
             ->setDeathPlace('New York, NY')
@@ -63,10 +63,10 @@ class AppFixtures extends Fixture
             ->setLastname($faker->lastName())
             ->setBio($faker->paragraph())
             ->setGender(Person::FEMALE)
-            
+
             ->setBirth(new DateTimeImmutable('1945-02-03'))
             ->setBirthPlace('Washington, DC')
-            
+
             ->setDead(true)
             ->setDeath(new DateTimeImmutable('2011-03-04'))
             ->setDeathPlace('New York, NY')
@@ -79,10 +79,10 @@ class AppFixtures extends Fixture
             ->setLastname($faker->lastName())
             ->setBio($faker->paragraph())
             ->setGender(Person::MALE)
-            
+
             ->setBirth(new DateTimeImmutable('1944-01-02'))
             ->setBirthPlace('New York, NY')
-            
+
             ->setDead(true)
             ->setDeath(new DateTimeImmutable('2010-02-03'))
             ->setDeathPlace('New York, NY')
@@ -95,10 +95,10 @@ class AppFixtures extends Fixture
             ->setLastname($faker->lastName())
             ->setBio($faker->paragraph())
             ->setGender(Person::FEMALE)
-            
+
             ->setBirth(new DateTimeImmutable('1945-02-03'))
             ->setBirthPlace('Washington, DC')
-            
+
             ->setDead(true)
             ->setDeath(new DateTimeImmutable('2011-03-04'))
             ->setDeathPlace('New York, NY')
@@ -111,7 +111,7 @@ class AppFixtures extends Fixture
             ->setLastname($grandParent1->getLastname())
             ->setBio($faker->paragraph())
             ->setGender(Person::MALE)
-            
+
             ->setBirth(new DateTimeImmutable('1970-04-05'))
             ->setBirthPlace('New York, NY')
         ;
@@ -123,7 +123,7 @@ class AppFixtures extends Fixture
             ->setLastname($grandParent3->getLastname())
             ->setBio($faker->paragraph())
             ->setGender(Person::FEMALE)
-            
+
             ->setBirth(new DateTimeImmutable('1971-06-07'))
             ->setBirthPlace('Washington, DC')
         ;
@@ -134,7 +134,7 @@ class AppFixtures extends Fixture
             ->setFirstname($faker->firstNameMale())
             ->setLastname($parent1->getLastname())
             ->setBio($faker->paragraph())
-            
+
             ->setBirth(new DateTimeImmutable('1970-04-05'))
             ->setBirthPlace('New York, NY')
         ;
@@ -145,7 +145,7 @@ class AppFixtures extends Fixture
             ->setFirstname($faker->firstNameFemale())
             ->setLastname($parent1->getLastname())
             ->setBio($faker->paragraph())
-            
+
             ->setBirth(new DateTimeImmutable('1971-06-07'))
             ->setBirthPlace('New York, NY')
         ;

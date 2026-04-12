@@ -69,7 +69,7 @@ class PersonController extends AbstractController
             }
 
             $entityManager->flush();
-            
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('person.edit.success', ['name' => $person->getFullName()]),

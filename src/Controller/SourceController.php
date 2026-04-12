@@ -21,7 +21,7 @@ class SourceController extends AbstractController
         private TranslatorInterface $translator,
     ) {
     }
-    
+
     #[Route('/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function index(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
@@ -95,7 +95,7 @@ class SourceController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$source->getId(), $request->request->get('_token'))) {
             $entityManager->remove($source);
             $entityManager->flush();
-            
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('source.delete.success')
