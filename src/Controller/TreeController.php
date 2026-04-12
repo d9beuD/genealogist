@@ -18,23 +18,20 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/project')]
 class TreeController extends AbstractController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
     ) {
     }
-
-    #[Route('/', name: 'app_tree_index', methods: ['GET'])]
+    #[Route('/project/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response
     {
         return $this->render('tree/index.html.twig', [
             'trees' => $currentUser->getTrees(),
         ]);
     }
-
-    #[Route('/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
+    #[Route('/project/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
     public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
     {
         $total = $user->getTrees()->count();
@@ -55,8 +52,7 @@ class TreeController extends AbstractController
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
+    #[Route('/project/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree, Request $request): Response
     {
         $form = $this->createForm(MembersSearchType::class);
@@ -94,8 +90,7 @@ class TreeController extends AbstractController
             'members_count' => $members->count(),
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
+    #[Route('/project/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'tree')]
     public function edit(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
     {
@@ -118,8 +113,7 @@ class TreeController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_tree_delete', methods: ['POST'])]
+    #[Route('/project/{id}', name: 'app_tree_delete', methods: ['POST'])]
     #[IsGranted('delete', 'tree')]
     public function delete(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
     {
@@ -140,8 +134,7 @@ class TreeController extends AbstractController
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
+    #[Route('/project/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
     #[IsGranted('add_member', 'tree')]
     public function addMember(
         Request $request,

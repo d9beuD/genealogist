@@ -14,15 +14,13 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/profile')]
 class UserController extends AbstractController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
     ) {
     }
-
-    #[Route('/', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Route('/profile/', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, #[CurrentUser()] User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -44,8 +42,7 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('/profile/{id}', name: 'app_user_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

@@ -9,10 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/settings')]
 class ThemeController extends AbstractController
 {
-    #[Route('/theme', name: 'app_theme', methods: ['post'])]
+    #[Route('/settings/theme', name: 'app_theme', methods: ['post'])]
     public function setMode(Request $request, LoggerInterface $logger): Response
     {
         $response = new Response();

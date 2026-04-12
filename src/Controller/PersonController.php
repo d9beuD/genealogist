@@ -14,15 +14,13 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/person')]
 class PersonController extends AbstractController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
     ) {
     }
-
-    #[Route('/{id}', name: 'app_person_show', methods: ['GET'])]
+    #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
     #[IsGranted('view', 'person')]
     public function show(Person $person): Response
     {
@@ -30,8 +28,7 @@ class PersonController extends AbstractController
             'person' => $person,
         ]);
     }
-
-    #[Route('/{id}/unions', name: 'app_person_unions', methods: ['GET'])]
+    #[Route('/person/{id}/unions', name: 'app_person_unions', methods: ['GET'])]
     #[IsGranted('edit', 'person')]
     public function unions(Person $person): Response
     {
@@ -39,8 +36,7 @@ class PersonController extends AbstractController
             'person' => $person,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
+    #[Route('/person/{id}/edit', name: 'app_person_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function edit(
         Request $request,
@@ -83,8 +79,7 @@ class PersonController extends AbstractController
             'tree' => $person->getTree(),
         ]);
     }
-
-    #[Route('/{id}', name: 'app_person_delete', methods: ['POST'])]
+    #[Route('/person/{id}', name: 'app_person_delete', methods: ['POST'])]
     #[IsGranted('delete', 'person')]
     public function delete(
         Request $request,
@@ -113,8 +108,7 @@ class PersonController extends AbstractController
 
         return $this->redirectToRoute('app_tree_show', ['id' => $tree->getId()], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
+    #[Route('/person/{id}/tree', name: 'app_person_tree', methods: ['GET'])]
     #[IsGranted('view', 'person')]
     public function tree(Person $person, Request $request): Response
     {
