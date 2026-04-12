@@ -23,7 +23,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TreeController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager, private readonly PersonRepository $personRepository,
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager,
+        private readonly PersonRepository $personRepository,
     ) {
     }
 
@@ -80,7 +83,12 @@ class TreeController extends AbstractController
 
         // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-        usort($orderedMembers, fn ($a, $b): int => strcmp(trim($a->getFullName()), trim($b->getFullName())));
+        usort(
+            $orderedMembers,
+            fn ($a, $b): int => strcmp(
+                trim($a->getFullName()),
+                trim($b->getFullName())
+            ));
 
         // Groupement par première lettre
         $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $person): array {
