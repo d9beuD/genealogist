@@ -83,6 +83,7 @@ profile:
         success: Your data has been edited.
 label:
     actions: Actions
+    age: Age
     children: Children
     date_uncertain: Uncertain date
     home: Home
@@ -136,6 +137,18 @@ alert:
         }
 calendar: '{date, date, medium}'
 person:
+    age:
+        value: >-
+            {age, plural,
+                =1 {# year old}
+                other {# years old}
+            }
+        approximate: >-
+            ~{age, plural,
+                =1 {# year old}
+                other {# years old}
+            }
+        unknown: Unknown age
     edit:
         success: '**{name}** has been successfully modified.'
     delete:
