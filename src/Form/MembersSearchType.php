@@ -20,7 +20,7 @@ class MembersSearchType extends AbstractType
                     'placeholder' => 'form.placeholder.search_by_name',
                 ],
             ])
-            ->setMethod('GET')
+            ->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)
         ;
     }
 

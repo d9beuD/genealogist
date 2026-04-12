@@ -30,7 +30,7 @@ class PersonControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $this->client->request('GET', $this->path);
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Person index');
@@ -42,7 +42,7 @@ class PersonControllerTest extends WebTestCase
     public function testNew(): void
     {
         $this->markTestIncomplete();
-        $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
@@ -92,7 +92,7 @@ class PersonControllerTest extends WebTestCase
         $this->manager->persist($fixture);
         $this->manager->flush();
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Person');
@@ -123,7 +123,7 @@ class PersonControllerTest extends WebTestCase
         $this->manager->persist($fixture);
         $this->manager->flush();
 
-        $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
             'person[firstname]' => 'Something New',
@@ -187,7 +187,7 @@ class PersonControllerTest extends WebTestCase
         $this->manager->remove($fixture);
         $this->manager->flush();
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $fixture->getId()));
         $this->client->submitForm('Delete');
 
         self::assertResponseRedirects('/person/');

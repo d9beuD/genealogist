@@ -26,7 +26,7 @@ class TreeOptionsType extends AbstractType
                 'help' => 'form.help.depth',
                 'empty_data' => 4,
             ])
-            ->setMethod('GET')
+            ->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)
         ;
     }
 
