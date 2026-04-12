@@ -62,7 +62,11 @@
 
     <div class="row g-1 justify-content-end">
         <div class="col-auto">
-            <a href="{{ path('app_tree_show', { id: tree.id }) }}" class="btn btn-secondary">Annuler</a>
+            {% set cancel_path = person.id
+                ? path('app_person_show', { id: person.id })
+                : path('app_tree_show', { id: tree.id })
+            %}
+            <a href="{{ cancel_path }}" class="btn btn-secondary">Annuler</a>
         </div>
         <div class="col-auto">
             <button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>

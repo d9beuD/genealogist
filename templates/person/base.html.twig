@@ -55,10 +55,19 @@
                         </ul>
                     </div>
 
-                    <a href="{{ path('app_person_tree', { id: person.id }) }}" class="btn btn-secondary w-100">
-                        <i class="fa-solid fa-tree"></i>
-                        {{ 'action.see_tree'|trans }}
-                    </a>
+                    <div class="d-grid gap-2">
+                        {% if is_granted('edit', person) %}
+                            <a href="{{ path('app_person_edit', { id: person.id }) }}" class="btn btn-primary w-100">
+                                <i class="fa-solid fa-edit"></i>
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+
+                        <a href="{{ path('app_person_tree', { id: person.id }) }}" class="btn btn-secondary w-100">
+                            <i class="fa-solid fa-tree"></i>
+                            {{ 'action.see_tree'|trans }}
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="col-12 col-md-8 col-lg-9">
@@ -66,9 +75,9 @@
                         <ul class="nav nav-underline" style="gap: 0 var(--bs-nav-underline-gap);">
                             <li class="nav-item">
                                 <a 
-                                    class="nav-link{{ route_name == 'app_person_show' ? ' active':'' }}"
+                                    class="nav-link{{ route_name in ['app_person_show', 'app_person_edit'] ? ' active':'' }}"
                                     href="{{ path('app_person_show', {id: person.id}) }}"
-                                    {% if route_name == 'app_person_show' %}aria-current="page"{% endif %}
+                                    {% if route_name in ['app_person_show', 'app_person_edit'] %}aria-current="page"{% endif %}
                                 >
                                     <i class="fa-solid fa-user-circle"></i>
                                     {{ 'label.profile'|trans }}
@@ -87,16 +96,6 @@
                                 >
                                     <i class="fa-solid fa-family"></i>
                                     {{ 'label.unions'|trans }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link{{ route_name == 'app_person_edit' ? ' active':'' }}"
-                                    href="{{ path('app_person_edit', {id: person.id}) }}"
-                                    {% if route_name == 'app_person_edit' %}aria-current="page"{% endif %}
-                                >
-                                    <i class="fa-solid fa-edit"></i>
-                                    {{ 'action.edit'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
