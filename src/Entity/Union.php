@@ -29,11 +29,11 @@ class Union
     #[ORM\Column]
     private ?bool $married = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $weddingDate = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startsAt = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $weddingPlace = null;
+    private ?string $place = null;
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $dayUnsure = null;
@@ -46,6 +46,18 @@ class Union
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $endsAt = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $endDayUnsure = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $endMonthUnsure = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $endYearUnsure = null;
 
     public function __construct()
     {
@@ -129,26 +141,26 @@ class Union
         return $this;
     }
 
-    public function getWeddingDate(): ?\DateTimeInterface
+    public function getStartsAt(): ?\DateTimeImmutable
     {
-        return $this->weddingDate;
+        return $this->startsAt;
     }
 
-    public function setWeddingDate(?\DateTimeInterface $weddingDate): static
+    public function setStartsAt(?\DateTimeImmutable $startsAt): static
     {
-        $this->weddingDate = $weddingDate;
+        $this->startsAt = $startsAt;
 
         return $this;
     }
 
-    public function getWeddingPlace(): ?string
+    public function getPlace(): ?string
     {
-        return $this->formatEmptyString($this->weddingPlace);
+        return $this->formatEmptyString($this->place);
     }
 
-    public function setWeddingPlace(?string $weddingPlace): static
+    public function setPlace(?string $place): static
     {
-        $this->weddingPlace = $weddingPlace;
+        $this->place = $place;
 
         return $this;
     }
@@ -215,5 +227,53 @@ class Union
         }
 
         return null;
+    }
+
+    public function getEndsAt(): ?\DateTimeImmutable
+    {
+        return $this->endsAt;
+    }
+
+    public function setEndsAt(?\DateTimeImmutable $endsAt): static
+    {
+        $this->endsAt = $endsAt;
+
+        return $this;
+    }
+
+    public function isEndDayUnsure(): ?bool
+    {
+        return $this->endDayUnsure;
+    }
+
+    public function setEndDayUnsure(bool $endDayUnsure): static
+    {
+        $this->endDayUnsure = $endDayUnsure;
+
+        return $this;
+    }
+
+    public function isEndMonthUnsure(): ?bool
+    {
+        return $this->endMonthUnsure;
+    }
+
+    public function setEndMonthUnsure(bool $endMonthUnsure): static
+    {
+        $this->endMonthUnsure = $endMonthUnsure;
+
+        return $this;
+    }
+
+    public function isEndYearUnsure(): ?bool
+    {
+        return $this->endYearUnsure;
+    }
+
+    public function setEndYearUnsure(bool $endYearUnsure): static
+    {
+        $this->endYearUnsure = $endYearUnsure;
+
+        return $this;
     }
 }
