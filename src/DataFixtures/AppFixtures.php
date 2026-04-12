@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $tree = new Tree();
         $tree
             ->setOwner($user)
-            ->setName('Doe\'s Family')
+            ->setName("Doe's Family")
             ->setCreatedAt(new \DateTimeImmutable())
         ;
 
