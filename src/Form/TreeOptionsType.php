@@ -21,7 +21,7 @@ class TreeOptionsType extends AbstractType
                     'min' => 0,
                 ],
                 'constraints' => [
-                    new Assert\PositiveOrZero()
+                    new Assert\PositiveOrZero(),
                 ],
                 'help' => 'form.help.depth',
                 'empty_data' => 4,

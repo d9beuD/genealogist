@@ -32,7 +32,7 @@ class Source
         self::CERT_MARRIAGE,
         self::CERT_DEATH,
         self::CERT_MILITARY,
-        self::CERT_OTHER
+        self::CERT_OTHER,
     ])]
     private ?int $type = null;
 

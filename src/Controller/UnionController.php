@@ -160,7 +160,7 @@ class UnionController extends AbstractController
             'available_members' => $person->getTree()->getMembers()->toArray(),
             'union_members' => [
                 ...$union->getPeople()->toArray(),
-                ...$union->getChildren()->toArray()
+                ...$union->getChildren()->toArray(),
             ],
         ]);
         $form->handleRequest($request);
@@ -243,7 +243,7 @@ class UnionController extends AbstractController
             'available_members' => $personRepository->getOrphanMembers($person->getTree()),
             'union_members' => [
                 ...$union->getPeople()->toArray(),
-                ...$union->getChildren()->toArray()
+                ...$union->getChildren()->toArray(),
             ],
         ]);
         $form->handleRequest($request);
