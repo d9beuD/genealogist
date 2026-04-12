@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -19,12 +21,12 @@ class TreeOptionsType extends AbstractType
                     'min' => 0,
                 ],
                 'constraints' => [
-                    new Assert\PositiveOrZero()
+                    new Assert\PositiveOrZero(),
                 ],
                 'help' => 'form.help.depth',
                 'empty_data' => 4,
             ])
-            ->setMethod('GET')
+            ->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)
         ;
     }
 

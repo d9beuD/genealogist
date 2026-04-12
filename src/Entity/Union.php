@@ -23,11 +23,11 @@ class Union
     #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'unions')]
     private Collection $people;
 
-    #[ORM\OneToMany(mappedBy: 'parentUnion', targetEntity: Person::class)]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'parentUnion')]
     private Collection $children;
 
     #[ORM\Column]
-    private ?bool $married = null;
+    private ?bool $married = false;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeInterface $startsAt = null;
@@ -36,13 +36,13 @@ class Union
     private ?string $place = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $dayUnsure = null;
+    private ?bool $dayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $monthUnsure = null;
+    private ?bool $monthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $yearUnsure = null;
+    private ?bool $yearUnsure = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -63,11 +63,6 @@ class Union
     {
         $this->people = new ArrayCollection();
         $this->children = new ArrayCollection();
-
-        $this->married = false;
-        $this->dayUnsure = false;
-        $this->monthUnsure = false;
-        $this->yearUnsure = false;
     }
 
     public function getId(): ?int
@@ -107,23 +102,21 @@ class Union
         return $this->children;
     }
 
-    public function addChild(Person $child): static
+    public function addChild(Person $person): static
     {
-        if (!$this->children->contains($child)) {
-            $this->children->add($child);
-            $child->setParentUnion($this);
+        if (!$this->children->contains($person)) {
+            $this->children->add($person);
+            $person->setParentUnion($this);
         }
 
         return $this;
     }
 
-    public function removeChild(Person $child): static
+    public function removeChild(Person $person): static
     {
-        if ($this->children->removeElement($child)) {
-            // set the owning side to null (unless already changed)
-            if ($child->getParentUnion() === $this) {
-                $child->setParentUnion(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->children->removeElement($person) && $person->getParentUnion() === $this) {
+            $person->setParentUnion(null);
         }
 
         return $this;

@@ -38,10 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 30)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    private ?bool $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Tree::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tree::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $trees;
 
     public function __construct()
@@ -167,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->trees->contains($tree)) {
             $this->trees->add($tree);
-            $tree->setOwner($this);
+            $tree->setUser($this);
         }
 
         return $this;
@@ -175,11 +175,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeTree(Tree $tree): static
     {
-        if ($this->trees->removeElement($tree)) {
-            // set the owning side to null (unless already changed)
-            if ($tree->getOwner() === $this) {
-                $tree->setOwner(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->trees->removeElement($tree) && $tree->getUser() === $this) {
+            $tree->setUser(null);
         }
 
         return $this;

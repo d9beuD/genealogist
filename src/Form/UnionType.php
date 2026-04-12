@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Union;
@@ -39,60 +41,60 @@ class UnionType extends AbstractType
                 'required' => false,
                 'label' => 'form.field.uncertain_day',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('monthUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_month',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('yearUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_year',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('endDayUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_day',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('endMonthUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_month',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('endYearUnsure', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.field.uncertain_year',
                 'label_attr' => [
-                    'class' => 'checkbox-inline checkbox-switch'
+                    'class' => 'checkbox-inline checkbox-switch',
                 ],
                 'row_attr' => [
-                    'class' => 'd-inline'
+                    'class' => 'd-inline',
                 ],
             ])
             ->add('description', TextareaType::class, [

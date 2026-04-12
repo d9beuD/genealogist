@@ -19,12 +19,15 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private EmailVerifier $emailVerifier,
-        private TranslatorInterface $translator,
-    ) {}
+        private readonly EmailVerifier $emailVerifier,
+        private readonly TranslatorInterface $translator,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -33,14 +36,14 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
+                $this->userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(
@@ -55,7 +58,7 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('profile.registration.success')
             );
 
@@ -75,10 +78,10 @@ class RegistrationController extends AbstractController
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
+        } catch (VerifyEmailExceptionInterface $verifyEmailException) {
             $this->addFlash(
-                'verify_email_error', 
-                $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle')
+                'verify_email_error',
+                $this->translator->trans($verifyEmailException->getReason(), [], 'VerifyEmailBundle')
             );
 
             return $this->redirectToRoute('app_register');
@@ -86,7 +89,7 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash(
-            'success', 
+            'success',
             $this->translator->trans('profile.email.verified')
         );
 

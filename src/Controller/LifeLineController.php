@@ -10,20 +10,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LifeLineController extends AbstractController
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     #[Route('/person/{id}/life-line', name: 'app_person_life_line')]
-    public function index(Person $person, TranslatorInterface $translator): Response
+    public function index(Person $person): Response
     {
         $events = [];
 
         // Get birth event
-        if ($person->getBirth()) {
-            $hasBirthDate = !!$person->getBirth();
+        if ($person->getBirth() instanceof \DateTimeInterface) {
+            $hasBirthDate = (bool) $person->getBirth();
 
             $events[] = [
                 'date' => $person->getBirth(),
                 'type' => 'birth',
-                'label' => $translator->trans('life_line.birth.label'),
-                'message' => $translator->trans('life_line.birth.message', [
+                'label' => $this->translator->trans('life_line.birth.label'),
+                'message' => $this->translator->trans('life_line.birth.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'year' => $hasBirthDate ? $person->getBirth()->format('Y') : 'empty',
@@ -35,13 +39,13 @@ class LifeLineController extends AbstractController
         // Get union events
         foreach ($person->getUnions() as $union) {
             $hasPartner = $union->getPeople()->count() > 1;
-            $hasUnionDate = !!$union->getStartsAt();
+            $hasUnionDate = (bool) $union->getStartsAt();
 
             $events[] = [
                 'date' => $union->getStartsAt(),
                 'type' => 'union',
-                'label' => $translator->trans('life_line.union.label'),
-                'message' => $translator->trans('life_line.union.message', [
+                'label' => $this->translator->trans('life_line.union.label'),
+                'message' => $this->translator->trans('life_line.union.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'partner' => $hasPartner ? $union->getPartner($person)->getFullName() : '?',
@@ -53,12 +57,12 @@ class LifeLineController extends AbstractController
 
             // Get child events
             foreach ($union->getChildren() as $child) {
-                $hasBirthDate = !!$child->getBirth();
+                $hasBirthDate = (bool) $child->getBirth();
                 $events[] = [
                     'date' => $child->getBirth(),
                     'type' => 'child',
-                    'label' => $translator->trans('life_line.child.label'),
-                    'message' => $translator->trans('life_line.child.message', [
+                    'label' => $this->translator->trans('life_line.child.label'),
+                    'message' => $this->translator->trans('life_line.child.message', [
                         'name' => $person->getFullName(),
                         'child' => $child->getFullName(),
                         'child_path' => $this->generateUrl('app_person_life_line', ['id' => $child->getId()]),
@@ -69,12 +73,12 @@ class LifeLineController extends AbstractController
         }
 
         // Get death event
-        if ($person->getDeath()) {
+        if ($person->getDeath() instanceof \DateTimeInterface) {
             $events[] = [
                 'date' => $person->getDeath(),
                 'type' => 'death',
-                'label' => $translator->trans('life_line.death.label'),
-                'message' => $translator->trans('life_line.death.message', [
+                'label' => $this->translator->trans('life_line.death.label'),
+                'message' => $this->translator->trans('life_line.death.message', [
                     'name' => $person->getFullName(),
                     'gender' => $person->getGender(),
                     'year' => $person->getDeath()->format('Y'),
@@ -83,14 +87,10 @@ class LifeLineController extends AbstractController
             ];
         }
 
-        $allEventsHaveDate = array_reduce($events, function ($carry, $event) {
-            return $carry && !!$event['date'];
-        }, true);
+        $allEventsHaveDate = array_reduce($events, fn ($carry, $event): bool => $carry && (bool) $event['date'], true);
 
         if ($allEventsHaveDate) {
-            usort($events, function ($a, $b) {
-                return $a['date'] <=> $b['date'];
-            });
+            usort($events, fn (array $a, array $b): int => $a['date'] <=> $b['date']);
         }
 
         return $this->render('life_line/index.html.twig', [

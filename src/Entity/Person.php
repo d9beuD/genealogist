@@ -11,12 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
-class Person
+class Person implements \Stringable
 {
     use FormatEmptyStringTrait;
 
     public const FEMALE = 0;
+
     public const MALE = 1;
+
     public const OTHER = 2;
 
     #[ORM\Id]
@@ -24,10 +26,10 @@ class Person
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30, options: ['default' => ''], nullable: true)]
+    #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 30, options:['default' => ''], nullable: true)]
+    #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -37,22 +39,22 @@ class Person
     private ?\DateTimeInterface $death = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthDayUnsure = null;
+    private ?bool $birthDayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthMonthUnsure = null;
+    private ?bool $birthMonthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $birthYearUnsure = null;
+    private ?bool $birthYearUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathDayUnsure = null;
+    private ?bool $deathDayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathMonthUnsure = null;
+    private ?bool $deathMonthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $deathYearUnsure = null;
+    private ?bool $deathYearUnsure = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $portrait = null;
@@ -66,7 +68,7 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'children')]
     private ?Union $parentUnion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'members', fetch: 'EAGER')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tree $tree = null;
 
@@ -75,7 +77,7 @@ class Person
     private ?int $gender = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $dead = null;
+    private ?bool $dead = false;
 
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $birthName = null;
@@ -89,23 +91,13 @@ class Person
     #[ORM\Column(length: 60, nullable: true)]
     private ?string $deathPlace = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Source::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Source::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $sources;
 
     public function __construct()
     {
         $this->unions = new ArrayCollection();
         $this->sources = new ArrayCollection();
-
-        $this->birthDayUnsure = false;
-        $this->birthMonthUnsure = false;
-        $this->birthYearUnsure = false;
-
-        $this->deathDayUnsure = false;
-        $this->deathMonthUnsure = false;
-        $this->deathYearUnsure = false;
-
-        $this->dead = false;
     }
 
     public function __toString(): string
@@ -149,7 +141,7 @@ class Person
 
     public function getFullName(): string
     {
-        return trim(mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname);
+        return trim(mb_strtoupper($this->getDefaultLastname()).' '.$this->firstname);
     }
 
     public function getBirth(): ?\DateTimeInterface
@@ -399,7 +391,7 @@ class Person
     {
         return array_reduce(
             $this->unions->toArray(),
-            fn ($carry, Union $union) => $carry || $union->hasChildren(),
+            fn ($carry, Union $union): bool => $carry || $union->hasChildren(),
             false
         );
     }
@@ -436,11 +428,9 @@ class Person
 
     public function removeSource(Source $source): static
     {
-        if ($this->sources->removeElement($source)) {
-            // set the owning side to null (unless already changed)
-            if ($source->getPerson() === $this) {
-                $source->setPerson(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->sources->removeElement($source) && $source->getPerson() === $this) {
+            $source->setPerson(null);
         }
 
         return $this;

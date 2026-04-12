@@ -18,14 +18,14 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/project')]
 class TreeController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-    ) {}
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager,
+    ) {
+    }
 
-    #[Route('/', name: 'app_tree_index', methods: ['GET'])]
+    #[Route('/project/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response
     {
         return $this->render('tree/index.html.twig', [
@@ -33,60 +33,59 @@ class TreeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
-    public function new(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
+    #[Route('/project/new', name: 'app_tree_new', methods: ['GET', 'POST'])]
+    public function new(#[CurrentUser()] User $user): Response
     {
         $total = $user->getTrees()->count();
         $tree = new Tree();
         $tree
-            ->setOwner($user)
+            ->setUser($user)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setName('Family tree' . ' #' . ($total + 1))
+            ->setName('Family tree #'.($total + 1))
         ;
 
-        $entityManager->persist($tree);
-        $entityManager->flush();
+        $this->entityManager->persist($tree);
+        $this->entityManager->flush();
 
         $this->addFlash(
-            'success', 
+            'success',
             $this->translator->trans('tree.new.success', ['name' => $tree->getName()])
         );
 
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'app_tree_show', methods: ['GET'])]
+    #[Route('/project/{id}', name: 'app_tree_show', methods: ['GET'])]
     public function show(Tree $tree, Request $request): Response
     {
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
+
         $members = $tree->getMembers();
 
         // Filtre de recherche
         if ($form->isSubmitted() && $form->isValid()) {
-            $name = mb_strtoupper($form->get('name')->getData());
-            $members = $members->filter(function (Person $member) use ($name) {
-                if ($name) {
-                    return str_contains(mb_strtoupper($member->getFullName()), $name);
+            $name = mb_strtoupper((string) $form->get('name')->getData());
+            $members = $members->filter(function (Person $person) use ($name): bool {
+                if ('' !== $name && '0' !== $name) {
+                    return str_contains(mb_strtoupper($person->getFullName()), $name);
                 }
+
                 return true;
             });
         }
 
         // Tri par ordre alphabétique
         $orderedMembers = $members->toArray();
-        usort($orderedMembers, function ($a, $b) {
-            return strcmp(trim($a->getFullName()), trim($b->getFullName()));
-        });
+        usort($orderedMembers, fn ($a, $b): int => strcmp(trim($a->getFullName()), trim($b->getFullName())));
 
         // Groupement par première lettre
-        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $member) {
-            $firstLetter = strtoupper(mb_substr(trim($member->getFullName()), 0, 1));
-            $groupedMembers[$firstLetter][] = $member;
+        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $person): array {
+            $firstLetter = strtoupper(mb_substr(trim($person->getFullName()), 0, 1));
+            $groupedMembers[$firstLetter][] = $person;
 
             return $groupedMembers;
         }, []);
-
 
         return $this->render('tree/show.html.twig', [
             'tree' => $tree,
@@ -96,20 +95,21 @@ class TreeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
+    #[Route('/project/{id}/edit', name: 'app_tree_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'tree')]
-    public function edit(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Tree $tree): Response
     {
         $form = $this->createForm(TreeType::class, $tree);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.edit.success', ['name' => $tree->getName()])
             );
+
             return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -119,21 +119,21 @@ class TreeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_tree_delete', methods: ['POST'])]
+    #[Route('/project/{id}', name: 'app_tree_delete', methods: ['POST'])]
     #[IsGranted('delete', 'tree')]
-    public function delete(Request $request, Tree $tree, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Tree $tree): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tree);
-            $entityManager->flush();
+            $this->entityManager->remove($tree);
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.delete.success', ['name' => $tree->getName()])
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('tree.delete.error', ['name' => $tree->getName()])
             );
         }
@@ -141,13 +141,11 @@ class TreeController extends AbstractController
         return $this->redirectToRoute('app_tree_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
+    #[Route('/project/{id}/members', name: 'app_tree_members_add', methods: ['GET', 'POST'])]
     #[IsGranted('add_member', 'tree')]
     public function addMember(
         Request $request,
-        EntityManagerInterface $entityManager,
-        ImageManager $imageManager,
-        Tree $tree
+        Tree $tree,
     ): Response {
         $person = new Person();
         $form = $this->createForm(PersonType::class, $person);
@@ -162,16 +160,16 @@ class TreeController extends AbstractController
             }
 
             if ($form->get('portrait')->getData()) {
-                $path = $imageManager->save($form->get('portrait')->getData(), $request);
+                $path = $this->imageManager->save($form->get('portrait')->getData(), $request);
                 $person->setPortrait($path);
             }
 
             $tree->addMember($person);
-            $entityManager->persist($person);
-            $entityManager->flush();
+            $this->entityManager->persist($person);
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('tree.add_member.success', ['name' => $person->getFullName()])
             );
 

@@ -12,13 +12,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UnionVoter extends Voter
 {
     public const EDIT = 'edit';
+
     public const VIEW = 'view';
+
     public const DELETE = 'delete';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof \App\Entity\Union;
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE], true)
+            && $subject instanceof Union;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
@@ -32,23 +34,17 @@ class UnionVoter extends Voter
         /** @var Union */
         $union = $subject;
 
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($union, $user);
-
-            case self::VIEW:
-                return $this->canView($union, $user);
-
-            case self::DELETE:
-                return $this->canDelete($union, $user);
-        }
-
-        return false;
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($union, $user),
+            self::VIEW => $this->canView($union, $user),
+            self::DELETE => $this->canDelete($union, $user),
+            default => false,
+        };
     }
 
     private function isOwner(Union $union, User $user): bool
     {
-        return $user === $union->getPeople()[0]->getTree()->getOwner();
+        return $user === $union->getPeople()[0]->getTree()->getUser();
     }
 
     private function canEdit(Union $union, User $user): bool

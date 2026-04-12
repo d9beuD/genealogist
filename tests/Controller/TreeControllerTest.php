@@ -10,27 +10,30 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TreeControllerTest extends WebTestCase
 {
-    private KernelBrowser $client;
-    private EntityManagerInterface $manager;
-    private EntityRepository $repository;
+    private KernelBrowser $kernelBrowser;
+
+    private EntityManagerInterface $entityManager;
+
+    private EntityRepository $entityRepository;
+
     private string $path = '/tree/';
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
-        $this->manager = static::getContainer()->get('doctrine')->getManager();
-        $this->repository = $this->manager->getRepository(Tree::class);
+        $this->kernelBrowser = static::createClient();
+        $this->entityManager = static::getContainer()->get('doctrine')->getManager();
+        $this->entityRepository = $this->entityManager->getRepository(Tree::class);
 
-        foreach ($this->repository->findAll() as $object) {
-            $this->manager->remove($object);
+        foreach ($this->entityRepository->findAll() as $tree) {
+            $this->entityManager->remove($tree);
         }
 
-        $this->manager->flush();
+        $this->entityManager->flush();
     }
 
     public function testIndex(): void
     {
-        $crawler = $this->client->request('GET', $this->path);
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tree index');
@@ -42,11 +45,11 @@ class TreeControllerTest extends WebTestCase
     public function testNew(): void
     {
         $this->markTestIncomplete();
-        $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->kernelBrowser->submitForm('Save', [
             'tree[createdAt]' => 'Testing',
             'tree[owner]' => 'Testing',
         ]);
@@ -59,14 +62,14 @@ class TreeControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Tree();
-        $fixture->setCreatedAt('My Title');
-        $fixture->setOwner('My Title');
+        $tree = new Tree();
+        $tree->setCreatedAt('My Title');
+        $tree->setUser('My Title');
 
-        $this->manager->persist($fixture);
-        $this->manager->flush();
+        $this->entityManager->persist($tree);
+        $this->entityManager->flush();
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tree');
@@ -79,21 +82,21 @@ class TreeControllerTest extends WebTestCase
         $this->markTestIncomplete();
         $fixture = new Tree();
         $fixture->setCreatedAt('Value');
-        $fixture->setOwner('Value');
+        $fixture->setUser('Value');
 
-        $this->manager->persist($fixture);
-        $this->manager->flush();
+        $this->entityManager->persist($fixture);
+        $this->entityManager->flush();
 
-        $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
+        $this->kernelBrowser->submitForm('Update', [
             'tree[createdAt]' => 'Something New',
             'tree[owner]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/tree/');
 
-        $fixture = $this->repository->findAll();
+        $fixture = $this->entityRepository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getCreatedAt());
         self::assertSame('Something New', $fixture[0]->getOwner());
@@ -102,17 +105,17 @@ class TreeControllerTest extends WebTestCase
     public function testRemove(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Tree();
-        $fixture->setCreatedAt('Value');
-        $fixture->setOwner('Value');
+        $tree = new Tree();
+        $tree->setCreatedAt('Value');
+        $tree->setUser('Value');
 
-        $this->manager->remove($fixture);
-        $this->manager->flush();
+        $this->entityManager->remove($tree);
+        $this->entityManager->flush();
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        $this->client->submitForm('Delete');
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
+        $this->kernelBrowser->submitForm('Delete');
 
         self::assertResponseRedirects('/tree/');
-        self::assertSame(0, $this->repository->count([]));
+        self::assertSame(0, $this->entityRepository->count([]));
     }
 }

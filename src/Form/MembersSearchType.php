@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +20,7 @@ class MembersSearchType extends AbstractType
                     'placeholder' => 'form.placeholder.search_by_name',
                 ],
             ])
-            ->setMethod('GET')
+            ->setMethod(\Symfony\Component\HttpFoundation\Request::METHOD_GET)
         ;
     }
 

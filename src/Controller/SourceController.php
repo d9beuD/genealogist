@@ -14,16 +14,16 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/person/{personId}/source')]
 class SourceController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-    ) {}
-    
-    #[Route('/', name: 'app_source_index', methods: ['GET', 'POST'])]
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
+
+    #[Route('/person/{personId}/source/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
-    public function index(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function index(Request $request, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $source = new Source();
         $createForm = $this->createForm(SourceType::class, $source);
@@ -31,13 +31,14 @@ class SourceController extends AbstractController
 
         if ($createForm->isSubmitted() && $createForm->isValid()) {
             $source->setPerson($person);
-            $entityManager->persist($source);
-            $entityManager->flush();
+            $this->entityManager->persist($source);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('source.new.success')
             );
+
             return $this->redirectToRoute('app_source_index', ['personId' => $person->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -50,13 +51,13 @@ class SourceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_source_edit', methods: ['GET', 'POST'])]
+    #[Route('/person/{personId}/source/{id}/edit', name: 'app_source_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
     public function edit(
         Request $request,
         Source $source,
-        EntityManagerInterface $entityManager,
-        #[MapEntity(id: 'personId')] Person $person,
+        #[MapEntity(id: 'personId')]
+        Person $person,
     ): Response {
         $this->assertSourceBelongsToPerson($source, $person);
 
@@ -65,7 +66,7 @@ class SourceController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -84,16 +85,16 @@ class SourceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_source_delete', methods: ['POST'])]
+    #[Route('/person/{personId}/source/{id}', name: 'app_source_delete', methods: ['POST'])]
     #[IsGranted('edit', 'person')]
-    public function delete(Request $request, Source $source, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function delete(Request $request, Source $source, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $this->assertSourceBelongsToPerson($source, $person);
 
         if ($this->isCsrfTokenValid('delete'.$source->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($source);
-            $entityManager->flush();
-            
+            $this->entityManager->remove($source);
+            $this->entityManager->flush();
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('source.delete.success')

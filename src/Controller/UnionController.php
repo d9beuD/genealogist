@@ -7,7 +7,6 @@ use App\Entity\Union;
 use App\Form\PersonSelectType;
 use App\Form\UnionType;
 use App\Repository\PersonRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,12 +19,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UnionController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-    ) {}
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly PersonRepository $personRepository,
+    ) {
+    }
 
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
-    public function new(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function new(Request $request, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $union = new Union();
         $form = $this->createForm(UnionType::class, $union);
@@ -33,11 +33,11 @@ class UnionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $person->addUnion($union);
-            $entityManager->persist($union);
-            $entityManager->flush();
+            $this->entityManager->persist($union);
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.new.success')
             );
 
@@ -66,20 +66,19 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/edit', name: 'app_union_edit', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'union')]
     public function edit(
-        Request $request, 
-        Union $union, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] Person $person,
-        PersonRepository $personRepository,
+        Request $request,
+        Union $union,
+        #[MapEntity(id: 'personId')]
+        Person $person,
     ): Response {
         $form = $this->createForm(UnionType::class, $union);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.edit.success')
             );
 
@@ -95,7 +94,7 @@ class UnionController extends AbstractController
             ...$union->getChildren()->toArray(),
         ];
 
-        if ($person->getParentUnion()) {
+        if ($person->getParentUnion() instanceof Union) {
             $membersToExclude = [
                 ...$membersToExclude,
                 ...$person->getParentUnion()->getPeople()->toArray(),
@@ -103,9 +102,10 @@ class UnionController extends AbstractController
             ];
         }
 
-        $unionPartners = $union->getPeople();
-        $birthDates = array_map(fn(Person $person) => $person->getBirth(), $unionPartners->toArray());
-        $birthDates = array_filter($birthDates, fn($date) => $date !== null);
+        $people = $union->getPeople();
+        $birthDates = array_map(fn (Person $person): ?\DateTimeInterface => $person->getBirth(), $people->toArray());
+        $birthDates = array_filter($birthDates, fn (?\DateTimeInterface $date): bool => $date instanceof \DateTimeInterface);
+
         $mostRecentBirthDate = count($birthDates) < 1 ? null : max($birthDates);
 
         return $this->render('union/edit.html.twig', [
@@ -117,7 +117,7 @@ class UnionController extends AbstractController
                 'union_members' => $membersToExclude,
             ]),
             'child_form' => $this->createForm(PersonSelectType::class, null, [
-                'available_members' => $personRepository->getOrphanMembers($person->getTree(), $mostRecentBirthDate),
+                'available_members' => $this->personRepository->getOrphanMembers($person->getTree(), $mostRecentBirthDate),
                 'union_members' => $membersToExclude,
             ]),
         ]);
@@ -125,27 +125,28 @@ class UnionController extends AbstractController
 
     #[Route('/person/{personId}/union/{id}', name: 'app_union_delete', methods: ['POST'])]
     #[IsGranted('delete', 'union')]
-    public function delete(Request $request, Union $union, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person): Response
+    public function delete(Request $request, Union $union, #[MapEntity(id: 'personId')] Person $person): Response
     {
         if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
             // First, remove the union from all people
             foreach ($union->getPeople() as $person) {
                 $person->removeUnion($union);
             }
+
             foreach ($union->getChildren() as $child) {
                 $union->removeChild($child);
             }
 
-            $entityManager->remove($union);
-            $entityManager->flush();
+            $this->entityManager->remove($union);
+            $this->entityManager->flush();
 
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.delete.success')
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.delete.error')
             );
         }
@@ -155,22 +156,22 @@ class UnionController extends AbstractController
 
     #[Route('/person/{personId}/union/{id}/add-partner', name: 'app_union_add_partner', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
-    public function addPartner(Request $request, EntityManagerInterface $entityManager, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
+    public function addPartner(Request $request, #[MapEntity(id: 'personId')] Person $person, Union $union): Response
     {
         $form = $this->createForm(PersonSelectType::class, null, [
             'available_members' => $person->getTree()->getMembers()->toArray(),
             'union_members' => [
                 ...$union->getPeople()->toArray(),
-                ...$union->getChildren()->toArray()
+                ...$union->getChildren()->toArray(),
             ],
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addPerson($form->get('person')->getData());
-            $entityManager->flush();
+            $this->entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.partner.add.success', ['name' => $person->getFullName()])
             );
         }
@@ -185,29 +186,29 @@ class UnionController extends AbstractController
     #[IsGranted('edit', 'union')]
     public function removePartner(
         Request $request,
-        EntityManagerInterface $entityManager,
         #[MapEntity(id: 'personId')]
         Person $person,
         Union $union,
         #[MapEntity(id: 'partnerId')]
-        Person $partner
+        Person $partner,
     ): Response {
         if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.partner.remove.success', ['name' => $partner->getFullName()])
             );
 
-            if ($union->getPeople()->count() === 0) {
+            if (0 === $union->getPeople()->count()) {
                 foreach ($union->getChildren() as $child) {
                     $union->removeChild($child);
                 }
-                $entityManager->remove($union);
-                $entityManager->flush();
+
+                $this->entityManager->remove($union);
+                $this->entityManager->flush();
 
                 $this->addFlash(
-                    'info', 
+                    'info',
                     $this->translator->trans('union.delete.info')
                 );
 
@@ -217,10 +218,10 @@ class UnionController extends AbstractController
                 ], Response::HTTP_SEE_OTHER);
             }
 
-            $entityManager->flush();
+            $this->entityManager->flush();
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.partner.remove.error', ['name' => $partner->getFullName()])
             );
         }
@@ -234,26 +235,25 @@ class UnionController extends AbstractController
     #[Route('/person/{personId}/union/{id}/add-child', name: 'app_union_add_child', methods: ['POST'])]
     #[IsGranted('edit', 'union')]
     public function addChild(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        #[MapEntity(id: 'personId')] Person $person, 
+        Request $request,
+        #[MapEntity(id: 'personId')]
+        Person $person,
         Union $union,
-        PersonRepository $personRepository,
     ): Response {
         $form = $this->createForm(PersonSelectType::class, null, [
-            'available_members' => $personRepository->getOrphanMembers($person->getTree()),
+            'available_members' => $this->personRepository->getOrphanMembers($person->getTree()),
             'union_members' => [
                 ...$union->getPeople()->toArray(),
-                ...$union->getChildren()->toArray()
+                ...$union->getChildren()->toArray(),
             ],
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $union->addChild($form->get('person')->getData());
-            $entityManager->flush();
+            $this->entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.child.add.success', ['name' => $form->get('person')->getData()->getFullName()])
             );
         }
@@ -268,23 +268,22 @@ class UnionController extends AbstractController
     #[IsGranted('edit', 'union')]
     public function removeChild(
         Request $request,
-        EntityManagerInterface $entityManager,
         #[MapEntity(id: 'personId')]
         Person $person,
         Union $union,
         #[MapEntity(id: 'childId')]
-        Person $child
+        Person $child,
     ): Response {
         if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);
-            $entityManager->flush();
+            $this->entityManager->flush();
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('union.child.remove.success', ['name' => $child->getFullName()])
             );
         } else {
             $this->addFlash(
-                'danger', 
+                'danger',
                 $this->translator->trans('union.child.remove.error', ['name' => $child->getFullName()])
             );
         }

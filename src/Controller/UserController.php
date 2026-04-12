@@ -14,28 +14,29 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/profile')]
 class UserController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-    ) {}
+        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $userPasswordHasher,
+    ) {
+    }
 
-    #[Route('/', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, #[CurrentUser()] User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    #[Route('/profile/', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, #[CurrentUser()] User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($plainPassword = $form->get('password')->getData()) {
-                $user->setPassword($passwordHasher->hashPassword($user, $plainPassword));
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
             }
+
             $this->addFlash(
-                'success', 
+                'success',
                 $this->translator->trans('profile.edit.success')
             );
-            $entityManager->flush();
+            $this->entityManager->flush();
         }
 
         return $this->render('user/edit.html.twig', [
@@ -44,13 +45,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('/profile/{id}', name: 'app_user_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);

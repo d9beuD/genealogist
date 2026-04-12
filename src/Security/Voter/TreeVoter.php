@@ -12,14 +12,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TreeVoter extends Voter
 {
     public const EDIT = 'edit';
+
     public const VIEW = 'view';
+
     public const DELETE = 'delete';
+
     public const ADD_MEMBER = 'add_member';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::ADD_MEMBER])
-            && $subject instanceof \App\Entity\Tree;
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::ADD_MEMBER], true)
+            && $subject instanceof Tree;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
@@ -33,26 +36,18 @@ class TreeVoter extends Voter
         /** @var Tree */
         $tree = $subject;
 
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($tree, $user);
-
-            case self::VIEW:
-                return $this->canView($tree, $user);
-
-            case self::DELETE:
-                return $this->canDelete($tree, $user);
-
-            case self::ADD_MEMBER:
-                return $this->canAddMember($tree, $user);
-        }
-
-        return false;
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($tree, $user),
+            self::VIEW => $this->canView($tree, $user),
+            self::DELETE => $this->canDelete($tree, $user),
+            self::ADD_MEMBER => $this->canAddMember($tree, $user),
+            default => false,
+        };
     }
 
     private function isOwner(Tree $tree, User $user): bool
     {
-        return $user === $tree->getOwner();
+        return $user === $tree->getUser();
     }
 
     private function canEdit(Tree $tree, User $user): bool

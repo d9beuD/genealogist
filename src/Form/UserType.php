@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -15,7 +17,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'form.field.email'
+                'label' => 'form.field.email',
             ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
@@ -23,10 +25,10 @@ class UserType extends AbstractType
                 'label' => 'form.field.password',
             ])
             ->add('firstname', null, [
-                'label' => 'form.field.firstname'
+                'label' => 'form.field.firstname',
             ])
             ->add('lastname', null, [
-                'label' => 'form.field.lastname'
+                'label' => 'form.field.lastname',
             ])
         ;
     }

@@ -13,28 +13,28 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class EmailVerifier
 {
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
-        private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly MailerInterface $mailer,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
+    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $templatedEmail): void
     {
-        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+        $verifyEmailSignatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             $user->getId(),
             $user->getEmail()
         );
 
-        $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
-        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
+        $context = $templatedEmail->getContext();
+        $context['signedUrl'] = $verifyEmailSignatureComponents->getSignedUrl();
+        $context['expiresAtMessageKey'] = $verifyEmailSignatureComponents->getExpirationMessageKey();
+        $context['expiresAtMessageData'] = $verifyEmailSignatureComponents->getExpirationMessageData();
 
-        $email->context($context);
+        $templatedEmail->context($context);
 
-        $this->mailer->send($email);
+        $this->mailer->send($templatedEmail);
     }
 
     /**

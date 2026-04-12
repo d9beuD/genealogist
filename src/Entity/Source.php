@@ -12,12 +12,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Source
 {
     use FormatEmptyStringTrait;
-    
+
     public const CERT_BIRTH = 1;
+
     public const CERT_BAPTISM = 2;
+
     public const CERT_MARRIAGE = 3;
+
     public const CERT_DEATH = 4;
+
     public const CERT_MILITARY = 5;
+
     public const CERT_OTHER = 6;
 
     #[ORM\Id]
@@ -32,7 +37,7 @@ class Source
         self::CERT_MARRIAGE,
         self::CERT_DEATH,
         self::CERT_MILITARY,
-        self::CERT_OTHER
+        self::CERT_OTHER,
     ])]
     private ?int $type = null;
 
@@ -59,6 +64,9 @@ class Source
         return $this->type;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getTypes(): array
     {
         return [

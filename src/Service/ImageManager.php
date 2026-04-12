@@ -12,25 +12,25 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ImageManager
 {
     public function __construct(
-        private SluggerInterface $slugger,
-        private ParameterBagInterface $params,
-        private LoggerInterface $logger,
+        private readonly SluggerInterface $slugger,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     public function save(UploadedFile $uploadedFile, ?Request $request = null): ?string
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessClientExtension();
+        $unicodeString = $this->slugger->slug($originalFilename);
+        $newFilename = $unicodeString.'-'.uniqid().'.'.$uploadedFile->guessClientExtension();
 
         try {
             $uploadedFile->move(
-                $this->params->get('portraits_directory'),
+                $this->parameterBag->get('portraits_directory'),
                 $newFilename
             );
-        } catch (FileException $e) {
-            $this->logger->error($e->getMessage());
+        } catch (FileException $fileException) {
+            $this->logger->error($fileException->getMessage());
         }
 
         return $newFilename;
@@ -39,12 +39,13 @@ class ImageManager
     public function update(string $oldFilename, UploadedFile $uploadedFile): ?string
     {
         $this->remove($oldFilename);
+
         return $this->save($uploadedFile);
     }
 
-    public function remove(string $filename)
+    public function remove(string $filename): void
     {
-        $filePath = $this->params->get('portraits_directory') . '/' . $filename;
+        $filePath = $this->parameterBag->get('portraits_directory').'/'.$filename;
 
         if (file_exists($filePath)) {
             try {
@@ -53,8 +54,8 @@ class ImageManager
                 $this->logger->error($e->getMessage());
                 // $this->flashBag->add('danger', 'An error occurred while removing the image.');
             }
-        } else {
-            // $this->flashBag->add('warning', 'The image does not exist.');
         }
+
+        // $this->flashBag->add('warning', 'The image does not exist.');
     }
 }

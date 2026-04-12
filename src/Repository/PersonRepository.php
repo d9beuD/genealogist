@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use App\Entity\Tree;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,11 +22,11 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
-    public function getOrphanMembers(Tree $tree, ?DateTime $bornAfter = null): array
+    public function getOrphanMembers(Tree $tree, ?\DateTime $bornAfter = null): array
     {
         // Select members that are not part of any union
         // and that are born after parents birth date
-        $qb = $this->createQueryBuilder('p')
+        $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.tree', 't')
             ->leftJoin('p.parentUnion', 'u')
             ->andWhere('t.id = :treeId')
@@ -35,16 +34,16 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('treeId', $tree->getId())
         ;
 
-        if ($bornAfter) {
+        if ($bornAfter instanceof \DateTime) {
             // If a birth date is provided, select members that are born after it
             // or that have no birth date
-            $qb
+            $queryBuilder
                 ->andWhere('p.birth IS NULL OR p.birth > :bornAfter')
                 ->setParameter('bornAfter', $bornAfter)
             ;
         }
 
-        return $qb
+        return $queryBuilder
             ->getQuery()
             ->getResult()
         ;

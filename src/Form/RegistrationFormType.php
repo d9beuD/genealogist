@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -49,9 +51,9 @@ class RegistrationFormType extends AbstractType
                     new NotBlank(message: 'Please enter a password.'),
                     new Length(
                         min: 6,
-                        minMessage: 'Your password should be at least {{ limit }} characters.',
                         // max length allowed by Symfony for security reasons
                         max: 4096,
+                        minMessage: 'Your password should be at least {{ limit }} characters.',
                     ),
                 ],
                 'label' => 'form.field.password',

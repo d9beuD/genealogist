@@ -17,9 +17,9 @@ class Tree
 
     #[ORM\ManyToOne(inversedBy: 'trees')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
+    private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'tree', targetEntity: Person::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'tree', orphanRemoval: true)]
     #[ORM\OrderBy(['lastname' => 'ASC', 'firstname' => 'ASC'])]
     private Collection $members;
 
@@ -39,14 +39,14 @@ class Tree
         return $this->id;
     }
 
-    public function getOwner(): ?User
+    public function getUser(): ?User
     {
-        return $this->owner;
+        return $this->user;
     }
 
-    public function setOwner(?User $owner): static
+    public function setUser(?User $user): static
     {
-        $this->owner = $owner;
+        $this->user = $user;
 
         return $this;
     }
@@ -59,23 +59,21 @@ class Tree
         return $this->members;
     }
 
-    public function addMember(Person $member): static
+    public function addMember(Person $person): static
     {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->setTree($this);
+        if (!$this->members->contains($person)) {
+            $this->members->add($person);
+            $person->setTree($this);
         }
 
         return $this;
     }
 
-    public function removeMember(Person $member): static
+    public function removeMember(Person $person): static
     {
-        if ($this->members->removeElement($member)) {
-            // set the owning side to null (unless already changed)
-            if ($member->getTree() === $this) {
-                $member->setTree(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->members->removeElement($person) && $person->getTree() === $this) {
+            $person->setTree(null);
         }
 
         return $this;
