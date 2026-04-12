@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.2...genealogist-v2.4.3) (2026-04-12)
+
+
+### Bug Fixes
+
+* **build:** Align deploy with PHP 8.4 ([ed5d92d](https://github.com/d9beuD/genealogist/commit/ed5d92df6cbb077ad3f8942969f6dc9d3907314b))
+
 ## [2.4.2](https://github.com/d9beuD/genealogist/compare/genealogist-v2.4.1...genealogist-v2.4.2) (2026-04-12)
 
 
