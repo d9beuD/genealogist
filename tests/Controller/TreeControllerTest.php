@@ -30,7 +30,7 @@ class TreeControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $crawler = $this->client->request('GET', $this->path);
+        $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tree index');
