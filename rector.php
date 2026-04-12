@@ -18,6 +18,7 @@ return RectorConfig::configure()
         doctrineCodeQuality: true,
         earlyReturn: true,
         instanceOf: true,
+        naming: true,
         privatization: true,
         strictBooleans: true,
         symfonyCodeQuality: true,
