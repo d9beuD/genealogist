@@ -60,6 +60,7 @@ class TreeController extends AbstractController
     {
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
+
         $members = $tree->getMembers();
 
         // Filtre de recherche
