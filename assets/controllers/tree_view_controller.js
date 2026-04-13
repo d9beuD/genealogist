@@ -66,6 +66,8 @@ export default class extends Controller {
         this.svgTarget.setAttribute('xmlns', SVG_NS);
         this.svgTarget.setAttribute('viewBox', `0 0 ${this.layout.width} ${this.layout.height}`);
         this.svgTarget.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        this.svgTarget.setAttribute('font-family', this.theme.fontFamily);
+        this.svgTarget.setAttribute('font-size', '16');
         const defs = this.createElement('defs');
         this.svgTarget.append(defs);
 
@@ -499,6 +501,7 @@ export default class extends Controller {
             borderColor: this.cssVar(styles, '--bs-border-color', '#ced4da'),
             secondaryColor: this.cssVar(styles, '--bs-secondary-color', '#6c757d'),
             emphasisColor: this.cssVar(styles, '--bs-emphasis-color', '#212529'),
+            fontFamily: this.cssVar(styles, '--bs-body-font-family', getComputedStyle(document.body).fontFamily || 'sans-serif'),
         };
     }
 
