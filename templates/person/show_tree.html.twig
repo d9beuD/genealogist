@@ -23,23 +23,6 @@
             <hr>
 
             <div class="d-grid gap-2 tree-toolbar">
-                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomOut">
-                    <i class="fa-solid fa-magnifying-glass-minus"></i>
-                    Zoom out
-                </button>
-                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomReset">
-                    <i class="fa-solid fa-expand"></i>
-                    Reset zoom
-                </button>
-                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomIn">
-                    <i class="fa-solid fa-magnifying-glass-plus"></i>
-                    Zoom in
-                </button>
-            </div>
-
-            <hr>
-
-            <div class="d-grid gap-2 tree-toolbar">
                 <button type="button" class="btn btn-primary" data-action="tree-view#exportSvg">
                     <i class="fa-solid fa-file-code"></i>
                     Export SVG
@@ -56,6 +39,35 @@
         </div>
     </div>
     <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
+        <div class="tree-svg-controls" role="toolbar" aria-label="Tree zoom controls">
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomOut"
+                title="Zoom out"
+                aria-label="Zoom out"
+            >
+                <i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomReset"
+                title="Reset zoom"
+                aria-label="Reset zoom"
+            >
+                <i class="fa-solid fa-expand" aria-hidden="true"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomIn"
+                title="Zoom in"
+                aria-label="Zoom in"
+            >
+                <i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
+            </button>
+        </div>
         <div
             class="tree-svg-app text-center"
             style="width: inherit; height: inherit; max-height: inherit;"
