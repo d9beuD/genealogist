@@ -39,6 +39,17 @@
         </div>
     </div>
     <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
+        <div class="toast-container position-absolute top-0 end-0 p-3">
+            <div
+                class="toast"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                data-tree-view-target="toast"
+            >
+                <div class="toast-body" data-tree-view-target="toastBody"></div>
+            </div>
+        </div>
         <div class="tree-svg-controls" role="toolbar" aria-label="Tree zoom controls">
             <button
                 type="button"
@@ -73,7 +84,6 @@
             style="width: inherit; height: inherit; max-height: inherit;"
         >
             <script type="application/json" data-tree-view-target="data">{{ tree_data_json|replace({'</': '<\/'})|raw }}</script>
-            <div class="tree-svg-status small text-secondary mt-3 mb-0" data-tree-view-target="status"></div>
             <div class="m-3 d-inline-block tree-svg-viewport" data-tree-view-target="viewport">
                 <svg class="tree-svg-canvas" data-tree-view-target="svg" role="img" aria-label="{{ 'title.tree_of'|trans({ name: person.fullName }) }}"></svg>
             </div>

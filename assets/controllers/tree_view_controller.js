@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { Toast } from 'bootstrap';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const CARD_WIDTH = 280;
@@ -19,7 +20,7 @@ const MAX_ZOOM = 2.5;
 const ZOOM_STEP = 0.2;
 
 export default class extends Controller {
-    static targets = ['data', 'svg', 'status', 'viewport'];
+    static targets = ['data', 'svg', 'toast', 'toastBody', 'viewport'];
 
     static values = {
         title: String,
@@ -29,6 +30,7 @@ export default class extends Controller {
         this.zoom = 1;
         this.tree = JSON.parse(this.dataTarget.textContent);
         this.theme = this.readTheme();
+        this.toast = this.hasToastTarget ? new Toast(this.toastTarget) : null;
         this.render();
     }
 
@@ -45,7 +47,7 @@ export default class extends Controller {
     }
 
     async exportSvg() {
-        this.setStatus('Preparing SVG export...');
+        this.showStatus('Preparing SVG export...', false);
 
         const { serialized } = await this.createExportPayload();
 
@@ -54,7 +56,7 @@ export default class extends Controller {
             `${this.filenameBase}.svg`,
         );
 
-        this.setStatus('SVG export ready.');
+        this.showStatus('SVG export ready.');
     }
 
     async exportPng() {
@@ -331,7 +333,7 @@ export default class extends Controller {
 
     async exportRaster(format) {
         const label = format.toUpperCase();
-        this.setStatus(`Preparing ${label} export...`);
+        this.showStatus(`Preparing ${label} export...`, false);
 
         const { serialized, width, height } = await this.createExportPayload();
         const svgUrl = URL.createObjectURL(new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' }));
@@ -360,7 +362,7 @@ export default class extends Controller {
             }
 
             this.downloadBlob(blob, `${this.filenameBase}.${format}`);
-            this.setStatus(`${label} export ready.`);
+            this.showStatus(`${label} export ready.`);
         } finally {
             URL.revokeObjectURL(svgUrl);
         }
@@ -513,10 +515,18 @@ export default class extends Controller {
         window.setTimeout(() => URL.revokeObjectURL(url), 0);
     }
 
-    setStatus(message) {
-        if (this.hasStatusTarget) {
-            this.statusTarget.textContent = message;
+    showStatus(message, autohide = true) {
+        if (!this.toast || !this.hasToastBodyTarget) {
+            return;
         }
+
+        this.toastTarget.setAttribute('data-bs-autohide', autohide ? 'true' : 'false');
+        this.toastTarget.setAttribute('data-bs-delay', autohide ? '2400' : '0');
+        this.toastBodyTarget.textContent = message;
+
+        this.toast.dispose();
+        this.toast = new Toast(this.toastTarget);
+        this.toast.show();
     }
 
     get filenameBase() {
