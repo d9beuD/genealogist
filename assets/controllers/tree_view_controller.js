@@ -66,9 +66,7 @@ export default class extends Controller {
         this.svgTarget.setAttribute('xmlns', SVG_NS);
         this.svgTarget.setAttribute('viewBox', `0 0 ${this.layout.width} ${this.layout.height}`);
         this.svgTarget.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
         const defs = this.createElement('defs');
-        defs.append(this.buildShadowFilter());
         this.svgTarget.append(defs);
 
         this.layout.unions.forEach((union) => {
@@ -241,7 +239,6 @@ export default class extends Controller {
             fill: this.theme.bodyBackground,
             stroke: this.theme.borderColor,
             'stroke-width': '1',
-            filter: 'url(#tree-node-shadow)',
         }));
 
         if (entry.node.portraitUrl) {
@@ -302,25 +299,6 @@ export default class extends Controller {
         group.append(nodeGroup);
 
         return group;
-    }
-
-    buildShadowFilter() {
-        const filter = this.createElement('filter', {
-            id: 'tree-node-shadow',
-            x: '-20%',
-            y: '-20%',
-            width: '140%',
-            height: '140%',
-        });
-
-        filter.append(this.createElement('feDropShadow', {
-            dx: '0',
-            dy: '2',
-            'stdDeviation': '2',
-            'flood-opacity': '0.18',
-        }));
-
-        return filter;
     }
 
     async exportRaster(format) {
