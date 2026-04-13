@@ -50,7 +50,7 @@ class LifeLineController extends AbstractController
                     'gender' => $person->getGender(),
                     'partner' => $hasPartner ? $union->getPartner($person)->getFullName() : '?',
                     'partner_path' => $hasPartner ? $this->generateUrl('app_person_life_line', ['id' => $union->getPartner($person)->getId()]) : '#',
-                    'place' => $union->getWeddingPlace() ?? 'empty',
+                    'place' => $union->getPlace() ?? 'empty',
                     'year' => $hasUnionDate ? $union->getStartsAt()->format('Y') : 'empty',
                 ]),
             ];

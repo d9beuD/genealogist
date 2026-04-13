@@ -19,10 +19,10 @@
             <div class="tree-link tree-link-center"></div>
         </div>
 
-        {% if person.parentUnion.weddingDate is not null %}
+        {% if person.parentUnion.startsAt is not null %}
             <div class="col d-flex flex-nowrap justify-content-center position-relative">
                 <div class="bg-body rounded-pill small border shadow-sm px-2 position-absolute top-0" style="margin-top: -1em; z-index: 1;">
-                    {{ person.parentUnion.weddingDate|date('d/m/Y') }}
+                    {{ person.parentUnion.startsAt|date('d/m/Y') }}
                 </div>
             </div>
         {% endif %}
