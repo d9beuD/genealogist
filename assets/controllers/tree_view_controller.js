@@ -163,39 +163,57 @@ export default class extends Controller {
 
         const parentBaseline = entry.parents[0].y + CARD_HEIGHT / 2 + CONNECTOR_STEM;
         const childTop = entry.child.y - CARD_HEIGHT / 2;
-        const horizontalStart = Math.min(...entry.parents.map((parent) => parent.x));
-        const horizontalEnd = Math.max(...entry.parents.map((parent) => parent.x));
+        const junctionY = parentBaseline + (childTop - parentBaseline) * 0.45;
 
-        entry.parents.forEach((parent) => {
-            group.append(this.createElement('line', {
-                x1: parent.x,
-                x2: parent.x,
-                y1: parent.y + CARD_HEIGHT / 2,
-                y2: parentBaseline,
+        if (entry.parents.length === 1) {
+            const parent = entry.parents[0];
+            group.append(this.createElement('path', {
+                d: this.buildCurvePath(parent.x, parent.y + CARD_HEIGHT / 2, entry.child.x, childTop, {
+                    startBias: 0.75,
+                    endBias: 0.35,
+                    maxBend: 34,
+                }),
             }));
-        });
+        } else {
+            entry.parents.forEach((parent) => {
+                group.append(this.createElement('path', {
+                    d: this.buildCurvePath(parent.x, parent.y + CARD_HEIGHT / 2, entry.child.x, junctionY, {
+                        startBias: 3,
+                        endBias: 3,
+                        maxBend: 10,
+                    }),
+                }));
+            });
 
-        if (entry.parents.length > 1) {
-            group.append(this.createElement('line', {
-                x1: horizontalStart,
-                x2: horizontalEnd,
-                y1: parentBaseline,
-                y2: parentBaseline,
+            group.append(this.createElement('path', {
+                d: this.buildCurvePath(entry.child.x, junctionY, entry.child.x, childTop, {
+                    startBias: 0.45,
+                    endBias: 0.55,
+                    maxBend: 24,
+                }),
             }));
         }
 
-        group.append(this.createElement('line', {
-            x1: entry.child.x,
-            x2: entry.child.x,
-            y1: parentBaseline,
-            y2: childTop,
-        }));
-
         if (entry.union.startsAtLabel) {
-            group.append(this.renderUnionLabel(entry.union.startsAtLabel, entry.child.x, parentBaseline, childTop));
+            group.append(this.renderUnionLabel(entry.union.startsAtLabel, entry.child.x, parentBaseline, junctionY));
         }
 
         return group;
+    }
+
+    buildCurvePath(fromX, fromY, toX, toY, options = {}) {
+        const verticalDistance = Math.abs(toY - fromY);
+        const maxBend = options.maxBend ?? 28;
+        const bend = Math.min(maxBend, verticalDistance * 0.5);
+        const startBias = options.startBias ?? 0.5;
+        const endBias = options.endBias ?? 0.5;
+
+        return [
+            `M ${fromX} ${fromY}`,
+            `C ${fromX} ${fromY + bend * startBias}`,
+            `${toX} ${toY - bend * endBias}`,
+            `${toX} ${toY}`,
+        ].join(' ');
     }
 
     renderUnionLabel(label, x, baselineY, childTop) {
