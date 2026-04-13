@@ -4,14 +4,14 @@
             <div class="col-auto">
                 {{ include('person/_avatar_thumbnail.html.twig', { person: member, size: 'sm' }) }}
             </div>
-            <div class="col-auto" title="{{ member.birth ? 'calendar'|trans({ date: member.birth }) : '' }}">
+            <div class="col-auto" title="{{ member.birth ? member.birth|date('d/m/Y') : '' }}">
                 <a href="{{ path('app_person_show', { id: member.id }) }}" class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-100-hover">
                     {{ member.fullName }}
                 </a>
             </div>
             
             {% if member.isDead %}
-                <div class="col-auto" title="{{ member.death ? 'calendar'|trans({ date: member.death }) : '' }}">
+                <div class="col-auto" title="{{ member.death ? member.death|date('d/m/Y') : '' }}">
                     <span class="text-secondary">
                         <i class="fa-solid fa-cross"></i>
                     </span>

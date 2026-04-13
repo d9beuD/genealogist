@@ -10,7 +10,7 @@ use App\Form\PersonType;
 use App\Form\TreeType;
 use App\Repository\PersonRepository;
 use App\Service\ImageManager;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Service\PersonManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +27,7 @@ class TreeController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager,
         private readonly PersonRepository $personRepository,
+        private readonly PersonManager $personManager,
     ) {
     }
 
@@ -66,43 +67,39 @@ class TreeController extends AbstractController
         $form = $this->createForm(MembersSearchType::class);
         $form->handleRequest($request);
 
-        $members = $this->personRepository->findByTreeWithFavorites($tree);
-        $members = new ArrayCollection($members);
+        $filters = $form->getData();
+        $name = trim((string) ($filters['name'] ?? ''));
+        $showWithoutOwnUnions = (bool) ($filters['withoutOwnUnions'] ?? false);
+        $showWithoutParentUnion = (bool) ($filters['withoutParentUnion'] ?? false);
+        $advancedFiltersActive = $showWithoutOwnUnions || $showWithoutParentUnion;
 
-        // Filtre de recherche
-        if ($form->isSubmitted() && $form->isValid()) {
-            $name = mb_strtoupper((string) $form->get('name')->getData());
-            $members = $members->filter(function (Person $person) use ($name): bool {
-                if ('' !== $name && '0' !== $name) {
-                    return str_contains(mb_strtoupper($person->getFullName()), $name);
-                }
+        $groupedMembers = $advancedFiltersActive
+            ? []
+            : $this->personManager->findGroupedByTree($tree, $name)
+        ;
 
-                return true;
-            });
-        }
+        $groupedMembersWithoutOwnUnions = $showWithoutOwnUnions
+            ? $this->personManager->findGroupedWithoutOwnUnions($tree, $name)
+            : []
+        ;
 
-        // Tri par ordre alphabétique
-        $orderedMembers = $members->toArray();
-        usort(
-            $orderedMembers,
-            fn ($a, $b): int => strcmp(
-                trim($a->getFullName()),
-                trim($b->getFullName())
-            ));
-
-        // Groupement par première lettre
-        $groupedMembers = array_reduce($orderedMembers, function (array $groupedMembers, Person $person): array {
-            $firstLetter = strtoupper(mb_substr(trim($person->getFullName()), 0, 1));
-            $groupedMembers[$firstLetter][] = $person;
-
-            return $groupedMembers;
-        }, []);
+        $groupedMembersWithoutParentUnion = $showWithoutParentUnion
+            ? $this->personManager->findGroupedWithoutParentUnion($tree, $name)
+            : []
+        ;
 
         return $this->render('tree/show.html.twig', [
             'tree' => $tree,
             'form' => $form->createView(),
             'grouped_members' => $groupedMembers,
-            'members_count' => $members->count(),
+            'grouped_members_without_own_unions' => $groupedMembersWithoutOwnUnions,
+            'grouped_members_without_parent_union' => $groupedMembersWithoutParentUnion,
+            'advanced_filters_active' => $advancedFiltersActive,
+            'show_without_own_unions' => $showWithoutOwnUnions,
+            'show_without_parent_union' => $showWithoutParentUnion,
+            'members_count' => array_sum(array_map('count', $groupedMembers)),
+            'members_without_own_unions_count' => array_sum(array_map('count', $groupedMembersWithoutOwnUnions)),
+            'members_without_parent_union_count' => array_sum(array_map('count', $groupedMembersWithoutParentUnion)),
             'favorites' => $this->personRepository->findFavoritesInTree($tree, $user),
         ]);
     }

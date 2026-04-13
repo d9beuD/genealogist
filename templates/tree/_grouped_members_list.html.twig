@@ -1,0 +1,22 @@
+{% from "_includes/macro.html.twig" import alert %}
+
+{% if grouped_members|length %}
+    <div class="bg-body rounded border shadow-sm">
+        {% for letter, members in grouped_members %}
+            <section>
+                <div class="px-4 py-1 fw-bold border-bottom mb-2">{{ letter }}</div>
+                <div class="mb-3">
+                    {% for member in members %}
+                        <div class="tree-member-item px-4 py-1">
+                            {{ include("tree/_member_list_item.html.twig", { member: member }) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-secondary px-4 py-1">
+        {{ alert('secondary', empty_message|trans) }}
+    </div>
+{% endif %}

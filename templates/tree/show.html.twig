@@ -13,7 +13,14 @@
                 <h1 class="h3 mb-0">{{ tree.name }}</h1>
                 
                 <span class="text-secondary">
-                    {{ 'alert.tree_members_found_count'|trans({ members: members_count}) }}
+                    {% if advanced_filters_active %}
+                        {{ 'alert.tree_diagnostic_results_count'|trans({
+                            without_own_unions: members_without_own_unions_count,
+                            without_parent_union: members_without_parent_union_count,
+                        }) }}
+                    {% else %}
+                        {{ 'alert.tree_members_found_count'|trans({ members: members_count}) }}
+                    {% endif %}
                 </span>
 
                 <div class="list-group mt-3">
@@ -36,28 +43,40 @@
             </div>
 
             <div class="col">
-                <div class="d-flex justify-content-end">
-                    {% include "tree/_search_form.html.twig" %}
-                </div>
-                {% if grouped_members|length %}
-                    <div class="bg-body rounded border shadow-sm">
-                        {% for letter, members in grouped_members %}
+                {% include "tree/_search_form.html.twig" with { advanced_filters_active: advanced_filters_active } %}
+                {% if advanced_filters_active %}
+                    <div class="vstack gap-4">
+                        {% if show_without_own_unions %}
                             <section>
-                                <div class="px-4 py-1 fw-bold border-bottom mb-2">{{ letter }}</div>
-                                <div class="mb-3">
-                                    {% for member in members %}
-                                        <div class="tree-member-item px-4 py-1">
-                                            {{ include("tree/_member_list_item.html.twig", { member: member }) }}
-                                        </div>
-                                    {% endfor %}
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h6 class="mb-0">{{ 'label.members_without_own_unions'|trans }}</h6>
+                                    <span class="badge rounded-pill text-bg-secondary">{{ members_without_own_unions_count }}</span>
                                 </div>
+                                {{ include('tree/_grouped_members_list.html.twig', {
+                                    grouped_members: grouped_members_without_own_unions,
+                                    empty_message: 'alert.no_members_without_own_unions_found',
+                                }) }}
                             </section>
-                        {% endfor %}
+                        {% endif %}
+
+                        {% if show_without_parent_union %}
+                            <section>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h6 class="mb-0">{{ 'label.members_without_parent_union'|trans }}</h6>
+                                    <span class="badge rounded-pill text-bg-secondary">{{ members_without_parent_union_count }}</span>
+                                </div>
+                                {{ include('tree/_grouped_members_list.html.twig', {
+                                    grouped_members: grouped_members_without_parent_union,
+                                    empty_message: 'alert.no_members_without_parent_union_found',
+                                }) }}
+                            </section>
+                        {% endif %}
                     </div>
                 {% else %}
-                    <div class="text-secondary px-4 py-1">
-                        {{ alert('secondary', 'alert.tree_has_no_member'|trans) }}
-                    </div>
+                    {{ include('tree/_grouped_members_list.html.twig', {
+                        grouped_members: grouped_members,
+                        empty_message: 'alert.tree_has_no_member',
+                    }) }}
                 {% endif %}
             </div>
         </div>

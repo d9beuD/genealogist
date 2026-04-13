@@ -1,15 +1,41 @@
 {{ form_start(form) }}
-    <div class="input-group mb-1 flex-nowrap">
-        {{ form_row(form.name, { 
-            label: false, 
-            attr: {
-                class: 'form-control rounded-0 rounded-start',
-                value: form.name.vars.data,
-            }, 
-            row_attr: { class: 'mb-0 flex-grow-1' },
-        }) }}
-        <button type="submit" class="btn btn-outline-secondary">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+    <div class="row aligns-items-center justify-content-end mb-3">
+        <div class="col-auto order-2 order-md-1">
+            <button
+                class="btn btn-link text-decoration-none px-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#advanced-member-filters"
+                aria-expanded="{{ advanced_filters_active ? 'true' : 'false' }}"
+                aria-controls="advanced-member-filters"
+            >
+                <i class="fa-solid fa-sliders"></i>
+                {{ 'label.advanced_filters'|trans }}
+            </button>
+        </div>
+        
+        <div class="col-12 col-md-auto order-1 order-md-2">
+            <div class="input-group flex-nowrap">
+                {{ form_row(form.name, { 
+                    label: false, 
+                    attr: {
+                        class: 'form-control rounded-0 rounded-start',
+                        value: form.name.vars.data,
+                    }, 
+                    row_attr: { class: 'mb-0 flex-grow-1' },
+                }) }}
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapse{{ advanced_filters_active ? ' show' : '' }}" id="advanced-member-filters">
+        <div class="border rounded p-3 mb-3 bg-body-tertiary">
+            <div class="mb-2 small text-secondary">{{ 'label.diagnostic_filters'|trans }}</div>
+            {{ form_row(form.withoutOwnUnions, { row_attr: { class: 'mb-2' } }) }}
+            {{ form_row(form.withoutParentUnion, { row_attr: { class: 'mb-0' } }) }}
+        </div>
     </div>
 {{ form_end(form) }}

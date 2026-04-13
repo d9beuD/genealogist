@@ -19,7 +19,7 @@
                     <div class="row g-1">
                         {% if person.birth %}
                             <div class="col-auto">
-                                <span title="{{ 'calendar'|trans({ date: person.birth }) }}">
+                                <span title="{{ person.birth|date('d/m/Y') }}">
                                     {{ person.birth|date('Y') }}
                                 </span>
                                 {{ include('person/_date_indicator.html.twig', { item: {
@@ -37,7 +37,7 @@
 
                         {% if person.death %}
                             <div class="col-auto">
-                                <span title="{{ 'calendar'|trans({ date: person.death }) }}">
+                                <span title="{{ person.death|date('d/m/Y') }}">
                                     {{ person.death|date('Y') }}
                                 </span>
                                 {{ include('person/_date_indicator.html.twig', { item: {

@@ -7,6 +7,7 @@ use App\Entity\Person;
 use App\Entity\Tree;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,6 +55,41 @@ class PersonRepository extends ServiceEntityRepository
     /**
      * @return array<int, Person>
      */
+    public function findWithoutOwnUnions(Tree $tree, ?string $name = null): array
+    {
+        $queryBuilder = $this->createTreeMembersQueryBuilder($tree)
+            ->leftJoin('p.unions', 'u')
+            ->andWhere('u.id IS NULL')
+        ;
+
+        $this->applyNameFilter($queryBuilder, $name);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return array<int, Person>
+     */
+    public function findWithoutParentUnion(Tree $tree, ?string $name = null): array
+    {
+        $queryBuilder = $this->createTreeMembersQueryBuilder($tree)
+            ->andWhere('p.parentUnion IS NULL')
+        ;
+
+        $this->applyNameFilter($queryBuilder, $name);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return array<int, Person>
+     */
     public function findFavoritesInTree(Tree $tree, User $user): array
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
@@ -74,17 +110,45 @@ class PersonRepository extends ServiceEntityRepository
     /**
      * @return array<int, Person>
      */
-    public function findByTreeWithFavorites(Tree $tree): array
+    public function findByTreeWithFavorites(Tree $tree, ?string $name = null): array
     {
-        $queryBuilder = $this->createQueryBuilder('p');
-        $query = $queryBuilder
+        $queryBuilder = $this->createTreeMembersQueryBuilder($tree)
             ->select('p, f')
             ->leftJoin('p.favorites', 'f')
-            ->where('p.tree = :tree')
-            ->setParameter('tree', $tree)
-            ->getQuery()
         ;
 
-        return $query->getResult();
+        $this->applyNameFilter($queryBuilder, $name);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    private function createTreeMembersQueryBuilder(Tree $tree): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.tree = :tree')
+            ->setParameter('tree', $tree)
+        ;
+    }
+
+    private function applyNameFilter(QueryBuilder $queryBuilder, ?string $name): void
+    {
+        $normalizedName = mb_strtoupper(trim((string) $name));
+
+        if ('' === $normalizedName) {
+            return;
+        }
+
+        $queryBuilder
+            ->andWhere(
+                $queryBuilder->expr()->orX(
+                    'UPPER(CONCAT(COALESCE(p.lastname, \'\'), \' \', COALESCE(p.firstname, \'\'))) LIKE :name',
+                    'UPPER(CONCAT(COALESCE(p.birthName, \'\'), \' \', COALESCE(p.firstname, \'\'))) LIKE :name'
+                )
+            )
+            ->setParameter('name', '%'.$normalizedName.'%')
+        ;
     }
 }
