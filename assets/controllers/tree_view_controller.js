@@ -369,6 +369,7 @@ export default class extends Controller {
     async createExportPayload() {
         const clone = this.svgTarget.cloneNode(true);
         clone.setAttribute('xmlns', SVG_NS);
+        this.stripExportAnchors(clone);
         await this.inlinePortraits(clone);
 
         return {
@@ -396,6 +397,14 @@ export default class extends Controller {
 
             image.removeAttribute('data-portrait-url');
         }));
+    }
+
+    stripExportAnchors(svg) {
+        const links = Array.from(svg.querySelectorAll('a'));
+
+        links.forEach((link) => {
+            link.replaceWith(...link.childNodes);
+        });
     }
 
     async fetchPortraitDataUrl(url) {
