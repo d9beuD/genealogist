@@ -35,6 +35,8 @@ form:
         union_start_date: Date de début de l'union
         union_end_date: Date de fin de l'union
         union_place: Lieu de l'union
+        without_own_unions: Membres sans unions propres
+        without_parent_union: Membres sans union parentale
         type: Type
         comment: Commentaire
         direct_proof: Preuve directe
@@ -98,6 +100,10 @@ label:
     direct_proof: Preuve directe
     life_line: Ligne de vie
     favorites: Favoris
+    advanced_filters: Filtres avancés
+    diagnostic_filters: Filtres de diagnostic
+    members_without_own_unions: Membres sans unions propres
+    members_without_parent_union: Membres sans union parentale
 title:
     add_child: Ajouter un enfant
     add_member: Ajouter un membre
@@ -129,14 +135,18 @@ alert:
             =1    {Un membre trouvé}
             other {# membres trouvés}
         }
+    tree_diagnostic_results_count: >-
+        Sans unions propres : {without_own_unions}, sans union parentale : {without_parent_union}
     tree_members_count: >-
         {members, plural,
             =0    {# membre}
             =1    {# membre}
             other {# membres}
         }
+    no_members_without_own_unions_found: Aucun membre sans unions propres trouvé.
+    no_members_without_parent_union_found: Aucun membre sans union parentale trouvé.
     
-calendar: '{date, date, medium}'
+    calendar: '{date, date, medium}'
 person:
     age:
         value: >-

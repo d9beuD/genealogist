@@ -35,6 +35,8 @@ form:
         union_start_date: Union start date
         union_end_date: Union end date
         union_place: Union place
+        without_own_unions: Members without own unions
+        without_parent_union: Members without parent union
         type: Type
         comment: Comment
         direct_proof: Direct proof
@@ -98,6 +100,10 @@ label:
     direct_proof: Direct proof
     life_line: Life line
     favorites: Favorites
+    advanced_filters: Advanced filters
+    diagnostic_filters: Diagnostic filters
+    members_without_own_unions: Members without own unions
+    members_without_parent_union: Members without parent union
 title:
     add_child: Add a child
     add_member: Add a member
@@ -129,13 +135,17 @@ alert:
             =1    {One member found}
             other {# members found}
         }
+    tree_diagnostic_results_count: >-
+        Own unions missing: {without_own_unions}, parent union missing: {without_parent_union}
     tree_members_count: >-
         {members, plural,
             =0    {# member}
             =1    {# member}
             other {# members}
         }
-calendar: '{date, date, medium}'
+    no_members_without_own_unions_found: No members without own unions found.
+    no_members_without_parent_union_found: No members without parent union found.
+    calendar: '{date, date, medium}'
 person:
     age:
         value: >-
