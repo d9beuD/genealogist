@@ -219,10 +219,11 @@ export default class extends Controller {
     renderUnionLabel(label, x, baselineY, childTop) {
         const group = this.createElement('g', {
             class: 'tree-svg-union-label',
+            stroke: 'none',
         });
         const width = Math.max(84, label.length * 7 + 18);
         const height = 24;
-        const y = baselineY + (childTop - baselineY - height) / 2;
+        const y = baselineY - height / 2;
 
         group.append(this.createElement('rect', {
             x: x - width / 2,
@@ -242,6 +243,7 @@ export default class extends Controller {
             'font-size': '12',
             'font-weight': '600',
             fill: this.theme.secondaryColor,
+            stroke: 'none',
         }, label));
 
         return group;
