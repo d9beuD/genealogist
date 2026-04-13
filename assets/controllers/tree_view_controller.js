@@ -5,7 +5,7 @@ const CARD_WIDTH = 280;
 const CARD_HEIGHT = 76;
 const AVATAR_SIZE = 44;
 const HORIZONTAL_GAP = 32;
-const LEVEL_GAP = 190;
+const LEVEL_GAP = 112;
 const PADDING = 48;
 const CONNECTOR_STEM = 18;
 const MIN_ZOOM = 0.5;
@@ -150,7 +150,7 @@ export default class extends Controller {
         const group = this.createElement('g', {
             class: 'tree-svg-union',
             fill: 'none',
-            stroke: this.theme.secondaryColor,
+            stroke: this.theme.linkColor,
             'stroke-linecap': 'round',
             'stroke-width': '4',
         });
@@ -502,10 +502,21 @@ export default class extends Controller {
             secondaryColor: this.cssVar(styles, '--bs-secondary-color', '#6c757d'),
             emphasisColor: this.cssVar(styles, '--bs-emphasis-color', '#212529'),
             fontFamily: this.cssVar(styles, '--bs-body-font-family', getComputedStyle(document.body).fontFamily || 'sans-serif'),
+            linkColor: this.opaqueColor(this.cssVar(styles, '--bs-border-color', '#ced4da')),
         };
     }
 
     cssVar(styles, name, fallback) {
         return styles.getPropertyValue(name).trim() || fallback;
+    }
+
+    opaqueColor(color) {
+        const rgbaMatch = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/i);
+
+        if (rgbaMatch) {
+            return `rgb(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]})`;
+        }
+
+        return color;
     }
 }
