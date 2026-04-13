@@ -10,16 +10,60 @@
 
 {{ include('_includes/main/flashes.html.twig') }}
 
-<section id="tree" class="row gx-0">
+<section
+    id="tree"
+    class="row gx-0"
+    data-controller="tree-view"
+    data-tree-view-title-value="{{ person.fullName|e('html_attr') }}"
+>
     <div class="col-md-auto bg-body" id="tree-option-panel">
         <div class="px-3 py-4">
             {{ include('tree/_tree_form.html.twig', { tree: person.tree }) }}
+
+            <hr>
+
+            <div class="d-grid gap-2 tree-toolbar">
+                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomOut">
+                    <i class="fa-solid fa-magnifying-glass-minus"></i>
+                    Zoom out
+                </button>
+                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomReset">
+                    <i class="fa-solid fa-expand"></i>
+                    Reset zoom
+                </button>
+                <button type="button" class="btn btn-outline-secondary" data-action="tree-view#zoomIn">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    Zoom in
+                </button>
+            </div>
+
+            <hr>
+
+            <div class="d-grid gap-2 tree-toolbar">
+                <button type="button" class="btn btn-primary" data-action="tree-view#exportSvg">
+                    <i class="fa-solid fa-file-code"></i>
+                    Export SVG
+                </button>
+                <button type="button" class="btn btn-outline-primary" data-action="tree-view#exportPng">
+                    <i class="fa-solid fa-file-image"></i>
+                    Export PNG
+                </button>
+                <button type="button" class="btn btn-outline-primary" data-action="tree-view#exportWebp">
+                    <i class="fa-solid fa-image"></i>
+                    Export WebP
+                </button>
+            </div>
         </div>
     </div>
     <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
-        <div class="text-center" style="width: inherit; height: inherit; max-height: inherit;">
-            <div class="m-3 d-inline-block">
-                {{ include('tree/tree.html.twig', { person: person, depth: 1, max_depth: form.depth.vars.data|default(4) }) }}
+        <div
+            class="tree-svg-app text-center"
+            style="width: inherit; height: inherit; max-height: inherit;"
+        >
+            <script type="application/json" data-tree-view-target="data">{{ tree_data_json|replace({'</': '<\/'})|raw }}</script>
+            <div class="tree-svg-status small text-secondary mt-3 mb-0" data-tree-view-target="status"></div>
+            <div class="m-3 d-inline-block tree-svg-viewport" data-tree-view-target="viewport">
+                <svg class="tree-svg-canvas" data-tree-view-target="svg" role="img" aria-label="{{ 'title.tree_of'|trans({ name: person.fullName }) }}"></svg>
             </div>
         </div>
     </div>

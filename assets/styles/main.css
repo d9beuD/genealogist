@@ -210,6 +210,32 @@ main.tree-view {
     overflow: auto;
 }
 
+.tree-svg-app {
+    width: 100%;
+}
+
+.tree-svg-viewport {
+    max-width: 100%;
+}
+
+.tree-svg-canvas {
+    display: block;
+}
+
+.tree-svg-node-link {
+    cursor: pointer;
+}
+
+.tree-svg-node-link:hover .tree-svg-node rect,
+.tree-svg-node-link:focus .tree-svg-node rect {
+    stroke: var(--bs-primary);
+    stroke-width: 2;
+}
+
+.tree-svg-status {
+    min-height: 1.25rem;
+}
+
 
 @media (min-width: 768px) {
     main.tree-view {
