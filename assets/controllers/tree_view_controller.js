@@ -100,7 +100,7 @@ export default class extends Controller {
             nodes,
             unions,
             width: measuredTree.width + PADDING * 2,
-            height: maxDepth * LEVEL_GAP + CARD_HEIGHT + PADDING * 2,
+            height: (maxDepth - 1) * LEVEL_GAP + CARD_HEIGHT + PADDING * 2,
         };
     }
 
