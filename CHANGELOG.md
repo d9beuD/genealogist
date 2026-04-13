@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.6.0...genealogist-v2.7.0) (2026-04-13)
+
+
+### Features
+
+* **tree:** Add advanced missing-union filters ([0c9e610](https://github.com/d9beuD/genealogist/commit/0c9e61040ad5cbf3ef4c291859b45718a00368be))
+* **tree:** Add advanced missing-union filters ([fdcc998](https://github.com/d9beuD/genealogist/commit/fdcc99819820b223d832da68281f60b8d3454fd5)), closes [#132](https://github.com/d9beuD/genealogist/issues/132)
+
+
+### Bug Fixes
+
+* **tree:** Use current union field names ([0119893](https://github.com/d9beuD/genealogist/commit/0119893e6d44664cf4e88d808a02ec73e308f86e))
+* **tree:** Use current union field names ([e8998a4](https://github.com/d9beuD/genealogist/commit/e8998a4517ed6b5ac34a0aae7c6910033d980513))
+
 ## [2.6.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.5.0...genealogist-v2.6.0) (2026-04-12)
 
 
