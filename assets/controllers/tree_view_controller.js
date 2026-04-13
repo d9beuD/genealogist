@@ -226,7 +226,7 @@ export default class extends Controller {
     renderNode(entry, defs) {
         const group = this.createElement('a', {
             href: entry.node.profileUrl,
-            class: 'tree-svg-node-link',
+            class: 'tree-svg-node-link text-decoration-none',
         });
 
         const nodeGroup = this.createElement('g', {
