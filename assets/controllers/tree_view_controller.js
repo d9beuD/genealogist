@@ -2,12 +2,18 @@ import { Controller } from '@hotwired/stimulus';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const CARD_WIDTH = 280;
-const CARD_HEIGHT = 76;
+const CARD_HEIGHT = 68;
 const AVATAR_SIZE = 44;
 const HORIZONTAL_GAP = 32;
-const LEVEL_GAP = 112;
-const PADDING = 48;
+const LEVEL_GAP = 104;
+const PADDING = 32;
 const CONNECTOR_STEM = 18;
+const CARD_RADIUS = 24;
+const AVATAR_X = 10;
+const AVATAR_Y = 12;
+const TEXT_X = 62;
+const NAME_Y = 31;
+const YEARS_Y = 46;
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2.5;
 const ZOOM_STEP = 0.2;
@@ -237,7 +243,7 @@ export default class extends Controller {
         nodeGroup.append(this.createElement('rect', {
             width: CARD_WIDTH,
             height: CARD_HEIGHT,
-            rx: '32',
+            rx: `${CARD_RADIUS}`,
             fill: this.theme.bodyBackground,
             stroke: this.theme.borderColor,
             'stroke-width': '1',
@@ -247,15 +253,15 @@ export default class extends Controller {
             const clipPathId = `tree-portrait-${entry.node.occurrenceId}`;
             const clipPath = this.createElement('clipPath', { id: clipPathId });
             clipPath.append(this.createElement('circle', {
-                cx: 34,
-                cy: 38,
+                cx: AVATAR_X + AVATAR_SIZE / 2,
+                cy: AVATAR_Y + AVATAR_SIZE / 2,
                 r: AVATAR_SIZE / 2,
             }));
             defs.append(clipPath);
 
             nodeGroup.append(this.createElement('image', {
-                x: 12,
-                y: 16,
+                x: AVATAR_X,
+                y: AVATAR_Y,
                 width: AVATAR_SIZE,
                 height: AVATAR_SIZE,
                 href: entry.node.portraitUrl,
@@ -265,15 +271,15 @@ export default class extends Controller {
             }));
         } else {
             nodeGroup.append(this.createElement('circle', {
-                cx: 34,
-                cy: 38,
+                cx: AVATAR_X + AVATAR_SIZE / 2,
+                cy: AVATAR_Y + AVATAR_SIZE / 2,
                 r: AVATAR_SIZE / 2,
                 fill: this.placeholderColor(entry.node.gender),
             }));
 
             nodeGroup.append(this.createElement('text', {
-                x: 34,
-                y: 44,
+                x: AVATAR_X + AVATAR_SIZE / 2,
+                y: AVATAR_Y + AVATAR_SIZE / 2 + 6,
                 'text-anchor': 'middle',
                 'font-size': '16',
                 'font-weight': '700',
@@ -282,8 +288,8 @@ export default class extends Controller {
         }
 
         nodeGroup.append(this.createElement('text', {
-            x: 68,
-            y: 33,
+            x: TEXT_X,
+            y: NAME_Y,
             'font-size': '15',
             'font-weight': '700',
             fill: this.theme.emphasisColor,
@@ -291,8 +297,8 @@ export default class extends Controller {
 
         if (entry.node.yearsLabel) {
             nodeGroup.append(this.createElement('text', {
-                x: 68,
-                y: 54,
+                x: TEXT_X,
+                y: YEARS_Y,
                 'font-size': '13',
                 fill: this.theme.secondaryColor,
             }, entry.node.yearsLabel));
