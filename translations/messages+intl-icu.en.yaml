@@ -178,6 +178,13 @@ tree:
     add_member:
         success: '**{name}** has been successfully added to the tree.'
         error: '**{name}** has not been added to the tree.'
+    export:
+        preparing_svg: Preparing SVG export...
+        svg_ready: SVG export ready.
+        preparing_png: Preparing PNG export...
+        png_ready: PNG export ready.
+        preparing_webp: Preparing WebP export...
+        webp_ready: WebP export ready.
 union:
     new:
         success: 'The union has been successfully created.'

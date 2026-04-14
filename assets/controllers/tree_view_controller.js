@@ -24,6 +24,7 @@ export default class extends Controller {
 
     static values = {
         title: String,
+        messages: Object,
     };
 
     connect() {
@@ -47,7 +48,7 @@ export default class extends Controller {
     }
 
     async exportSvg() {
-        this.showStatus('Preparing SVG export...', false);
+        this.showStatus(this.statusMessage('preparingSvg', 'Preparing SVG export...'), false);
 
         const { serialized } = await this.createExportPayload();
 
@@ -56,7 +57,7 @@ export default class extends Controller {
             `${this.filenameBase}.svg`,
         );
 
-        this.showStatus('SVG export ready.');
+        this.showStatus(this.statusMessage('svgReady', 'SVG export ready.'));
     }
 
     async exportPng() {
@@ -333,7 +334,7 @@ export default class extends Controller {
 
     async exportRaster(format) {
         const label = format.toUpperCase();
-        this.showStatus(`Preparing ${label} export...`, false);
+        this.showStatus(this.statusMessage(`preparing${label[0]}${label.slice(1).toLowerCase()}`, `Preparing ${label} export...`), false);
 
         const { serialized, width, height } = await this.createExportPayload();
         const svgUrl = URL.createObjectURL(new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' }));
@@ -362,7 +363,7 @@ export default class extends Controller {
             }
 
             this.downloadBlob(blob, `${this.filenameBase}.${format}`);
-            this.showStatus(`${label} export ready.`);
+            this.showStatus(this.statusMessage(`${label.toLowerCase()}Ready`, `${label} export ready.`));
         } finally {
             URL.revokeObjectURL(svgUrl);
         }
@@ -527,6 +528,10 @@ export default class extends Controller {
         this.toast.dispose();
         this.toast = new Toast(this.toastTarget);
         this.toast.show();
+    }
+
+    statusMessage(key, fallback) {
+        return this.messagesValue?.[key] || fallback;
     }
 
     get filenameBase() {

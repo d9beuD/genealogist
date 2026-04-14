@@ -15,6 +15,14 @@
     class="row gx-0"
     data-controller="tree-view"
     data-tree-view-title-value="{{ person.fullName|e('html_attr') }}"
+    data-tree-view-messages-value="{{ {
+        preparingSvg: 'tree.export.preparing_svg'|trans,
+        svgReady: 'tree.export.svg_ready'|trans,
+        preparingPng: 'tree.export.preparing_png'|trans,
+        pngReady: 'tree.export.png_ready'|trans,
+        preparingWebp: 'tree.export.preparing_webp'|trans,
+        webpReady: 'tree.export.webp_ready'|trans
+    }|json_encode|e('html_attr') }}"
 >
     <div class="col-md-auto bg-body" id="tree-option-panel">
         <div class="px-3 py-4">
