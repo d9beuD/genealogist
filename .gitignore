@@ -27,6 +27,7 @@
 
 .DS_Store
 public/pictures
+node_modules
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php

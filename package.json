@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2"
+  }
+}
