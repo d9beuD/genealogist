@@ -30,19 +30,36 @@
 
             <hr>
 
-            <div class="d-grid gap-2 tree-toolbar">
-                <button type="button" class="btn btn-primary" data-action="tree-view#exportSvg">
-                    <i class="fa-solid fa-file-code"></i>
-                    Export SVG
+            <div class="dropdown tree-toolbar">
+                <button
+                    class="btn btn-primary dropdown-toggle w-100"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    Export
                 </button>
-                <button type="button" class="btn btn-outline-primary" data-action="tree-view#exportPng">
-                    <i class="fa-solid fa-file-image"></i>
-                    Export PNG
-                </button>
-                <button type="button" class="btn btn-outline-primary" data-action="tree-view#exportWebp">
-                    <i class="fa-solid fa-image"></i>
-                    Export WebP
-                </button>
+                <ul class="dropdown-menu w-100">
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportSvg">
+                            <i class="fa-solid fa-file-code"></i>
+                            Export SVG
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportPng">
+                            <i class="fa-solid fa-file-image"></i>
+                            Export PNG
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportWebp">
+                            <i class="fa-solid fa-image"></i>
+                            Export WebP
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
