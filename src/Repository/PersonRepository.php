@@ -151,4 +151,6 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('name', '%'.$normalizedName.'%')
         ;
     }
+
+    // public function findByTree
 }
