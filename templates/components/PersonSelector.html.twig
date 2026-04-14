@@ -1,0 +1,40 @@
+<div{{ attributes.defaults(stimulus_controller('person_selector')) }}>
+    <div class="d-none">
+        {{ form_row(formView, { attr: {
+            'data-person-selector-target': 'select'
+        } }) }}
+    </div>
+
+    <div class="position-relative">
+        <label class="form-label" for="{{ this.id }}">{{ this.placeholder|trans }}</label>
+        <input
+            type="text"
+            class="form-control"
+            id="{{ this.id }}"
+            {{ stimulus_target('person_selector', 'searchInput') }}
+            {{ stimulus_action('person_selector', 'filter', 'input') }}
+        >
+
+        <div
+            class="list-group position-absolute shadow d-none overflow-auto"
+            style="
+                top: 4.8rem;
+                left: 0;
+                right: 0;
+                max-height: 11.5rem
+            "
+            {{ stimulus_target('person_selector', 'dropdown') }}
+            {{ stimulus_action('person_selector', 'preventBlur', 'mousedown') }}
+        >
+            {% for person in this.getPeople %}
+                <a 
+                    href="#" class="list-group-item" 
+                    
+                    {{ stimulus_action('person_selector', 'select', 'click', { id: person.id }) }}
+                >
+                    {{ person.fullName }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
