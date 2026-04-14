@@ -10,16 +10,107 @@
 
 {{ include('_includes/main/flashes.html.twig') }}
 
-<section id="tree" class="row gx-0">
+<section
+    id="tree"
+    class="row gx-0"
+    data-controller="tree-view"
+    data-tree-view-title-value="{{ person.fullName|e('html_attr') }}"
+    data-tree-view-messages-value="{{ {
+        preparingSvg: 'tree.export.preparing_svg'|trans,
+        svgReady: 'tree.export.svg_ready'|trans,
+        preparingPng: 'tree.export.preparing_png'|trans,
+        pngReady: 'tree.export.png_ready'|trans,
+        preparingWebp: 'tree.export.preparing_webp'|trans,
+        webpReady: 'tree.export.webp_ready'|trans
+    }|json_encode|e('html_attr') }}"
+>
     <div class="col-md-auto bg-body" id="tree-option-panel">
         <div class="px-3 py-4">
             {{ include('tree/_tree_form.html.twig', { tree: person.tree }) }}
+
+            <hr>
+
+            <div class="dropdown tree-toolbar">
+                <button
+                    class="btn btn-primary dropdown-toggle w-100"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    Export
+                </button>
+                <ul class="dropdown-menu w-100">
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportSvg">
+                            <i class="fa-solid fa-file-code"></i>
+                            Export SVG
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportPng">
+                            <i class="fa-solid fa-file-image"></i>
+                            Export PNG
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-action="tree-view#exportWebp">
+                            <i class="fa-solid fa-image"></i>
+                            Export WebP
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="col-md d-flex justify-content-center align-items-center mh-100" id="tree-view-panel">
-        <div class="text-center" style="width: inherit; height: inherit; max-height: inherit;">
-            <div class="m-3 d-inline-block">
-                {{ include('tree/tree.html.twig', { person: person, depth: 1, max_depth: form.depth.vars.data|default(4) }) }}
+        <div class="toast-container position-absolute top-0 end-0 p-3">
+            <div
+                class="toast"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                data-tree-view-target="toast"
+            >
+                <div class="toast-body" data-tree-view-target="toastBody"></div>
+            </div>
+        </div>
+        <div class="tree-svg-controls" role="toolbar" aria-label="Tree zoom controls">
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomOut"
+                title="Zoom out"
+                aria-label="Zoom out"
+            >
+                <i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomReset"
+                title="Reset zoom"
+                aria-label="Reset zoom"
+            >
+                <i class="fa-solid fa-expand" aria-hidden="true"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="tree-view#zoomIn"
+                title="Zoom in"
+                aria-label="Zoom in"
+            >
+                <i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div
+            class="tree-svg-app text-center"
+            style="width: inherit; height: inherit; max-height: inherit;"
+        >
+            <script type="application/json" data-tree-view-target="data">{{ tree_data_json|replace({'</': '<\/'})|raw }}</script>
+            <div class="m-3 d-inline-block tree-svg-viewport" data-tree-view-target="viewport">
+                <svg class="tree-svg-canvas" data-tree-view-target="svg" role="img" aria-label="{{ 'title.tree_of'|trans({ name: person.fullName }) }}"></svg>
             </div>
         </div>
     </div>

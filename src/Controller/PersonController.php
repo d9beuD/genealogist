@@ -8,6 +8,7 @@ use App\Form\PersonType;
 use App\Form\TreeOptionsType;
 use App\Service\FavoriteMemberManager;
 use App\Service\ImageManager;
+use App\Service\Tree\AncestorTreeViewModelBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PersonController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly ImageManager $imageManager, private readonly FavoriteMemberManager $favoriteMemberManager,
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageManager $imageManager,
+        private readonly FavoriteMemberManager $favoriteMemberManager,
+        private readonly AncestorTreeViewModelBuilder $ancestorTreeViewModelBuilder,
+        private readonly SerializerInterface $serializer,
     ) {
     }
 
@@ -120,10 +127,13 @@ class PersonController extends AbstractController
     {
         $form = $this->createForm(TreeOptionsType::class);
         $form->handleRequest($request);
+        $depth = max(0, (int) ($form->get('depth')->getData() ?? 4));
+        $tree = $this->ancestorTreeViewModelBuilder->build($person, $depth);
 
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,
             'form' => $form->createView(),
+            'tree_data_json' => $this->serializer->serialize($tree, 'json', ['groups' => ['person_tree']]),
             'tree_view' => true,
         ]);
     }

@@ -208,6 +208,51 @@ main.tree-view {
     max-width: 100dvw;
     max-height: 100%;
     overflow: auto;
+    position: relative;
+}
+
+.tree-svg-app {
+    width: 100%;
+}
+
+.tree-svg-controls {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    display: inline-flex;
+    gap: .5rem;
+}
+
+.tree-svg-controls .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+}
+
+.tree-svg-viewport {
+    max-width: 100%;
+}
+
+.tree-svg-canvas {
+    display: block;
+}
+
+.tree-svg-node-link {
+    cursor: pointer;
+}
+
+.tree-svg-node-link:hover .tree-svg-node rect,
+.tree-svg-node-link:focus .tree-svg-node rect {
+    stroke: var(--bs-primary);
+    stroke-width: 2;
+}
+
+.tree-svg-status {
+    min-height: 1.25rem;
 }
 
 
