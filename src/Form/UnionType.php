@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Person;
+use App\Entity\Tree;
 use App\Entity\Union;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -102,12 +107,48 @@ class UnionType extends AbstractType
                 'label' => 'form.field.description',
             ])
         ;
+
+        if (!$options['include_members']) {
+            return;
+        }
+
+        $builder
+            ->add('member1', EntityType::class, [
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => '',
+                'class' => Person::class,
+                'query_builder' => function (EntityRepository $entityRepository) use ($options): QueryBuilder {
+                    $qb = $entityRepository->createQueryBuilder('p');
+                    return $qb
+                        ->where('p.tree = :tree')
+                        ->setParameter('tree', $options['tree']);
+                }
+            ])
+            ->add('member2', EntityType::class, [
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => '',
+                'class' => Person::class,
+                'query_builder' => function (EntityRepository $entityRepository) use ($options): QueryBuilder {
+                    $qb = $entityRepository->createQueryBuilder('p');
+                    return $qb
+                        ->where('p.tree = :tree')
+                        ->setParameter('tree', $options['tree']);
+                }
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Union::class,
+            'tree' => null,
+            'include_members' => false,
         ]);
+
+        $resolver->setAllowedTypes('tree', ['null', Tree::class]);
+        $resolver->setAllowedTypes('include_members', 'bool');
     }
 }

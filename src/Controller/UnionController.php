@@ -10,6 +10,7 @@ use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,11 +29,40 @@ class UnionController extends AbstractController
     public function new(Request $request, #[MapEntity(id: 'personId')] Person $person): Response
     {
         $union = new Union();
-        $form = $this->createForm(UnionType::class, $union);
+        $form = $this->createForm(UnionType::class, $union, [
+            'tree' => $person->getTree(),
+            'include_members' => true,
+        ]);
+        $form->get('member1')->setData($person);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted()) {
+            /** @var ?Person $member1 */
+            $member1 = $form->get('member1')->getData();
+            /** @var ?Person $member2 */
+            $member2 = $form->get('member2')->getData();
+
+            if (!$member1 instanceof Person && !$member2 instanceof Person) {
+                $form->addError(new FormError('Select at least one union member.'));
+            }
+
+            if ($member1 instanceof Person && $member1 === $member2) {
+                $form->addError(new FormError('Select two different union members.'));
+            }
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $person->addUnion($union);
+            /** @var ?Person $member1 */
+            $member1 = $form->get('member1')->getData();
+            /** @var ?Person $member2 */
+            $member2 = $form->get('member2')->getData();
+
+            foreach ([$member1, $member2] as $member) {
+                if ($member instanceof Person) {
+                    $member->addUnion($union);
+                }
+            }
+
             $this->entityManager->persist($union);
             $this->entityManager->flush();
 
@@ -41,9 +71,8 @@ class UnionController extends AbstractController
                 $this->translator->trans('union.new.success')
             );
 
-            return $this->redirectToRoute('app_union_edit', [
-                'personId' => $person->getId(),
-                'id' => $union->getId(),
+            return $this->redirectToRoute('app_person_unions', [
+                'id' => ($member1 ?? $person)->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,7 +100,10 @@ class UnionController extends AbstractController
         #[MapEntity(id: 'personId')]
         Person $person,
     ): Response {
-        $form = $this->createForm(UnionType::class, $union);
+        $form = $this->createForm(UnionType::class, $union, [
+            'tree' => $person->getTree(),
+            'include_members' => false,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

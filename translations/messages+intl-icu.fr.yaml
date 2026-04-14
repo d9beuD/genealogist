@@ -40,6 +40,8 @@ form:
         type: Type
         comment: Commentaire
         direct_proof: Preuve directe
+        first_member: Premier membre
+        second_member: Second membre
     placeholder:
         search_by_name: Recherche par nom
     choice:
