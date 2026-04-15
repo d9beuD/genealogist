@@ -1,16 +1,23 @@
 <div{{ attributes.defaults(stimulus_controller('person_selector')) }}>
-    <div class="d-none">
-        {{ form_row(formView, { attr: {
-            'data-person-selector-target': 'select'
-        } }) }}
-    </div>
+    <select
+        class="d-none"
+        id="{{ this.field.vars.id }}"
+        name="{{ this.field.vars.full_name }}"
+        data-model="on(change)|{{ this.modelName }}"
+        {{ stimulus_target('person_selector', 'select') }}
+    >
+        <option value=""></option>
+        {% for person in this.getPeople %}
+            <option value="{{ person.id }}"{% if this.selectedPersonId == person.id %} selected{% endif %}>{{ person.fullName }}</option>
+        {% endfor %}
+    </select>
 
     <div class="position-relative">
-        <label class="form-label" for="{{ this.id }}">{{ this.placeholder|trans }}</label>
+        <label class="form-label" for="{{ this.inputId }}">{{ this.placeholder|trans }}</label>
         <input
             type="text"
             class="form-control"
-            id="{{ this.id }}"
+            id="{{ this.inputId }}"
             {{ stimulus_target('person_selector', 'searchInput') }}
             {{ stimulus_action('person_selector', 'filter', 'input') }}
         >
@@ -29,7 +36,6 @@
             {% for person in this.getPeople %}
                 <a 
                     href="#" class="list-group-item" 
-                    
                     {{ stimulus_action('person_selector', 'select', 'click', { id: person.id }) }}
                 >
                     {{ person.fullName }}

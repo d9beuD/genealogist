@@ -125,6 +125,25 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return list<Person>
+     */
+    public function findByTreeIdOrderedByName(int $treeId): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+        $query = $queryBuilder
+            ->select('p', 'COALESCE(p.birthName, p.lastname) as HIDDEN lastName')
+            ->where('IDENTITY(p.tree) = :treeId')
+            ->setParameter('treeId', $treeId)
+            ->orderBy('lastName', 'ASC')
+            ->addOrderBy('p.firstname', 'ASC')
+            ->getQuery()
+        ;
+
+        /** @var list<Person> */
+        return $query->getResult();
+    }
+
     private function createTreeMembersQueryBuilder(Tree $tree): QueryBuilder
     {
         return $this->createQueryBuilder('p')

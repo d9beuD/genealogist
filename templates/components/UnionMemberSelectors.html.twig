@@ -1,0 +1,30 @@
+<div {{ attributes }}>
+    <div class="d-none">
+        {{ form_row(this.member1Field) }}
+        {{ form_row(this.member2Field) }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ component('PersonSelector', {
+                treeId: this.treeId,
+                field: this.member1Field,
+                modelName: 'member1Id',
+                selectedPersonId: this.member1Id,
+                excludedPersonId: this.member2Id,
+                placeholder: this.member1Placeholder
+            }) }}
+        </div>
+        <div class="col-md-6 mb-3">
+            {{ component('PersonSelector', {
+                treeId: this.treeId,
+                field: this.member2Field,
+                modelName: 'member2Id',
+                selectedPersonId: this.member2Id,
+                personToFilterFromId: this.member1Id,
+                excludedPersonId: this.member1Id,
+                placeholder: this.member2Placeholder
+            }) }}
+        </div>
+    </div>
+</div>

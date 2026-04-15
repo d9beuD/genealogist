@@ -37,11 +37,13 @@ export default class extends Controller<HTMLElement> {
   }
 
   updateInputContent() {
-    if (this.selectTarget.value) {
-      const option = this.selectTarget.querySelector(`option[value="${this.selectTarget.value}"]`) as HTMLOptionElement
-      const label = option.innerText
-      this.searchInputTarget.value = label
+    if (!this.selectTarget.value) {
+      this.searchInputTarget.value = ''
+      return
     }
+
+    const option = this.selectTarget.querySelector(`option[value="${this.selectTarget.value}"]`) as HTMLOptionElement | null
+    this.searchInputTarget.value = option?.innerText ?? ''
   }
   
   closeDropdown() {
@@ -55,6 +57,7 @@ export default class extends Controller<HTMLElement> {
   select(event: SelectActionEvent) {
     event.preventDefault()
     this.selectTarget.value = event.params.id.toString()
+    this.selectTarget.dispatchEvent(new Event('change', { bubbles: true }))
     this.updateInputContent()
     this.closeDropdown()
     this.searchInputTarget.blur()

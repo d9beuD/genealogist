@@ -1,23 +1,17 @@
 {{ form_start(form) }}
     {% if form.member1 is defined and form.member2 is defined %}
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                {{ component('PersonSelector', {
-                    formView: form.member1,
-                    tree: person.tree,
-                    placeholder: 'form.field.first_member',
-                    id: 'member1'
-                }) }}
-            </div>
-            <div class="col-md-6 mb-3">
-                {{ component('PersonSelector', {
-                    formView: form.member2,
-                    tree: person.tree,
-                    placeholder: 'form.field.second_member',
-                    id: 'member2'
-                }) }}
-            </div>
-        </div>
+        {{ component('UnionMemberSelectors', {
+            treeId: person.tree.id,
+            member1Field: form.member1,
+            member2Field: form.member2,
+            member1Id: form.member1.vars.data ? form.member1.vars.data.id : null,
+            member2Id: form.member2.vars.data ? form.member2.vars.data.id : null,
+            member1Placeholder: 'form.field.first_member',
+            member2Placeholder: 'form.field.second_member'
+        }) }}
+
+        {{ form_errors(form.member1) }}
+        {{ form_errors(form.member2) }}
     {% endif %}
 
     {{ form_row(form.married) }}
