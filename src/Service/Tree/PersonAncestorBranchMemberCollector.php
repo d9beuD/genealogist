@@ -3,17 +3,31 @@
 namespace App\Service\Tree;
 
 use App\Entity\Person;
+use App\Repository\PersonRepository;
 
 class PersonAncestorBranchMemberCollector
 {
+    public function __construct(
+        private readonly PersonRepository $personRepository,
+    ) {
+    }
+
     /**
      * @return array<int, Person>
      */
     public function collect(Person $person): array
     {
+        $treeMembers = $this->personRepository->findByTreeForStatisticsGraph($person->getTree());
+        $indexedMembers = [];
+
+        foreach ($treeMembers as $member) {
+            $indexedMembers[$this->getPersonKey($member)] = $member;
+        }
+
+        $root = $indexedMembers[$this->getPersonKey($person)] ?? $person;
         $members = [];
         $visited = [];
-        $stack = [$person];
+        $stack = [$root];
 
         while ([] !== $stack) {
             $current = array_pop($stack);
