@@ -95,6 +95,25 @@ final class TreeStatisticsBuilderTest extends TestCase
         self::assertSame([], $statistics['deaths_by_year']['labels']);
     }
 
+    public function testItBuildsStatisticsFromAnExplicitMemberSubset(): void
+    {
+        $root = $this->createPerson('Root', 'Selected', Person::MALE, '1950-01-01', null, false);
+        $ancestor = $this->createPerson('Older', 'Ancestor', Person::FEMALE, '1900-01-01', '1980-01-01', true);
+        $excluded = $this->createPerson('Hidden', 'Branch', Person::FEMALE, '1800-01-01', '1870-01-01', true);
+
+        $builder = new TreeStatisticsBuilder($this->createMock(PersonRepository::class));
+        $statistics = $builder->buildFromMembers([$root, $ancestor]);
+
+        self::assertSame(2, $statistics['members_count']);
+        self::assertSame('ANCESTOR Older', $statistics['oldest_birth']['person']->getFullName());
+        self::assertSame('1980-01-01', $statistics['oldest_death']['date']->format('Y-m-d'));
+        self::assertNotSame('BRANCH Hidden', $statistics['oldest_birth']['person']->getFullName());
+        self::assertSame(['1900', '1901', '1902'], array_slice($statistics['births_by_year']['labels'], 0, 3));
+        self::assertSame('1950', $statistics['births_by_year']['labels'][array_key_last($statistics['births_by_year']['labels'])]);
+        self::assertSame(1, $statistics['births_by_year']['data'][0]);
+        self::assertSame(0, $statistics['births_by_year']['data'][1]);
+    }
+
     /**
      * @param array<int, Person> $members
      */

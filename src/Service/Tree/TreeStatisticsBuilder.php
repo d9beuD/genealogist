@@ -41,6 +41,37 @@ class TreeStatisticsBuilder
     {
         $members = $this->personRepository->findByTreeForStatistics($tree);
 
+        return $this->buildFromMembers($members);
+    }
+
+    /**
+     * @param array<int, Person> $members
+     *
+     * @return array{
+     *     members_count: int,
+     *     oldest_birth: ?array{person: Person, date: \DateTimeInterface},
+     *     oldest_death: ?array{person: Person, date: \DateTimeInterface},
+     *     women_age_summary: ?array{
+     *         min: array{person: Person, age: int, approximate: bool},
+     *         max: array{person: Person, age: int, approximate: bool},
+     *         average: array{age: float, approximate: bool, count: int}
+     *     },
+     *     men_age_summary: ?array{
+     *         min: array{person: Person, age: int, approximate: bool},
+     *         max: array{person: Person, age: int, approximate: bool},
+     *         average: array{age: float, approximate: bool, count: int}
+     *     },
+     *     unknown_gender_age_summary: ?array{
+     *         min: array{person: Person, age: int, approximate: bool},
+     *         max: array{person: Person, age: int, approximate: bool},
+     *         average: array{age: float, approximate: bool, count: int}
+     *     },
+     *     births_by_year: array{labels: list<string>, data: list<int>},
+     *     deaths_by_year: array{labels: list<string>, data: list<int>}
+     * }
+     */
+    public function buildFromMembers(array $members): array
+    {
         return [
             'members_count' => count($members),
             'oldest_birth' => $this->findOldestDateRecord($members, static fn (Person $person): ?\DateTimeInterface => $person->getBirth()),

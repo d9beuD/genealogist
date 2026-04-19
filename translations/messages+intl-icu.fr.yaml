@@ -114,6 +114,7 @@ title:
     edit_union: Modifier l'union
     edit_union_of: Modifier l'union de {name}
     rename_tree: Renommer l'arbre {name}
+    person_statistics: Statistiques de {name}
     tree_statistics: Statistiques de {name}
     tree_of: Arbre de {name}
     sources_of: Sources de {name}
@@ -171,6 +172,8 @@ person:
     favorite:
         added: "**{name}** a bien été ajouté aux favoris."
         removed: "**{name}** a bien été enlevé des favoris."
+    statistics:
+        description: Explorez le membre sélectionné et sa branche d'ancêtres avec les mêmes statistiques que la vue d'ensemble de l'arbre.
 tree:
     new:
         success: "L'arbre **{name}** a été créé avec succès."

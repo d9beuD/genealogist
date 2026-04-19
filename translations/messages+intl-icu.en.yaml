@@ -114,6 +114,7 @@ title:
     edit_union: Edit union
     edit_union_of: Edit union of {name}
     rename_tree: Rename tree {name}
+    person_statistics: Statistics for {name}
     tree_statistics: Statistics for {name}
     tree_of: Tree of {name}
     sources_of: Sources of {name}
@@ -170,6 +171,8 @@ person:
     favorite:
         added: '**{name}** has been successfully added to favorites.'
         removed: '**{name}** has been successfully removed from favorites.'
+    statistics:
+        description: Explore the selected member and their ancestor branch through the same statistics as the whole-tree view.
 tree:
     new:
         success: 'The tree **{name}** has been successfully created.'
