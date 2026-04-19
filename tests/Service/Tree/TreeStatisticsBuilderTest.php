@@ -101,7 +101,7 @@ final class TreeStatisticsBuilderTest extends TestCase
         $ancestor = $this->createPerson('Older', 'Ancestor', Person::FEMALE, '1900-01-01', '1980-01-01', true);
         $excluded = $this->createPerson('Hidden', 'Branch', Person::FEMALE, '1800-01-01', '1870-01-01', true);
 
-        $builder = new TreeStatisticsBuilder($this->createMock(PersonRepository::class));
+        $builder = new TreeStatisticsBuilder($this->createStub(PersonRepository::class));
         $statistics = $builder->buildFromMembers([$root, $ancestor]);
 
         self::assertSame(2, $statistics['members_count']);
