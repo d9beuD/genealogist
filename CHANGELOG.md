@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.8.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.7.0...genealogist-v2.8.0) (2026-04-19)
+
+
+### Features
+
+* **person:** Add ancestor branch statistics page ([0f4621e](https://github.com/d9beuD/genealogist/commit/0f4621e578966bebfeb1eab0bca403e8759cf553)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Add statistics page with yearly charts ([17ef05a](https://github.com/d9beuD/genealogist/commit/17ef05a7d6a7d95356173a75de9f6a018dc3a029)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** add SVG ancestor tree renderer ([b5c9329](https://github.com/d9beuD/genealogist/commit/b5c9329f4eaa28a13ef938b3b79fce627d80a53c))
+* **tree:** Add SVG ancestor tree renderer ([dc7008e](https://github.com/d9beuD/genealogist/commit/dc7008e2004ac5b2dd40e17c7d7529e59069cf21))
+* **tree:** Draw curved ancestor connectors ([45b56c6](https://github.com/d9beuD/genealogist/commit/45b56c6ec4d4070b410400e1907f6236831c120e))
+* **tree:** Group export actions in dropdown ([09d8a2b](https://github.com/d9beuD/genealogist/commit/09d8a2b6958f6652fd0c787cf4fdbf41fe3da112))
+* **tree:** Overlay zoom controls ([debb24a](https://github.com/d9beuD/genealogist/commit/debb24a49db7f440377a97a42ef3a50a2b23263e))
+* **tree:** Show export status in toast ([e71a687](https://github.com/d9beuD/genealogist/commit/e71a687f78b768592062ea8fb0a7d201b2e4eb5b))
+* **tree:** Translate export toast messages ([cf1ac71](https://github.com/d9beuD/genealogist/commit/cf1ac7155c3034ca16bc58479f691ee2e4e93720))
+
+
+### Bug Fixes
+
+* **stats:** Link names from statistics cards ([8f92df6](https://github.com/d9beuD/genealogist/commit/8f92df6593070f3a570f63fd8ae4dec2e3360c87)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Add chart mode toggle ([f3aa4de](https://github.com/d9beuD/genealogist/commit/f3aa4de290cdbed49e2a878e197feb1fb7b6c616)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Fill chart gaps between event years ([080eb64](https://github.com/d9beuD/genealogist/commit/080eb6466d03b91150ef0254b53cc4c393110443)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Improve union date label readability ([bb04732](https://github.com/d9beuD/genealogist/commit/bb04732953606c656bc2f348026bc549cbf8976e))
+* **tree:** Make long chart ranges scrollable ([43f5c1b](https://github.com/d9beuD/genealogist/commit/43f5c1bb8f9e371d6a34140e6c643a5a00724fb0)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Preserve font family in SVG export ([c7e7309](https://github.com/d9beuD/genealogist/commit/c7e7309eb131875b26646e72b2c628fa6a656836))
+* **tree:** Prevent chart hover resize loop ([0164bb1](https://github.com/d9beuD/genealogist/commit/0164bb154f0a34bd0ae096ff867be8cdfdcc99d8)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Remove Bootstrap underline from member links ([e7383bf](https://github.com/d9beuD/genealogist/commit/e7383bfd2b2cea6ebd291cb370893bad9eaa7b55))
+* **tree:** Remove links from exported SVG ([91c89c1](https://github.com/d9beuD/genealogist/commit/91c89c1ccad38e1709a1900cb98cfb1aa694b827))
+* **tree:** Remove redundant statistics back link ([a9d1bcf](https://github.com/d9beuD/genealogist/commit/a9d1bcf184b5dad890496132e3499e6db08ef344)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+* **tree:** Tighten SVG connector spacing ([eb9c3c2](https://github.com/d9beuD/genealogist/commit/eb9c3c2043e5318266c6b69b30f3c3646e132b60))
+* **tree:** Trim extra canvas space ([4f42512](https://github.com/d9beuD/genealogist/commit/4f42512773c88e0daf3476b01f93f030eadaf266))
+
+
+### Performance
+
+* **person:** Preload ancestor statistics graph ([3c0c008](https://github.com/d9beuD/genealogist/commit/3c0c0083c74247f68f5b5e3f98d4a26ac2d56017)), closes [#131](https://github.com/d9beuD/genealogist/issues/131)
+
 ## [2.7.0](https://github.com/d9beuD/genealogist/compare/genealogist-v2.6.0...genealogist-v2.7.0) (2026-04-13)
 
 
