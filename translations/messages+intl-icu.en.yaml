@@ -187,6 +187,7 @@ tree:
         average_age: Average age
         min_age: Minimum age
         max_age: Maximum age
+        extended_chart_mode: Extended chart mode
         people_used_count: >-
             {count, plural,
                 =1 {# member used}

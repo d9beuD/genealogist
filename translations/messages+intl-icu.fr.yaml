@@ -188,6 +188,7 @@ tree:
         average_age: Âge moyen
         min_age: Âge minimum
         max_age: Âge maximum
+        extended_chart_mode: Mode de graphique étendu
         people_used_count: >-
             {count, plural,
                 =1 {# membre utilisé}
