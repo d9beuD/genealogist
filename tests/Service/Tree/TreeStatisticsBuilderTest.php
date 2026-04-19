@@ -45,10 +45,24 @@ final class TreeStatisticsBuilderTest extends TestCase
         self::assertNotNull($statistics['unknown_gender_age_summary']);
         self::assertSame('EPSILON Evan', $statistics['unknown_gender_age_summary']['min']['person']->getFullName());
 
-        self::assertSame(['1890', '1900', '1910', '1925', '1930'], $statistics['births_by_year']['labels']);
-        self::assertSame([1, 1, 1, 1, 1], $statistics['births_by_year']['data']);
-        self::assertSame(['1950', '1970', '2000'], $statistics['deaths_by_year']['labels']);
-        self::assertSame([1, 1, 1], $statistics['deaths_by_year']['data']);
+        self::assertSame('1890', $statistics['births_by_year']['labels'][0]);
+        self::assertSame('1930', $statistics['births_by_year']['labels'][array_key_last($statistics['births_by_year']['labels'])]);
+        self::assertCount(41, $statistics['births_by_year']['labels']);
+        self::assertSame(1, $statistics['births_by_year']['data'][0]);
+        self::assertSame(0, $statistics['births_by_year']['data'][1]);
+        self::assertSame(1, $statistics['births_by_year']['data'][10]);
+        self::assertSame(0, $statistics['births_by_year']['data'][11]);
+        self::assertSame(1, $statistics['births_by_year']['data'][35]);
+        self::assertSame(1, $statistics['births_by_year']['data'][40]);
+
+        self::assertSame('1950', $statistics['deaths_by_year']['labels'][0]);
+        self::assertSame('2000', $statistics['deaths_by_year']['labels'][array_key_last($statistics['deaths_by_year']['labels'])]);
+        self::assertCount(51, $statistics['deaths_by_year']['labels']);
+        self::assertSame(1, $statistics['deaths_by_year']['data'][0]);
+        self::assertSame(0, $statistics['deaths_by_year']['data'][1]);
+        self::assertSame(1, $statistics['deaths_by_year']['data'][20]);
+        self::assertSame(0, $statistics['deaths_by_year']['data'][21]);
+        self::assertSame(1, $statistics['deaths_by_year']['data'][50]);
     }
 
     public function testItHidesUnknownGenderSummaryWhenNoUsableUnknownAgeExists(): void

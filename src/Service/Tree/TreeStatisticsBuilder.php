@@ -148,6 +148,8 @@ class TreeStatisticsBuilder
     private function buildYearDataset(array $members, callable $dateAccessor): array
     {
         $countsByYear = [];
+        $minYear = null;
+        $maxYear = null;
 
         foreach ($members as $member) {
             $date = $dateAccessor($member);
@@ -156,8 +158,21 @@ class TreeStatisticsBuilder
                 continue;
             }
 
-            $year = $date->format('Y');
+            $year = (int) $date->format('Y');
             $countsByYear[$year] = ($countsByYear[$year] ?? 0) + 1;
+            $minYear = null === $minYear ? $year : min($minYear, $year);
+            $maxYear = null === $maxYear ? $year : max($maxYear, $year);
+        }
+
+        if (null === $minYear || null === $maxYear) {
+            return [
+                'labels' => [],
+                'data' => [],
+            ];
+        }
+
+        for ($year = $minYear; $year <= $maxYear; ++$year) {
+            $countsByYear[$year] ??= 0;
         }
 
         ksort($countsByYear);
