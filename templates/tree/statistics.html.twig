@@ -110,7 +110,9 @@
                         <div class="card-body">
                             <h2 class="h4 mb-3">{{ 'tree.statistics.births.title'|trans }}</h2>
                             {% if births_chart %}
-                                {{ render_chart(births_chart, { class: 'w-100', style: 'height: 320px;' }) }}
+                                <div style="height: 320px;">
+                                    {{ render_chart(births_chart, { class: 'w-100 h-100' }) }}
+                                </div>
                             {% else %}
                                 <p class="text-secondary mb-0">{{ 'tree.statistics.no_birth_data'|trans }}</p>
                             {% endif %}
@@ -123,7 +125,9 @@
                         <div class="card-body">
                             <h2 class="h4 mb-3">{{ 'tree.statistics.deaths.title'|trans }}</h2>
                             {% if deaths_chart %}
-                                {{ render_chart(deaths_chart, { class: 'w-100', style: 'height: 320px;' }) }}
+                                <div style="height: 320px;">
+                                    {{ render_chart(deaths_chart, { class: 'w-100 h-100' }) }}
+                                </div>
                             {% else %}
                                 <p class="text-secondary mb-0">{{ 'tree.statistics.no_death_data'|trans }}</p>
                             {% endif %}
