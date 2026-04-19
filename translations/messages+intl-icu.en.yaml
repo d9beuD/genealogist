@@ -63,6 +63,7 @@ action:
     create: Create
     delete: Delete
     edit: Edit
+    statistics: Statistics
     login: Login
     register: Register
     logout: Logout
@@ -70,6 +71,7 @@ action:
     rename: Rename
     save: Save
     see_tree: See tree
+    show_tree_members: Show tree members
     show: Show
     update: Update
     add_favorite: Add to favorites
@@ -112,6 +114,7 @@ title:
     edit_union: Edit union
     edit_union_of: Edit union of {name}
     rename_tree: Rename tree {name}
+    tree_statistics: Statistics for {name}
     tree_of: Tree of {name}
     sources_of: Sources of {name}
     life_line_of: Life line of {name}
@@ -178,6 +181,35 @@ tree:
     add_member:
         success: '**{name}** has been successfully added to the tree.'
         error: '**{name}** has not been added to the tree.'
+    statistics:
+        description: Explore ages, oldest known dates, and yearly birth and death trends for this tree.
+        members_count: Members count
+        average_age: Average age
+        min_age: Minimum age
+        max_age: Maximum age
+        people_used_count: >-
+            {count, plural,
+                =1 {# member used}
+                other {# members used}
+            }
+        no_oldest_birth: No birth date available.
+        no_oldest_death: No death date available.
+        no_birth_data: No birth data available.
+        no_death_data: No death data available.
+        summary:
+            women: Women age summary
+            men: Men age summary
+            unknown: Unknown gender age summary
+        oldest_birth:
+            title: Oldest known birth
+        oldest_death:
+            title: Oldest known death
+        births:
+            title: Births by year
+            chart_label: Births
+        deaths:
+            title: Deaths by year
+            chart_label: Deaths
     export:
         preparing_svg: Preparing SVG export...
         svg_ready: SVG export ready.

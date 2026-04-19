@@ -11,6 +11,7 @@ use App\Form\TreeType;
 use App\Repository\PersonRepository;
 use App\Service\ImageManager;
 use App\Service\PersonManager;
+use App\Service\Tree\TreeStatisticsBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class TreeController extends AbstractController
 {
@@ -28,6 +31,8 @@ class TreeController extends AbstractController
         private readonly ImageManager $imageManager,
         private readonly PersonRepository $personRepository,
         private readonly PersonManager $personManager,
+        private readonly TreeStatisticsBuilder $treeStatisticsBuilder,
+        private readonly ChartBuilderInterface $chartBuilder,
     ) {
     }
 
@@ -101,6 +106,30 @@ class TreeController extends AbstractController
             'members_without_own_unions_count' => array_sum(array_map('count', $groupedMembersWithoutOwnUnions)),
             'members_without_parent_union_count' => array_sum(array_map('count', $groupedMembersWithoutParentUnion)),
             'favorites' => $this->personRepository->findFavoritesInTree($tree, $user),
+        ]);
+    }
+
+    #[Route('/project/{id}/statistics', name: 'app_tree_statistics', methods: ['GET'])]
+    #[IsGranted('view', 'tree')]
+    public function statistics(Tree $tree): Response
+    {
+        $statistics = $this->treeStatisticsBuilder->build($tree);
+
+        return $this->render('tree/statistics.html.twig', [
+            'tree' => $tree,
+            'statistics' => $statistics,
+            'births_chart' => $this->createYearlyChart(
+                $this->translator->trans('tree.statistics.births.chart_label'),
+                $statistics['births_by_year'],
+                'rgb(25, 135, 84)',
+                'rgba(25, 135, 84, 0.18)',
+            ),
+            'deaths_chart' => $this->createYearlyChart(
+                $this->translator->trans('tree.statistics.deaths.chart_label'),
+                $statistics['deaths_by_year'],
+                'rgb(220, 53, 69)',
+                'rgba(220, 53, 69, 0.18)',
+            ),
         ]);
     }
 
@@ -190,5 +219,48 @@ class TreeController extends AbstractController
             'form' => $form,
             'tree' => $tree,
         ]);
+    }
+
+    /**
+     * @param array{labels: list<string>, data: list<int>} $dataset
+     */
+    private function createYearlyChart(string $label, array $dataset, string $borderColor, string $backgroundColor): ?Chart
+    {
+        if ([] === $dataset['labels']) {
+            return null;
+        }
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart->setData([
+            'labels' => $dataset['labels'],
+            'datasets' => [[
+                'label' => $label,
+                'data' => $dataset['data'],
+                'borderColor' => $borderColor,
+                'backgroundColor' => $backgroundColor,
+                'fill' => true,
+                'tension' => 0.25,
+                'pointRadius' => 3,
+                'pointHoverRadius' => 5,
+            ]],
+        ]);
+        $chart->setOptions([
+            'maintainAspectRatio' => false,
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'ticks' => [
+                        'precision' => 0,
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ],
+            ],
+        ]);
+
+        return $chart;
     }
 }

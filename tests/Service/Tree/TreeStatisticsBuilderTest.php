@@ -1,0 +1,130 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Service\Tree;
+
+use App\Entity\Person;
+use App\Entity\Tree;
+use App\Repository\PersonRepository;
+use App\Service\Tree\TreeStatisticsBuilder;
+use PHPUnit\Framework\TestCase;
+
+final class TreeStatisticsBuilderTest extends TestCase
+{
+    public function testItBuildsGenderSummariesAndYearlyCharts(): void
+    {
+        $tree = new Tree();
+        $members = [
+            $this->createPerson('Ada', 'Alpha', Person::FEMALE, '1900-01-01', '1970-01-01', true),
+            $this->createPerson('Beth', 'Beta', Person::FEMALE, '1910-01-01', null, false),
+            $this->createPerson('Carl', 'Gamma', Person::MALE, '1890-05-04', '1950-02-01', true),
+            $this->createPerson('Dylan', 'Delta', Person::MALE, '1925-06-01', null, false, true),
+            $this->createPerson('Evan', 'Epsilon', Person::OTHER, '1930-01-01', '2000-01-01', true),
+        ];
+
+        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $builder->build($tree);
+
+        self::assertSame(5, $statistics['members_count']);
+        self::assertSame('GAMMA Carl', $statistics['oldest_birth']['person']->getFullName());
+        self::assertSame('1950-02-01', $statistics['oldest_death']['date']->format('Y-m-d'));
+
+        self::assertNotNull($statistics['women_age_summary']);
+        self::assertSame('ALPHA Ada', $statistics['women_age_summary']['min']['person']->getFullName());
+        self::assertSame(70, $statistics['women_age_summary']['min']['age']);
+        self::assertSame('BETA Beth', $statistics['women_age_summary']['max']['person']->getFullName());
+        self::assertSame(2, $statistics['women_age_summary']['average']['count']);
+
+        self::assertNotNull($statistics['men_age_summary']);
+        self::assertSame('GAMMA Carl', $statistics['men_age_summary']['min']['person']->getFullName());
+        self::assertSame('DELTA Dylan', $statistics['men_age_summary']['max']['person']->getFullName());
+        self::assertTrue($statistics['men_age_summary']['max']['approximate']);
+        self::assertTrue($statistics['men_age_summary']['average']['approximate']);
+
+        self::assertNotNull($statistics['unknown_gender_age_summary']);
+        self::assertSame('EPSILON Evan', $statistics['unknown_gender_age_summary']['min']['person']->getFullName());
+
+        self::assertSame(['1890', '1900', '1910', '1925', '1930'], $statistics['births_by_year']['labels']);
+        self::assertSame([1, 1, 1, 1, 1], $statistics['births_by_year']['data']);
+        self::assertSame(['1950', '1970', '2000'], $statistics['deaths_by_year']['labels']);
+        self::assertSame([1, 1, 1], $statistics['deaths_by_year']['data']);
+    }
+
+    public function testItHidesUnknownGenderSummaryWhenNoUsableUnknownAgeExists(): void
+    {
+        $tree = new Tree();
+        $members = [
+            $this->createPerson('Ada', 'Alpha', Person::FEMALE, '1900-01-01', '1970-01-01', true),
+            $this->createPerson('Noel', 'Unknown', Person::OTHER, null, null, false),
+        ];
+
+        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $builder->build($tree);
+
+        self::assertNull($statistics['unknown_gender_age_summary']);
+    }
+
+    public function testItReturnsEmptyDateDatasetsWhenNoDatesAreAvailable(): void
+    {
+        $tree = new Tree();
+        $members = [
+            $this->createPerson('Noel', 'Unknown', Person::OTHER, null, null, false),
+        ];
+
+        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $builder->build($tree);
+
+        self::assertNull($statistics['oldest_birth']);
+        self::assertNull($statistics['oldest_death']);
+        self::assertSame([], $statistics['births_by_year']['labels']);
+        self::assertSame([], $statistics['deaths_by_year']['labels']);
+    }
+
+    /**
+     * @param array<int, Person> $members
+     */
+    private function createRepositoryStub(Tree $tree, array $members): PersonRepository
+    {
+        $repository = $this->createMock(PersonRepository::class);
+        $repository
+            ->expects(self::once())
+            ->method('findByTreeForStatistics')
+            ->with($tree)
+            ->willReturn($members)
+        ;
+
+        return $repository;
+    }
+
+    private function createPerson(
+        string $firstname,
+        string $lastname,
+        ?int $gender,
+        ?string $birth,
+        ?string $death,
+        bool $dead,
+        bool $approximateBirth = false,
+    ): Person {
+        $person = (new Person())
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGender($gender)
+            ->setDead($dead)
+        ;
+
+        if (null !== $birth) {
+            $person->setBirth(new \DateTimeImmutable($birth));
+        }
+
+        if (null !== $death) {
+            $person->setDeath(new \DateTimeImmutable($death));
+        }
+
+        if ($approximateBirth) {
+            $person->setBirthYearUnsure(true);
+        }
+
+        return $person;
+    }
+}

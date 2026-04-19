@@ -125,6 +125,19 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return array<int, Person>
+     */
+    public function findByTreeForStatistics(Tree $tree): array
+    {
+        return $this->createTreeMembersQueryBuilder($tree)
+            ->orderBy('p.lastname', 'ASC')
+            ->addOrderBy('p.firstname', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     private function createTreeMembersQueryBuilder(Tree $tree): QueryBuilder
     {
         return $this->createQueryBuilder('p')

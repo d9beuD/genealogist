@@ -63,6 +63,7 @@ action:
     create: Créer
     delete: Supprimer
     edit: Modifier
+    statistics: Statistiques
     login: 'Se connecter'
     register: "S'inscrire"
     logout: 'Se déconnecter'
@@ -70,6 +71,7 @@ action:
     rename: Renommer
     save: Enregistrer
     see_tree: Voir l'arbre
+    show_tree_members: Voir les membres de l'arbre
     show: Afficher
     update: Mettre à jour
     add_favorite: 'Ajouter aux favoris'
@@ -112,6 +114,7 @@ title:
     edit_union: Modifier l'union
     edit_union_of: Modifier l'union de {name}
     rename_tree: Renommer l'arbre {name}
+    tree_statistics: Statistiques de {name}
     tree_of: Arbre de {name}
     sources_of: Sources de {name}
     life_line_of: Ligne de vie de {name}
@@ -179,6 +182,35 @@ tree:
     add_member:
         success: "**{name}** a bien été ajouté à l'arbre."
         error: "**{name}** n'a pas été ajouté à l'arbre."
+    statistics:
+        description: Explorez les âges, les dates les plus anciennes connues et les tendances annuelles des naissances et décès de cet arbre.
+        members_count: Nombre de membres
+        average_age: Âge moyen
+        min_age: Âge minimum
+        max_age: Âge maximum
+        people_used_count: >-
+            {count, plural,
+                =1 {# membre utilisé}
+                other {# membres utilisés}
+            }
+        no_oldest_birth: Aucune date de naissance disponible.
+        no_oldest_death: Aucune date de décès disponible.
+        no_birth_data: Aucune donnée de naissance disponible.
+        no_death_data: Aucune donnée de décès disponible.
+        summary:
+            women: Résumé des âges des femmes
+            men: Résumé des âges des hommes
+            unknown: Résumé des âges de genre inconnu
+        oldest_birth:
+            title: Naissance connue la plus ancienne
+        oldest_death:
+            title: Décès connu le plus ancien
+        births:
+            title: Naissances par année
+            chart_label: Naissances
+        deaths:
+            title: Décès par année
+            chart_label: Décès
     export:
         preparing_svg: Préparation de l'export SVG...
         svg_ready: L'export SVG est prêt.
