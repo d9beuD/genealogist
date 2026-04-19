@@ -31,7 +31,11 @@
                     <div class="card-body">
                         <div class="text-secondary small mb-2">{{ 'tree.statistics.oldest_birth.title'|trans }}</div>
                         {% if statistics.oldest_birth %}
-                            <div class="fw-semibold">{{ statistics.oldest_birth.person.fullName }}</div>
+                            <div class="fw-semibold">
+                                <a href="{{ path('app_person_show', { id: statistics.oldest_birth.person.id }) }}" class="link-body-emphasis text-decoration-none link-underline-opacity-0 link-underline-opacity-100-hover">
+                                    {{ statistics.oldest_birth.person.fullName }}
+                                </a>
+                            </div>
                             <div>{{ statistics.oldest_birth.date|date('d/m/Y') }}</div>
                         {% else %}
                             <div class="text-secondary">{{ 'tree.statistics.no_oldest_birth'|trans }}</div>
@@ -44,7 +48,11 @@
                     <div class="card-body">
                         <div class="text-secondary small mb-2">{{ 'tree.statistics.oldest_death.title'|trans }}</div>
                         {% if statistics.oldest_death %}
-                            <div class="fw-semibold">{{ statistics.oldest_death.person.fullName }}</div>
+                            <div class="fw-semibold">
+                                <a href="{{ path('app_person_show', { id: statistics.oldest_death.person.id }) }}" class="link-body-emphasis text-decoration-none link-underline-opacity-0 link-underline-opacity-100-hover">
+                                    {{ statistics.oldest_death.person.fullName }}
+                                </a>
+                            </div>
                             <div>{{ statistics.oldest_death.date|date('d/m/Y') }}</div>
                         {% else %}
                             <div class="text-secondary">{{ 'tree.statistics.no_oldest_death'|trans }}</div>
@@ -79,14 +87,22 @@
                                         <div class="fw-semibold">
                                             {{ summary.data.min.approximate ? '~' : '' }}{{ summary.data.min.age }}
                                         </div>
-                                        <div class="small">{{ summary.data.min.person.fullName }}</div>
+                                        <div class="small">
+                                            <a href="{{ path('app_person_show', { id: summary.data.min.person.id }) }}" class="link-body-emphasis text-decoration-none link-underline-opacity-0 link-underline-opacity-100-hover">
+                                                {{ summary.data.min.person.fullName }}
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-secondary small">{{ 'tree.statistics.max_age'|trans }}</div>
                                         <div class="fw-semibold">
                                             {{ summary.data.max.approximate ? '~' : '' }}{{ summary.data.max.age }}
                                         </div>
-                                        <div class="small">{{ summary.data.max.person.fullName }}</div>
+                                        <div class="small">
+                                            <a href="{{ path('app_person_show', { id: summary.data.max.person.id }) }}" class="link-body-emphasis text-decoration-none link-underline-opacity-0 link-underline-opacity-100-hover">
+                                                {{ summary.data.max.person.fullName }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
 
