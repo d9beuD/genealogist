@@ -403,7 +403,7 @@ class Person implements \Stringable
 
     public function isAgeApproximate(): bool
     {
-        if ($this->getAge() === null) {
+        if (null === $this->getAge()) {
             return false;
         }
 

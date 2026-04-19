@@ -9,6 +9,8 @@ use App\Form\TreeOptionsType;
 use App\Service\FavoriteMemberManager;
 use App\Service\ImageManager;
 use App\Service\Tree\AncestorTreeViewModelBuilder;
+use App\Service\Tree\PersonAncestorBranchMemberCollector;
+use App\Service\Tree\TreeStatisticsBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,8 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class PersonController extends AbstractController
 {
@@ -27,7 +31,10 @@ class PersonController extends AbstractController
         private readonly ImageManager $imageManager,
         private readonly FavoriteMemberManager $favoriteMemberManager,
         private readonly AncestorTreeViewModelBuilder $ancestorTreeViewModelBuilder,
+        private readonly PersonAncestorBranchMemberCollector $personAncestorBranchMemberCollector,
+        private readonly TreeStatisticsBuilder $treeStatisticsBuilder,
         private readonly SerializerInterface $serializer,
+        private readonly ChartBuilderInterface $chartBuilder,
     ) {
     }
 
@@ -138,6 +145,31 @@ class PersonController extends AbstractController
         ]);
     }
 
+    #[Route('/person/{id}/statistics', name: 'app_person_statistics', methods: ['GET'])]
+    #[IsGranted('view', 'person')]
+    public function statistics(Person $person): Response
+    {
+        $branchMembers = $this->personAncestorBranchMemberCollector->collect($person);
+        $statistics = $this->treeStatisticsBuilder->buildFromMembers($branchMembers);
+
+        return $this->render('person/statistics.html.twig', [
+            'person' => $person,
+            'statistics' => $statistics,
+            'births_chart' => $this->createYearlyChart(
+                $this->translator->trans('tree.statistics.births.chart_label'),
+                $statistics['births_by_year'],
+                'rgb(25, 135, 84)',
+                'rgba(25, 135, 84, 0.18)',
+            ),
+            'deaths_chart' => $this->createYearlyChart(
+                $this->translator->trans('tree.statistics.deaths.chart_label'),
+                $statistics['deaths_by_year'],
+                'rgb(220, 53, 69)',
+                'rgba(220, 53, 69, 0.18)',
+            ),
+        ]);
+    }
+
     #[Route('/person/{id}/favorite', name: 'app_person_favorite', methods: [Request::METHOD_GET])]
     public function favorite(Person $person, #[CurrentUser()] User $user): Response
     {
@@ -162,5 +194,48 @@ class PersonController extends AbstractController
         );
 
         return $this->redirectToRoute('app_tree_show', ['id' => $person->getTree()->getId()]);
+    }
+
+    /**
+     * @param array{labels: list<string>, data: list<int>} $dataset
+     */
+    private function createYearlyChart(string $label, array $dataset, string $borderColor, string $backgroundColor): ?Chart
+    {
+        if ([] === $dataset['labels']) {
+            return null;
+        }
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart->setData([
+            'labels' => $dataset['labels'],
+            'datasets' => [[
+                'label' => $label,
+                'data' => $dataset['data'],
+                'borderColor' => $borderColor,
+                'backgroundColor' => $backgroundColor,
+                'fill' => true,
+                'tension' => 0.25,
+                'pointRadius' => 3,
+                'pointHoverRadius' => 5,
+            ]],
+        ]);
+        $chart->setOptions([
+            'maintainAspectRatio' => false,
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'ticks' => [
+                        'precision' => 0,
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ],
+            ],
+        ]);
+
+        return $chart;
     }
 }

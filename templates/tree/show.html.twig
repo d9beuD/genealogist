@@ -28,6 +28,10 @@
                         <i class="fa-solid fa-fw fa-plus"></i>
                         {{ 'action.new_member'|trans }}
                     </a>
+                    <a href="{{ path('app_tree_statistics', { id: tree.id }) }}" class="list-group-item link-primary">
+                        <i class="fa-solid fa-fw fa-chart-line"></i>
+                        {{ 'action.statistics'|trans }}
+                    </a>
                 </div>
 
                 {% if favorites|length %}
