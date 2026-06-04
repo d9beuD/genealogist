@@ -19,11 +19,11 @@ class RegistrationTest extends WebTestCase
 
     private EntityManagerInterface $entityManager;
 
-    private KernelBrowser $kernelBrowser;
+    private KernelBrowser $client;
 
     protected function setUp(): void
     {
-        $this->kernelBrowser = static::createClient([], ['HTTPS' => 'on']);
+        $this->client = static::createClient([], ['HTTPS' => 'on']);
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
 
         $this->ensureSchemaExists();
@@ -39,12 +39,12 @@ class RegistrationTest extends WebTestCase
 
     public function testRegisterCreatesUserWithHashedPassword(): void
     {
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $this->validPayload());
+        $this->client->jsonRequest('POST', '/api/register', $this->validPayload());
 
         self::assertResponseStatusCodeSame(201);
         self::assertResponseHeaderSame('content-type', 'application/json; charset=utf-8');
 
-        $response = json_decode((string) $this->kernelBrowser->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
+        $response = json_decode((string) $this->client->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
         self::assertSame(self::EMAIL, $response['email']);
         self::assertSame('Registered', $response['firstname']);
         self::assertSame('User', $response['lastname']);
@@ -63,10 +63,10 @@ class RegistrationTest extends WebTestCase
 
     public function testRegisteredUserCanLoginImmediately(): void
     {
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $this->validPayload());
+        $this->client->jsonRequest('POST', '/api/register', $this->validPayload());
         self::assertResponseStatusCodeSame(201);
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => self::EMAIL,
             'password' => 'valid-password',
         ]);
@@ -79,7 +79,7 @@ class RegistrationTest extends WebTestCase
         $payload = $this->validPayload();
         $payload['email'] = 'not-an-email';
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $payload);
+        $this->client->jsonRequest('POST', '/api/register', $payload);
 
         self::assertResponseStatusCodeSame(422);
     }
@@ -88,9 +88,9 @@ class RegistrationTest extends WebTestCase
     {
         $payload = $this->validPayload();
         $payload['email'] = 'not-an-email';
-        $this->kernelBrowser->setServerParameter('HTTP_ACCEPT_LANGUAGE', 'fr');
+        $this->client->setServerParameter('HTTP_ACCEPT_LANGUAGE', 'fr');
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $payload);
+        $this->client->jsonRequest('POST', '/api/register', $payload);
 
         self::assertResponseStatusCodeSame(422);
         self::assertSame('Veuillez saisir une adresse email valide.', $this->firstViolationMessage());
@@ -101,7 +101,7 @@ class RegistrationTest extends WebTestCase
         $payload = $this->validPayload();
         $payload['plainPassword'] = 'short';
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $payload);
+        $this->client->jsonRequest('POST', '/api/register', $payload);
 
         self::assertResponseStatusCodeSame(422);
     }
@@ -113,7 +113,7 @@ class RegistrationTest extends WebTestCase
         $payload = $this->validPayload();
         $payload['email'] = self::DUPLICATE_EMAIL;
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $payload);
+        $this->client->jsonRequest('POST', '/api/register', $payload);
 
         self::assertResponseStatusCodeSame(422);
     }
@@ -124,9 +124,9 @@ class RegistrationTest extends WebTestCase
 
         $payload = $this->validPayload();
         $payload['email'] = self::DUPLICATE_EMAIL;
-        $this->kernelBrowser->setServerParameter('HTTP_ACCEPT_LANGUAGE', 'fr');
+        $this->client->setServerParameter('HTTP_ACCEPT_LANGUAGE', 'fr');
 
-        $this->kernelBrowser->jsonRequest('POST', '/api/register', $payload);
+        $this->client->jsonRequest('POST', '/api/register', $payload);
 
         self::assertResponseStatusCodeSame(422);
         self::assertSame('Un compte existe déjà avec cette adresse email.', $this->firstViolationMessage());
@@ -164,7 +164,7 @@ class RegistrationTest extends WebTestCase
 
     private function firstViolationMessage(): string
     {
-        $response = json_decode((string) $this->kernelBrowser->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
+        $response = json_decode((string) $this->client->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
 
         return $response['violations'][0]['message'];
     }

@@ -11,28 +11,28 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final readonly class RegisterUser
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private UserPasswordHasherInterface $userPasswordHasher,
+        private UserRepository $users,
+        private UserPasswordHasherInterface $passwordHasher,
     ) {}
 
-    public function __invoke(RegisterUserCommand $registerUserCommand): User
+    public function __invoke(RegisterUserCommand $command): User
     {
-        $email = strtolower(trim($registerUserCommand->email));
+        $email = strtolower(trim($command->email));
 
-        if ($this->userRepository->existsByEmail($email)) {
+        if ($this->users->existsByEmail($email)) {
             throw new UserAlreadyExists($email);
         }
 
         $user = new User()
             ->setEmail($email)
-            ->setFirstname(trim($registerUserCommand->firstname))
-            ->setLastname(trim($registerUserCommand->lastname))
+            ->setFirstname(trim($command->firstname))
+            ->setLastname(trim($command->lastname))
             ->setIsVerified(false)
         ;
 
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, $registerUserCommand->plainPassword));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $command->plainPassword));
 
-        $this->userRepository->save($user);
+        $this->users->save($user);
 
         return $user;
     }

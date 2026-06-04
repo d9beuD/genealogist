@@ -39,7 +39,7 @@ final readonly class RegisterUserProcessor implements ProcessorInterface
                 firstname: $data->firstname,
                 lastname: $data->lastname,
             ));
-        } catch (UserAlreadyExists $userAlreadyExists) {
+        } catch (UserAlreadyExists $exception) {
             throw new ValidationException(new ConstraintViolationList([
                 new ConstraintViolation(
                     message: $this->translator->trans('registration.email.already_used', domain: 'validators'),
@@ -49,7 +49,7 @@ final readonly class RegisterUserProcessor implements ProcessorInterface
                     propertyPath: 'email',
                     invalidValue: $data->email,
                     code: null,
-                    cause: $userAlreadyExists,
+                    cause: $exception,
                 ),
             ]));
         }
