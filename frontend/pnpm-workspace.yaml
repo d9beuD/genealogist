@@ -1,4 +1,4 @@
 allowBuilds:
-  vue-demi: set this to true or false
+  vue-demi: true
 patchedDependencies:
   '@tailwindcss/node@4.3.0': patches/@tailwindcss__node@4.3.0.patch
