@@ -41,7 +41,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);
@@ -72,7 +72,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'wrong-password',
         ]);
@@ -86,7 +86,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);
@@ -118,7 +118,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);

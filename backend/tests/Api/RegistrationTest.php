@@ -65,7 +65,7 @@ class RegistrationTest extends WebTestCase
         $this->client->jsonRequest('POST', '/api/register', $this->validPayload());
         self::assertResponseStatusCodeSame(201);
 
-        $this->client->jsonRequest('POST', '/auth', [
+        $this->client->jsonRequest('POST', '/api/auth', [
             'email' => self::EMAIL,
             'password' => 'valid-password',
         ]);

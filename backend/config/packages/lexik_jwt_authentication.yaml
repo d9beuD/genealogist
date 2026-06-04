@@ -15,6 +15,6 @@ lexik_jwt_authentication:
             samesite: strict
             path: /
     api_platform:
-        check_path: /auth
+        check_path: /api/auth
         username_path: email
         password_path: password

@@ -70,7 +70,7 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
         $headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
         $request = $event->getRequest();
-        if (!\in_array($request->getPathInfo(), ['/auth', '/api/token/refresh'], true) || !$response->isSuccessful()) {
+        if (!\in_array($request->getPathInfo(), ['/api/auth', '/api/token/refresh'], true) || !$response->isSuccessful()) {
             return;
         }
 
@@ -90,7 +90,7 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
             return false;
         }
 
-        if ($path === '/api/register' && $method === 'POST') {
+        if (\in_array($path, ['/api/auth', '/api/register'], true) && $method === 'POST') {
             return false;
         }
 
