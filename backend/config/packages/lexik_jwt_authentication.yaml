@@ -12,7 +12,7 @@ lexik_jwt_authentication:
         BEARER:
             secure: true
             httpOnly: true
-            samesite: lax
+            samesite: strict
             path: /
     api_platform:
         check_path: /auth

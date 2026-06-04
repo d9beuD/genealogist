@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Api;
 
 use App\Entity\RefreshToken;
@@ -48,14 +50,22 @@ class AuthenticationTest extends WebTestCase
 
         $accessTokenCookie = $this->getResponseCookie('BEARER');
         $refreshTokenCookie = $this->getResponseCookie('refresh_token');
+        $csrfCookie = $this->getResponseCookie('csrf_token');
 
         self::assertNotNull($accessTokenCookie);
         self::assertTrue($accessTokenCookie->isSecure());
         self::assertTrue($accessTokenCookie->isHttpOnly());
+        self::assertSame(Cookie::SAMESITE_STRICT, $accessTokenCookie->getSameSite());
 
         self::assertNotNull($refreshTokenCookie);
         self::assertTrue($refreshTokenCookie->isSecure());
         self::assertTrue($refreshTokenCookie->isHttpOnly());
+        self::assertSame(Cookie::SAMESITE_STRICT, $refreshTokenCookie->getSameSite());
+
+        self::assertNotNull($csrfCookie);
+        self::assertTrue($csrfCookie->isSecure());
+        self::assertFalse($csrfCookie->isHttpOnly());
+        self::assertSame(Cookie::SAMESITE_STRICT, $csrfCookie->getSameSite());
     }
 
     public function testLoginRejectsInvalidCredentials(): void
@@ -82,6 +92,10 @@ class AuthenticationTest extends WebTestCase
         ]);
         self::assertResponseIsSuccessful();
 
+        $csrfCookie = $this->getResponseCookie('csrf_token');
+        self::assertNotNull($csrfCookie);
+
+        $this->client->setServerParameter('HTTP_X_CSRF_TOKEN', $csrfCookie->getValue());
         $this->client->jsonRequest('POST', '/api/token/refresh');
 
         self::assertResponseIsSuccessful();
@@ -92,15 +106,32 @@ class AuthenticationTest extends WebTestCase
         self::assertNotNull($accessTokenCookie);
         self::assertTrue($accessTokenCookie->isSecure());
         self::assertTrue($accessTokenCookie->isHttpOnly());
+        self::assertSame(Cookie::SAMESITE_STRICT, $accessTokenCookie->getSameSite());
 
         self::assertNotNull($refreshTokenCookie);
         self::assertTrue($refreshTokenCookie->isSecure());
         self::assertTrue($refreshTokenCookie->isHttpOnly());
+        self::assertSame(Cookie::SAMESITE_STRICT, $refreshTokenCookie->getSameSite());
+    }
+
+    public function testRefreshTokenCookieRequiresCsrfHeader(): void
+    {
+        $this->createUser('api-user@example.com', 'password');
+
+        $this->client->jsonRequest('POST', '/auth', [
+            'email' => 'api-user@example.com',
+            'password' => 'password',
+        ]);
+        self::assertResponseIsSuccessful();
+
+        $this->client->jsonRequest('POST', '/api/token/refresh');
+
+        self::assertResponseStatusCodeSame(403);
     }
 
     private function createUser(string $email, string $plainPassword): void
     {
-        $user = (new User())
+        $user = new User()
             ->setEmail($email)
             ->setFirstname('API')
             ->setLastname('User')
@@ -142,6 +173,6 @@ class AuthenticationTest extends WebTestCase
 
     private function deleteRefreshTokens(): void
     {
-        $this->entityManager->createQuery('DELETE FROM '.RefreshToken::class.' token')->execute();
+        $this->entityManager->createQuery('DELETE FROM ' . RefreshToken::class . ' token')->execute();
     }
 }

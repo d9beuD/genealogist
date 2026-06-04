@@ -5,7 +5,7 @@ gesdinet_jwt_refresh_token:
     single_use: true
     cookie:
         enabled: true
-        same_site: lax
+        same_site: strict
         path: /
         http_only: true
         secure: true
