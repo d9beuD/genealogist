@@ -1,6 +1,11 @@
 api_platform:
     title: Hello API Platform
     version: 1.0.0
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
     defaults:
         stateless: true
         cache_headers:
