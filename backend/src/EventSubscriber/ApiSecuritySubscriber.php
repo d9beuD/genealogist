@@ -90,6 +90,10 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
             return false;
         }
 
+        if ($path === '/api/register' && $method === 'POST') {
+            return false;
+        }
+
         return str_starts_with($path, '/api/');
     }
 }
