@@ -70,7 +70,7 @@ jobs:
       - name: Prepare test database
         run: |
           mkdir -p var
-          php bin/console doctrine:database:create --if-not-exists --env=test
+          rm -f var/ci.db
           php bin/console doctrine:schema:create --env=test
 
       - name: Run unit tests
