@@ -175,8 +175,8 @@ class PersonRepository extends ServiceEntityRepository
         $queryBuilder
             ->andWhere(
                 $queryBuilder->expr()->orX(
-                    'UPPER(CONCAT(COALESCE(p.lastname, \'\'), \' \', COALESCE(p.firstname, \'\'))) LIKE :name',
-                    'UPPER(CONCAT(COALESCE(p.birthName, \'\'), \' \', COALESCE(p.firstname, \'\'))) LIKE :name'
+                    "UPPER(CONCAT(COALESCE(p.lastname, ''), ' ', COALESCE(p.firstname, ''))) LIKE :name",
+                    "UPPER(CONCAT(COALESCE(p.birthName, ''), ' ', COALESCE(p.firstname, ''))) LIKE :name"
                 )
             )
             ->setParameter('name', '%' . $normalizedName . '%')

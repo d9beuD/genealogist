@@ -22,11 +22,11 @@ final class PersonAncestorBranchMemberCollectorTest extends TestCase
         $grandMother = $this->createPerson($tree, 'Grand', 'Mother');
         $sharedAncestor = $this->createPerson($tree, 'Shared', 'Ancestor');
 
-        $rootParents = new Union()
+        $union = new Union()
             ->addPerson($mother)
             ->addPerson($father)
         ;
-        $root->setParentUnion($rootParents);
+        $root->setParentUnion($union);
 
         $motherParents = new Union()
             ->addPerson($grandMother)

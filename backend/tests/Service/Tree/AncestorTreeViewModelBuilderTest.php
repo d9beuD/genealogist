@@ -18,7 +18,7 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
 {
     public function testItBuildsADepthLimitedAncestorTree(): void
     {
-        $builder = new AncestorTreeViewModelBuilder(
+        $ancestorTreeViewModelBuilder = new AncestorTreeViewModelBuilder(
             new Packages(new Package(new EmptyVersionStrategy())),
             $this->createUrlGenerator(),
         );
@@ -28,35 +28,35 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
             ->setCreatedAt(new \DateTimeImmutable())
         ;
 
-        $grandFather = $this->createPerson(1, $tree, 'John', 'Doe', Person::MALE, null, new \DateTimeImmutable('1940-01-01'));
+        $person = $this->createPerson(1, $tree, 'John', 'Doe', Person::MALE, null, new \DateTimeImmutable('1940-01-01'));
         $grandMother = $this->createPerson(2, $tree, 'Jane', 'Doe', Person::FEMALE, 'jane.jpg', new \DateTimeImmutable('1942-01-01'));
         $father = $this->createPerson(3, $tree, 'Jack', 'Doe', Person::MALE, null, new \DateTimeImmutable('1970-01-01'));
         $child = $this->createPerson(4, $tree, 'Jill', 'Doe', Person::FEMALE, null, new \DateTimeImmutable('2000-01-01'));
 
-        $grandParentUnion = $this->createUnion(11, $grandFather, $grandMother, $father, new \DateTimeImmutable('1969-04-20'));
+        $grandParentUnion = $this->createUnion(11, $person, $grandMother, $father, new \DateTimeImmutable('1969-04-20'));
         $parentUnion = $this->createUnion(12, $father, $grandMother, $child, new \DateTimeImmutable('1999-05-21'));
 
         $father->setParentUnion($grandParentUnion);
         $child->setParentUnion($parentUnion);
 
-        $viewModel = $builder->build($child, 2);
+        $ancestorTreeNodeViewModel = $ancestorTreeViewModelBuilder->build($child, 2);
 
-        self::assertSame('root', $viewModel->occurrenceId);
-        self::assertSame(4, $viewModel->personId);
-        self::assertSame('/person/4', $viewModel->profileUrl);
-        self::assertSame('2000', $viewModel->yearsLabel);
-        self::assertNotNull($viewModel->parentUnion);
-        self::assertSame('21/05/1999', $viewModel->parentUnion->startsAtLabel);
-        self::assertCount(2, $viewModel->parentUnion->parents);
-        self::assertSame(3, $viewModel->parentUnion->parents[0]->personId);
-        self::assertSame(2, $viewModel->parentUnion->parents[1]->personId);
-        self::assertNull($viewModel->parentUnion->parents[0]->parentUnion);
-        self::assertSame('pictures/jane.jpg', $viewModel->parentUnion->parents[1]->portraitUrl);
+        self::assertSame('root', $ancestorTreeNodeViewModel->occurrenceId);
+        self::assertSame(4, $ancestorTreeNodeViewModel->personId);
+        self::assertSame('/person/4', $ancestorTreeNodeViewModel->profileUrl);
+        self::assertSame('2000', $ancestorTreeNodeViewModel->yearsLabel);
+        self::assertNotNull($ancestorTreeNodeViewModel->parentUnion);
+        self::assertSame('21/05/1999', $ancestorTreeNodeViewModel->parentUnion->startsAtLabel);
+        self::assertCount(2, $ancestorTreeNodeViewModel->parentUnion->parents);
+        self::assertSame(3, $ancestorTreeNodeViewModel->parentUnion->parents[0]->personId);
+        self::assertSame(2, $ancestorTreeNodeViewModel->parentUnion->parents[1]->personId);
+        self::assertNull($ancestorTreeNodeViewModel->parentUnion->parents[0]->parentUnion);
+        self::assertSame('pictures/jane.jpg', $ancestorTreeNodeViewModel->parentUnion->parents[1]->portraitUrl);
     }
 
     public function testItBuildsUnlimitedDepthWhenDepthIsZero(): void
     {
-        $builder = new AncestorTreeViewModelBuilder(
+        $ancestorTreeViewModelBuilder = new AncestorTreeViewModelBuilder(
             new Packages(new Package(new EmptyVersionStrategy())),
             $this->createUrlGenerator(),
         );
@@ -66,23 +66,23 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
             ->setCreatedAt(new \DateTimeImmutable())
         ;
 
-        $grandFather = $this->createPerson(1, $tree, 'John', 'Doe', Person::MALE, null, new \DateTimeImmutable('1940-01-01'));
+        $person = $this->createPerson(1, $tree, 'John', 'Doe', Person::MALE, null, new \DateTimeImmutable('1940-01-01'));
         $grandMother = $this->createPerson(2, $tree, 'Jane', 'Doe', Person::FEMALE, null, new \DateTimeImmutable('1942-01-01'));
         $father = $this->createPerson(3, $tree, 'Jack', 'Doe', Person::MALE, null, new \DateTimeImmutable('1970-01-01'));
         $child = $this->createPerson(4, $tree, 'Jill', 'Doe', Person::FEMALE, null, new \DateTimeImmutable('2000-01-01'));
 
-        $grandParentUnion = $this->createUnion(11, $grandFather, $grandMother, $father);
+        $grandParentUnion = $this->createUnion(11, $person, $grandMother, $father);
         $parentUnion = $this->createUnion(12, $father, $grandMother, $child);
 
         $father->setParentUnion($grandParentUnion);
         $child->setParentUnion($parentUnion);
 
-        $viewModel = $builder->build($child, 0);
+        $ancestorTreeNodeViewModel = $ancestorTreeViewModelBuilder->build($child, 0);
 
-        self::assertNotNull($viewModel->parentUnion);
-        self::assertNotNull($viewModel->parentUnion->parents[0]->parentUnion);
-        self::assertSame(1, $viewModel->parentUnion->parents[0]->parentUnion->parents[0]->personId);
-        self::assertSame(2, $viewModel->parentUnion->parents[0]->parentUnion->parents[1]->personId);
+        self::assertNotNull($ancestorTreeNodeViewModel->parentUnion);
+        self::assertNotNull($ancestorTreeNodeViewModel->parentUnion->parents[0]->parentUnion);
+        self::assertSame(1, $ancestorTreeNodeViewModel->parentUnion->parents[0]->parentUnion->parents[0]->personId);
+        self::assertSame(2, $ancestorTreeNodeViewModel->parentUnion->parents[0]->parentUnion->parents[1]->personId);
     }
 
     private function createPerson(

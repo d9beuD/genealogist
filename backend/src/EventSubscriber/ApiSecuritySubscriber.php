@@ -13,20 +13,23 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ApiSecuritySubscriber implements EventSubscriberInterface
 {
-    private const CSRF_COOKIE_NAME = 'csrf_token';
+    private const string CSRF_COOKIE_NAME = 'csrf_token';
 
-    private const CSRF_HEADER_NAME = 'X-CSRF-Token';
+    private const string CSRF_HEADER_NAME = 'X-CSRF-Token';
 
     /**
      * @var array<string, true>
      */
-    private const SAFE_METHODS = [
+    private const array SAFE_METHODS = [
         'GET' => true,
         'HEAD' => true,
         'OPTIONS' => true,
         'TRACE' => true,
     ];
 
+    /**
+     * @return array<string, int[]|string[]>
+     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -35,13 +38,13 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function validateCsrfToken(RequestEvent $event): void
+    public function validateCsrfToken(RequestEvent $requestEvent): void
     {
-        if (!$event->isMainRequest()) {
+        if (!$requestEvent->isMainRequest()) {
             return;
         }
 
-        $request = $event->getRequest();
+        $request = $requestEvent->getRequest();
         if (!$this->requiresCsrfProtection($request->getPathInfo(), $request->getMethod())) {
             return;
         }
@@ -50,17 +53,17 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
         $headerToken = $request->headers->get(self::CSRF_HEADER_NAME);
 
         if (!\is_string($cookieToken) || !\is_string($headerToken) || !hash_equals($cookieToken, $headerToken)) {
-            $event->setResponse(new JsonResponse(['message' => 'Invalid CSRF token.'], JsonResponse::HTTP_FORBIDDEN));
+            $requestEvent->setResponse(new JsonResponse(['message' => 'Invalid CSRF token.'], JsonResponse::HTTP_FORBIDDEN));
         }
     }
 
-    public function hardenResponse(ResponseEvent $event): void
+    public function hardenResponse(ResponseEvent $responseEvent): void
     {
-        if (!$event->isMainRequest()) {
+        if (!$responseEvent->isMainRequest()) {
             return;
         }
 
-        $response = $event->getResponse();
+        $response = $responseEvent->getResponse();
         $headers = $response->headers;
 
         $headers->set('X-Content-Type-Options', 'nosniff');
@@ -69,7 +72,7 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
         $headers->set('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'");
         $headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-        $request = $event->getRequest();
+        $request = $responseEvent->getRequest();
         if (!\in_array($request->getPathInfo(), ['/api/auth', '/api/token/refresh'], true) || !$response->isSuccessful()) {
             return;
         }

@@ -103,9 +103,9 @@ class TreeController extends AbstractController
             'advanced_filters_active' => $advancedFiltersActive,
             'show_without_own_unions' => $showWithoutOwnUnions,
             'show_without_parent_union' => $showWithoutParentUnion,
-            'members_count' => array_sum(array_map('count', $groupedMembers)),
-            'members_without_own_unions_count' => array_sum(array_map('count', $groupedMembersWithoutOwnUnions)),
-            'members_without_parent_union_count' => array_sum(array_map('count', $groupedMembersWithoutParentUnion)),
+            'members_count' => array_sum(array_map(count(...), $groupedMembers)),
+            'members_without_own_unions_count' => array_sum(array_map(count(...), $groupedMembersWithoutOwnUnions)),
+            'members_without_parent_union_count' => array_sum(array_map(count(...), $groupedMembersWithoutParentUnion)),
             'favorites' => $this->personRepository->findFavoritesInTree($tree, $user),
         ]);
     }

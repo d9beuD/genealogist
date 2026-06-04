@@ -417,7 +417,15 @@ class Person implements \Stringable
             return false;
         }
 
-        return $this->isDeathDayUnsure() || $this->isDeathMonthUnsure() || $this->isDeathYearUnsure();
+        if ($this->isDeathDayUnsure()) {
+            return true;
+        }
+
+        if ($this->isDeathMonthUnsure()) {
+            return true;
+        }
+
+        return (bool) $this->isDeathYearUnsure();
     }
 
     private function getAgeReferenceDate(): ?\DateTimeInterface

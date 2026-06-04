@@ -23,8 +23,8 @@ final class TreeStatisticsBuilderTest extends TestCase
             $this->createPerson('Evan', 'Epsilon', Person::OTHER, '1930-01-01', '2000-01-01', true),
         ];
 
-        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
-        $statistics = $builder->build($tree);
+        $treeStatisticsBuilder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $treeStatisticsBuilder->build($tree);
 
         self::assertSame(5, $statistics['members_count']);
         self::assertSame('GAMMA Carl', $statistics['oldest_birth']['person']->getFullName());
@@ -73,8 +73,8 @@ final class TreeStatisticsBuilderTest extends TestCase
             $this->createPerson('Noel', 'Unknown', Person::OTHER, null, null, false),
         ];
 
-        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
-        $statistics = $builder->build($tree);
+        $treeStatisticsBuilder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $treeStatisticsBuilder->build($tree);
 
         self::assertNull($statistics['unknown_gender_age_summary']);
     }
@@ -86,8 +86,8 @@ final class TreeStatisticsBuilderTest extends TestCase
             $this->createPerson('Noel', 'Unknown', Person::OTHER, null, null, false),
         ];
 
-        $builder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
-        $statistics = $builder->build($tree);
+        $treeStatisticsBuilder = new TreeStatisticsBuilder($this->createRepositoryStub($tree, $members));
+        $statistics = $treeStatisticsBuilder->build($tree);
 
         self::assertNull($statistics['oldest_birth']);
         self::assertNull($statistics['oldest_death']);
@@ -97,12 +97,12 @@ final class TreeStatisticsBuilderTest extends TestCase
 
     public function testItBuildsStatisticsFromAnExplicitMemberSubset(): void
     {
-        $root = $this->createPerson('Root', 'Selected', Person::MALE, '1950-01-01', null, false);
+        $person = $this->createPerson('Root', 'Selected', Person::MALE, '1950-01-01', null, false);
         $ancestor = $this->createPerson('Older', 'Ancestor', Person::FEMALE, '1900-01-01', '1980-01-01', true);
-        $excluded = $this->createPerson('Hidden', 'Branch', Person::FEMALE, '1800-01-01', '1870-01-01', true);
+        $this->createPerson('Hidden', 'Branch', Person::FEMALE, '1800-01-01', '1870-01-01', true);
 
-        $builder = new TreeStatisticsBuilder(self::createStub(PersonRepository::class));
-        $statistics = $builder->buildFromMembers([$root, $ancestor]);
+        $treeStatisticsBuilder = new TreeStatisticsBuilder(self::createStub(PersonRepository::class));
+        $statistics = $treeStatisticsBuilder->buildFromMembers([$person, $ancestor]);
 
         self::assertSame(2, $statistics['members_count']);
         self::assertSame('ANCESTOR Older', $statistics['oldest_birth']['person']->getFullName());

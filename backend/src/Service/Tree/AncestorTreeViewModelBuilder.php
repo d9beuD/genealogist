@@ -39,7 +39,7 @@ final readonly class AncestorTreeViewModelBuilder
     {
         $parentUnion = $person->getParentUnion();
 
-        if (null === $parentUnion || (0 !== $maxDepth && $depth >= $maxDepth)) {
+        if (!$parentUnion instanceof \App\Entity\Union || (0 !== $maxDepth && $depth >= $maxDepth)) {
             return null;
         }
 
@@ -51,8 +51,8 @@ final readonly class AncestorTreeViewModelBuilder
             unionId: (int) $parentUnion->getId(),
             startsAtLabel: $this->formatUnionStart($parentUnion),
             parents: array_map(
-                fn(Person $parent, int $index): AncestorTreeNodeViewModel => $this->buildNode(
-                    $parent,
+                fn(Person $person, int $index): AncestorTreeNodeViewModel => $this->buildNode(
+                    $person,
                     $maxDepth,
                     \sprintf('%s-%d-%d', $occurrenceId, (int) $parentUnion->getId(), $index),
                     $depth + 1,

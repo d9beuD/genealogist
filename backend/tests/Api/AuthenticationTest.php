@@ -17,11 +17,11 @@ class AuthenticationTest extends WebTestCase
 {
     private EntityManagerInterface $entityManager;
 
-    private KernelBrowser $client;
+    private KernelBrowser $kernelBrowser;
 
     protected function setUp(): void
     {
-        $this->client = static::createClient([], ['HTTPS' => 'on']);
+        $this->kernelBrowser = static::createClient([], ['HTTPS' => 'on']);
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
 
         $this->ensureSchemaExists();
@@ -41,7 +41,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/api/auth', [
+        $this->kernelBrowser->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);
@@ -72,7 +72,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/api/auth', [
+        $this->kernelBrowser->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'wrong-password',
         ]);
@@ -86,7 +86,7 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/api/auth', [
+        $this->kernelBrowser->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);
@@ -95,8 +95,8 @@ class AuthenticationTest extends WebTestCase
         $csrfCookie = $this->getResponseCookie('csrf_token');
         self::assertNotNull($csrfCookie);
 
-        $this->client->setServerParameter('HTTP_X_CSRF_TOKEN', $csrfCookie->getValue());
-        $this->client->jsonRequest('POST', '/api/token/refresh');
+        $this->kernelBrowser->setServerParameter('HTTP_X_CSRF_TOKEN', $csrfCookie->getValue());
+        $this->kernelBrowser->jsonRequest('POST', '/api/token/refresh');
 
         self::assertResponseIsSuccessful();
 
@@ -118,13 +118,13 @@ class AuthenticationTest extends WebTestCase
     {
         $this->createUser('api-user@example.com', 'password');
 
-        $this->client->jsonRequest('POST', '/api/auth', [
+        $this->kernelBrowser->jsonRequest('POST', '/api/auth', [
             'email' => 'api-user@example.com',
             'password' => 'password',
         ]);
         self::assertResponseIsSuccessful();
 
-        $this->client->jsonRequest('POST', '/api/token/refresh');
+        $this->kernelBrowser->jsonRequest('POST', '/api/token/refresh');
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -148,7 +148,7 @@ class AuthenticationTest extends WebTestCase
 
     private function getResponseCookie(string $name): ?Cookie
     {
-        foreach ($this->client->getResponse()->headers->getCookies() as $cookie) {
+        foreach ($this->kernelBrowser->getResponse()->headers->getCookies() as $cookie) {
             if ($cookie->getName() === $name) {
                 return $cookie;
             }
@@ -160,7 +160,7 @@ class AuthenticationTest extends WebTestCase
     private function ensureSchemaExists(): void
     {
         $schemaTool = new SchemaTool($this->entityManager);
-        $schemaTool->updateSchema($this->entityManager->getMetadataFactory()->getAllMetadata(), true);
+        $schemaTool->updateSchema($this->entityManager->getMetadataFactory()->getAllMetadata());
     }
 
     private function deleteTestUsers(): void

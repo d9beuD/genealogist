@@ -21,8 +21,8 @@ class PersonAncestorBranchMemberCollector
         $treeMembers = $this->personRepository->findByTreeForStatisticsGraph($person->getTree());
         $indexedMembers = [];
 
-        foreach ($treeMembers as $member) {
-            $indexedMembers[$this->getPersonKey($member)] = $member;
+        foreach ($treeMembers as $treeMember) {
+            $indexedMembers[$this->getPersonKey($treeMember)] = $treeMember;
         }
 
         $root = $indexedMembers[$this->getPersonKey($person)] ?? $person;

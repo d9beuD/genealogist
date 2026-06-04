@@ -135,13 +135,14 @@ class PersonController extends AbstractController
     {
         $form = $this->createForm(TreeOptionsType::class);
         $form->handleRequest($request);
+
         $depth = max(0, (int) ($form->get('depth')->getData() ?? 4));
-        $tree = $this->ancestorTreeViewModelBuilder->build($person, $depth);
+        $ancestorTreeNodeViewModel = $this->ancestorTreeViewModelBuilder->build($person, $depth);
 
         return $this->render('person/show_tree.html.twig', [
             'person' => $person,
             'form' => $form->createView(),
-            'tree_data_json' => $this->serializer->serialize($tree, 'json', ['groups' => ['person_tree']]),
+            'tree_data_json' => $this->serializer->serialize($ancestorTreeNodeViewModel, 'json', ['groups' => ['person_tree']]),
             'tree_view' => true,
         ]);
     }
