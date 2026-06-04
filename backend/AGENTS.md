@@ -1,9 +1,11 @@
 # AGENTS.md
 
 ## Stack And Shape
-- Symfony 8.0 app on PHP 8.4+ via Composer; routes are attribute-based from `src/Controller/` (`config/routes.yaml`).
-- Main app flow starts at `/`, which redirects to the authenticated tree area at `/project/` (`src/Controller/HomeController.php`, `src/Controller/TreeController.php`).
-- Core model wiring: `User` owns many `Tree`; each `Person` belongs to one `Tree`; `Union` connects partners and children. Ownership checks are enforced with security voters, not just controller code (`src/Security/Voter/*.php`).
+- Symfony 8.0 app on PHP 8.4+ via Composer, being migrated from a fullstack Symfony app to a stateless Symfony + API Platform backend.
+- Prefer API Platform resources, state providers/processors, DTOs, serializers, validation constraints, and security expressions over new HTML controllers or Twig-driven flows.
+- Existing MVC routes/controllers may still exist during the migration; treat them as legacy unless the task explicitly asks to maintain server-rendered behavior.
+- Core model wiring: `User` owns many `Tree`; each `Person` belongs to one `Tree`; `Union` connects partners and children. Ownership checks should remain enforced at the API/security layer, including voters where they are already the domain authorization boundary (`src/Security/Voter/*.php`).
+- The frontend is now a separate Vue/Vite app in `../frontend`; do not add AssetMapper/Importmap/Sass UI work to the backend unless preserving legacy behavior is explicitly requested.
 
 ## Local Dev
 - Run every PHP, Composer, Symfony CLI, and `bin/console` command through Docker with `docker compose exec apache ...`.
@@ -12,7 +14,7 @@
 - Important DB gotcha: committed `.env` uses SQLite at `var/data.db`, while `compose.yaml` starts MariaDB + phpMyAdmin but does not wire `DATABASE_URL` for you. If you use Docker DB, set `DATABASE_URL` yourself.
 
 ## Verification And Build
-- PHPUnit config lives in `phpunit.xml.dist`; run focused tests with `docker compose exec apache php bin/phpunit tests/Controller/TreeControllerTest.php` after `docker compose exec apache composer install`.
+- PHPUnit config lives in `phpunit.xml.dist`; after `docker compose exec apache composer install`, run focused tests with `docker compose exec apache php bin/phpunit <path>`.
 - Quality tooling is installed and exposed through Composer scripts:
   - `docker compose exec apache composer analyse`
   - `docker compose exec apache composer rector`
@@ -20,15 +22,16 @@
   - `docker compose exec apache composer cs:check`
   - `docker compose exec apache composer cs:fix`
   - `docker compose exec apache composer lint`
-- Be careful with the checked-in controller tests before trusting them: they are scaffold leftovers that still target `/tree/` and `/person/`, while current tree routes live under `/project`.
+- Be careful with checked-in controller/WebTestCase tests before trusting them: some may still reflect legacy fullstack routes such as `/tree/`, `/person/`, or `/project` instead of API Platform endpoints.
 - Those WebTestCase tests delete repository contents in `setUp()`. Confirm your test database target before running them.
-- Production build order is defined in root `.github/workflows/deploy.yml`: `php bin/console sass:build`, `php bin/console asset-map:compile`, `php bin/console assets:install`, then `composer dump-env prod`, optimized autoload, and `php bin/console cache:warmup`.
+- Backend production deploy should be treated as API-only unless the workflow still contains legacy asset steps. Keep root `.github/workflows/deploy.yml` in sync as AssetMapper/Twig dependencies are removed.
 
 ## Data And Assets
 - After changing Doctrine entities, create and run a migration; README explicitly calls this out, and `src/Command/PostPublishCommand.php` is built around `docker compose exec apache php bin/console doctrine:migrations:diff` + `docker compose exec apache php bin/console doctrine:migrations:migrate`.
-- Frontend assets use AssetMapper + Importmap + SymfonyCasts Sass (`config/packages/asset_mapper.yaml`, `importmap.php`, `assets/app.js`); do not assume Node/Vite.
-- Uploaded portraits are stored in `public/pictures` via `portraits_directory` (`config/services.yaml`, `src/Service/ImageManager.php`). Deploy intentionally excludes `public/pictures/*`, so treat it as persisted user data.
+- Frontend assets live in `../frontend` and use Vue/Vite/pnpm. Backend asset files/config may exist only as migration leftovers unless a task says otherwise.
+- Uploaded portraits are stored in `public/pictures` via `portraits_directory` (`config/services.yaml`, `src/Service/ImageManager.php`). Deploy intentionally excludes `public/pictures/*`, so treat it as persisted user data. Preserve or replace this API behavior deliberately during the migration.
 
 ## Auth And Fixtures
-- `/project`, `/person`, and `/union` are protected by `ROLE_USER` access control (`config/packages/security.yaml`). If a page unexpectedly redirects, check auth first.
+- The target backend is stateless: prefer token/API authentication, explicit API access control, and JSON error responses over redirects, sessions, and form-login assumptions.
+- Legacy `/project`, `/person`, and `/union` routes may still be protected by `ROLE_USER` access control (`config/packages/security.yaml`) while migration is in progress. If an API request unexpectedly redirects, check for leftover session/form-login configuration.
 - Dev/test fixtures seed one verified user: `john.doe@example.com` with password `password` (`src/DataFixtures/AppFixtures.php`).
