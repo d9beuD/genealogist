@@ -1,73 +1,87 @@
-# frontend
+# Family Tree Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This directory contains the frontend application for a family-tree app. It provides the user interface for exploring and managing genealogy data.
 
-## Recommended IDE Setup
+## Monorepo Structure
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+This project is part of a monorepo with two root workspaces:
 
-## Recommended Browser Setup
+- `frontend/` - Vue frontend application
+- `backend/` - backend API and server-side application
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+Run frontend commands from the `frontend/` directory unless a command explicitly says otherwise.
 
-## Type Support for `.vue` Imports in TS
+## Package Manager
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+This project uses `pnpm` instead of `npm`. Use `pnpm` for installing dependencies and running scripts.
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+## Development
+
+Start the frontend development server:
 
 ```sh
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Build
+
+Type-check and build the production bundle:
 
 ```sh
 pnpm build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Preview the production build locally:
+
+```sh
+pnpm preview
+```
+
+## Tests
+
+Run unit tests:
 
 ```sh
 pnpm test:unit
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+Run end-to-end tests:
 
 ```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
 pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
-pnpm test:e2e --debug
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Install Playwright browsers before running end-to-end tests for the first time:
+
+```sh
+pnpm exec playwright install
+```
+
+## Code Quality
+
+Run linters:
 
 ```sh
 pnpm lint
 ```
+
+Format source files:
+
+```sh
+pnpm format
+```
+
+## Tech Stack
+
+- Vue 3
+- Vite
+- TypeScript
+- Pinia
+- Vue Router
+- Tailwind CSS
+- Vitest
+- Playwright
