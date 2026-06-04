@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\FavoriteMember;
@@ -104,7 +106,7 @@ class PersonRepository extends ServiceEntityRepository
             ->getQuery()
         ;
 
-        return array_map(static fn (FavoriteMember $favoriteMember): ?Person => $favoriteMember->getPerson(), $query->getResult());
+        return array_map(static fn(FavoriteMember $favoriteMember): ?Person => $favoriteMember->getPerson(), $query->getResult());
     }
 
     /**
@@ -177,7 +179,7 @@ class PersonRepository extends ServiceEntityRepository
                     'UPPER(CONCAT(COALESCE(p.birthName, \'\'), \' \', COALESCE(p.firstname, \'\'))) LIKE :name'
                 )
             )
-            ->setParameter('name', '%'.$normalizedName.'%')
+            ->setParameter('name', '%' . $normalizedName . '%')
         ;
     }
 }

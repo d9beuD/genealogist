@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Tree;
 
 use App\Entity\Person;
@@ -9,8 +11,7 @@ class PersonAncestorBranchMemberCollector
 {
     public function __construct(
         private readonly PersonRepository $personRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<int, Person>
@@ -51,13 +52,13 @@ class PersonAncestorBranchMemberCollector
             }
         }
 
-        usort($members, static fn (Person $left, Person $right): int => strcmp($left->getFullName(), $right->getFullName()));
+        usort($members, static fn(Person $left, Person $right): int => strcmp($left->getFullName(), $right->getFullName()));
 
         return $members;
     }
 
     private function getPersonKey(Person $person): string
     {
-        return null === $person->getId() ? 'obj-'.spl_object_id($person) : 'id-'.$person->getId();
+        return null === $person->getId() ? 'obj-' . spl_object_id($person) : 'id-' . $person->getId();
     }
 }

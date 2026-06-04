@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Person;
@@ -10,8 +12,7 @@ class PersonManager
 {
     public function __construct(
         private readonly PersonRepository $personRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, array<int, Person>>
@@ -46,13 +47,13 @@ class PersonManager
     {
         usort(
             $members,
-            fn (Person $left, Person $right): int => strcmp(
+            static fn(Person $left, Person $right): int => strcmp(
                 trim($left->getFullName()),
                 trim($right->getFullName())
             )
         );
 
-        return array_reduce($members, function (array $groupedMembers, Person $person): array {
+        return array_reduce($members, static function (array $groupedMembers, Person $person): array {
             $firstLetter = strtoupper(mb_substr(trim($person->getFullName()), 0, 1));
             $groupedMembers[$firstLetter][] = $person;
 

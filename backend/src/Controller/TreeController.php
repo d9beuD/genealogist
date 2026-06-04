@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Person;
@@ -33,8 +35,7 @@ class TreeController extends AbstractController
         private readonly PersonManager $personManager,
         private readonly TreeStatisticsBuilder $treeStatisticsBuilder,
         private readonly ChartBuilderInterface $chartBuilder,
-    ) {
-    }
+    ) {}
 
     #[Route('/project/', name: 'app_tree_index', methods: ['GET'])]
     public function index(#[CurrentUser()] User $currentUser): Response
@@ -52,7 +53,7 @@ class TreeController extends AbstractController
         $tree
             ->setUser($user)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setName('Family tree #'.($total + 1))
+            ->setName('Family tree #' . ($total + 1))
         ;
 
         $this->entityManager->persist($tree);
@@ -161,7 +162,7 @@ class TreeController extends AbstractController
     #[IsGranted('delete', 'tree')]
     public function delete(Request $request, Tree $tree): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tree->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $tree->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($tree);
             $this->entityManager->flush();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -16,8 +18,7 @@ class EmailVerifier
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $templatedEmail): void
     {

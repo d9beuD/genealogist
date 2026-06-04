@@ -94,8 +94,8 @@
             "sass:build": "symfony-cmd"
         },
         "analyse": "php vendor/bin/phpstan analyse --memory-limit=1G",
-        "cs:check": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix --dry-run --diff",
-        "cs:fix": "php -d memory_limit=512M vendor/bin/php-cs-fixer fix",
+        "cs:check": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php vendor/bin/php-cs-fixer fix",
         "post-install-cmd": [
             "@auto-scripts"
         ],

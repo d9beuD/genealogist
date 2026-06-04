@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Test\Controller;
 
 use App\Entity\Tree;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -16,7 +19,7 @@ class TreeControllerTest extends WebTestCase
 
     private EntityRepository $entityRepository;
 
-    private string $path = '/tree/';
+    private string $path = '/project/';
 
     protected function setUp(): void
     {
@@ -33,10 +36,22 @@ class TreeControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
+        $user = new User()
+            ->setEmail('tree-controller-test-' . uniqid() . '@example.com')
+            ->setFirstname('Tree')
+            ->setLastname('Tester')
+            ->setPassword('password')
+            ->setIsVerified(true)
+        ;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->kernelBrowser->loginUser($user);
         $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Tree index');
+        self::assertPageTitleContains('My projects');
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
@@ -44,8 +59,8 @@ class TreeControllerTest extends WebTestCase
 
     public function testNew(): void
     {
-        $this->markTestIncomplete();
-        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%snew', $this->path));
+        self::markTestIncomplete();
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, \sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
@@ -61,7 +76,7 @@ class TreeControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
         $tree = new Tree();
         $tree->setCreatedAt('My Title');
         $tree->setUser('My Title');
@@ -69,7 +84,7 @@ class TreeControllerTest extends WebTestCase
         $this->entityManager->persist($tree);
         $this->entityManager->flush();
 
-        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, \sprintf('%s%s', $this->path, $tree->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tree');
@@ -79,7 +94,7 @@ class TreeControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
         $fixture = new Tree();
         $fixture->setCreatedAt('Value');
         $fixture->setUser('Value');
@@ -87,7 +102,7 @@ class TreeControllerTest extends WebTestCase
         $this->entityManager->persist($fixture);
         $this->entityManager->flush();
 
-        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, \sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->kernelBrowser->submitForm('Update', [
             'tree[createdAt]' => 'Something New',
@@ -104,7 +119,7 @@ class TreeControllerTest extends WebTestCase
 
     public function testRemove(): void
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
         $tree = new Tree();
         $tree->setCreatedAt('Value');
         $tree->setUser('Value');
@@ -112,7 +127,7 @@ class TreeControllerTest extends WebTestCase
         $this->entityManager->remove($tree);
         $this->entityManager->flush();
 
-        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, sprintf('%s%s', $this->path, $tree->getId()));
+        $this->kernelBrowser->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, \sprintf('%s%s', $this->path, $tree->getId()));
         $this->kernelBrowser->submitForm('Delete');
 
         self::assertResponseRedirects('/tree/');

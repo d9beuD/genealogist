@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -17,9 +19,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $userPasswordHasher,
-    ) {
-    }
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+    ) {}
 
     #[Route('/profile/', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, #[CurrentUser()] User $user): Response
@@ -49,7 +52,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($user);
             $this->entityManager->flush();
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -23,8 +25,7 @@ class RegistrationController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request): Response
@@ -49,7 +50,7 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
                 $user,
-                (new TemplatedEmail())
+                new TemplatedEmail()
                     ->from(new Address('genealogist@d9beud.com', 'Genealogist Mail Bot'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')

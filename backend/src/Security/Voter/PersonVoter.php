@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Voter;
 
 use App\Entity\Person;
@@ -19,7 +21,7 @@ class PersonVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE], true)
+        return \in_array($attribute, [self::EDIT, self::VIEW, self::DELETE], true)
             && $subject instanceof Person;
     }
 

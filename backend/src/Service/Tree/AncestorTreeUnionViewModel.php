@@ -18,6 +18,5 @@ final readonly class AncestorTreeUnionViewModel
         public ?string $startsAtLabel,
         #[Groups(['person_tree'])]
         public array $parents,
-    ) {
-    }
+    ) {}
 }

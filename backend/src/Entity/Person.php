@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Entity\Trait\FormatEmptyStringTrait;
@@ -144,7 +146,7 @@ class Person implements \Stringable
 
     public function getFullName(): string
     {
-        return trim(mb_strtoupper($this->getDefaultLastname()).' '.$this->firstname);
+        return trim(mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname);
     }
 
     public function getBirth(): ?\DateTimeInterface
@@ -435,7 +437,7 @@ class Person implements \Stringable
     {
         return array_reduce(
             $this->unions->toArray(),
-            fn ($carry, Union $union): bool => $carry || $union->hasChildren(),
+            static fn($carry, Union $union): bool => $carry || $union->hasChildren(),
             false
         );
     }
@@ -511,7 +513,7 @@ class Person implements \Stringable
     public function isFavoriteOf(User $user): bool
     {
         return $this->favorites->findFirst(
-            fn (int $index, FavoriteMember $favoriteMember): bool => $favoriteMember->getUser()->getId() === $user->getId()
+            static fn(int $index, FavoriteMember $favoriteMember): bool => $favoriteMember->getUser()->getId() === $user->getId()
         ) instanceof FavoriteMember;
     }
 }

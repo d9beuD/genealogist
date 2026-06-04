@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Tree;
 
 use App\Entity\Person;
@@ -10,8 +12,7 @@ class TreeStatisticsBuilder
 {
     public function __construct(
         private readonly PersonRepository $personRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{
@@ -73,14 +74,14 @@ class TreeStatisticsBuilder
     public function buildFromMembers(array $members): array
     {
         return [
-            'members_count' => count($members),
-            'oldest_birth' => $this->findOldestDateRecord($members, static fn (Person $person): ?\DateTimeInterface => $person->getBirth()),
-            'oldest_death' => $this->findOldestDateRecord($members, static fn (Person $person): ?\DateTimeInterface => $person->getDeath()),
-            'women_age_summary' => $this->buildAgeSummary($members, static fn (Person $person): bool => Person::FEMALE === $person->getGender()),
-            'men_age_summary' => $this->buildAgeSummary($members, static fn (Person $person): bool => Person::MALE === $person->getGender()),
-            'unknown_gender_age_summary' => $this->buildAgeSummary($members, static fn (Person $person): bool => !in_array($person->getGender(), [Person::FEMALE, Person::MALE], true)),
-            'births_by_year' => $this->buildYearDataset($members, static fn (Person $person): ?\DateTimeInterface => $person->getBirth()),
-            'deaths_by_year' => $this->buildYearDataset($members, static fn (Person $person): ?\DateTimeInterface => $person->getDeath()),
+            'members_count' => \count($members),
+            'oldest_birth' => $this->findOldestDateRecord($members, static fn(Person $person): ?\DateTimeInterface => $person->getBirth()),
+            'oldest_death' => $this->findOldestDateRecord($members, static fn(Person $person): ?\DateTimeInterface => $person->getDeath()),
+            'women_age_summary' => $this->buildAgeSummary($members, static fn(Person $person): bool => Person::FEMALE === $person->getGender()),
+            'men_age_summary' => $this->buildAgeSummary($members, static fn(Person $person): bool => Person::MALE === $person->getGender()),
+            'unknown_gender_age_summary' => $this->buildAgeSummary($members, static fn(Person $person): bool => !\in_array($person->getGender(), [Person::FEMALE, Person::MALE], true)),
+            'births_by_year' => $this->buildYearDataset($members, static fn(Person $person): ?\DateTimeInterface => $person->getBirth()),
+            'deaths_by_year' => $this->buildYearDataset($members, static fn(Person $person): ?\DateTimeInterface => $person->getDeath()),
         ];
     }
 
@@ -150,7 +151,7 @@ class TreeStatisticsBuilder
 
         usort(
             $ageRecords,
-            static fn (array $left, array $right): int => $left['age'] <=> $right['age'] ?: strcmp($left['person']->getFullName(), $right['person']->getFullName())
+            static fn(array $left, array $right): int => $left['age'] <=> $right['age'] ?: strcmp($left['person']->getFullName(), $right['person']->getFullName())
         );
 
         $ageValues = array_column($ageRecords, 'age');
@@ -159,13 +160,13 @@ class TreeStatisticsBuilder
             'min' => $ageRecords[0],
             'max' => $ageRecords[array_key_last($ageRecords)],
             'average' => [
-                'age' => round(array_sum($ageValues) / count($ageValues), 1),
+                'age' => round(array_sum($ageValues) / \count($ageValues), 1),
                 'approximate' => array_reduce(
                     $ageRecords,
-                    static fn (bool $carry, array $record): bool => $carry || $record['approximate'],
+                    static fn(bool $carry, array $record): bool => $carry || $record['approximate'],
                     false,
                 ),
-                'count' => count($ageRecords),
+                'count' => \count($ageRecords),
             ],
         ];
     }

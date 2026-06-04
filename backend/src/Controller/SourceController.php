@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Person;
@@ -17,9 +19,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SourceController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+    ) {}
 
     #[Route('/person/{personId}/source/', name: 'app_source_index', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
@@ -91,7 +93,7 @@ class SourceController extends AbstractController
     {
         $this->assertSourceBelongsToPerson($source, $person);
 
-        if ($this->isCsrfTokenValid('delete'.$source->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $source->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($source);
             $this->entityManager->flush();
 

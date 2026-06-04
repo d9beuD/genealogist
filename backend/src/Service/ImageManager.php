@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use Psr\Log\LoggerInterface;
@@ -15,14 +17,13 @@ class ImageManager
         private readonly SluggerInterface $slugger,
         private readonly ParameterBagInterface $parameterBag,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function save(UploadedFile $uploadedFile, ?Request $request = null): ?string
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $unicodeString = $this->slugger->slug($originalFilename);
-        $newFilename = $unicodeString.'-'.uniqid().'.'.$uploadedFile->guessClientExtension();
+        $newFilename = $unicodeString . '-' . uniqid() . '.' . $uploadedFile->guessClientExtension();
 
         try {
             $uploadedFile->move(
@@ -45,7 +46,7 @@ class ImageManager
 
     public function remove(string $filename): void
     {
-        $filePath = $this->parameterBag->get('portraits_directory').'/'.$filename;
+        $filePath = $this->parameterBag->get('portraits_directory') . '/' . $filename;
 
         if (file_exists($filePath)) {
             try {

@@ -11,11 +11,11 @@ final class PersonTest extends TestCase
 {
     public function testItComputesAgeForLivingPeople(): void
     {
-        $person = (new Person())
+        $person = new Person()
             ->setBirth(new \DateTimeImmutable('2000-01-15'));
 
         self::assertSame(
-            (new \DateTimeImmutable('2000-01-15'))->diff(new \DateTimeImmutable('today'))->y,
+            new \DateTimeImmutable('2000-01-15')->diff(new \DateTimeImmutable('today'))->y,
             $person->getAge()
         );
         self::assertFalse($person->isAgeApproximate());
@@ -23,7 +23,7 @@ final class PersonTest extends TestCase
 
     public function testItComputesAgeAtDeath(): void
     {
-        $person = (new Person())
+        $person = new Person()
             ->setBirth(new \DateTimeImmutable('1950-06-10'))
             ->setDeath(new \DateTimeImmutable('2000-06-09'))
             ->setDead(true);
@@ -34,7 +34,7 @@ final class PersonTest extends TestCase
 
     public function testItMarksAgeAsApproximateWhenBirthIsUncertain(): void
     {
-        $person = (new Person())
+        $person = new Person()
             ->setBirth(new \DateTimeImmutable('1980-03-20'))
             ->setBirthYearUnsure(true);
 
@@ -44,7 +44,7 @@ final class PersonTest extends TestCase
 
     public function testItMarksAgeAsApproximateWhenDeathIsUncertain(): void
     {
-        $person = (new Person())
+        $person = new Person()
             ->setBirth(new \DateTimeImmutable('1980-03-20'))
             ->setDeath(new \DateTimeImmutable('2020-03-19'))
             ->setDeathMonthUnsure(true)
@@ -64,7 +64,7 @@ final class PersonTest extends TestCase
 
     public function testItReturnsUnknownAgeForDeceasedPeopleWithoutDeathDate(): void
     {
-        $person = (new Person())
+        $person = new Person()
             ->setBirth(new \DateTimeImmutable('1980-03-20'))
             ->setDead(true);
 

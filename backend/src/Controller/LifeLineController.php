@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Person;
@@ -10,9 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LifeLineController extends AbstractController
 {
-    public function __construct(private readonly TranslatorInterface $translator)
-    {
-    }
+    public function __construct(private readonly TranslatorInterface $translator) {}
 
     #[Route('/person/{id}/life-line', name: 'app_person_life_line')]
     public function index(Person $person): Response
@@ -87,10 +87,10 @@ class LifeLineController extends AbstractController
             ];
         }
 
-        $allEventsHaveDate = array_reduce($events, fn ($carry, $event): bool => $carry && (bool) $event['date'], true);
+        $allEventsHaveDate = array_reduce($events, static fn($carry, $event): bool => $carry && (bool) $event['date'], true);
 
         if ($allEventsHaveDate) {
-            usort($events, fn (array $a, array $b): int => $a['date'] <=> $b['date']);
+            usort($events, static fn(array $a, array $b): int => $a['date'] <=> $b['date']);
         }
 
         return $this->render('life_line/index.html.twig', [

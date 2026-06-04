@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Person;
@@ -19,9 +21,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UnionController extends AbstractController
 {
     public function __construct(
-        private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager, private readonly PersonRepository $personRepository,
-    ) {
-    }
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PersonRepository $personRepository,
+    ) {}
 
     #[Route('/person/{personId}/union/new', name: 'app_union_new', methods: ['GET', 'POST'])]
     #[IsGranted('edit', 'person')]
@@ -103,10 +106,10 @@ class UnionController extends AbstractController
         }
 
         $people = $union->getPeople();
-        $birthDates = array_map(fn (Person $person): ?\DateTimeInterface => $person->getBirth(), $people->toArray());
-        $birthDates = array_filter($birthDates, fn (?\DateTimeInterface $date): bool => $date instanceof \DateTimeInterface);
+        $birthDates = array_map(static fn(Person $person): ?\DateTimeInterface => $person->getBirth(), $people->toArray());
+        $birthDates = array_filter($birthDates, static fn(?\DateTimeInterface $date): bool => $date instanceof \DateTimeInterface);
 
-        $mostRecentBirthDate = count($birthDates) < 1 ? null : max($birthDates);
+        $mostRecentBirthDate = \count($birthDates) < 1 ? null : max($birthDates);
 
         return $this->render('union/edit.html.twig', [
             'union' => $union,
@@ -127,7 +130,7 @@ class UnionController extends AbstractController
     #[IsGranted('delete', 'union')]
     public function delete(Request $request, Union $union, #[MapEntity(id: 'personId')] Person $person): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$union->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $union->getId(), $request->request->get('_token'))) {
             // First, remove the union from all people
             foreach ($union->getPeople() as $person) {
                 $person->removeUnion($union);
@@ -192,7 +195,7 @@ class UnionController extends AbstractController
         #[MapEntity(id: 'partnerId')]
         Person $partner,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $partner->getId(), $request->request->get('_token'))) {
             $union->removePerson($partner);
             $this->addFlash(
                 'success',
@@ -274,7 +277,7 @@ class UnionController extends AbstractController
         #[MapEntity(id: 'childId')]
         Person $child,
     ): Response {
-        if ($this->isCsrfTokenValid('delete'.$child->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $child->getId(), $request->request->get('_token'))) {
             $union->removeChild($child);
             $this->entityManager->flush();
             $this->addFlash(

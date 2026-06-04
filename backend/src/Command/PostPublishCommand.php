@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -15,9 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class PostPublishCommand extends Command
 {
-    protected function configure(): void
-    {
-    }
+    protected function configure(): void {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

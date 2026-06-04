@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\FavoriteMember;
@@ -13,8 +15,7 @@ class FavoriteMemberManager
     public function __construct(
         private readonly FavoriteMemberRepository $favoriteMemberRepository,
         private readonly EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     protected function isFavorite(Person $person, User $user): bool
     {

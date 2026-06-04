@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Person;
@@ -35,8 +37,7 @@ class PersonController extends AbstractController
         private readonly TreeStatisticsBuilder $treeStatisticsBuilder,
         private readonly SerializerInterface $serializer,
         private readonly ChartBuilderInterface $chartBuilder,
-    ) {
-    }
+    ) {}
 
     #[Route('/person/{id}', name: 'app_person_show', methods: ['GET'])]
     #[IsGranted('view', 'person')]
@@ -107,7 +108,7 @@ class PersonController extends AbstractController
     ): Response {
         $tree = $person->getTree();
 
-        if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
             if ($person->getPortrait()) {
                 $this->imageManager->remove($person->getPortrait());
             }

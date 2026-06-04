@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Person;
@@ -15,8 +17,7 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         protected UserPasswordHasherInterface $userPasswordHasher,
-    ) {
-    }
+    ) {}
 
     public function load(ObjectManager $manager): void
     {

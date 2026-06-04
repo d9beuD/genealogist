@@ -25,6 +25,5 @@ final readonly class AncestorTreeNodeViewModel
         public ?int $gender,
         #[Groups(['person_tree'])]
         public ?AncestorTreeUnionViewModel $parentUnion,
-    ) {
-    }
+    ) {}
 }

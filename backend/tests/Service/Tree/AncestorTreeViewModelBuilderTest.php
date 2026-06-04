@@ -23,7 +23,7 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
             $this->createUrlGenerator(),
         );
 
-        $tree = (new Tree())
+        $tree = new Tree()
             ->setName('Test tree')
             ->setCreatedAt(new \DateTimeImmutable())
         ;
@@ -61,7 +61,7 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
             $this->createUrlGenerator(),
         );
 
-        $tree = (new Tree())
+        $tree = new Tree()
             ->setName('Test tree')
             ->setCreatedAt(new \DateTimeImmutable())
         ;
@@ -94,7 +94,7 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
         ?string $portrait,
         ?\DateTimeInterface $birth,
     ): Person {
-        $person = (new Person())
+        $person = new Person()
             ->setTree($tree)
             ->setFirstname($firstname)
             ->setLastname($lastname)
@@ -110,7 +110,7 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
 
     private function createUnion(int $id, Person $parentA, Person $parentB, Person $child, ?\DateTimeImmutable $startsAt = null): Union
     {
-        $union = (new Union())
+        $union = new Union()
             ->addPerson($parentA)
             ->addPerson($parentB)
             ->addChild($child)
@@ -127,8 +127,8 @@ final class AncestorTreeViewModelBuilderTest extends TestCase
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $urlGenerator
             ->method('generate')
-            ->willReturnCallback(static fn (string $route, array $parameters = []): string => match ($route) {
-                'app_person_show' => sprintf('/person/%d', $parameters['id']),
+            ->willReturnCallback(static fn(string $route, array $parameters = []): string => match ($route) {
+                'app_person_show' => \sprintf('/person/%d', $parameters['id']),
                 default => '/',
             })
         ;

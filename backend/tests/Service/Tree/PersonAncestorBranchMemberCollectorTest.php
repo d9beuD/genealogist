@@ -22,19 +22,19 @@ final class PersonAncestorBranchMemberCollectorTest extends TestCase
         $grandMother = $this->createPerson($tree, 'Grand', 'Mother');
         $sharedAncestor = $this->createPerson($tree, 'Shared', 'Ancestor');
 
-        $rootParents = (new Union())
+        $rootParents = new Union()
             ->addPerson($mother)
             ->addPerson($father)
         ;
         $root->setParentUnion($rootParents);
 
-        $motherParents = (new Union())
+        $motherParents = new Union()
             ->addPerson($grandMother)
             ->addPerson($sharedAncestor)
         ;
         $mother->setParentUnion($motherParents);
 
-        $fatherParents = (new Union())
+        $fatherParents = new Union()
             ->addPerson($sharedAncestor)
         ;
         $father->setParentUnion($fatherParents);
@@ -47,7 +47,7 @@ final class PersonAncestorBranchMemberCollectorTest extends TestCase
             ->willReturn([$root, $mother, $father, $grandMother, $sharedAncestor])
         ;
 
-        $members = (new PersonAncestorBranchMemberCollector($repository))->collect($root);
+        $members = new PersonAncestorBranchMemberCollector($repository)->collect($root);
 
         self::assertSame([
             'ANCESTOR Shared',
@@ -55,12 +55,12 @@ final class PersonAncestorBranchMemberCollectorTest extends TestCase
             'PARENT Father',
             'PARENT Mother',
             'PERSON Root',
-        ], array_map(static fn (Person $person): string => $person->getFullName(), $members));
+        ], array_map(static fn(Person $person): string => $person->getFullName(), $members));
     }
 
     private function createPerson(Tree $tree, string $firstname, string $lastname): Person
     {
-        return (new Person())
+        return new Person()
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setTree($tree)
