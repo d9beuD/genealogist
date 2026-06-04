@@ -2,6 +2,18 @@ lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
+    token_extractors:
+        authorization_header:
+            enabled: false
+        cookie:
+            enabled: true
+            name: BEARER
+    set_cookies:
+        BEARER:
+            secure: true
+            httpOnly: true
+            samesite: lax
+            path: /
     api_platform:
         check_path: /auth
         username_path: email
