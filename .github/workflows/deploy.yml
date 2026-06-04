@@ -13,7 +13,7 @@ jobs:
   rsync_upload:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -30,7 +30,7 @@ jobs:
           echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
           
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: locked
           composer-options: "--optimize-autoloader --no-dev"
@@ -66,7 +66,7 @@ jobs:
           otp_secret: ${{ secrets.O2SWITCH_OTP_SECRET }}
 
       - name: Deploy with rsync
-        uses: easingthemes/ssh-deploy@v5.1.0
+        uses: easingthemes/ssh-deploy@v6
         with:
           # Updates are based on file hash, not time + size
           ARGS: "-rlgoDzvc -i --delete"
