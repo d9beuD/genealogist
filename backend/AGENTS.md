@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Stack And Shape
-- Symfony 8.0 app on PHP 8.2+ via Composer; routes are attribute-based from `src/Controller/` (`config/routes.yaml`).
+- Symfony 8.0 app on PHP 8.4+ via Composer; routes are attribute-based from `src/Controller/` (`config/routes.yaml`).
 - Main app flow starts at `/`, which redirects to the authenticated tree area at `/project/` (`src/Controller/HomeController.php`, `src/Controller/TreeController.php`).
 - Core model wiring: `User` owns many `Tree`; each `Person` belongs to one `Tree`; `Union` connects partners and children. Ownership checks are enforced with security voters, not just controller code (`src/Security/Voter/*.php`).
 
@@ -22,7 +22,7 @@
   - `docker compose exec apache composer lint`
 - Be careful with the checked-in controller tests before trusting them: they are scaffold leftovers that still target `/tree/` and `/person/`, while current tree routes live under `/project`.
 - Those WebTestCase tests delete repository contents in `setUp()`. Confirm your test database target before running them.
-- Production build order is defined in `.github/workflows/deploy.yml`: `docker compose exec apache php bin/console sass:build`, `docker compose exec apache php bin/console asset-map:compile`, `docker compose exec apache php bin/console assets:install`, then `docker compose exec apache composer dump-env prod`, optimized autoload, and `docker compose exec apache php bin/console cache:warmup`.
+- Production build order is defined in root `.github/workflows/deploy.yml`: `php bin/console sass:build`, `php bin/console asset-map:compile`, `php bin/console assets:install`, then `composer dump-env prod`, optimized autoload, and `php bin/console cache:warmup`.
 
 ## Data And Assets
 - After changing Doctrine entities, create and run a migration; README explicitly calls this out, and `src/Command/PostPublishCommand.php` is built around `docker compose exec apache php bin/console doctrine:migrations:diff` + `docker compose exec apache php bin/console doctrine:migrations:migrate`.
