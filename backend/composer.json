@@ -1,4 +1,6 @@
 {
+    "name": "d9beud/genealogist-backend",
+    "description": "Symfony API backend for the Genealogist application.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
