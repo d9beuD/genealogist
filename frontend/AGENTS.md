@@ -8,7 +8,7 @@
 - Backend API access goes through `src/api/index.ts`, using `VITE_BACKEND_BASE_URL`, `credentials: 'include'`, and JSON-LD headers.
 
 ## Commands
-- Use `pnpm`, not npm/yarn. Node must satisfy `^20.19.0 || >=22.12.0`.
+- Use `pnpm`, not npm/yarn. Node must satisfy `>=26.0.0`.
 - Install and dev server: `pnpm install`, `pnpm dev`.
 - Production checks/build: `pnpm build`; this runs `vue-tsc --build` and `vite build` in parallel via `run-p`.
 - Unit tests: `pnpm test:unit`; focused non-watch run: `pnpm test:unit --run src/__tests__/App.spec.ts`.

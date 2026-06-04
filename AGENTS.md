@@ -6,7 +6,7 @@
 - `frontend/` is a fresh Vue app shell: entrypoints are `src/main.ts`, `src/App.vue`, and `src/router/index.ts`; API calls use `src/api/index.ts` with `VITE_BACKEND_BASE_URL` and `credentials: 'include'`.
 
 ## Frontend Commands
-- Use `pnpm`, not npm/yarn. Node must satisfy `^20.19.0 || >=22.12.0`.
+- Use `pnpm`, not npm/yarn. Node must satisfy `>=26.0.0`.
 - From `frontend/`: `pnpm install`, `pnpm dev`, `pnpm build`, `pnpm preview`.
 - `pnpm build` runs `vue-tsc --build` and `vite build` in parallel via `run-p`.
 - Unit tests: `pnpm test:unit`; focused non-watch run: `pnpm test:unit --run src/__tests__/App.spec.ts`.
