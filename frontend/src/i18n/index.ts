@@ -1,5 +1,7 @@
 import { createI18n } from 'vue-i18n'
 
+import enFormats from './formats/en.json'
+import frFormats from './formats/fr.json'
 import en from './locales/en.json'
 import fr from './locales/fr.json'
 
@@ -13,6 +15,16 @@ const messages = {
   en,
   fr,
 }
+
+const datetimeFormats = {
+  en: enFormats.datetime,
+  fr: frFormats.datetime,
+} as unknown as Record<SupportedLocale, Record<string, Intl.DateTimeFormatOptions>>
+
+const numberFormats = {
+  en: enFormats.number,
+  fr: frFormats.number,
+} as unknown as Record<SupportedLocale, Record<string, Intl.NumberFormatOptions>>
 
 function isSupportedLocale(locale: string): locale is SupportedLocale {
   return SUPPORTED_LOCALES.includes(locale as SupportedLocale)
@@ -47,4 +59,6 @@ export const i18n = createI18n({
   locale: resolveLocale(),
   fallbackLocale: DEFAULT_LOCALE,
   messages,
+  datetimeFormats,
+  numberFormats,
 })
