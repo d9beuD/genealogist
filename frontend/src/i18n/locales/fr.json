@@ -1,5 +1,13 @@
 {
   "app": {
     "name": "Genealogist"
+  },
+  "errors": {
+    "validation": "Veuillez corriger les champs indiqués.",
+    "network": "Impossible de joindre le serveur. Vérifiez votre connexion puis réessayez.",
+    "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action.",
+    "notFound": "La ressource demandée est introuvable.",
+    "server": "Le serveur a rencontré une erreur. Veuillez réessayer plus tard.",
+    "unknown": "Une erreur est survenue."
   }
 }

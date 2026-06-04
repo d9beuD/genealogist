@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
 import { RouterView } from 'vue-router'
+import { Toaster } from 'vue-sonner'
+
+import 'vue-sonner/style.css'
 
 const VueQueryDevtools = import.meta.env.DEV
   ? defineAsyncComponent(() =>
@@ -13,5 +16,6 @@ const VueQueryDevtools = import.meta.env.DEV
 
 <template>
   <RouterView />
+  <Toaster />
   <component :is="VueQueryDevtools" v-if="VueQueryDevtools" />
 </template>
