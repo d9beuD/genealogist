@@ -12,6 +12,9 @@ env:
 jobs:
   rsync_upload:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v6
       
@@ -28,10 +31,28 @@ jobs:
           touch .env.prod.local
           echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
           echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
+          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}" >> .env.prod.local
+          echo "JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem" >> .env.prod.local
+          echo "JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem" >> .env.prod.local
+
+      - name: Restore JWT keys
+        run: |
+          mkdir -p config/jwt
+          cat > config/jwt/private.pem <<'JWT_PRIVATE_KEY'
+          ${{ secrets.JWT_PRIVATE_KEY }}
+          JWT_PRIVATE_KEY
+          cat > config/jwt/public.pem <<'JWT_PUBLIC_KEY'
+          ${{ secrets.JWT_PUBLIC_KEY }}
+          JWT_PUBLIC_KEY
+          test -s config/jwt/private.pem
+          test -s config/jwt/public.pem
+          chmod 600 config/jwt/private.pem
+          chmod 644 config/jwt/public.pem
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v4
         with:
+          working-directory: backend
           dependency-versions: locked
           composer-options: "--optimize-autoloader --no-dev"
 
@@ -70,7 +91,7 @@ jobs:
         with:
           # Updates are based on file hash, not time + size
           ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "./"
+          SOURCE: "./backend/"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
