@@ -124,6 +124,63 @@ final class TreesTest extends WebTestCase
         self::assertResponseStatusCodeSame(422);
     }
 
+    public function testPutTreeUpdatesOwnedTree(): void
+    {
+        $user = $this->createUser('trees-editor@example.com', 'password');
+        $tree = $this->createTree($user, 'Original tree', new \DateTimeImmutable('2026-04-01'));
+        $this->login('trees-editor@example.com');
+
+        $this->client->jsonRequest('PUT', '/api/trees/' . $tree->getId(), [
+            'name' => 'Updated tree',
+        ]);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $response = json_decode((string) $this->client->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertSame($tree->getId(), $response['id']);
+        self::assertSame('Updated tree', $response['name']);
+        self::assertArrayHasKey('createdAt', $response);
+
+        $this->entityManager->clear();
+
+        $updatedTree = $this->entityManager->getRepository(Tree::class)->find($tree->getId());
+
+        self::assertSame('Updated tree', $updatedTree?->getName());
+    }
+
+    public function testPutTreeRejectsTreeOwnedByAnotherUser(): void
+    {
+        $owner = $this->createUser('trees-owner-edit@example.com', 'password');
+        $editor = $this->createUser('trees-other-editor@example.com', 'password');
+        $tree = $this->createTree($owner, 'Protected tree', new \DateTimeImmutable('2026-05-01'));
+        $this->login($editor->getEmail() ?? '');
+
+        $this->client->jsonRequest('PUT', '/api/trees/' . $tree->getId(), [
+            'name' => 'Hacked tree',
+        ]);
+
+        self::assertResponseStatusCodeSame(403);
+
+        $this->entityManager->clear();
+
+        $protectedTree = $this->entityManager->getRepository(Tree::class)->find($tree->getId());
+
+        self::assertSame('Protected tree', $protectedTree?->getName());
+    }
+
+    public function testPutTreeReturns404ForUnknownTree(): void
+    {
+        $this->createUser('trees-missing-editor@example.com', 'password');
+        $this->login('trees-missing-editor@example.com');
+
+        $this->client->jsonRequest('PUT', '/api/trees/999999', [
+            'name' => 'Missing tree',
+        ]);
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
     private function createUser(string $email, string $plainPassword): User
     {
         $user = new User()
@@ -143,7 +200,7 @@ final class TreesTest extends WebTestCase
         return $user;
     }
 
-    private function createTree(User $user, string $name, \DateTimeImmutable $createdAt): void
+    private function createTree(User $user, string $name, \DateTimeImmutable $createdAt): Tree
     {
         $tree = new Tree()
             ->setUser($user)
@@ -153,6 +210,8 @@ final class TreesTest extends WebTestCase
 
         $this->entityManager->persist($tree);
         $this->entityManager->flush();
+
+        return $tree;
     }
 
     private function login(string $email): void
@@ -197,7 +256,7 @@ final class TreesTest extends WebTestCase
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\Tree tree WHERE tree.name IN (:names)')
-            ->setParameter('names', ['Created tree', 'Unauthenticated tree'])
+            ->setParameter('names', ['Created tree', 'Unauthenticated tree', 'Original tree', 'Updated tree', 'Protected tree', 'Hacked tree'])
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\User user WHERE user.email LIKE :pattern')
