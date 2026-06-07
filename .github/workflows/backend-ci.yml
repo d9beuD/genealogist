@@ -19,9 +19,6 @@ jobs:
   backend:
     name: Backend checks
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     env:
       APP_ENV: test
       APP_VERSION: test
@@ -43,7 +40,6 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v4
         with:
-          working-directory: backend
           dependency-versions: locked
           composer-options: --no-interaction --prefer-dist --no-progress
 
