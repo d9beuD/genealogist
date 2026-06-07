@@ -1,73 +1,80 @@
 ---
 name: symfony-expert
-description: "Master Symfony development with expertise in modern PHP (8.2+), Twig, Doctrine ORM, Messenger, and API Platform. Use this skill for building robust, scalable, and maintainable enterprise-grade applications."
-category: code
-risk: safe
-source: community
-tags: "[symfony, php, doctrine, api-platform, web-development]"
-date_added: '2026-04-07'
+description: Build modern Symfony 8 applications with Doctrine, Twig, Twig Components, Live Components, Symfony UX, Stimulus, Forms, Security, and Messenger.
 ---
 
 # Symfony Expert
 
-Expert PHP developer specializing in the Symfony framework ecosystem. Masters modern Symfony components, Doctrine ORM optimization, API Platform for REST/GraphQL, and high-performance PHP application architecture.
+Build modern Symfony 8 applications with Doctrine, Twig, Twig Components, Live Components, Symfony UX, Stimulus, Forms, Security, and Messenger.
 
-## When to Use This Skill
+## Use this skill when
 
-- Building or refactoring enterprise applications using the Symfony framework.
-- Implementing complex business logic with Symfony services and dependency injection.
-- Optimating database interactions using Doctrine ORORM (DQL, Query Builder, Hydration).
-- Designing and implementing APIs using API Platform or Symfony Restler.
-- Configuring asynchronous task processing with Symfony Messenger and RabbitMQ/Redis.
-- Developing modern frontend integration with Twig, Stimulus, and Turbo (Symfony UX).
-- Implementing security layers with Symfony Security component (Firewalls, Authenticators).
+- Building or refactoring a Symfony 8 application.
+- Designing controller, service, repository, form, or Messenger flows in Symfony.
+- Creating server-rendered UI with Twig, Twig Components, or Live Components.
+- Adding targeted frontend behavior with Symfony UX and Stimulus controllers.
+- Debugging Doctrine queries, entity mapping, hydration, or performance issues.
+- Reviewing Symfony code for framework alignment, maintainability, and delivery risk.
 
-## Core Capabilities
+## Do not use this skill when
 
-### 1. Modern Symfony Architecture
-- **Dependency Injection**: Service configuration, autowiring, autoconfiguration, and decorator pattern.
-- **Bundle Development**: Creating reusable components following Symfony bundle standards.
-- **Service Container**: Understanding compiler passes, service tags, and optimization.
-    
-### 2. Database & Persistence (Doctrine ORM)
-- **Entity Mapping**: Attributes/Annotations, lifecycle callbacks, and embeddables.
-- **Query Optimization**: Avoiding N+1 problems via Eager Loading, DQL, and custom repositories.
-- **Data Management**: Doctrine Migrations, Fixtures, and advanced hydration modes.
-
-### 3. API Development (API Platform)
-- **Resource Modeling**: Defining API resources, operations, and state providers/processors.
-- **Serialization**: Customizing Normalizers and Encoders for complex JSON structures.
-4. **Security**: Implementing fine-grained access control using Voters and Security expressions.
-
-### 4. Asynchronous Processing (Messenger)
-- **Message Bus**: Implementing Command, Query, and Event patterns.
-- **Transports**: Configuring RabbitMQ, Redis, or Doctrine as message brokers.
-- **Retry Strategies**: Handling failures, dead-letter queues, and middleware.
-
-### 5. Frontend & UX (Symfony UX)
-- **Twig Templating**: Advanced macros, functions, and template inheritance.
-- **Stimulus & Turbo**: Implementing modern, reactive UIs without heavy JavaScript frameworks.
+- The task is primarily a SPA architecture problem better solved inside React, Vue, or another frontend framework.
+- The project is not using Symfony conventions and the user explicitly wants a framework-agnostic answer.
+- The task is limited to generic PHP language mechanics without meaningful Symfony context.
 
 ## Instructions
 
-1. **Analyze requirements** for Symfony version compatibility (e.g., PHP 8.2+ requirements).
-2. **Identify core components** needed (Messenger, Security, API Platform, etc.).
-3. **Implement with strict typing** and modern PHP features (Enums, Readonly properties).
-4. **Follow PSR standards** (PSR-1, PSR-4, PSR-7, PSR-11) and Symfony coding standards.
-5. **Optimize for performance**, focusing on service container efficiency and database query counts.
-6. **Ensure testability** using PHPUnit and Symfony's WebTestCase.
+1. Confirm the active Symfony conventions before changing architecture: directory layout, autowiring defaults, asset system, testing style, and package choices.
+2. Target Symfony 8 and modern PHP 8.2+ patterns: attributes, constructor injection, readonly where appropriate, explicit types, and slim controllers.
+3. Prefer Symfony-native solutions before custom abstractions: forms, validators, event subscribers, Messenger, Twig helpers, UX packages, and console tooling.
+4. Keep controllers thin. Move business logic into services, handlers, domain objects, or focused application classes.
+5. Treat Doctrine as a persistence layer, not a dumping ground for application orchestration. Keep repositories focused on query concerns and entity invariants inside the model.
+6. Prefer Twig for rendering, Twig Components for reusable UI units, and Live Components for server-driven interactivity. Use Stimulus for targeted client behavior, browser integrations, and UX glue.
+7. Preserve the project's frontend build choice. Do not force Webpack Encore or AssetMapper if the project already uses the other.
+8. Keep Forms and Security as secondary but integrated concerns. Use Symfony forms, validators, voters, access control, and CSRF protection when they fit the workflow.
+9. Include Messenger when work crosses process boundaries, needs retries, or benefits from async handling. Keep message payloads explicit and handlers focused.
+10. Use quality tools as part of the delivery loop when available: `phpstan` for static analysis, `php-cs-fixer` for style consistency, and `rector` for safe automated modernization.
+11. Validate behavior with the narrowest useful test level: unit tests for isolated logic, integration tests for repositories and handlers, and `WebTestCase` or functional tests for HTTP flows.
 
-## Knowledge Base
+Refer to the bundled references for implementation details:
 
-- Symfony Framework documentation (modern versions).
-- Doctrine ORM and DBAL best practices.
-- API Platform architecture and ecosystem.
-- PHP 8.x advanced features and performance tuning.
-- Linux/Nginx/PHP-FPM stack optimization for PHP applications.
+- `references/modern-symfony-playbook.md`
+- `references/doctrine-patterns.md`
+- `references/twig-and-components.md`
+- `references/live-components-and-stimulus.md`
 
-## Example Interactions
+## Focus Areas
 
-- "Implement a Symfony Messenger handler to process order emails asynchronously."
-- "Optimize this Doctrine query to prevent the N+1 problem in a collection."
-- "Create an API Platform resource with custom state processor for user registration."
-- "Design a Symfony Security voter to restrict access to specific enterprise entities."
+- Symfony 8 application structure, dependency injection, configuration, and HTTP flow.
+- Doctrine ORM entities, repositories, migrations, fixtures, query design, and performance tuning.
+- Twig templates, template composition, form rendering, and presentation boundaries.
+- Twig Components for reusable UI building blocks.
+- Twig Live Components for interactive server-rendered interfaces.
+- Symfony UX and Stimulus controllers for progressive enhancement.
+- Messenger buses, messages, handlers, transports, retries, and async workflows.
+- Secondary concerns: Forms, validation, authentication, authorization, voters, and CSRF.
+- Tooling: Rector, PHPStan, php-cs-fixer, PHPUnit, and Symfony console diagnostics.
+
+## Symfony Approach
+
+1. Start from the user-facing behavior and the existing Symfony conventions.
+2. Keep HTTP, domain, persistence, rendering, and async boundaries clear.
+3. Prefer explicit services and small classes over large utility layers.
+4. Use framework features intentionally instead of recreating them manually.
+5. Make interactive UI progressively enhanced, inspectable, and testable.
+6. Optimize after identifying the real bottleneck, especially with Doctrine and Live Components.
+
+## Output
+
+- Symfony code that follows framework conventions and fits the existing project.
+- Doctrine queries and mappings that avoid common correctness and performance traps.
+- Twig and UX implementations that stay server-first and maintainable.
+- Messenger flows with explicit messages, handlers, retries, and failure behavior.
+- Practical verification steps, including tests and quality-tool commands when relevant.
+
+## Resources
+
+- `references/modern-symfony-playbook.md` for architecture, services, forms, security, Messenger, and delivery guidance.
+- `references/doctrine-patterns.md` for entity design, repositories, mapping, hydration, and query optimization.
+- `references/twig-and-components.md` for Twig, Twig Components, and server-rendered UI patterns.
+- `references/live-components-and-stimulus.md` for Live Components, Symfony UX, and Stimulus integration patterns.

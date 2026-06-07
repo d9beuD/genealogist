@@ -1,4 +1,0 @@
-{
-  "extends": "@tsconfig/node26/tsconfig.json",
-  "include": ["./**/*"]
-}

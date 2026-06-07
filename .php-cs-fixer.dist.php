@@ -1,16 +1,27 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = (new Finder())
     ->in([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/migrations',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+    ])
+    ->append([
+        __DIR__.'/config/bundles.php',
     ])
 ;
 
-return (new PhpCsFixer\Config())
+return (new Config())
+    ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony' => true,
+        '@auto' => true,
+        '@auto:risky' => true,
+        '@PhpCsFixer:risky' => true,
     ])
-    ->setUnsupportedPhpVersionAllowed(true)
     ->setFinder($finder)
 ;
