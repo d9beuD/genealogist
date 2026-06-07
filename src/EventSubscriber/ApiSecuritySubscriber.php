@@ -78,6 +78,7 @@ final class ApiSecuritySubscriber implements EventSubscriberInterface
                 $headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
             }
         }
+
         if (!\in_array($request->getPathInfo(), ['/api/auth', '/api/token/refresh'], true) || !$response->isSuccessful()) {
             return;
         }

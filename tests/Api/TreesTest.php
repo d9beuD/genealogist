@@ -21,8 +21,8 @@ final class TreesTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->client = static::createClient([], ['HTTPS' => 'on']);
-        $this->entityManager = static::getContainer()->get('doctrine')->getManager();
+        $this->client = self::createClient([], ['HTTPS' => 'on']);
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
 
         $this->ensureSchemaExists();
         $this->deleteTestData();
@@ -278,7 +278,7 @@ final class TreesTest extends WebTestCase
         ;
 
         $user->setPassword(
-            static::getContainer()->get(UserPasswordHasherInterface::class)->hashPassword($user, $plainPassword),
+            self::getContainer()->get(UserPasswordHasherInterface::class)->hashPassword($user, $plainPassword),
         );
 
         $this->entityManager->persist($user);
