@@ -77,6 +77,48 @@ final class TreesTest extends WebTestCase
         }
     }
 
+    public function testGetTreeReturnsOwnedTree(): void
+    {
+        $user = $this->createUser('trees-viewer@example.com', 'password');
+        $tree = $this->createTree($user, 'Viewed tree', new \DateTimeImmutable('2026-08-01'));
+        $this->login('trees-viewer@example.com');
+
+        $this->client->jsonRequest('GET', '/api/trees/' . $tree->getId());
+
+        self::assertResponseStatusCodeSame(200);
+        self::assertResponseHeaderSame('content-type', 'application/json; charset=utf-8');
+
+        $response = json_decode((string) $this->client->getResponse()->getContent(), true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertSame($tree->getId(), $response['id']);
+        self::assertSame('Viewed tree', $response['name']);
+        self::assertArrayHasKey('createdAt', $response);
+        self::assertArrayNotHasKey('user', $response);
+        self::assertArrayNotHasKey('members', $response);
+    }
+
+    public function testGetTreeRejectsTreeOwnedByAnotherUser(): void
+    {
+        $owner = $this->createUser('trees-owner-view@example.com', 'password');
+        $viewer = $this->createUser('trees-other-viewer@example.com', 'password');
+        $tree = $this->createTree($owner, 'View protected tree', new \DateTimeImmutable('2026-09-01'));
+        $this->login($viewer->getEmail() ?? '');
+
+        $this->client->jsonRequest('GET', '/api/trees/' . $tree->getId());
+
+        self::assertResponseStatusCodeSame(403);
+    }
+
+    public function testGetTreeReturns404ForUnknownTree(): void
+    {
+        $this->createUser('trees-missing-viewer@example.com', 'password');
+        $this->login('trees-missing-viewer@example.com');
+
+        $this->client->jsonRequest('GET', '/api/trees/999999');
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
     public function testPostTreesCreatesTreeOwnedByAuthenticatedUser(): void
     {
         $user = $this->createUser('trees-creator@example.com', 'password');
@@ -301,7 +343,7 @@ final class TreesTest extends WebTestCase
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\Tree tree WHERE tree.name IN (:names)')
-            ->setParameter('names', ['Created tree', 'Unauthenticated tree', 'Original tree', 'Updated tree', 'Protected tree', 'Hacked tree', 'Deleted tree', 'Delete protected tree'])
+            ->setParameter('names', ['Created tree', 'Unauthenticated tree', 'Original tree', 'Updated tree', 'Protected tree', 'Hacked tree', 'Deleted tree', 'Delete protected tree', 'Viewed tree', 'View protected tree'])
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\User user WHERE user.email LIKE :pattern')

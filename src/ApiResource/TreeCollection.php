@@ -6,6 +6,7 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -13,6 +14,7 @@ use App\Dto\CreateTreeInput;
 use App\Dto\TreeOutput;
 use App\State\CreateTreeProcessor;
 use App\State\DeleteTreeProcessor;
+use App\State\TreeProvider;
 use App\State\TreesProvider;
 use App\State\UpdateTreeProcessor;
 
@@ -23,6 +25,12 @@ use App\State\UpdateTreeProcessor;
             output: TreeOutput::class,
             security: "is_granted('ROLE_USER')",
             provider: TreesProvider::class,
+        ),
+        new Get(
+            uriTemplate: '/trees/{id}',
+            output: TreeOutput::class,
+            security: "is_granted('ROLE_USER')",
+            provider: TreeProvider::class,
         ),
         new Post(
             uriTemplate: '/trees',
