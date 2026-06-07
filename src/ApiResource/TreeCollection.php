@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\ApiResource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Dto\CreateTreeInput;
 use App\Dto\TreeOutput;
 use App\State\CreateTreeProcessor;
+use App\State\DeleteTreeProcessor;
 use App\State\TreesProvider;
 use App\State\UpdateTreeProcessor;
 
@@ -36,6 +38,12 @@ use App\State\UpdateTreeProcessor;
             read: false,
             security: "is_granted('ROLE_USER')",
             processor: UpdateTreeProcessor::class,
+        ),
+        new Delete(
+            uriTemplate: '/trees/{id}',
+            read: false,
+            security: "is_granted('ROLE_USER')",
+            processor: DeleteTreeProcessor::class,
         ),
     ],
 )]

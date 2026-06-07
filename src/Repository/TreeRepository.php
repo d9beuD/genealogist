@@ -30,6 +30,12 @@ class TreeRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function remove(Tree $tree): void
+    {
+        $this->getEntityManager()->remove($tree);
+        $this->getEntityManager()->flush();
+    }
+
     /**
      * @return list<Tree>
      */

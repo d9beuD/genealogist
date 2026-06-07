@@ -181,6 +181,51 @@ final class TreesTest extends WebTestCase
         self::assertResponseStatusCodeSame(404);
     }
 
+    public function testDeleteTreeDeletesOwnedTree(): void
+    {
+        $user = $this->createUser('trees-deleter@example.com', 'password');
+        $tree = $this->createTree($user, 'Deleted tree', new \DateTimeImmutable('2026-06-01'));
+        $this->login('trees-deleter@example.com');
+
+        $this->client->jsonRequest('DELETE', '/api/trees/' . $tree->getId());
+
+        self::assertResponseStatusCodeSame(204);
+
+        $this->entityManager->clear();
+
+        $deletedTree = $this->entityManager->getRepository(Tree::class)->find($tree->getId());
+
+        self::assertNull($deletedTree);
+    }
+
+    public function testDeleteTreeRejectsTreeOwnedByAnotherUser(): void
+    {
+        $owner = $this->createUser('trees-owner-delete@example.com', 'password');
+        $deleter = $this->createUser('trees-other-deleter@example.com', 'password');
+        $tree = $this->createTree($owner, 'Delete protected tree', new \DateTimeImmutable('2026-07-01'));
+        $this->login($deleter->getEmail() ?? '');
+
+        $this->client->jsonRequest('DELETE', '/api/trees/' . $tree->getId());
+
+        self::assertResponseStatusCodeSame(403);
+
+        $this->entityManager->clear();
+
+        $protectedTree = $this->entityManager->getRepository(Tree::class)->find($tree->getId());
+
+        self::assertNotNull($protectedTree);
+    }
+
+    public function testDeleteTreeReturns404ForUnknownTree(): void
+    {
+        $this->createUser('trees-missing-deleter@example.com', 'password');
+        $this->login('trees-missing-deleter@example.com');
+
+        $this->client->jsonRequest('DELETE', '/api/trees/999999');
+
+        self::assertResponseStatusCodeSame(404);
+    }
+
     private function createUser(string $email, string $plainPassword): User
     {
         $user = new User()
@@ -256,7 +301,7 @@ final class TreesTest extends WebTestCase
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\Tree tree WHERE tree.name IN (:names)')
-            ->setParameter('names', ['Created tree', 'Unauthenticated tree', 'Original tree', 'Updated tree', 'Protected tree', 'Hacked tree'])
+            ->setParameter('names', ['Created tree', 'Unauthenticated tree', 'Original tree', 'Updated tree', 'Protected tree', 'Hacked tree', 'Deleted tree', 'Delete protected tree'])
             ->execute()
         ;
         $this->entityManager->createQuery('DELETE FROM App\Entity\User user WHERE user.email LIKE :pattern')
