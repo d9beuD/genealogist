@@ -33,22 +33,23 @@ services:
       - genealogist_network
     restart: unless-stopped
 
-  apache:
+  app:
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - .:/var/www/
-      - ./docker/apache/apache.conf:/etc/apache2/sites-enabled/000-default.conf
-      - ./docker/apache/php.ini:/usr/local/etc/php/conf.d/php.custom.ini
-      - ./docker/apache/.htaccess:/var/www/public/.htaccess
+      target: ${APP_BUILD_TARGET:-dev}
+    restart: unless-stopped
     ports:
-      - 8000:80
+      - 80:80
+    volumes:
+      - .:/app/
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       - database
     networks:
       - genealogist_network
-    restart: unless-stopped
 
 networks:
   genealogist_network:
@@ -56,4 +57,5 @@ networks:
 
 volumes:
   database_data:
-    driver: local
+  caddy_data:
+  caddy_config:
