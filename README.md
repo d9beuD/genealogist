@@ -7,6 +7,31 @@ I started this project as a personal challenge. I wanted to deepen my web progra
 
 ## Usage
 
+### Build Docker image
+
+Use the repository Makefile for the Docker workflow. It passes `UID` and `GID`
+automatically for better WSL and bind-mount permissions:
+
+```sh
+make build
+```
+
+Common follow-up targets:
+
+```sh
+make up
+make stop
+make exec
+make init
+```
+
+If you need the raw Docker command, pass your current user IDs so files created in the
+container stay writable from the host:
+
+```sh
+docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t genealogist-backend .
+```
+
 ### Start dev server
 
 In a dev environment, you can start the server with [Symfony CLI](https://symfony.com/download) using the following command.

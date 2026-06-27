@@ -12,7 +12,8 @@
 ## Local Dev
 - Run every PHP, Composer, Symfony CLI, and `bin/console` command through Docker with `docker compose exec apache ...`.
 - Install dependencies with `docker compose exec apache composer install`.
-- Docker flow is separate helper tooling: `make init` builds containers, starts them, then runs the in-container Symfony init step; `make up`, `make stop`, `make exec` are the main follow-ups.
+- Docker flow lives in the repository Makefile: `make build` passes the current host `UID` and `GID` into Docker for better WSL and bind-mount permissions; `make init` builds containers, starts them, then runs the in-container Symfony init step; `make up`, `make stop`, `make exec` are the main follow-ups.
+- Build the image with `make build`; it passes the current host `UID` and `GID` into Docker for better WSL and bind-mount permissions.
 - Important DB gotcha: committed `.env` uses SQLite at `var/data.db`, while `compose.yaml` starts MariaDB + phpMyAdmin but does not wire `DATABASE_URL` for you. If you use Docker DB, set `DATABASE_URL` yourself.
 
 ## Verification And Build
