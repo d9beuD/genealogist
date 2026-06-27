@@ -2,7 +2,7 @@ FROM dunglas/frankenphp:1-php8.5-trixie AS base
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends rsync && \
+RUN apt-get update && apt-get install -y --no-install-recommends rsync unzip git && \
 	rm -rf /var/lib/apt/lists/*
 
 ARG USER=appuser
