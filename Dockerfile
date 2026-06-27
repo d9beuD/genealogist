@@ -11,10 +11,16 @@ ARG GID=1000
 
 # Common setup for dev and prod
 RUN \
-	groupadd --gid ${GID} ${USER}; \
-	useradd --uid ${UID} --gid ${GID} --create-home --shell /usr/sbin/nologin ${USER}; \
+	set -eux; \
+	if getent group "${GID}" >/dev/null; then \
+		group_name="$(getent group "${GID}" | cut -d: -f1)"; \
+	else \
+		group_name="${USER}"; \
+		groupadd --gid "${GID}" "${group_name}"; \
+	fi; \
+	useradd --uid "${UID}" --gid "${GID}" --create-home --shell /usr/sbin/nologin "${USER}"; \
 	setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
-	chown -R ${USER}:${USER} /config/caddy /data/caddy
+	chown -R "${USER}:${group_name}" /config/caddy /data/caddy
 
 # Add PHP extensions here if needed
 RUN install-php-extensions \
@@ -34,7 +40,7 @@ RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
 # Symfony CLI needs a writable config/cache home
 RUN mkdir -p /home/${USER}/.config/symfony-cli/cache /home/${USER}/.cache && \
-	chown -R ${USER}:${USER} /home/${USER}
+	chown -R ${USER}:${group_name} /home/${USER}
 
 ENV HOME=/home/${USER} \
 	XDG_CONFIG_HOME=/home/${USER}/.config \

@@ -39,7 +39,7 @@ services:
       dockerfile: ./Dockerfile
       target: ${APP_BUILD_TARGET:-dev}
     ports:
-      - 8000:80
+      - 8000:3000
     volumes:
       - .:/app/
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
