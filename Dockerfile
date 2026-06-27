@@ -64,10 +64,9 @@ FROM base AS prod
 # Production php.ini
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
-COPY composer.json composer.lock symfony.lock /app/
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
-
 COPY . /app
+
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 EXPOSE 3000
 
