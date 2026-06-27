@@ -6,10 +6,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends rsync && \
 	rm -rf /var/lib/apt/lists/*
 
 ARG USER=appuser
+ARG UID=1000
+ARG GID=1000
 
 # Common setup for dev and prod
 RUN \
-	useradd ${USER}; \
+	groupadd --gid ${GID} ${USER}; \
+	useradd --uid ${UID} --gid ${GID} --create-home --shell /usr/sbin/nologin ${USER}; \
 	setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
 	chown -R ${USER}:${USER} /config/caddy /data/caddy
 
@@ -52,5 +55,7 @@ COPY composer.json composer.lock symfony.lock* /app/
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 COPY . /app
+
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 USER ${USER}

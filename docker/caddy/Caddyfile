@@ -1,0 +1,4 @@
+http://localhost {
+	encode zstd br gzip
+	php_server
+}
