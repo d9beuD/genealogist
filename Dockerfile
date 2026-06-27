@@ -44,13 +44,18 @@ RUN mkdir -p /home/${USER}/.config/symfony-cli/cache /home/${USER}/.cache && \
 
 ENV HOME=/home/${USER} \
 	XDG_CONFIG_HOME=/home/${USER}/.config \
-	XDG_CACHE_HOME=/home/${USER}/.cache
+	XDG_CACHE_HOME=/home/${USER}/.cache \
+	XDG_DATA_HOME=/home/${USER}/.local/share
 
 # Symfony CLI only for dev
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
     apt-get install -y symfony-cli && \
     symfony server:ca:install && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 3000
+
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 USER ${USER}
 

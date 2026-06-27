@@ -1,4 +1,5 @@
 http://:3000 {
+	root * /app/public
 	encode zstd br gzip
 	php_server
 }
