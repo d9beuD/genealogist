@@ -25,6 +25,15 @@ make exec
 make init
 ```
 
+By default, `make build` builds the `dev` target from the Dockerfile. To build the
+production stage instead, use:
+
+```sh
+make build-prod
+```
+
+The dev app is exposed on `http://localhost:8000` through Compose.
+
 If you need the raw Docker command, pass your current user IDs so files created in the
 container stay writable from the host:
 

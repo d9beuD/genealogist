@@ -38,9 +38,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: ${APP_BUILD_TARGET:-dev}
-    restart: unless-stopped
     ports:
-      - 80:80
+      - 8000:80
     volumes:
       - .:/app/
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
