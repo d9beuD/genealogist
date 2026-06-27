@@ -1,95 +1,28 @@
-name: Deploy with rsync
+name: Deploy to Coolify
 
 on: 
   release:
     types: [published]
   workflow_dispatch:
 
-env:
-  APP_ENV: prod
-  APP_VERSION: ${{ github.ref_name }}
+concurrency:
+  group: deploy-coolify-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  rsync_upload:
+  trigger-coolify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      
-      - name: Setup PHP Action
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.4
-
-      - name: Setup env
+      - name: Trigger Coolify deployment
+        env:
+          COOLIFY_DEPLOY_WEBHOOK_URL: ${{ secrets.COOLIFY_DEPLOY_WEBHOOK_URL }}
         run: |
-          echo "APP_ENV=prod" >> .env.local
-          echo "APP_DEBUG=0" >> .env.local
-          echo "APP_VERSION=${{ github.ref_name }}" >> .env.local
-          touch .env.prod.local
-          echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
-          echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
-          echo "JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}" >> .env.prod.local
-          echo "JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem" >> .env.prod.local
-          echo "JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem" >> .env.prod.local
+          if [ -z "$COOLIFY_DEPLOY_WEBHOOK_URL" ]; then
+            echo "COOLIFY_DEPLOY_WEBHOOK_URL secret is missing" >&2
+            exit 1
+          fi
 
-      - name: Restore JWT keys
-        run: |
-          mkdir -p config/jwt
-          cat > config/jwt/private.pem <<'JWT_PRIVATE_KEY'
-          ${{ secrets.JWT_PRIVATE_KEY }}
-          JWT_PRIVATE_KEY
-          cat > config/jwt/public.pem <<'JWT_PUBLIC_KEY'
-          ${{ secrets.JWT_PUBLIC_KEY }}
-          JWT_PUBLIC_KEY
-          test -s config/jwt/private.pem
-          test -s config/jwt/public.pem
-          chmod 600 config/jwt/private.pem
-          chmod 644 config/jwt/public.pem
-          
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v4
-        with:
-          dependency-versions: locked
-          composer-options: "--optimize-autoloader --no-dev"
-
-      - name: Import assets
-        run: |
-          php bin/console sass:build
-          php bin/console asset-map:compile
-          php bin/console assets:install
-
-      - name: Optimize app
-        run: |
-          composer dump-env prod
-          composer dump-autoload --optimize --classmap-authoritative
-          php bin/console cache:warmup
-
-          # Copy .htaccess
-          cp docker/apache/.htaccess public/.htaccess
-
-          # Optimize PHP
-          # cp docker/apache/php_prod.ini public/php.ini
-          # echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
-
-          # Register custom public/php.ini in public/.htaccess
-          echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
-
-      - name: Whitelist IP address
-        uses: d9beuD/o2switch-whitelisting@v1.0.4
-        with:
-          o2switch_username: ${{ secrets.SSH_USER }}
-          o2switch_api_token: ${{ secrets.O2SWITCH_API_TOKEN }}
-          o2switch_host: ${{ secrets.SSH_HOST }}
-          otp_secret: ${{ secrets.O2SWITCH_OTP_SECRET }}
-
-      - name: Deploy with rsync
-        uses: easingthemes/ssh-deploy@v6
-        with:
-          # Updates are based on file hash, not time + size
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          TARGET: ${{ secrets.APP_PATH }}/
-          EXCLUDE: ".git*, public/pictures/*"
+          curl --fail --silent --show-error --request POST "$COOLIFY_DEPLOY_WEBHOOK_URL"

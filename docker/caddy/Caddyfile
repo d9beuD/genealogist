@@ -1,4 +1,4 @@
-http://localhost {
+http://:3000 {
 	encode zstd br gzip
 	php_server
 }

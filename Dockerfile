@@ -58,6 +58,8 @@ RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --opt
 
 COPY . /app
 
+EXPOSE 3000
+
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 USER ${USER}
