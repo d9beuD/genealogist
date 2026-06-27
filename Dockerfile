@@ -25,6 +25,8 @@ RUN install-php-extensions \
 # Composer for PHP dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
+
 FROM base AS dev
 
 # Development php.ini
@@ -51,7 +53,7 @@ FROM base AS prod
 # Production php.ini
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
-COPY composer.json composer.lock symfony.lock* /app/
+COPY composer.json composer.lock symfony.lock /app/
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 COPY . /app
