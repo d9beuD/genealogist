@@ -10,28 +10,28 @@
 - API Platform accepts both JSON-LD and plain JSON (`application/json`) in `config/packages/api_platform.yaml`; keep plain JSON working for frontend-facing endpoints.
 
 ## Local Dev
-- Run every PHP, Composer, Symfony CLI, and `bin/console` command through Docker with `docker compose exec apache ...`.
-- Install dependencies with `docker compose exec apache composer install`.
+- Run every PHP, Composer, Symfony CLI, and `bin/console` command through Docker with `docker compose exec app ...`.
+- Install dependencies with `docker compose exec app composer install`.
 - Docker flow lives in the repository Makefile: `make build` passes the current host `UID` and `GID` into Docker for better WSL and bind-mount permissions; `make init` builds containers, starts them, then runs the in-container Symfony init step; `make up`, `make stop`, `make exec` are the main follow-ups.
 - Build the image with `make build`; it passes the current host `UID` and `GID` into Docker for better WSL and bind-mount permissions.
 - Important DB gotcha: committed `.env` uses SQLite at `var/data.db`, while `compose.yaml` starts MariaDB + phpMyAdmin but does not wire `DATABASE_URL` for you. If you use Docker DB, set `DATABASE_URL` yourself.
 
 ## Verification And Build
-- PHPUnit config lives in `phpunit.xml.dist`; after `docker compose exec apache composer install`, run focused tests with `docker compose exec apache php bin/phpunit <path>`.
+- PHPUnit config lives in `phpunit.xml.dist`; after `docker compose exec app composer install`, run focused tests with `docker compose exec app php bin/phpunit <path>`.
 - Quality tooling is installed and exposed through Composer scripts:
-  - `docker compose exec apache composer analyse`
-  - `docker compose exec apache composer rector`
-  - `docker compose exec apache composer rector:fix`
-  - `docker compose exec apache composer cs:check`
-  - `docker compose exec apache composer cs:fix`
-  - `docker compose exec apache composer lint`
+  - `docker compose exec app composer analyse`
+  - `docker compose exec app composer rector`
+  - `docker compose exec app composer rector:fix`
+  - `docker compose exec app composer cs:check`
+  - `docker compose exec app composer cs:fix`
+  - `docker compose exec app composer lint`
 - Be careful with checked-in controller/WebTestCase tests before trusting them: some may still reflect legacy fullstack routes such as `/tree/`, `/person/`, or `/project` instead of API Platform endpoints.
 - Those WebTestCase tests delete repository contents in `setUp()`. Confirm your test database target before running them.
 - Backend production deploy should be treated as API-only unless the workflow still contains legacy asset steps. Keep root `.github/workflows/deploy.yml` in sync as AssetMapper/Twig dependencies are removed.
 - Registration/auth API coverage lives in `tests/Api/RegistrationTest.php` and `tests/Api/AuthenticationTest.php`; update these focused tests when touching `/api/register`, `/api/auth`, refresh-token cookies, CSRF, or translated validation errors.
 
 ## Data And Assets
-- After changing Doctrine entities, create and run a migration; README explicitly calls this out, and `src/Command/PostPublishCommand.php` is built around `docker compose exec apache php bin/console doctrine:migrations:diff` + `docker compose exec apache php bin/console doctrine:migrations:migrate`.
+- After changing Doctrine entities, create and run a migration; README explicitly calls this out, and `src/Command/PostPublishCommand.php` is built around `docker compose exec app php bin/console doctrine:migrations:diff` + `docker compose exec app php bin/console doctrine:migrations:migrate`.
 - Frontend assets live in `../frontend` and use Vue/Vite/pnpm. Backend asset files/config may exist only as migration leftovers unless a task says otherwise.
 - Uploaded portraits are stored in `public/pictures` via `portraits_directory` (`config/services.yaml`, `src/Service/ImageManager.php`). Deploy intentionally excludes `public/pictures/*`, so treat it as persisted user data. Preserve or replace this API behavior deliberately during the migration.
 
