@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.7
+
 FROM dunglas/frankenphp:1-php8.5-trixie AS base
 
 WORKDIR /app
@@ -65,12 +67,16 @@ FROM base AS prod
 # Production php.ini
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
+COPY composer.json composer.lock /app/
+
+RUN --mount=type=cache,target=/tmp/composer-cache \
+    COMPOSER_CACHE_DIR=/tmp/composer-cache \
+    composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader --no-scripts
+
 COPY . /app
 
 ENV APP_ENV=prod APP_DEBUG=0
 ENV APP_VERSION=${APP_VERSION}
-
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 EXPOSE 3000
 
