@@ -91,7 +91,8 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd",
-            "sass:build": "symfony-cmd"
+            "sass:build": "symfony-cmd",
+            "asset-map:compile": "symfony-cmd"
         },
         "analyse": "php vendor/bin/phpstan analyse --memory-limit=1G",
         "cs:check": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
