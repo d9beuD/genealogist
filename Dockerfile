@@ -35,6 +35,7 @@ RUN install-php-extensions \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
+COPY --chmod=755 docker/entrypoint/prod.sh /usr/local/bin/app-prod-entrypoint
 
 FROM base AS dev
 
@@ -74,18 +75,19 @@ RUN --mount=type=cache,target=/tmp/composer-cache \
     COMPOSER_CACHE_DIR=/tmp/composer-cache \
     composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader --no-scripts
 
-COPY . /app
-
-RUN mkdir -p /app/var/cache /app/var/log && \
-	chown -R "${USER}:${USER}" /app/var
-
-RUN php bin/console sass:build --env=prod --no-interaction
-
 ENV APP_ENV=prod APP_DEBUG=0
 ENV APP_VERSION=${APP_VERSION}
 
+COPY . /app
+
+RUN mkdir -p /app/var/cache/prod/pools/system /app/var/log /app/var/sass && \
+	php bin/console sass:build --env=prod --no-interaction && \
+	php bin/console cache:warmup --env=prod --no-debug --no-interaction && \
+	chown -R "${USER}:${USER}" /app/var
+
 EXPOSE 3000
 
+ENTRYPOINT ["app-prod-entrypoint"]
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
 
 USER ${USER}
