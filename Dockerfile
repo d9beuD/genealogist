@@ -66,6 +66,7 @@ FROM base AS prod
 
 # Production php.ini
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+COPY docker/php/php.ini $PHP_INI_DIR/conf.d/zz-prod-opcache.ini
 
 COPY composer.json composer.lock /app/
 
