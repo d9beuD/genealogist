@@ -10,7 +10,7 @@ services:
       - MARIADB_PASSWORD=${MARIADB_PASSWORD:-app_password}
       - MARIADB_DATABASE=${MARIADB_DATABASE:-app}
     volumes:
-      - database_data:/bitnami/mariadb
+      - database_data:/var/lib/mysql
     networks:
       - genealogist_network
     ports:
