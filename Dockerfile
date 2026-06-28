@@ -70,7 +70,7 @@ COPY . /app
 ENV APP_ENV=prod APP_DEBUG=0
 ENV APP_VERSION=${APP_VERSION}
 
-RUN composer install --no-dev --prefer-source --no-interaction --no-progress --optimize-autoloader
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 EXPOSE 3000
 
