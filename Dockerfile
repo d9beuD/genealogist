@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends rsync unzip git
 ARG USER=appuser
 ARG UID=1000
 ARG GID=1000
+ARG APP_VERSION=unknown
 
 # Common setup for dev and prod
 RUN \
@@ -66,7 +67,10 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 COPY . /app
 
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+ENV APP_ENV=prod APP_DEBUG=0
+ENV APP_VERSION=${APP_VERSION}
+
+RUN composer install --no-dev --prefer-source --no-interaction --no-progress --optimize-autoloader
 
 EXPOSE 3000
 
