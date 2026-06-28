@@ -76,6 +76,9 @@ RUN --mount=type=cache,target=/tmp/composer-cache \
 
 COPY . /app
 
+RUN mkdir -p /app/var/cache /app/var/log && \
+	chown -R "${USER}:${USER}" /app/var
+
 ENV APP_ENV=prod APP_DEBUG=0
 ENV APP_VERSION=${APP_VERSION}
 
