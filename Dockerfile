@@ -81,8 +81,7 @@ ENV APP_VERSION=${APP_VERSION}
 COPY . /app
 
 RUN mkdir -p /app/var/cache/prod/pools/system /app/var/log /app/var/sass && \
-	php bin/console sass:build --env=prod --no-interaction && \
-	php bin/console cache:warmup --env=prod --no-debug --no-interaction && \
+	composer run-script post-install-cmd --no-interaction && \
 	chown -R "${USER}:${USER}" /app/var
 
 EXPOSE 3000
