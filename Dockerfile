@@ -79,6 +79,8 @@ COPY . /app
 RUN mkdir -p /app/var/cache /app/var/log && \
 	chown -R "${USER}:${USER}" /app/var
 
+RUN php bin/console sass:build --env=prod --no-interaction
+
 ENV APP_ENV=prod APP_DEBUG=0
 ENV APP_VERSION=${APP_VERSION}
 
