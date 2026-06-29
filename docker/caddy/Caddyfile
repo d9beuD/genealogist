@@ -1,3 +1,9 @@
+{
+	servers {
+		protocols h1
+	}
+}
+
 http://:3000 {
 	root * /app/public
 	encode zstd br gzip
