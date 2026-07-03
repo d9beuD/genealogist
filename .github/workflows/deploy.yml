@@ -1,8 +1,9 @@
 name: Deploy to Coolify
 
-on: 
-  release:
-    types: [published]
+on:
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 
 concurrency:
@@ -39,7 +40,7 @@ jobs:
           file: Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false
