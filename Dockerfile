@@ -1,16 +1,20 @@
 # syntax=docker/dockerfile:1.7
 
-FROM dunglas/frankenphp:1-php8.5-trixie AS base
+FROM dunglas/frankenphp:1-php8.4-trixie AS base
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends rsync unzip git && \
+RUN apt-get update && apt-get install -y --no-install-recommends rsync unzip git gosu && \
 	rm -rf /var/lib/apt/lists/*
 
 ARG USER=appuser
 ARG UID=1000
 ARG GID=1000
-ARG APP_VERSION=unknown
+# x-release-please-start-version
+ARG APP_VERSION=3.0.0
+# x-release-please-end
+
+ENV APP_RUN_USER=${USER}
 
 # Common setup for dev and prod
 RUN \
@@ -80,13 +84,11 @@ ENV APP_VERSION=${APP_VERSION}
 
 COPY . /app
 
-RUN mkdir -p /app/var/cache/prod/pools/system /app/var/log /app/var/sass && \
+RUN mkdir -p /app/var/cache/prod/pools/system /app/var/log /app/var/sass /app/tmp && \
 	composer run-script post-install-cmd --no-interaction && \
-	chown -R "${USER}:${USER}" /app/var
+	chown -R "${USER}:${USER}" /app
 
 EXPOSE 3000
 
 ENTRYPOINT ["app-prod-entrypoint"]
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
-
-USER ${USER}
