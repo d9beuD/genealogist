@@ -34,11 +34,11 @@ class Person implements \Stringable
     #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $birth = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $birth = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $death = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $death = null;
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $birthDayUnsure = false;
@@ -149,24 +149,24 @@ class Person implements \Stringable
         return trim(mb_strtoupper($this->getDefaultLastname()) . ' ' . $this->firstname);
     }
 
-    public function getBirth(): ?\DateTimeInterface
+    public function getBirth(): ?\DateTimeImmutable
     {
         return $this->birth;
     }
 
-    public function setBirth(?\DateTimeInterface $birth): static
+    public function setBirth(?\DateTimeImmutable $birth): static
     {
         $this->birth = $birth;
 
         return $this;
     }
 
-    public function getDeath(): ?\DateTimeInterface
+    public function getDeath(): ?\DateTimeImmutable
     {
         return $this->death;
     }
 
-    public function setDeath(?\DateTimeInterface $death): static
+    public function setDeath(?\DateTimeImmutable $death): static
     {
         $this->death = $death;
 

@@ -53,13 +53,13 @@ class Union
     private ?\DateTimeImmutable $endsAt = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $endDayUnsure = null;
+    private ?bool $endDayUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $endMonthUnsure = null;
+    private ?bool $endMonthUnsure = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $endYearUnsure = null;
+    private ?bool $endYearUnsure = false;
 
     public function __construct()
     {
