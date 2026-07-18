@@ -11,9 +11,11 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Dto\CreateTreeInput;
+use App\Dto\PersonOutput;
 use App\Dto\TreeOutput;
 use App\State\CreateTreeProcessor;
 use App\State\DeleteTreeProcessor;
+use App\State\TreePeopleProvider;
 use App\State\TreeProvider;
 use App\State\TreesProvider;
 use App\State\UpdateTreeProcessor;
@@ -31,6 +33,12 @@ use App\State\UpdateTreeProcessor;
             security: "is_granted('ROLE_USER')",
             output: TreeOutput::class,
             provider: TreeProvider::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/trees/{id}/people',
+            security: "is_granted('ROLE_USER')",
+            output: PersonOutput::class,
+            provider: TreePeopleProvider::class,
         ),
         new Post(
             uriTemplate: '/trees',
