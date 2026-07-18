@@ -10,6 +10,7 @@ final class RegisterUserInput
 {
     #[Assert\NotBlank(message: 'registration.email.not_blank')]
     #[Assert\Email(message: 'registration.email.invalid')]
+    #[Assert\Length(max: 180, maxMessage: 'registration.email.too_long')]
     public string $email = '';
 
     #[Assert\NotBlank(message: 'registration.firstname.not_blank')]

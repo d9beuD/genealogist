@@ -179,6 +179,7 @@ Error: Error
 'There is already an account with this email': '__There is already an account with this email'
 registration.email.not_blank: 'Please enter an email address.'
 registration.email.invalid: 'Please enter a valid email address.'
+registration.email.too_long: 'The email address cannot be longer than {{ limit }} characters.'
 registration.email.already_used: 'There is already an account with this email.'
 registration.firstname.not_blank: 'Please enter a first name.'
 registration.firstname.too_long: 'The first name cannot be longer than {{ limit }} characters.'

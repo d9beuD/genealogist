@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UnionRepository::class)]
 #[ORM\Table(name: '`union`')]
@@ -35,6 +36,7 @@ class Union
     private ?\DateTimeInterface $startsAt = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $place = null;
 
     #[ORM\Column(options: ['default' => false])]

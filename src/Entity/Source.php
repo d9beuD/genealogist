@@ -44,6 +44,7 @@ class Source
     private ?int $type = null;
 
     #[ORM\Column(length: 2048)]
+    #[Assert\Length(max: 2048)]
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'sources')]
@@ -51,6 +52,7 @@ class Source
     private ?Person $person = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $comment = null;
 
     #[ORM\Column(options: ['default' => false])]

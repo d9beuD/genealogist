@@ -29,9 +29,11 @@ class Person implements \Stringable
     private ?int $id = null;
 
     #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
+    #[Assert\Length(max: 30)]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 30, nullable: true, options: ['default' => ''])]
+    #[Assert\Length(max: 30)]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
@@ -59,6 +61,7 @@ class Person implements \Stringable
     private ?bool $deathYearUnsure = false;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $portrait = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -82,15 +85,19 @@ class Person implements \Stringable
     private ?bool $dead = false;
 
     #[ORM\Column(length: 30, nullable: true)]
+    #[Assert\Length(max: 30)]
     private ?string $birthName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $otherNames = null;
 
     #[ORM\Column(length: 60, nullable: true)]
+    #[Assert\Length(max: 60)]
     private ?string $birthPlace = null;
 
     #[ORM\Column(length: 60, nullable: true)]
+    #[Assert\Length(max: 60)]
     private ?string $deathPlace = null;
 
     #[ORM\OneToMany(targetEntity: Source::class, mappedBy: 'person', orphanRemoval: true)]
