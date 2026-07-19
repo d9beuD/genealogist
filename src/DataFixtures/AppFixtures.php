@@ -121,6 +121,43 @@ class AppFixtures extends Fixture
             'bio' => 'Emma tags portraits and translates family letters.',
         ]);
 
+        // Additional people
+        $sofiaMoreau = PersonFactory::new()->female()->living()->create([
+            'tree' => $tree,
+            'firstname' => 'Sofia',
+            'lastname' => 'Moreau',
+            'birth' => new \DateTimeImmutable('1992-05-16'),
+            'birthPlace' => 'Versailles, France',
+            'bio' => 'Sofia connects the Riverton branch with contemporary records and interviews.',
+        ]);
+
+        $milaRiverton = PersonFactory::new()->female()->living()->create([
+            'tree' => $tree,
+            'firstname' => 'Mila',
+            'lastname' => 'Riverton',
+            'birth' => new \DateTimeImmutable('2020-03-09'),
+            'birthPlace' => 'Paris, France',
+            'bio' => 'Mila represents the newest documented generation of the tree.',
+        ]);
+
+        $noahRiverton = PersonFactory::new()->male()->living()->create([
+            'tree' => $tree,
+            'firstname' => 'Noah',
+            'lastname' => 'Riverton',
+            'birth' => new \DateTimeImmutable('2023-11-21'),
+            'birthPlace' => 'Paris, France',
+            'bio' => 'Noah completes the fourth generation in the demo family.',
+        ]);
+
+        $nicolasGauthier = PersonFactory::new()->male()->living()->create([
+            'tree' => $tree,
+            'firstname' => 'Nicolas',
+            'lastname' => 'Gauthier',
+            'birth' => new \DateTimeImmutable('1990-02-11'),
+            'birthPlace' => 'Paris, France',
+            'bio' => 'Nicolas appears in the tree through Emma\'s former relationship.',
+        ]);
+
         // Unions
         UnionFactory::new()->withFamily([$arthurRiverton, $eliseMartin], [$marcRiverton])->create([
             'married' => true,
@@ -143,6 +180,24 @@ class AppFixtures extends Fixture
             'description' => 'Small ceremony with both families bringing photo albums.',
         ]);
 
+        UnionFactory::new()->withFamily([$lucasRiverton, $sofiaMoreau], [$milaRiverton, $noahRiverton])->create([
+            'married' => true,
+            'startsAt' => new \DateTimeImmutable('2018-07-14'),
+            'endsAt' => null,
+            'place' => 'Paris, France',
+            'description' => 'Public garden ceremony followed by interviews with both grandparents.',
+        ]);
+
+        UnionFactory::new()->withFamily([$emmaRiverton, $nicolasGauthier])->create([
+            'married' => false,
+            'startsAt' => new \DateTimeImmutable('2014-09-01'),
+            'dayUnsure' => true,
+            'endsAt' => new \DateTimeImmutable('2019-06-01'),
+            'endDayUnsure' => true,
+            'place' => 'Paris, France',
+            'description' => 'Former partnership documented from shared residence records.',
+        ]);
+
         // Source on Arthur
         SourceFactory::createOne([
             'person' => $arthurRiverton,
@@ -152,10 +207,55 @@ class AppFixtures extends Fixture
             'directProof' => true,
         ]);
 
+        SourceFactory::createOne([
+            'person' => $eliseMartin,
+            'type' => Source::CERT_BAPTISM,
+            'url' => 'https://archives.example.test/riverton/elise-baptism',
+            'comment' => 'Baptism note cross-checks Élise\'s given names.',
+            'directProof' => false,
+        ]);
+
+        SourceFactory::createOne([
+            'person' => $marcRiverton,
+            'type' => Source::CERT_MARRIAGE,
+            'url' => 'https://archives.example.test/riverton/marc-anne-marriage',
+            'comment' => 'Marriage certificate links both parent branches.',
+            'directProof' => true,
+        ]);
+
+        SourceFactory::createOne([
+            'person' => $hugoLemoine,
+            'type' => Source::CERT_DEATH,
+            'url' => 'https://archives.example.test/riverton/hugo-death',
+            'comment' => 'Death certificate confirms final residence in Bordeaux.',
+            'directProof' => true,
+        ]);
+
+        SourceFactory::createOne([
+            'person' => $lucasRiverton,
+            'type' => Source::CERT_MILITARY,
+            'url' => 'https://archives.example.test/riverton/lucas-service',
+            'comment' => 'Service record used as an indirect proof of residence.',
+            'directProof' => false,
+        ]);
+
+        SourceFactory::createOne([
+            'person' => $sofiaMoreau,
+            'type' => Source::CERT_OTHER,
+            'url' => 'https://archives.example.test/riverton/sofia-interview',
+            'comment' => 'Interview transcript records living family context.',
+            'directProof' => false,
+        ]);
+
         // Favorite: Lucas marked by tree owner
         FavoriteMemberFactory::createOne([
             'user' => $user,
             'person' => $lucasRiverton,
+        ]);
+
+        FavoriteMemberFactory::createOne([
+            'user' => $user,
+            'person' => $emmaRiverton,
         ]);
     }
 }
