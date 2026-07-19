@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
             'lastname' => 'Riverton',
             'birth' => new \DateTimeImmutable('1991-10-05'),
             'birthPlace' => 'Paris, France',
-            'bio' => 'Lucas started the current tree after finding Arthur\'s notebook.',
+            'bio' => "Lucas started the current tree after finding Arthur's notebook.",
         ]);
 
         $emmaRiverton = PersonFactory::new()->female()->living()->create([
@@ -155,7 +155,7 @@ class AppFixtures extends Fixture
             'lastname' => 'Gauthier',
             'birth' => new \DateTimeImmutable('1990-02-11'),
             'birthPlace' => 'Paris, France',
-            'bio' => 'Nicolas appears in the tree through Emma\'s former relationship.',
+            'bio' => "Nicolas appears in the tree through Emma's former relationship.",
         ]);
 
         // Unions
@@ -170,7 +170,7 @@ class AppFixtures extends Fixture
             'married' => true,
             'startsAt' => new \DateTimeImmutable('1960-08-20'),
             'place' => 'Nantes, France',
-            'description' => 'Summer wedding recorded in Hugo\'s harbor journal.',
+            'description' => "Summer wedding recorded in Hugo's harbor journal.",
         ]);
 
         UnionFactory::new()->withFamily([$marcRiverton, $anneLemoine], [$lucasRiverton, $emmaRiverton])->create([

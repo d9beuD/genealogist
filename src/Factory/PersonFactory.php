@@ -14,7 +14,7 @@ final class PersonFactory extends PersistentObjectFactory
         return Person::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'tree' => TreeFactory::new(),

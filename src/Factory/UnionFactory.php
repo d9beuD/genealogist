@@ -14,7 +14,7 @@ final class UnionFactory extends PersistentObjectFactory
         return Union::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'married' => true,
@@ -30,6 +30,7 @@ final class UnionFactory extends PersistentObjectFactory
             foreach ($partners as $person) {
                 $person->addUnion($union);
             }
+
             foreach ($children as $person) {
                 $union->addChild($person);
             }

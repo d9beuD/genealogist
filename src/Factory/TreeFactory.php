@@ -14,7 +14,7 @@ final class TreeFactory extends PersistentObjectFactory
         return Tree::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'user' => UserFactory::new(),

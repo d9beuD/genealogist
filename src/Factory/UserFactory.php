@@ -14,7 +14,7 @@ final class UserFactory extends PersistentObjectFactory
         return User::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'email' => self::faker()->unique()->safeEmail(),

@@ -14,7 +14,10 @@ final class FavoriteMemberFactory extends PersistentObjectFactory
         return FavoriteMember::class;
     }
 
-    protected function defaults(): array|callable
+    /**
+     * @return array<string, \Zenstruck\Foundry\Persistence\PersistentObjectFactory>
+     */
+    protected function defaults(): array
     {
         return [
             'user' => UserFactory::new(),

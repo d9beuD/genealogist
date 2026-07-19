@@ -14,7 +14,7 @@ final class SourceFactory extends PersistentObjectFactory
         return Source::class;
     }
 
-    protected function defaults(): array|callable
+    protected function defaults(): array
     {
         return [
             'person' => PersonFactory::new(),

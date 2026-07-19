@@ -48,7 +48,6 @@ final readonly class RegisterUserProcessor implements ProcessorInterface
                     root: $data,
                     propertyPath: 'email',
                     invalidValue: $data->email,
-                    code: null,
                     cause: $exception,
                 ),
             ]));
