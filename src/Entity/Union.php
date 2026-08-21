@@ -54,6 +54,12 @@ class Union
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $endsAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $startsAtGedcomDate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $endsAtGedcomDate = null;
+
     #[ORM\Column(options: ['default' => false])]
     private ?bool $endDayUnsure = false;
 
@@ -235,6 +241,28 @@ class Union
     {
         $this->endsAt = $endsAt;
 
+        return $this;
+    }
+
+    public function getStartsAtGedcomDate(): ?string
+    {
+        return $this->startsAtGedcomDate;
+    }
+
+    public function setStartsAtGedcomDate(?string $date): static
+    {
+        $this->startsAtGedcomDate = $date;
+        return $this;
+    }
+
+    public function getEndsAtGedcomDate(): ?string
+    {
+        return $this->endsAtGedcomDate;
+    }
+
+    public function setEndsAtGedcomDate(?string $date): static
+    {
+        $this->endsAtGedcomDate = $date;
         return $this;
     }
 
