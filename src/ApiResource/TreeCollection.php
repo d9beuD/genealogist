@@ -13,12 +13,15 @@ use ApiPlatform\Metadata\Put;
 use App\Dto\CreateTreeInput;
 use App\Dto\PersonOutput;
 use App\Dto\TreeOutput;
+use App\Dto\ImportGedcomInput;
+use App\Dto\GedcomImportOutput;
 use App\State\CreateTreeProcessor;
 use App\State\DeleteTreeProcessor;
 use App\State\TreePeopleProvider;
 use App\State\TreeProvider;
 use App\State\TreesProvider;
 use App\State\UpdateTreeProcessor;
+use App\State\ImportGedcomProcessor;
 
 #[ApiResource(
     operations: [
@@ -46,6 +49,15 @@ use App\State\UpdateTreeProcessor;
             input: CreateTreeInput::class,
             output: TreeOutput::class,
             processor: CreateTreeProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/trees/import',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            security: "is_granted('ROLE_USER')",
+            input: ImportGedcomInput::class,
+            output: GedcomImportOutput::class,
+            deserialize: false,
+            processor: ImportGedcomProcessor::class,
         ),
         new Put(
             uriTemplate: '/trees/{id}',

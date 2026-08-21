@@ -100,6 +100,12 @@ class Person implements \Stringable
     #[Assert\Length(max: 60)]
     private ?string $deathPlace = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $birthGedcomDate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $deathGedcomDate = null;
+
     #[ORM\OneToMany(targetEntity: Source::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $sources;
 
@@ -396,6 +402,28 @@ class Person implements \Stringable
     {
         $this->deathPlace = $deathPlace;
 
+        return $this;
+    }
+
+    public function getBirthGedcomDate(): ?string
+    {
+        return $this->birthGedcomDate;
+    }
+
+    public function setBirthGedcomDate(?string $date): static
+    {
+        $this->birthGedcomDate = $date;
+        return $this;
+    }
+
+    public function getDeathGedcomDate(): ?string
+    {
+        return $this->deathGedcomDate;
+    }
+
+    public function setDeathGedcomDate(?string $date): static
+    {
+        $this->deathGedcomDate = $date;
         return $this;
     }
 
