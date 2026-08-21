@@ -57,33 +57,6 @@ Because Font Awesome won't serve icons on a local IP address (`127.0.0.1`), chan
 
 You made modifications to entities? Don't forget to [create and execute](https://symfony.com/doc/current/doctrine.html#migrations-creating-the-database-tables-schema) a migration file.
 
-### GEDCOM import API
-
-Authenticated clients can upload genealogy data with `POST /api/trees/import` as
-`multipart/form-data`. The request requires a `file` field containing a GEDCOM
-5.5 or 7.0 `.ged` file, or a GEDZIP 7.0 `.zip`/`.gdz` archive. `treeId` is optional; when it
-is omitted, the import creates a tree. `treeName` optionally overrides the name
-used for that new tree. API writes require the `X-CSRF-Token` header returned by
-the authentication endpoint.
-
-The response contains the target tree, detected GEDCOM version, counts of
-created and updated people/unions/sources/notes/media, and non-blocking import
-warnings. Invalid syntax, unsupported versions, broken references, unsafe ZIP
-archives, or persistence failures reject the full import without changing the
-tree.
-
-Supported V1 mappings are `INDI`, `FAM`, `NAME`, `SEX`, `BIRT`, `DEAT`, `MARR`,
-`DIV`, `DATE`, `PLAC`, `NOTE`, `SOUR`, and `OBJE`. Exact ISO or day-month-year
-dates also fill the existing date fields; all accepted date expressions are
-preserved verbatim. Unknown top-level tags are returned as warnings.
-
-Imports are identified inside a tree by the uploaded filename. Re-uploading a
-file with the same filename updates matching GEDCOM XREF records; GEDCOM values
-and relationships take precedence. Native records and records absent from the
-new file are retained. GEDZIP handling is limited to local archive entries: no
-external media URI is fetched. Uploads are limited to 50 MiB, 200 ZIP entries,
-and 100 MiB after decompression.
-
 ## I want to contribute
 
 Thank you, any help is appreciated. Go to issues tab and find one you like without a code branch refered. Then, feel free to fork this repository and start a new pull request.
